@@ -30,8 +30,7 @@ html[data-listening-mode="soundroom"] .editorial-home {
   --pill-border: #806454;
 }
 .editorial-home { transition: background-color .6s, color .4s; }
-.editorial-landing { --page-width: 1600px; }
-.editorial-home .wrap { width: min(var(--page-width, 1320px), calc(100% - 112px)); }
+.editorial-home .wrap { width: min(1600px, calc(100% - 112px)); }
 .editorial-home main { display: flow-root; }
 .editorial-home .site-header { min-height: 108px; gap: 32px; border-bottom: 1px solid var(--line); border-image: none; }
 .header-brand { position: relative; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
@@ -51,6 +50,10 @@ html[data-listening-mode="soundroom"] .editorial-home {
 .hero-role > span { display: block; }
 .editorial-home .portrait-title { font-family: var(--serif); font-size: clamp(48px, 5vw, 84px); font-weight: 400; line-height: 1.12; letter-spacing: -2.8px; margin: 0 0 26px; }
 .editorial-home .portrait-title em { font: inherit; font-style: italic; color: var(--accent); }
+.rotating-headline { display: grid; }
+.rotating-headline::after { content: attr(data-sizer); visibility: hidden; grid-area: 1 / 1; pointer-events: none; }
+.headline-phrase { grid-area: 1 / 1; min-width: 0; animation: headline-enter .4s ease-out; }
+@keyframes headline-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .hero-introduction { max-width: 48ch; font-size: 18px; color: var(--muted); margin: 0; }
 .hero-copy { align-self: center; }
 .hero-portrait { position: relative; isolation: isolate; container-type: inline-size; align-self: center; justify-self: end; width: min(100%, 640px, max(360px, calc(100svh - 184px))); max-width: 100%; }
@@ -286,6 +289,7 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
   .editorial-about .large-copy { font-size: 25px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .headline-phrase { animation: none; }
   .editorial-home .companion-button[aria-expanded="true"] .soundroom-companion { animation: none; transform: none; }
   .editorial-home .portrait-art, .editorial-home .project-visual, .editorial-home .project-visual .product-screenshot, .editorial-home .project-visual:hover .product-screenshot, .editorial-home .soundroom-companion, .editorial-home .companion-button:hover .soundroom-companion, .editorial-case .feature-card-grid > .album-card { transform: none; transition: none; animation: none; }
 }

@@ -1,20 +1,46 @@
 # Ravichandran V — Product Designer portfolio
 
-A responsive portfolio with a shared editorial theme across Home, About, and every active case study, an illustrated portrait, a 3D-style paper mascot, minimal product cards, and screenshot-led case studies. Selecting Soundroom plays the user's supplied **Pudhu Vellai Mazhai / Roja** MP3 and switches to the reference's brown-and-cream palette. No framework, runtime external requests, portfolio analytics, or stock photography. The current preview is local; saving changes does not deploy or push them.
+A responsive React portfolio with a shared editorial theme across Home, About, and every active case study, an illustrated portrait, a 3D-style paper mascot, minimal product cards, and screenshot-led case studies. Selecting Soundroom plays the user's supplied **Pudhu Vellai Mazhai / Roja** MP3 and switches to the reference's brown-and-cream palette. React and React DOM are bundled locally; there are no runtime external requests, portfolio analytics, or stock photography. Saving local files alone does not deploy or push them.
 
 ## Preview
 
-Requires Node.js 20 or newer.
+Requires Node.js 22.12 or newer.
 
 ```sh
+npm install
+npm run build
 npm start
 ```
 
-Open **http://127.0.0.1:4173**. The server binds only to the local machine. Set `PORT` to use a different port.
+Open **http://127.0.0.1:4173**. The production preview serves only the built `dist/` output and binds only to the local machine. Set `PORT` to use a different port. After changing code, rebuild and restart the production preview so its asset allowlist matches the new bundles. `npm run dev` starts the Vite development server instead; JavaScript-disabled checks should use the pre-rendered production build.
+
+## React architecture
+
+All 15 active routes are real React pages in `src/pages/*.jsx`, not HTML strings injected into a React wrapper. `src/Portfolio.jsx` shares the React header and theme provider. `src/Header.jsx` owns menu/character state and navigation; `src/ThemeContext.jsx` and `src/SoundroomControls.jsx` own palette, playback, volume, error, and cancellation state. Browser-only animation, native screenshot inspection, section tracking, and diagram effects live in `src/portfolio-effects.js`, initialized and cleaned up through the React lifecycle.
+
+Vite splits the page components into separate bundles. The production build pre-renders every route using `src/entry-server.jsx`; `src/main.jsx` hydrates that markup in the browser. Existing `.html` URLs, native links, section bookmarks, supplied content, and screenshot bytes are preserved. Pre-rendered content and native navigation remain available without JavaScript. The archived standalone portrait remains a separate, unchanged offline document.
+
+All active pages share the same 1600px maximum wrapper, header height, responsive gutters, and brand/contact alignment. Home and About therefore do not change header dimensions when switching tabs at the same viewport width. Styles are imported once, in base/mapping/editorial order, to prevent cross-page CSS cascade differences. `tests/react-shell.spec.js` verifies matching dimensions and error-free hydration across all pages.
+
+## Automatic publishing with Netlify
+
+The repository includes `netlify.toml`: build command **`npm run build`**, publish directory **`dist`**, and Node.js 22. In Netlify, sign in, choose **Add new project → Import an existing project → GitHub**, authorize access to `tornadoravi/ravichandran-portfolio`, and select **`main`** as the production branch. After the first successful deployment, future pushes to `main` automatically rebuild and publish the site while continuous deployment remains enabled. Saving local files alone does not publish them.
+
+The build publishes the pre-rendered React pages and compiled bundles plus the public assets in `site-files.js`. The local production server uses the same public boundary. It never publishes the repository root, private `career-ops/`, environment files, development scripts, tests, or dependencies. It preserves supplied asset bytes and generates Netlify `_headers` with the local server's content-security, content-type-sniffing, and referrer protections, including the standalone portrait's separate policy. No single-page-app catch-all redirects are needed: the portfolio consists of real pre-rendered HTML routes. Run **`npm run test:build`** to check the output boundary, source bytes, stale-file cleanup, headers, and production server responses.
+
+Focus is the default for new visitors. An explicitly selected Soundroom theme can persist within the same tab, but restoring it never starts music without a user action.
+
+Home keeps "Complex products." fixed while the italic line cycles through "Considered experiences.", "Intuitive workflows.", "Clear interactions.", and "Confident decisions." every four seconds, without additional controls. The longest phrase reserves the line's dimensions so the hero does not jump. Reduced-motion visitors and no-JavaScript browsers receive the original static headline. Hidden tabs suspend the timer.
+
+The user confirmed permission to publish the supplied product screenshots before this hosting setup. Netlify account authorization, the GitHub repository connection, and the first live deployment still need to be completed in Netlify; committing these settings alone does not create a live site.
 
 ## Illustrated portrait and standalone export
 
-The current Home uses `home.css` and the gallery described under **Editorial Home and professional links** below. Its enlarged, unframed portrait reuses `assets/portrait-3d.webp` with oversized **PRODUCT DESIGNER** background lettering and no circle or circular wash. Home's aligned header, hero, and gallery expand to a 1600px content width; About and case studies retain their existing 1320px limit. The headline scales up to 84px and preserves two clean lines on desktop, balanced by quieter 14px role text and an 18px introduction. Flexible columns grow the portrait up to 640px on desktop, 440px on tablet, and 360px on mobile, bounded by the available width. Desktop portrait sizing also respects the available screen height so the larger composition fits below the header without pushing work past a normal first screen. Short screens can still grow naturally instead of clipping. The subdued role lettering uses portrait-container units rather than viewport units, so it remains proportional even when a short screen limits the illustration's size. It sits higher around the head and fades out between 48% and 60% of the portrait frame, before the illustration's chest fade begins at 64%, so letters never show through the shirt's transparent lower edge. The decorative lettering is hidden from assistive technology; the actual headline remains semantic text. Fine-pointer movement is bounded to 8px horizontally and 5px vertically; touch and reduced-motion browsing keep it still. The earlier dark, full-screen composition remains available as `portrait-standalone.html`, with its assets and build script preserved.
+The current Home uses `home.css` and the gallery described under **Editorial Home and professional links** below. Its enlarged, unframed portrait reuses `assets/portrait-3d.webp` with oversized **PRODUCT DESIGNER** background lettering and no circle or circular wash. Home, About, and all case studies use the same aligned 1600px maximum content width and responsive gutters.
+
+The headline scales up to 84px and preserves two clean lines on desktop, balanced by quieter 14px role text and an 18px introduction. Flexible columns grow the portrait up to 640px on desktop, 440px on tablet, and 360px on mobile, bounded by the available width. Desktop portrait sizing also respects the available screen height so the larger composition fits below the header without pushing work past a normal first screen. Short screens can still grow naturally instead of clipping.
+
+The subdued role lettering uses portrait-container units rather than viewport units, so it remains proportional even when a short screen limits the illustration's size. It sits higher around the head and fades out between 48% and 60% of the portrait frame, before the illustration's chest fade begins at 64%, so letters never show through the shirt's transparent lower edge. The decorative lettering is hidden from assistive technology; the actual headline remains semantic text. Fine-pointer movement is bounded to 8px horizontally and 5px vertically; touch and reduced-motion browsing keep it still. The earlier dark, full-screen composition remains available as `portrait-standalone.html`, with its assets and build script preserved.
 
 The standalone uses a centered portrait, self-hosted Anton **PRODUCT DESIGNER** typography, a circular outline, a black background, and finite portrait/lighting entrances. It opens without a countdown, modal, JavaScript, or network. Reduced motion disables its effects. It contains no canvas, WebGL dependency, particle download, interactive 3D reconstruction, or photo-reveal button.
 
@@ -28,10 +54,12 @@ After changing hero source or assets, run `npm install` once, then `npm run buil
 
 ## Pages
 
+The root `.html` files are route entry templates; each active page's content lives in the corresponding `src/pages/{name}.jsx` component.
+
 - `index.html`: editorial portrait introduction, header character and listening modes, a minimal two-product gallery with categories and case-study links, then approach/contact; Resume and LinkedIn are visible in the header.
 - `home.css`: shared editorial styling for all active pages, responsive gallery, original cover framing, warm Soundroom palette, listening controls, and reduced-motion overrides.
 - `theme.js`: restores the selected palette from session storage before the page renders; it does not start audio.
-- `soundroom.js`: user-initiated Soundroom playback, Play/Pause, volume, error feedback, and pause-on-hide/navigation lifecycle.
+- `src/ThemeContext.jsx` and `src/SoundroomControls.jsx`: React-owned Soundroom playback, Play/Pause, volume, error feedback, and pause-on-hide/navigation lifecycle.
 - `analytics-plus.html`: parent product case study, official product context, role and process, source-backed competitive comparison, and five ordered feature stories.
 - `about.html`: supplied profile portrait, design approach, dated employment timeline, and two attributed recommendations.
 - `analytics.html`: flagship Chart Wizard decision case with three interface trade-offs, an observable disabled state, delivery/internal-review evidence, and all eight product screens in an expandable walkthrough.
@@ -43,7 +71,8 @@ After changing hero source or assets, run `npm install` once, then `npm run buil
 - `mapping.css`: restrained, scoped styling for the PowerTable product case and its column-mapping feature; other product and Home styling remain unchanged.
 - `kpi.html`: KPI Presets for Power BI, with Simple and Variance browsing, the supplied design library, and reusable-layout contribution scope.
 - `styles.css`: shared layout, responsive styles, and reduced-motion support.
-- `app.js`: accessible mobile navigation, section tracking, case reading progress, screenshot inspection, restrained scroll reveals, and original SVG illustrations.
+- `src/Header.jsx`: shared accessible navigation and character greeting.
+- `src/portfolio-effects.js`: section tracking, case reading progress, screenshot inspection, restrained scroll reveals, and original SVG illustrations, with scoped lifecycle cleanup.
 
 All portfolio copy, supplied screenshots, and standalone SVG illustrations remain available without JavaScript. Navigation remains visible on mobile when JavaScript is unavailable; PowerTable's older, dynamically generated detailed illustrations require JavaScript, but its overview illustrations do not.
 
@@ -97,7 +126,7 @@ Headings and introductory details make a short, staggered entrance on fresh page
 
 A floating back-to-top link appears after 600 pixels of scrolling on every page. It uses the native `#main` destination, returns keyboard focus to the main content, and follows the browser's reduced-motion preference. The footer's original back-to-top link remains available without JavaScript. There is no scroll hijacking or page-load media playback; Soundroom requests playback only after a deliberate listening action.
 
-All active pages opt into the native cursor with `data-native-cursor`, matching the restrained editorial direction. The older decorative cursor implementation remains in `app.js`, but does not activate on these pages. Pointer depth, subtle cover hover motion, and the header character remain separate interactions; reduced motion disables their movement. Standard link, text-field, keyboard, touch, and screenshot-dialog behavior is preserved.
+All active pages opt into the native cursor with `data-native-cursor`, matching the restrained editorial direction. The older decorative cursor implementation remains in `src/portfolio-effects.js`, but does not activate on these pages. Pointer depth, subtle cover hover motion, and the header character remain separate interactions; reduced motion disables their movement. Standard link, text-field, keyboard, touch, and screenshot-dialog behavior is preserved.
 
 ## Screenshots, illustrations, and content boundaries
 
@@ -151,7 +180,7 @@ The five November 10 attachments are cropped locally using Sharp, with no image 
 | `cost` | 4 | 608 | 258 | 778 | 586 |
 | `resource-layout` | 5 | 608 | 257 | 779 | 586 |
 
-The original screenshots carry a Confidential/Internal Only marking. The dialog-only crops exclude surrounding account/workspace data but are **not publication clearance**. They are used only in the local preview; confirm permission before any public deployment or external sharing.
+The original screenshots carry a Confidential/Internal Only marking. The dialog-only crops exclude surrounding account/workspace data but cropping itself is **not publication clearance**. The user explicitly confirmed permission to publish these supplied screenshots when choosing public hosting. That confirmation does not extend to additional source files or future screenshots.
 
 The walkthrough describes Task field roles and hierarchy alternatives, Direct Time Entry's source-table/Task ID/effort relationship, incomplete resource ID/display mappings with Save disabled, the explicit Resource prerequisite for Standard and Usage Cost, and the Resource layout's separate Task tab. The last is a related layout, not a mandatory fifth step. Reasoning is an analysis of the visible interfaces, not invented user research, a historical iteration log, or measured impact. The approved end-to-end Gantt/resource design role and handoff scope are inherited from the PowerTable case, not expanded to Microsoft employment or production-code ownership.
 
@@ -189,7 +218,7 @@ Two November 10 attachments provide three native-resolution crops. The first scr
 | `timeline` | 1 | 1027 | 257 | 918 | 692 |
 | `manager` | 2 | 1592 | 156 | 350 | 360 |
 
-The manager's three author-metadata rows are intentionally redacted using opaque white rectangles at crop-relative `(left:16, top:121/220/319, width:317, height:32)`. Names, initials, and timestamps are removed; baseline names and row-level controls are retained. Captions and alt text disclose the redaction. Task names and account/workspace chrome are excluded from the comparison crops. Originals remain outside the server allowlist. The source screenshots are marked Confidential/Internal Only; redaction does not grant publication clearance. This remains a local preview pending permission for public use.
+The manager's three author-metadata rows are intentionally redacted using opaque white rectangles at crop-relative `(left:16, top:121/220/319, width:317, height:32)`. Names, initials, and timestamps are removed; baseline names and row-level controls are retained. Captions and alt text disclose the redaction. Task names and account/workspace chrome are excluded from the comparison crops. Originals remain outside the server allowlist. The source screenshots are marked Confidential/Internal Only; redaction alone does not grant publication clearance. The user confirmed permission to publish the supplied screenshots before Netlify setup.
 
 The menu's rule means **two total options**, including Current Data when selected—not current data plus two baselines. Current Data and Baseline 1 are selected in the supplied state. Create New is only a visible entry point: no creation form, persistence behavior, third-selection feedback, permissions, confirmations, or action-icon behavior is inferred. The timeline shows blue and light-grey bars on a shared axis; no computed variance or outcome is claimed. Resource Gantt baseline explorations remain separate from this comparison design scope.
 
@@ -227,7 +256,7 @@ The November 10 attachment is one 1999×1000 editing state. Three local Sharp cr
 | `summary` | 885 | 190 | 445 | 39 |
 | `timeline` | 254 | 230 | 1076 | 732 |
 
-The panel crop retains Create Formatting Rule, title, mode, target selectors, condition, highlight controls, Discard, and Apply. The timeline crop excludes resource names and account/workspace chrome. Original uploads remain outside the server allowlist. The attachment is marked Confidential/Internal Only; cropping is not permission for public use. Keep the case local until publication clearance is confirmed.
+The panel crop retains Create Formatting Rule, title, mode, target selectors, condition, highlight controls, Discard, and Apply. The timeline crop excludes resource names and account/workspace chrome. Original uploads remain outside the server allowlist. The attachment is marked Confidential/Internal Only; cropping alone is not permission for public use. The user confirmed permission to publish the supplied screenshots before Netlify setup.
 
 The shown rule is **Schedule Hours > 0**, with orange fill swatches and a black Data Label swatch. This positive-hours threshold is not an over-allocation or capacity comparison. The new toolbar detail identifies **Summary Bar — Scheduled Hours** and **Quarter** without exposing resource names. Impacts On includes Bar and a +2 indicator; Apply To has a truncated second label. Hidden selections are not inferred. Add Condition is visible, but multi-condition states, precedence, validation, persistence, and Apply/Discard behavior are not verified from the screenshot. Blue task bars and brown summary bars in the adjacent timeline are not presented as the result of applying the orange rule. These are three crops of one state, not before/after evidence.
 
@@ -249,7 +278,7 @@ The two November 10 attachments are 2000×998 and 2000×999 respectively. Three 
 
 The panel crops retain their heading, empty-state Add Task action, or Search / Backlog List (1) / New Task / T0011 row controls. The toolbar crop retains Save to Database, Preview Changes (1), and Discard Changes. It is a detail from the second state, not a third screen or proof of a successful save. The task form, underlying dates, search results, delete confirmation, scheduling interaction, and persisted database result are not supplied.
 
-Crops exclude surrounding project/task-grid content, account controls, and workspace chrome. Original attachments remain outside the server allowlist. Both sources are marked Confidential/Internal Only; cropping does not grant publication clearance. This remains a local preview pending permission for public use.
+Crops exclude surrounding project/task-grid content, account controls, and workspace chrome. Original attachments remain outside the server allowlist. Both sources are marked Confidential/Internal Only; cropping alone does not grant publication clearance. The user confirmed permission to publish the supplied screenshots before Netlify setup.
 
 Official pages reviewed November 10, 2026: `https://learn.microsoft.com/en-us/fabric/iq/plan/overview` and `https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-manage-tasks-resource#create-a-backlog-task`. The latter explicitly documents **Resource layout** backlog tasks without Start Date and End Date, later scheduling through editing, and Save to Database. It is related PowerTable product context, not verification of every control or release state in the supplied task-based Gantt panel. The screenshot does not establish T0011's dates or reproduce the documented form workflow. No feature-specific independent customer review, measured usability result, or impact metric is claimed.
 
@@ -270,7 +299,7 @@ Four local Sharp crops use the same rectangle, **left 1348, top 140, width 604, 
 | `data-color` | 3 | 2000×999 |
 | `label` | 4 | 2000×1001 |
 
-The crops preserve the complete panel frame, search, four tab labels, visible settings, and Reset to Default Styling footer. They exclude resource names, surrounding account/workspace chrome, and the outer tool rail. Originals remain outside the server allowlist. The attachments are marked Confidential/Internal Only; cropping is not publication clearance. Keep this local until public-use permission is confirmed.
+The crops preserve the complete panel frame, search, four tab labels, visible settings, and Reset to Default Styling footer. They exclude resource names, surrounding account/workspace chrome, and the outer tool rail. Originals remain outside the server allowlist. The attachments are marked Confidential/Internal Only; cropping alone is not publication clearance. The user confirmed permission to publish the supplied screenshots before Netlify setup.
 
 Descriptions preserve the shown states: Timeline has Sunday +6 (the other selections are hidden), 8-hour daily capacity, no exception dates, Backward-Diagonal pattern, and mouse-wheel zoom Off. Milestone shows a flag and purple fill. Data Color shows All / blue task fill and a separate brown summary color. Label shows data labels and adaptive labels On, Auto, bar/summary font size 12, and separate color controls. These are tab states, not a before/after sequence or evidence of live preview, persistence, search results, reset behavior, improved readability, or a tested capacity calculation.
 
@@ -294,7 +323,7 @@ Five panel-only crops were produced locally with Sharp, each **left 1348, top 14
 | `data-color` | 4 | 2000×995 |
 | `label` | 5 | 2000×999 |
 
-The crops retain Edit Gantt, search, all five tab labels, settings, close, and Reset to Default Styling. Task names/data and account/workspace chrome are excluded; originals remain outside the server allowlist. The attachments are marked Confidential/Internal Only; cropping is not publication clearance. This remains a local preview until public-use permission is confirmed.
+The crops retain Edit Gantt, search, all five tab labels, settings, close, and Reset to Default Styling. Task names/data and account/workspace chrome are excluded; originals remain outside the server allowlist. The attachments are marked Confidential/Internal Only; cropping alone is not publication clearance. The user confirmed permission to publish the supplied screenshots before Netlify setup.
 
 The text preserves the displayed states: Timeline has Sunday +6 (the other selections are hidden), 8-hour daily capacity, no exception dates, Backward-Diagonal pattern, and mouse-wheel zoom Off. Milestone shows a Default group with flag and purple fill, without asserting factory defaults. Dependency shows dark connector Color, solid Type, Stroke 2, Auto Scheduling On, and Successor Off. Connector Type is a line style, not the dependency relationship; the toggle states do not demonstrate rescheduling or prove tasks lack successors. Data Color is All / blue Fill. Label is On / Auto / size 12 with separate color controls. Adaptive and summary-label controls from the Resource case are not inferred.
 

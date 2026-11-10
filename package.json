@@ -4,12 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite --host 127.0.0.1",
     "start": "node server.js",
+    "build": "node scripts/build-site.mjs",
+    "test:build": "node --test tests/build-site.test.mjs",
     "build:hero": "node scripts/build-hero.mjs",
     "test": "playwright test"
   },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "sharp": "^0.34.0"
+    "sharp": "^0.34.0",
+    "vite": "^7.3.0"
   }
 }
