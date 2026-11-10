@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gantt Resources — Conditional Formatting. PowerTable feature case 03 by Ravichandran V, covering scheduled-hours context, rule scope, and visual highlights in Microsoft Fabric.">
+  <meta name="theme-color" content="#101317">
+  <title>Gantt Resources — Conditional Formatting — Ravichandran V</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/mapping.css">
+  <script src="/app.js" defer></script>
+</head>
+<body class="professional-case mapping-case formatting-case" data-native-cursor>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/" aria-label="Ravichandran V home">Ravichandran V<span class="accent">.</span></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menu <span aria-hidden="true">+</span></button>
+    <nav id="main-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/#work" aria-current="true">Work</a><a href="/about.html">About</a><span class="nav-note">Product design for enterprise software</span></nav>
+  </header>
+  <main id="main">
+    <section class="case-hero wrap">
+      <a class="back-link" href="/powertable.html#conditional-formatting">← PowerTable case study</a>
+      <p class="eyebrow platform-pill"><img src="/assets/microsoft-fabric.svg" width="24" height="24" alt="">PowerTable / Gantt Resources / Microsoft Fabric</p>
+      <p class="eyebrow">Feature case study 03</p>
+      <h1>Gantt Resources.<br>Conditional Formatting.</h1>
+      <p class="case-summary">Turn resource metrics into deliberate visual cues.<br class="desktop-break"> Define the condition, its scope, and its appearance beside the schedule.</p>
+      <dl class="metadata">
+        <div><dt>Company</dt><dd>Lumel Technologies</dd></div>
+        <div><dt>My role</dt><dd>End-to-end resource Gantt UX/UI</dd></div>
+        <div><dt>Delivery scope</dt><dd>Developer handoff &amp; implementation review</dd></div>
+        <div><dt>Evidence</dt><dd>One supplied editing state</dd></div>
+      </dl>
+    </section>
+
+    <section id="overview" class="mapping-lead wrap" aria-labelledby="formatting-overview-title">
+      <div class="mapping-lead-copy">
+        <p class="eyebrow">01 / Create Formatting Rule</p>
+        <h2 id="formatting-overview-title">A workload signal.<br>Not just a color choice.</h2>
+        <p><strong>Schedule Hours &gt; 0</strong> is the displayed condition. Rule 1 separates the qualifying metric from its targets and appearance.</p>
+        <p>Milestone Icon, Fill, Bar Fill, and Data Label have individual controls. The shown fill swatches are orange; the data-label swatch is black. <strong>Discard and Apply</strong> remain separate actions.</p>
+        <p class="fine-print">A positive-hours threshold identifies scheduled work, not over-allocation against capacity.</p>
+        <p class="fine-print">“Impacts On” shows Bar and a +2 indicator. “Apply To” includes Bar and a truncated second label. Hidden selections are not inferred.</p>
+      </div>
+      <figure class="detail-figure mapping-preview">
+        <a class="product-screenshot native-shot" href="/assets/fabric-conditional-rule.png" target="_blank" rel="noopener noreferrer" aria-label="View conditional formatting editor at original resolution (opens in a new tab)"><img src="/assets/fabric-conditional-rule.png" width="612" height="823" fetchpriority="high" alt="Create Formatting Rule panel: Rule 1, Rules (If Conditions), target selectors, Schedule Hours greater than 0, Add Condition, Milestone Icon, Fill, Bar Fill, Data Label, Discard, and Apply."></a>
+        <figcaption>Supplied design / Rule editor crop. Product controls and values are unchanged. <a class="image-link" href="/assets/fabric-conditional-rule.png" target="_blank" rel="noopener noreferrer">Original resolution ↗<span class="sr-only"> (opens in a new tab)</span></a></figcaption>
+      </figure>
+    </section>
+
+    <nav class="case-nav wrap" aria-label="Case study sections"><a href="#overview">Rule editor</a><a href="#timeline">Resource context</a><a href="#decisions">Design decisions</a><a href="#evidence">Evidence &amp; sources</a></nav>
+
+    <section id="timeline" class="mapping-evidence wrap" aria-labelledby="timeline-title">
+      <div class="case-section-heading"><p class="eyebrow">02 / Same supplied state · Resource context</p><h2 id="timeline-title">Keep scheduled hours beside the assignments.</h2><p>The toolbar identifies <strong>Summary Bar — Scheduled Hours</strong> at the Quarter timescale. Below it, brown summary bars and blue task bars share the timeline. Resource names are excluded from these crops.</p><p><strong>This is not an after-Apply result.</strong> The open editor does not establish that its orange rule produced the timeline's existing colors.</p></div>
+      <figure class="detail-figure mapping-screen formatting-context">
+        <a class="product-screenshot native-shot" href="/assets/fabric-conditional-summary.png" target="_blank" rel="noopener noreferrer" aria-label="View resource summary metric at original resolution (opens in a new tab)"><img src="/assets/fabric-conditional-summary.png" width="445" height="39" loading="lazy" alt="Resource layout toolbar showing Summary Bar - Scheduled Hours and the Quarter timescale."></a>
+        <figcaption>Supplied design / Metric and timescale detail from the same editing state. <a class="image-link" href="/assets/fabric-conditional-summary.png" target="_blank" rel="noopener noreferrer">Original resolution ↗<span class="sr-only"> (opens in a new tab)</span></a></figcaption>
+      </figure>
+      <figure class="detail-figure mapping-screen">
+        <a class="product-screenshot native-shot" href="/assets/fabric-conditional-timeline.png" target="_blank" rel="noopener noreferrer" aria-label="View Gantt timeline context at original resolution (opens in a new tab)"><img src="/assets/fabric-conditional-timeline.png" width="1076" height="732" loading="lazy" alt="Timeline detail from the same editing state, with a December-to-March time scale, blue task bars with IDs, and brown summary bars with numeric labels; resource names are excluded."></a>
+        <figcaption>Supplied design / Timeline-only crop from the same screenshot, not a second state. Resource names and workspace chrome are excluded. <a class="image-link" href="/assets/fabric-conditional-timeline.png" target="_blank" rel="noopener noreferrer">Original resolution ↗<span class="sr-only"> (opens in a new tab)</span></a></figcaption>
+      </figure>
+    </section>
+
+    <section id="decisions" class="mapping-decisions wrap" aria-labelledby="decisions-title">
+      <div class="case-section-heading"><p class="eyebrow">Design rationale / Reading the supplied interface</p><h2 id="decisions-title">Make the workload signal explainable.</h2><p>Keep the metric, target, and visual treatment distinct. These are design trade-offs, not measured usability findings.</p></div>
+      <ol class="mapping-decision-list">
+        <li><span class="small-index">01</span><div><h3>Make the threshold readable.</h3><p>Field, operator, and value expose the rule in one row. Schedule Hours &gt; 0 should not be presented as an overload alert: that needs a capacity-based criterion not shown here.</p></div></li>
+        <li><span class="small-index">02</span><div><h3>Where does it apply?</h3><p>Impacts On and Apply To precede the rule. The trade-off is compactness: hidden selections and truncated labels need inspection before the full scope is clear.</p></div></li>
+        <li><span class="small-index">03</span><div><h3>Keep values legible alongside color.</h3><p>Numeric summary labels retain meaning beyond the fill. Separate label styling provides control, but contrast and non-color cues still need validation; the screen alone does not establish accessibility.</p></div></li>
+      </ol>
+    </section>
+
+    <section id="evidence" class="mapping-evidence wrap" aria-labelledby="evidence-title">
+      <div class="case-section-heading"><p class="eyebrow">Evidence &amp; official product context</p><h2 id="evidence-title">Resource formatting is documented.</h2><p>Microsoft Learn's <strong>Customize resource layout</strong> guide documents formatting rules for task bars, summary bars, and milestones, including summary-metric conditions and Bar / Data Label targets. This supports the feature context—not a claim that every control or result in this design has been independently tested.</p></div>
+      <div class="mapping-source-links">
+        <a class="text-link" href="https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-customize-resource-layout#create-formatting-rules" target="_blank" rel="noopener noreferrer">Resource layout / Formatting rules <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="text-link" href="https://learn.microsoft.com/en-us/fabric/iq/plan/overview" target="_blank" rel="noopener noreferrer">What is planning in Fabric? <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="text-link" href="/gantt-backlog.html">Related case / Gantt Backlog <span aria-hidden="true">→</span></a>
+        <a class="text-link" href="/resource-configuration.html">Related case / Resource Configuration — Side Panel <span aria-hidden="true">→</span></a>
+      </div>
+      <details class="evidence-note"><summary>Scope, delivery &amp; source limitations</summary><div class="note"><p><strong>My contribution:</strong> this case sits within the confirmed end-to-end PowerTable Gantt and resource UX/UI scope, including developer handoff and implementation review. It does not imply Microsoft employment or ownership of all production code.</p><p><strong>Evidence:</strong> one supplied editing state, presented as three native-resolution crops: rule editor, resource metric toolbar, and timeline. They are not a before/after sequence. Surrounding resource names, account controls, and workspace chrome are excluded; no interface controls, colors, or values have been repainted.</p><p><strong>Limits:</strong> hidden target selections, rule precedence, invalid-input feedback, save persistence, Apply/Discard behavior, and post-application results are not established by this screenshot. This is a screenshot-led design case, not an interactive rule engine.</p><p><strong>Documentation versus design:</strong> the official Resource layout guide also describes AND/OR conditions and rule management; those states are not supplied here. Its Scheduled Hours &gt; 8 example is separate from this design's Schedule Hours &gt; 0 condition. Documented component choices do not reveal the selections hidden behind this screen's +2 indicator or truncated label.</p><p><strong>Validation:</strong> no independently verified feature-specific review, usability finding, or business-impact metric is included. Public documentation supports the capability, not independent testing or the release status of this exact design. General grid formatting, Intelligence charts, and Analytics+ Gantt are not substituted as evidence.</p><p><strong>Handling:</strong> the original attachment is marked Confidential/Internal Only. Cropping is not publication clearance. This remains a local preview; confirm permission before public use.</p><p><strong>Sources:</strong> Microsoft Learn overview and Customize Resource Layout guide reviewed November 10, 2026. These are official product documentation, not customer reviews. The unchanged Fabric icon identifies the platform, not endorsement.</p></div></details>
+    </section>
+    <a class="next-project wrap review-next" href="/gantt-baselines.html"><span class="eyebrow">Related PowerTable feature</span><span class="next-title">Gantt Baselines<br><em>Configure &amp; compare.</em></span><span class="next-arrow" aria-hidden="true">↗</span></a>
+  </main>
+  <footer class="site-footer wrap"><a class="wordmark" href="/">Ravichandran V<span class="accent">.</span></a><p>Product Designer · Thoughtfully, from complexity to clarity.</p><a href="#main">Back to top <span aria-hidden="true">↑</span></a></footer>
+</body>
+</html>

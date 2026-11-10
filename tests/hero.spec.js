@@ -1,0 +1,69 @@
+import { test, expect } from './fixtures.js';
+import { pathToFileURL } from 'node:url';
+import path from 'node:path';
+import sharp from 'sharp';
+
+test('derived portrait has transparent background and preserves the source dimensions', async () => {
+  const { data, info } = await sharp('assets/portrait-3d.webp').raw().toBuffer({ resolveWithObject: true });
+  expect(info.width).toBe(1254);
+  expect(info.height).toBe(1254);
+  expect(info.channels).toBe(4);
+  expect(data[3]).toBe(0);
+  expect(data[(650 * info.width + 625) * 4 + 3]).toBe(255);
+  expect(data[(240 * info.width + 490) * 4 + 3]).toBe(255);
+  const chestAlpha = [850, 950, 1050, 1130].map((y) => data[(y * info.width + 625) * 4 + 3]);
+  expect(chestAlpha[0]).toBeGreaterThan(240);
+  expect(chestAlpha[1]).toBeLessThan(chestAlpha[0]);
+  expect(chestAlpha[2]).toBeLessThan(chestAlpha[1]);
+  expect(chestAlpha[2]).toBeLessThan(30);
+  expect(chestAlpha[3]).toBe(0);
+  const bottom = data.subarray(Math.ceil(info.height * .9) * info.width * 4);
+  expect(bottom.every((value, index) => index % 4 !== 3 || value === 0)).toBe(true);
+});
+
+for (const width of [320, 390, 768, 1440]) {
+  test(`3D-style portrait replaces the dot sculpture at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const errors = [];
+    const requests = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('request', (request) => requests.push(request.url()));
+    await page.goto('/');
+    const hero = page.locator('.portrait-hero');
+    await expect(hero).toBeVisible();
+    await expect(hero.getByRole('heading', { level: 1 })).toHaveText('PRODUCT DESIGNER');
+    const portrait = hero.getByRole('img', { name: /3D-style illustration/ });
+    await expect(portrait).toBeVisible();
+    await expect(portrait).toHaveJSProperty('complete', true);
+    expect(await portrait.evaluate((image) => image.naturalWidth)).toBe(1254);
+    await expect(hero.locator('canvas, button, [role="progressbar"]')).toHaveCount(0);
+    expect(requests.some((url) => /portrait-dots|hero\.bundle/.test(url))).toBe(false);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await hero.getByRole('link', { name: 'Selected work' }).click();
+    await expect(page.locator('#work')).toBeInViewport();
+    expect(errors).toEqual([]);
+  });
+}
+
+test('portrait works without JavaScript, with reduced motion, and without WebGL', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto(baseURL);
+  await expect(page.locator('.portrait-art')).toBeVisible();
+  await expect(page.locator('.portrait-art')).toHaveJSProperty('complete', true);
+  await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
+  await context.close();
+});
+
+test('standalone opens offline with its illustrated portrait embedded', async ({ page }) => {
+  const requests = [];
+  const errors = [];
+  page.on('request', (request) => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto(pathToFileURL(path.resolve('portrait-standalone.html')).href);
+  await expect(page.locator('.portrait-art')).toBeVisible();
+  expect(await page.locator('.portrait-art').evaluate((image) => image.naturalWidth)).toBe(1254);
+  await expect(page.locator('canvas, button, script')).toHaveCount(0);
+  expect(requests).toEqual([]);
+  expect(errors).toEqual([]);
+});

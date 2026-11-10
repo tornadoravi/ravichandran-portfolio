@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title description">
+  <title id="title">Work and time, connected</title>
+  <desc id="description">Original concept illustration, not product UI. Three task rows connect with bars on a shared timeline. No real dates, tasks, or measured results are shown.</desc>
+  <rect width="640" height="480" rx="28" fill="#ddd7ee"/>
+  <circle cx="548" cy="68" r="115" fill="#e9e3f5"/>
+  <circle cx="66" cy="430" r="126" fill="#cfc6e5"/>
+  <rect x="48" y="106" width="544" height="298" rx="22" fill="#b9afcf" opacity=".3"/>
+  <rect x="48" y="94" width="544" height="298" rx="22" fill="#fcfbff"/>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="2" fill="#605371">
+    <text x="78" y="140">WORK</text>
+    <text x="272" y="140">TIME</text>
+  </g>
+  <path d="M48 164H592M236 164V392" stroke="#e5deef" stroke-width="2"/>
+  <path d="M302 164V392M368 164V392M434 164V392M500 164V392M566 164V392" stroke="#eee9f5" stroke-width="2"/>
+  <g fill="#e7e1ef">
+    <rect x="78" y="201" width="122" height="12" rx="6"/>
+    <rect x="78" y="270" width="92" height="12" rx="6"/>
+    <rect x="78" y="339" width="108" height="12" rx="6"/>
+  </g>
+  <rect x="268" y="190" width="166" height="34" rx="10" fill="#827199"/>
+  <rect x="334" y="259" width="166" height="34" rx="10" fill="#baa6d4"/>
+  <rect x="400" y="328" width="132" height="34" rx="10" fill="#e2a584"/>
+  <path d="M434 207H451V242H334V259" fill="none" stroke="#827199" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M328 252L334 259L340 252" fill="none" stroke="#827199" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M500 276H548V310H400V328" fill="none" stroke="#baa6d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M394 321L400 328L406 321" fill="none" stroke="#baa6d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="228" y="40" width="184" height="38" rx="19" fill="#fcfbff"/>
+  <text x="320" y="65" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#605371">Task + timeline</text>
+</svg>

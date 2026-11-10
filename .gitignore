@@ -1,0 +1,11 @@
+node_modules/
+test-results/
+playwright-report/
+.DS_Store
+/career-ops/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx

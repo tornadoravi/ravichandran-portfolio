@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title description">
+  <title id="title">Connect the work with the people</title>
+  <desc id="description">Original concept illustration, not product UI. Abstract task cards connect to three people, expressing resource assignment and workload context without real names, capacity measurements, or release claims.</desc>
+  <rect width="640" height="480" rx="28" fill="#ecd8c9"/>
+  <circle cx="570" cy="442" r="166" fill="#f3e5da"/>
+  <circle cx="44" cy="30" r="128" fill="#e2c6b1"/>
+  <g fill="none" stroke="#c59878" stroke-width="3" stroke-linecap="round">
+    <path d="M252 138H322V240H374"/>
+    <path d="M252 240H374"/>
+    <path d="M252 342H322V240"/>
+    <path d="M428 240H486V140H510M486 240H510M486 240V340H510"/>
+  </g>
+  <g fill="#fffaf5">
+    <rect x="58" y="104" width="194" height="68" rx="15"/>
+    <rect x="58" y="206" width="194" height="68" rx="15"/>
+    <rect x="58" y="308" width="194" height="68" rx="15"/>
+  </g>
+  <g fill="#e5cebc">
+    <rect x="84" y="125" width="112" height="9" rx="4"/>
+    <rect x="84" y="143" width="80" height="7" rx="3"/>
+    <rect x="84" y="227" width="92" height="9" rx="4"/>
+    <rect x="84" y="245" width="128" height="7" rx="3"/>
+    <rect x="84" y="329" width="124" height="9" rx="4"/>
+    <rect x="84" y="347" width="92" height="7" rx="3"/>
+  </g>
+  <circle cx="400" cy="240" r="38" fill="#a16f4d"/>
+  <path d="M388 240L397 249L414 231" fill="none" stroke="#fffaf5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#fffaf5">
+    <circle cx="542" cy="140" r="32"/>
+    <circle cx="542" cy="240" r="32"/>
+    <circle cx="542" cy="340" r="32"/>
+  </g>
+  <g fill="#a16f4d">
+    <circle cx="542" cy="132" r="9"/>
+    <path d="M525 157C525 137 559 137 559 157Z"/>
+    <circle cx="542" cy="232" r="9"/>
+    <path d="M525 257C525 237 559 237 559 257Z"/>
+    <circle cx="542" cy="332" r="9"/>
+    <path d="M525 357C525 337 559 337 559 357Z"/>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="2" fill="#79563d">
+    <text x="58" y="90">THE WORK</text>
+    <text x="490" y="90">THE PEOPLE</text>
+  </g>
+</svg>
