@@ -13,7 +13,8 @@ function visit(index) {
   const pixel = index * 4;
   const max = Math.max(data[pixel], data[pixel + 1], data[pixel + 2]);
   const min = Math.min(data[pixel], data[pixel + 1], data[pixel + 2]);
-  if (max > 32 || max - min > 12) return;
+  // Dark beard pixels exceed the background's range and must remain in the silhouette.
+  if (max > 14 || max - min > 12) return;
   background[index] = 1;
   queue[tail++] = index;
 }
@@ -52,13 +53,17 @@ for (let y = 0; y < height; y++) {
 await sharp(data, { raw: { width, height, channels: 4 } }).webp({ quality: 92, alphaQuality: 100 })
   .toFile(new URL('assets/portrait-3d.webp', root).pathname);
 
-const source = await readFile(new URL('index.html', root), 'utf8');
-const section = source.match(/<section class="portrait-hero"[\s\S]*?<\/section>/)[0];
+// Preserve the archived composition independently of the React entry templates.
+const source = await readFile(new URL('portrait-standalone.html', root), 'utf8');
+const section = source.match(/<section class="portrait-hero"[\s\S]*?<\/section>/)?.[0];
+if (!section || !section.includes('src="data:image/webp;base64,')) {
+  throw new Error('The standalone portrait template must contain its hero and embedded portrait.');
+}
 const css = await readFile(new URL('hero.css', root), 'utf8');
 const photo = (await readFile(new URL('assets/portrait-3d.webp', root))).toString('base64');
 const font = (await readFile(new URL('assets/anton-latin.ttf', root))).toString('base64');
 const standaloneCSS = css.replaceAll('/assets/anton-latin.ttf', `data:font/ttf;base64,${font}`);
-const standaloneSection = section.replaceAll('/assets/portrait-3d.webp', `data:image/webp;base64,${photo}`);
+const standaloneSection = section.replace(/data:image\/webp;base64,[A-Za-z0-9+/=]+/g, `data:image/webp;base64,${photo}`);
 await writeFile(new URL('portrait-standalone.html', root),
   `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ravichandran V - Product Designer</title><style>body{margin:0;background:#080809;color:#eee;font-family:Arial,sans-serif}*{box-sizing:border-box}a{color:inherit}${standaloneCSS}.portrait-hero{--scene-height:max(620px,100svh)}</style><main>${standaloneSection.replace('href="#work"', 'href="./index.html#work"')}</main></html>`);
 console.log(`Built ${width}x${height} 3D-style portrait and standalone HTML.`);

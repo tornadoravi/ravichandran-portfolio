@@ -2,6 +2,7 @@ import { test, expect } from './fixtures.js';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import sharp from 'sharp';
+import { readFile } from 'node:fs/promises';
 
 test('derived portrait has transparent background and preserves the source dimensions', async () => {
   const { data, info } = await sharp('assets/portrait-3d.webp').raw().toBuffer({ resolveWithObject: true });
@@ -21,6 +22,23 @@ test('derived portrait has transparent background and preserves the source dimen
   expect(bottom.every((value, index) => index % 4 !== 3 || value === 0)).toBe(true);
 });
 
+test('jaw and beard retain a continuous cut-out without horizontal notches', async () => {
+  const { data, info } = await sharp('assets/portrait-3d.webp').raw().toBuffer({ resolveWithObject: true });
+  let previous;
+  for (let y = 550; y <= 620; y++) {
+    let left = 0;
+    while (left < info.width && data[(y * info.width + left) * 4 + 3] < 128) left++;
+    expect(left).toBeLessThan(info.width);
+    if (previous !== undefined) {
+      expect(left - previous).toBeGreaterThanOrEqual(0);
+      expect(left - previous).toBeLessThanOrEqual(4);
+    }
+    previous = left;
+  }
+  expect(data[(598 * info.width + 495) * 4 + 3]).toBeGreaterThanOrEqual(240);
+  expect(data[(590 * info.width + 450) * 4 + 3]).toBe(0);
+});
+
 for (const width of [320, 390, 768, 1440]) {
   test(`3D-style portrait replaces the dot sculpture at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
@@ -36,6 +54,14 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveJSProperty('complete', true);
     expect(await portrait.evaluate((image) => image.naturalWidth)).toBe(1254);
+    expect(await portrait.evaluate(image => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+      return context.getImageData(495, 598, 1, 1).data[3];
+    })).toBeGreaterThanOrEqual(240);
     await expect(hero.locator('canvas, button, [role="progressbar"]')).toHaveCount(0);
     expect(requests.some((url) => /portrait-dots|hero\.bundle/.test(url))).toBe(false);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -65,6 +91,8 @@ test('standalone opens offline with its illustrated portrait embedded', async ({
   await page.goto(pathToFileURL(path.resolve('portrait-standalone.html')).href);
   await expect(page.locator('.portrait-art')).toBeVisible();
   expect(await page.locator('.portrait-art').evaluate((image) => image.naturalWidth)).toBe(1254);
+  const embedded = await page.locator('.portrait-art').getAttribute('src');
+  expect(Buffer.from(embedded.split(',')[1], 'base64').equals(await readFile('assets/portrait-3d.webp'))).toBe(true);
   await expect(page.locator('canvas, button, script')).toHaveCount(0);
   expect(requests).toEqual([]);
   expect(errors).toEqual([]);
