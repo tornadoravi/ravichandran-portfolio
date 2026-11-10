@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="260" viewBox="0 0 240 260" fill="none">
+  <title>Studio companion</title>
+  <desc>An original folded-paper character carrying a pencil, with little chart marks and sturdy shoes.</desc>
+  <ellipse cx="124" cy="237" rx="76" ry="9" fill="#E5E5DC"/>
+  <g stroke="#343C32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M92 195 86 220M147 195l9 23"/>
+    <path d="M86 218c-18-8-31 1-30 10 12 6 29 5 41 0l-2-9-9-1Z" fill="#343C32"/>
+    <path d="M154 217c19-7 32 0 32 10-10 7-26 7-40 1l1-9 7-2Z" fill="#343C32"/>
+    <path d="M67 115c-24 0-30 29-19 42 5 6 11 2 11-3" stroke-width="4"/>
+    <path d="M172 119c13 3 19 16 21 24" stroke-width="4"/>
+    <path d="M70 54c0-7 6-13 13-13h66l29 31v115c0 8-6 14-14 14H83c-7 0-13-6-13-13V54Z" fill="#F2EDE0"/>
+    <path d="m149 41-1 25c0 5 3 8 8 8l22-2-29-31Z" fill="#D9DEC9"/>
+    <path d="M84 55h46" stroke="#D2CFBF" stroke-width="2"/>
+    <ellipse cx="105" cy="105" rx="5" ry="7" fill="#343C32" stroke="none"/>
+    <ellipse cx="143" cy="105" rx="5" ry="7" fill="#343C32" stroke="none"/>
+    <path d="M117 123c4 5 10 5 14 0" stroke-width="2.5"/>
+    <path d="M90 164v15m17-26v26m17-37v37" stroke="#73916B" stroke-width="8"/>
+    <path d="M143 157h17m-17 10h11" stroke="#A8AE97" stroke-width="2"/>
+    <path d="m178 184 27-91 10 3-27 91-10-3Z" fill="#8EA986"/>
+    <path d="m205 93 9-14 1 17-10-3Z" fill="#DDCAAB"/>
+    <path d="m178 184 10 3-10 14v-17Z" fill="#DDCAAB"/>
+    <path d="m178 194 1 7 4-6" fill="#343C32" stroke-width="1.5"/>
+    <path d="M194 141c-11-3-15 3-12 8 3 4 9 2 12 0" fill="#F2EDE0"/>
+    <path d="m53 61-8-6m0 22H34m23-32-3-10" stroke="#9DAA90" stroke-width="2"/>
+  </g>
+</svg>

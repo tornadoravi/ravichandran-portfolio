@@ -21,7 +21,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('#mapping-walkthrough')).not.toHaveAttribute('open');
     await expect(page.locator('.mapping-preview img')).toHaveJSProperty('naturalWidth', 780);
-    await expect(page.locator('.mapping-preview .inspect-button')).toHaveCSS('color', 'rgb(237, 240, 242)');
+    await expect(page.locator('.mapping-preview .inspect-button')).toHaveCSS('color', 'rgb(41, 45, 41)');
     expect(await page.locator('.case-hero > .eyebrow').evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(12);
     await page.locator('#mapping-walkthrough > summary').click();
     const images = page.locator('#mapping-walkthrough img');
@@ -69,7 +69,8 @@ test('Home and PowerTable link to the new feature without changing the product o
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);
   await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
-  await page.locator('#project-planning a[href="/column-mapping.html"]').click();
+  await page.locator('#project-planning .case-link').click();
+  await page.locator('#column-mapping a[href="/column-mapping.html"]').click();
   await expect(page).toHaveURL(/column-mapping\.html$/);
   await page.locator('.back-link').click();
   await expect(page).toHaveURL(/powertable\.html#column-mapping$/);

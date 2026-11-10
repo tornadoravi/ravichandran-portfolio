@@ -91,7 +91,8 @@ test('Home, parent, and formatting sibling expose backlog without adding another
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);
   await expect(page.locator('.case-link')).toHaveCount(2);
-  await page.locator('#project-planning a[href="/gantt-backlog.html"]').click();
+  await page.locator('#project-planning .case-link').click();
+  await page.locator('.workspace-grid a[href="/gantt-backlog.html"]').click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.locator('.back-link').click();
   await expect(page).toHaveURL(/powertable\.html#backlog$/);

@@ -33,8 +33,38 @@ window.addEventListener('pageshow', () => openLinkedDetails(location.hash));
 
 const menuButton = document.querySelector('.menu-toggle');
 const menu = document.querySelector('#main-nav');
-
 const workSection = document.querySelector('#work');
+
+const companionButton = document.querySelector('[data-companion]');
+if (companionButton) {
+  const greeting = document.getElementById(companionButton.getAttribute('aria-controls'));
+  companionButton.disabled = false;
+  function closeGreeting() {
+    companionButton.setAttribute('aria-expanded', 'false');
+    greeting.hidden = true;
+  }
+  companionButton.addEventListener('click', () => {
+    if (companionButton.getAttribute('aria-expanded') === 'true') {
+      closeGreeting();
+      return;
+    }
+    closeMenu();
+    greeting.textContent = !workSection
+      ? 'Hello! Let’s explore the thinking behind the work.'
+      : document.documentElement.dataset.listeningMode === 'soundroom'
+      ? 'Good music. Thoughtful work. Pick a card to explore.'
+      : 'Hello! Pick a project card. Let’s explore the work.';
+    greeting.hidden = false;
+    companionButton.setAttribute('aria-expanded', 'true');
+  });
+  document.addEventListener('click', event => {
+    if (!companionButton.contains(event.target) && !greeting.contains(event.target)) closeGreeting();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeGreeting();
+  });
+}
+
 const homeLink = menu.querySelector('a[href="/"]');
 const workLink = menu.querySelector('a[href="/#work"]');
 
@@ -189,7 +219,7 @@ document.querySelectorAll('[data-illustration]').forEach((element) => {
 
 const introAnimations = [];
 if (!motionPreference.matches && !location.hash && typeof Element.prototype.animate === 'function') {
-  const introElements = document.querySelectorAll('.portrait-title, .portrait-footer, .hero > .eyebrow, .hero h1, .hero h2, .hero-note, .hero-bottom, .hero-domains, .case-hero > .eyebrow, .case-hero h1, .case-summary, .metadata, .about-nav');
+  const introElements = document.querySelectorAll('.hero-role, .portrait-title, .hero > .eyebrow, .hero h1, .hero h2, .hero-note, .hero-bottom, .hero-domains, .case-hero > .eyebrow, .case-hero h1, .case-summary, .metadata, .about-nav');
   [...introElements].filter((element) => {
     const bounds = element.getBoundingClientRect();
     return bounds.top < window.innerHeight && bounds.bottom > 0;
@@ -488,7 +518,7 @@ function inspectImage(image, opener, kind) {
     document.body.classList.remove('preview-open');
     window.removeEventListener('resize', updateSizeAvailability);
     dialog.remove();
-    opener.focus();
+    opener.focus({ preventScroll: true });
   });
   dialog.addEventListener('click', (event) => {
     if (event.target !== dialog) return;

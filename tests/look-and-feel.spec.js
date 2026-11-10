@@ -26,7 +26,8 @@ test('touch browsing keeps the portrait still and calls to action usable', async
   await page.goto(baseURL);
   await page.dispatchEvent('.portrait-hero', 'pointermove', { pointerType: 'touch', clientX: 350, clientY: 400 });
   expect(await page.locator('.portrait-hero').evaluate((element) => element.style.getPropertyValue('--portrait-x'))).toBe('');
-  await page.getByRole('link', { name: 'Selected work', exact: true }).tap();
+  await page.locator('.menu-toggle').tap();
+  await page.locator('#main-nav a[href="/#work"]').tap();
   await expect(page.locator('#work')).toBeInViewport();
   await context.close();
 });

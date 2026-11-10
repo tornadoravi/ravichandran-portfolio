@@ -740,12 +740,19 @@ figcaption .image-link { display: inline-flex; align-items: center; min-height: 
 .portrait-home .project-features { grid-column: 1; grid-row: 3; margin-top: 22px; gap: 0 24px; }
 .portrait-home .project-features a { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding-inline: 0; }
 .portrait-home .project-features a:hover, .portrait-home .project-features a:focus-visible { color: var(--accent-secondary); border-bottom-color: var(--accent-secondary); }
+.portrait-home .project-features--grouped { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+.portrait-home .project-features--grouped > span { margin-bottom: 20px; }
+.project-feature-group { min-width: 0; }
+.project-feature-group h4 { margin: 0 0 8px; color: var(--muted); font-size: 12px; font-weight: 500; line-height: 1.6; letter-spacing: 1px; text-transform: uppercase; }
+.portrait-home .project-features--grouped a:hover, .portrait-home .project-features--grouped a:focus-visible { color: var(--project-accent); border-bottom-color: var(--project-accent); }
 .portrait-home .home-about { margin-block: 16px 48px; padding: 56px 0; border-block: 1px solid var(--line); background: radial-gradient(ellipse at 80% 60%, #c7b8ff0d, transparent 65%); }
 .portrait-home .home-about h2 { font-size: clamp(32px, 3.6vw, 52px); }
 .project.reveal-target { transform: translateY(38px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
 .project.reveal-target.is-revealed, .project.reveal-target:focus-within { transform: none; }
 @media (max-width: 700px) {
   .portrait-home .project { margin-bottom: 48px; }
+  .portrait-home .project-features--grouped { grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
+  .portrait-home .project-features--grouped > span { margin-bottom: 0; }
   .portrait-home .project-visual { padding: 20px 14px 14px; }
   .portrait-home .project-caption { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 24px 0; }
   .portrait-home .project-caption h3 { font-size: 32px; }

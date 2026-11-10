@@ -84,7 +84,8 @@ test('Home, parent, and sibling connect both feature cases without changing prod
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);
   await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
-  await page.locator('#project-planning a[href="/gantt-baselines.html"]').click();
+  await page.locator('#project-planning .case-link').click();
+  await page.locator('.workspace-grid a[href="/gantt-baselines.html"]').click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
   await page.locator('.back-link').click();
   await expect(page).toHaveURL(/powertable\.html#baseline-comparison$/);

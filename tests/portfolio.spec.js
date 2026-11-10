@@ -140,7 +140,6 @@ test('product overview and ordered feature stories navigate correctly', async ({
   await page.goto('/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
-  await page.locator('.feature-index a[href="#feature-storyboard"]').click();
   await page.getByRole('link', { name: 'Read Storyboard authoring case study' }).click();
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Presentation', exact: true }).click();
   await expect(page.locator('#presentation')).toBeInViewport();
@@ -221,11 +220,11 @@ test('all six supplied screenshots appear in the case study and open full-size',
   await popup.close();
 });
 
-test('cinematic visual system lights the stages without distorting product views', async ({ page }) => {
+test('editorial covers preserve genuine product views and the serif hierarchy', async ({ page }) => {
   await page.goto('/');
-  expect(await page.locator('h1 em').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('normal');
-  expect(await page.locator('.analytics-scene').first().evaluate((element) => getComputedStyle(element).backgroundImage)).toContain('radial-gradient');
-  expect(await page.locator('.project-visual .product-screenshot').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
+  expect(await page.locator('h1 em').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('italic');
+  await expect(page.locator('.analytics-scene').first()).toHaveCSS('background-color', 'rgb(232, 228, 239)');
+  await expect(page.locator('.project-visual .product-screenshot img').first()).toHaveCSS('transform', 'none');
   await expect(page.locator('.project-visual .product-screenshot img').first()).toHaveCSS('filter', 'none');
   await expect(page.locator('.hero-index, .monogram')).toHaveCount(0);
 });
@@ -234,7 +233,7 @@ test('storyboard screenshots are separate from Chart Wizard and planning', async
   await page.goto('/storyboard.html');
   await expect(page.locator('h1')).toContainText('Storyboard');
   await expect(page.locator('h1')).toContainText('Authoring');
-  await expect(page.locator('img[src^="/assets/"]')).toHaveCount(6);
+  await expect(page.locator('main img[src^="/assets/"]')).toHaveCount(6);
   await expect(page.locator('img[src^="/assets/wizard-"]')).toHaveCount(0);
   await page.goto('/analytics.html');
   await expect(page.locator('img[src^="/assets/wizard-"]')).toHaveCount(8);
@@ -245,7 +244,6 @@ test('storyboard screenshots are separate from Chart Wizard and planning', async
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(productPages.length);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
-  await page.locator('.feature-index a[href="#feature-storyboard"]').click();
   await page.getByRole('link', { name: 'Read Storyboard authoring case study', exact: true }).click();
   await expect(page).toHaveURL(/storyboard\.html$/);
 });
@@ -285,7 +283,7 @@ test('previous storyboard section bookmarks reach the dedicated case study', asy
 test('storyboard views follow entry, alternative setup routes, and authoring order', async ({ page }) => {
   await page.goto('/storyboard.html');
   await page.locator('.flow-disclosure > summary').click();
-  expect(await page.locator('img[src^="/assets/"]').evaluateAll((images) => images.map((image) => image.getAttribute('src')))).toEqual([
+  expect(await page.locator('main img[src^="/assets/"]').evaluateAll((images) => images.map((image) => image.getAttribute('src')))).toEqual([
     '/assets/storyboard-start.png',
     '/assets/custom-layout.png',
     '/assets/template-selection.png',
@@ -497,7 +495,7 @@ test('Wizard screenshots use native-size crops and the product overview shows re
   await page.goto('/analytics-plus.html');
   const wizard = page.locator('#feature-wizard');
   await expect(wizard.locator('img')).toHaveAttribute('src', '/assets/wizard-chart-family.png');
-  await expect(wizard).toContainText('Supplied product screenshot');
+  await expect(wizard).toContainText('Supplied product screen');
   await expect(wizard.locator('[data-illustration]')).toHaveCount(0);
   expect(await wizard.locator('img').evaluate((element) => element.clientWidth)).toBeLessThanOrEqual(540);
   await page.goto('/analytics.html');
@@ -541,7 +539,7 @@ test('project motion responds to pointer and keyboard without transforming scree
   await page.goto('/#project-analytics');
   const preview = page.locator('#project-analytics .project-visual');
   await preview.hover();
-  await expect(preview).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -4)');
+  await expect.poll(() => preview.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42)).toBeLessThan(-4.9);
   await expect(preview.locator('.product-screenshot img')).toHaveCSS('transform', 'none');
   expect(await preview.locator('.product-screenshot img').evaluate((element) => element.clientWidth)).toBeLessThanOrEqual(1390);
   await page.mouse.move(0, 0);
@@ -549,7 +547,7 @@ test('project motion responds to pointer and keyboard without transforming scree
   await page.keyboard.press('Tab');
   await page.keyboard.press('Shift+Tab');
   await expect(preview).toBeFocused();
-  await expect(preview).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -4)');
+  await expect(preview).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -5)');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(preview).toHaveCSS('transform', 'none');
 });
@@ -796,7 +794,8 @@ test('homepage prioritizes selected work before the approach', async ({ page }) 
       'portrait-hero', 'work-section', 'home-about'
     ]);
     await expect(page.locator('.home-about a[href="/about.html"]')).toBeVisible();
-    await page.getByRole('link', { name: 'Selected work', exact: true }).click();
+    if (width <= 700) await page.locator('.menu-toggle').click();
+    await page.locator('#main-nav a[href="/#work"]').click();
     await expect(page.locator('#work')).toBeInViewport();
     await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
   }
@@ -823,7 +822,8 @@ test('homepage gives clear ownership and direct case and contact actions', async
   const contact = page.getByRole('link', { name: /Connect on LinkedIn/ });
   await expect(contact).toHaveAttribute('href', 'https://www.linkedin.com/in/ravichandran-uxui/');
   await expect(contact).toHaveAttribute('target', '_blank');
-  const primary = page.getByRole('link', { name: 'Selected work', exact: true });
+  await expect(page.locator('.portrait-work-link')).toHaveCount(0);
+  const primary = page.locator('#main-nav a[href="/#work"]');
   expect(await primary.evaluate((element) => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(48);
   await primary.click();
   await expect(page.locator('#work')).toBeInViewport();
@@ -973,7 +973,6 @@ test('presentation concepts and related case links work without JavaScript', asy
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
-  await page.locator('.feature-previews > summary').click();
   await page.getByRole('link', { name: 'Read Annotations, Comments and Presentation case study', exact: true }).click();
   await expect(page).toHaveURL(/presentation\.html$/);
   for (const image of await page.locator('img[data-visual-kind="illustration"]').all()) {
@@ -988,7 +987,7 @@ test('presentation concepts and related case links work without JavaScript', asy
   await popup.close();
   await page.getByRole('link', { name: 'Storyboard authoring case', exact: false }).click();
   await expect(page).toHaveURL(/storyboard\.html$/);
-  await expect(page.locator('img')).toHaveCount(6);
+  await expect(page.locator('main img')).toHaveCount(6);
   await page.locator('#presentation a').click();
   await expect(page).toHaveURL(/presentation\.html$/);
   await page.goto(origin + '/about.html#experience');
@@ -999,7 +998,7 @@ test('presentation concepts and related case links work without JavaScript', asy
 
 test('two product numbers agree across Home, index, and product case heroes', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#work-title')).toContainText('/ 02');
+  await expect(page.locator('#work-title sup')).toHaveText('02');
   await expect(page.locator('.project-index a > span')).toHaveText(['01', '02']);
   const projects = await page.locator('.project').evaluateAll((elements) => elements.map((element) => ({
     id: element.id,
@@ -1119,9 +1118,10 @@ test('all nine supplied presentation screens retain full resolution, source orde
   expect(await firstImage.evaluate(image => image.clientWidth)).toBeGreaterThan(900);
   expect(await firstImage.evaluate(image => image.clientWidth <= image.naturalWidth)).toBe(true);
   await page.goto('/analytics-plus.html');
-  const preview = page.locator('#feature-annotations');
-  expect(await preview.locator('img').evaluateAll(images => images.map(image => image.getAttribute('src')))).toEqual([sources[6]]);
-  await expect(preview).toContainText('Supplied design screen');
+  const card = page.locator('#feature-annotations');
+  await expect(card).toHaveAttribute('href', '/presentation.html');
+  await expect(card.locator('img')).toHaveAttribute('src', '/assets/annotation-detail.png');
+  await expect(card).toContainText('Supplied design screen · Detail');
   for (const path of ['/analytics.html', '/storyboard.html', '/gantt.html', '/powertable.html']) {
     await page.goto(path);
     await expect(page.locator('img[src^="/assets/presentation-screen-"]')).toHaveCount(0);
@@ -1191,7 +1191,6 @@ test('KPI is reachable from Home and About with original evidence without JavaSc
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
   await expect(page.locator('#feature-kpi img')).toHaveAttribute('src', '/assets/kpi-variance.png');
-  await page.locator('.feature-previews > summary').click();
   await page.getByRole('link', { name: 'Read KPI Presets case study', exact: true }).click();
   await expect(page).toHaveURL(/kpi\.html$/);
   await expect(page.locator('.inspect-button')).toHaveCount(0);
@@ -1211,12 +1210,11 @@ test('Gantt is reachable from Home and About without JavaScript', async ({ brows
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
-  await page.locator('.feature-previews > summary').click();
   await page.getByRole('link', { name: 'Read Power BI Gantt case study' }).click();
   await expect(page).toHaveURL(/gantt\.html$/);
-  await expect(page.locator('img')).toHaveCount(3);
+  await expect(page.locator('main img')).toHaveCount(3);
   await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(0);
-  for (const image of await page.locator('img').all()) {
+  for (const image of await page.locator('main img').all()) {
     await image.scrollIntoViewIfNeeded();
     expect(await image.evaluate((element) => element.naturalWidth)).toBeGreaterThan(0);
   }

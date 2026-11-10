@@ -3,17 +3,36 @@ import sharp from 'sharp';
 import { fileURLToPath } from 'node:url';
 
 for (const width of [320, 390, 768, 1440]) {
+  test(`Home keeps product cards minimal without separate feature-work sections at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    await expect(page.locator('.project-features, .project-feature-group')).toHaveCount(0);
+    for (const [id, path] of [['project-planning', '/powertable.html'], ['project-analytics', '/analytics-plus.html']]) {
+      const card = page.locator('#' + id);
+      await expect(card.locator('.project-categories li')).toHaveCount(2);
+      await expect(card.locator('.project-role')).toHaveCount(1);
+      await expect(card.locator('.project-description a')).toHaveCount(1);
+      await expect(card.locator('.case-link')).toHaveAttribute('href', path);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  });
+
   test(`PowerTable groups feature cases by workspace at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/powertable.html');
+    await expect(page.locator('#workspaces-title')).toHaveText('My feature work.');
     await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
     await expect(page.locator('#gantt-features .feature-case-link')).toHaveCount(3);
-    await expect(page.locator('#resource-features .feature-case-link')).toHaveCount(3);
-    expect(await page.locator('#gantt-features a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
-      .toEqual(['/column-mapping.html', '/gantt-baselines.html', '/gantt-configuration.html']);
-    expect(await page.locator('#resource-features a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
-      .toEqual(['/gantt-conditional-formatting.html', '/gantt-backlog.html', '/resource-configuration.html']);
+    await expect(page.locator('#resource-features .feature-case-link')).toHaveCount(1);
+    expect(await page.locator('#gantt-features .feature-case-link a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
+      .toEqual(['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html']);
+    expect(await page.locator('#resource-features .feature-case-link a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
+      .toEqual(['/gantt-conditional-formatting.html']);
+    await expect(page.locator('#resource-features #backlog')).toHaveCount(0);
+    await expect(page.locator('#gantt-sidepanel a')).toHaveAttribute('href', '/gantt-configuration.html');
+    await expect(page.locator('#resource-configuration a')).toHaveAttribute('href', '/resource-configuration.html');
     await expect(page.locator('#crosstab-features')).toContainText('Contribution overview');
     const groups = await page.locator('.workspace-group').all();
     const boxes = await Promise.all(groups.map(group => group.boundingBox()));
@@ -38,9 +57,13 @@ for (const width of [320, 390, 768, 1440]) {
 test('workspace groups and feature links remain available without JavaScript', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
+  await page.goto(baseURL + '/');
+  await page.locator('#project-planning .case-link').click();
+  await page.locator('.workspace-grid').getByRole('link', { name: /Backlog/ }).click();
+  await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.goto(baseURL + '/powertable.html');
   await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
-  await page.locator('#resource-features #backlog a').click();
+  await page.locator('#gantt-features #backlog a').click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.locator('.back-link').click();
   await expect(page.locator('#backlog')).toBeInViewport();
@@ -119,16 +142,33 @@ for (const width of [320, 390, 768, 1440]) {
   });
 }
 
-test('Home uses the Fabric screen and preserves Analytics+ feature ordering', async ({ page }) => {
+test('Home uses the Fabric screen and leaves feature navigation inside the case study', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#project-planning img[src="/assets/fabric-gantt-configuration.png"]')).toHaveCount(1);
   await expect(page.locator('#project-planning .platform-pill img')).toHaveAttribute('src', '/assets/microsoft-fabric.svg');
-  expect(await page.locator('.project-features a').evaluateAll(links => links.map(link => link.id))).toEqual([
-    'project-storyboard', 'project-gantt', 'project-wizard', 'project-presentation', 'project-kpi'
-  ]);
+  await expect(page.locator('.project-features')).toHaveCount(0);
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
   await expect(page).toHaveURL(/powertable\.html$/);
   await expect(page.locator('.metadata')).toContainText('implementation review');
+});
+
+test('Home leads into keyboard-usable PowerTable feature links including the Cross-tab disclosure', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const target of ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-conditional-formatting.html', '/powertable.html#crosstab']) {
+    await page.goto('/');
+    const productLink = page.locator('#project-planning .case-link');
+    await productLink.focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/powertable\.html$/);
+    const link = page.locator('.workspace-grid').locator(`a[href="${target.endsWith('#crosstab') ? '#crosstab' : target}"]`);
+    await link.focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(new URL(target, page.url()).href);
+    if (target.endsWith('#crosstab')) {
+      await expect(page.locator('#study-details')).toHaveAttribute('open');
+      await expect(page.locator('#crosstab')).toBeInViewport();
+    }
+  }
 });
 
 test('Fabric screenshot and new case sections remain available without JavaScript', async ({ browser, baseURL }) => {
