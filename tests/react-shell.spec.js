@@ -59,15 +59,17 @@ test('supplied screenshot cases reflect confirmed publication permission without
 });
 
 for (const width of [390, 1440]) {
-  test(`Fabric design-system contribution is consistent across Home and About at ${width}px`, async ({ page }) => {
+  test(`PowerTable design-system foundation is accurate across Home and About at ${width}px`, async ({ page }) => {
+    const statement = 'My design work on PowerTable was based entirely on the Microsoft Fabric design system.';
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    await expect(page.locator('.home-about')).toContainText('My work also includes contributions to the Microsoft Fabric design system.');
+    await expect(page.locator('.home-about')).toContainText(statement);
     await expect(page.locator('.home-about .scan-emphasis').last()).toHaveText('Microsoft Fabric design system');
+    await expect(page.locator('.home-about')).not.toContainText('contributions to the Microsoft Fabric design system');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.locator('.home-about a[href="/about.html"]').click();
-    await expect(page.locator('.about-intro')).toContainText('My work also includes contributions to the Microsoft Fabric design system.');
-    await expect(page.locator('.about-intro')).toContainText('Lumel Technologies');
+    await expect(page.locator('.about-intro')).toContainText(statement);
+    await expect(page.locator('.about-intro')).not.toContainText('contributions to the Microsoft Fabric design system');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }

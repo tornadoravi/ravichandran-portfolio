@@ -256,7 +256,7 @@ export default function IndexPage() {
               {" across enterprise data products."}
             </p>
             <p>
-              {"My work also includes contributions to the "}
+              {"My design work on PowerTable was based entirely on the "}
               <strong className={"scan-emphasis"}>{"Microsoft Fabric design system"}</strong>
               {"."}
             </p>
