@@ -35,9 +35,7 @@ export default function AnalyticsPlusPage() {
           </h1>
           {"\n      "}
           <p className={"case-summary"}>
-            {"A Lumel custom visual inside Power BI."}
-            <br className={"desktop-break"} />
-            {" Choose a visual. Build a report. Explain the insight."}
+            {"End-to-end UX/UI across five Analytics+ features in Power BI."}
           </p>
           {"\n      "}
           <dl className={"metadata"}>
@@ -68,7 +66,7 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <div className={"figure-label"}>
             <span className={"eyebrow"}>{"My feature work / Storyboard"}</span>
-            <h2>{"A connected authoring workspace."}</h2>
+            <h2>{"Report authoring."}</h2>
           </div>
           {"\n      "}
           <a className={"product-screenshot"} href={"/assets/storyboard-editor.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Analytics+ Storyboard workspace full-size (opens in a new tab)"}>

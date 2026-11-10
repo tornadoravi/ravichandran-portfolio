@@ -139,9 +139,22 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-home .inspect-button { color: var(--ink); }
 .editorial-home :is(.detail-figure, .case-cover, .analytics-feature > figure) .inspect-button { color: #415d76; }
 .editorial-home.mapping-case :is(.mapping-screen, .mapping-preview) .inspect-button { color: var(--ink); }
-.editorial-case .case-hero { padding-block: 36px 40px; }
+.editorial-case .case-hero { padding-block: 24px; }
 .editorial-case .case-hero::before, .editorial-case .next-project::before { display: none; }
-.editorial-case .case-hero h1 { font-family: var(--serif); font-size: clamp(40px, 4.7vw, 68px); font-weight: 400; }
+.editorial-case .case-hero > .back-link { margin-bottom: 8px; }
+.editorial-case .case-hero > .eyebrow { margin-bottom: 12px; }
+.editorial-case .case-hero h1 { font-family: var(--serif); font-size: clamp(38px, 4.2vw, 60px); font-weight: 400; margin-bottom: 16px; }
+.editorial-case .case-summary { max-width: 62ch; font-size: 18px; line-height: 1.55; margin-bottom: 20px; }
+.editorial-case .metadata { gap: 16px 24px; padding-top: 18px; }
+.editorial-case .metadata dt { line-height: 1.4; margin-bottom: 6px; }
+.editorial-case .metadata dd { line-height: 1.55; }
+.editorial-case main > .case-evidence { margin-top: 0; }
+.editorial-case main > figure.case-evidence { padding: 20px 24px 18px; }
+.editorial-case main > figure.case-evidence .figure-label .eyebrow { margin: 0; }
+.editorial-case main > figure.case-evidence .product-screenshot { margin-top: 16px; }
+.editorial-case .analytics-brand-row { gap: 12px 24px; margin-bottom: 16px; }
+.editorial-case .analytics-logo-plate { gap: 12px; padding: 8px 12px; }
+.editorial-case .analytics-logo-plate span { width: auto; }
 .editorial-case .case-hero h1 em, .editorial-case .section-label h2 em, .editorial-case .case-section-heading em, .editorial-case .next-title em { font: inherit; font-style: italic; color: var(--accent); }
 .editorial-case :is(.section-label h2, .case-section-heading h2, .mapping-lead-copy h2, .mapping-step-copy h2, .decision-ledger h3, .analytics-feature h3, .next-title) { font-family: var(--serif); font-weight: 400; }
 .editorial-case .case-brief { background: var(--surface); }
@@ -191,6 +204,10 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-about .about-nav a::after { display: none; }
 .editorial-about .about-nav a:hover, .editorial-about .about-nav a[aria-current] { background: var(--ink); color: var(--bg); border-color: var(--ink); text-shadow: none; }
 .editorial-about .about-intro { grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr); gap: 64px; margin-top: 40px; }
+.editorial-about .about-intro > div:last-child { min-width: 0; max-width: 66ch; }
+.editorial-about .about-intro > div:last-child > p:not(.large-copy) { line-height: 1.75; }
+.editorial-about .section-copy > p, .editorial-about .recommendation-full blockquote { max-width: 66ch; }
+.editorial-about .section-copy > .large-copy, .editorial-about .recommendation-excerpt p { max-width: 42ch; }
 .editorial-about .name-block { border: 0; padding-top: 0; }
 .editorial-about .name-block h2 { font-family: var(--serif); font-size: 32px; }
 .editorial-about .profile-photo { border-radius: 4px; border: 1px solid var(--line); box-shadow: none; }
@@ -206,7 +223,7 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-home .home-about { grid-template-columns: 1fr 2fr; gap: 48px; padding-block: 54px 60px; }
 .editorial-home .home-about h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 3.8vw, 52px); }
 .editorial-home .home-about h2 em { font-family: inherit; font-style: italic; }
-.editorial-home .home-about p:not(.eyebrow) { font-size: 16px; }
+.editorial-home .home-about p:not(.eyebrow) { max-width: 66ch; font-size: 16px; line-height: 1.75; }
 .editorial-home .profile-links { gap: 8px 24px; }
 .editorial-home .profile-links .text-link { font-size: 12px; }
 .editorial-home .site-footer { padding-block: 24px; border-image: none; }
@@ -276,10 +293,12 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
   .editorial-home .site-footer { align-items: flex-start; gap: 12px; }
   .editorial-home .site-footer p { width: 100%; }
   .editorial-about .case-hero { padding-block: 40px 24px; }
-  .editorial-case .case-hero { padding-block: 28px; }
-  .editorial-case .case-hero h1 { font-size: clamp(36px, 8.8vw, 52px); margin-bottom: 20px; }
-  .editorial-case .back-link { margin-bottom: 20px; }
-  .editorial-case .metadata { padding-top: 22px; }
+  .editorial-case .case-hero { padding-block: 20px 24px; }
+  .editorial-case .case-hero h1 { font-size: clamp(36px, 8.8vw, 52px); }
+  .editorial-case .metadata { gap: 12px 18px; padding-top: 16px; }
+  .editorial-case main > figure.case-evidence { padding: 20px 12px 18px; }
+  .editorial-case .analytics-logo-plate { gap: 8px; padding: 8px; }
+  .editorial-case .analytics-logo-plate > img { width: clamp(120px, 40vw, 173px); height: auto; }
   .editorial-case .feature-card-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .editorial-case .feature-card-grid > .album-card { min-height: 350px; }
   .editorial-case .album-card { padding: 24px 20px 20px 28px; }

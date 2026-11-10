@@ -20,9 +20,9 @@ export default function PowertablePage() {
             <em>{"Planning Experiences."}</em>
           </h1>
           <p className={"case-summary"}>
-            {"From mapping task data to understanding the plan."}
+            {"End-to-end Gantt and resource UX/UI for Microsoft Fabric."}
             <br className={"desktop-break"} />
-            {" End-to-end UX/UI, carried through delivery."}
+            {" Connecting tasks, timelines, and capacity."}
           </p>
           <dl className={"metadata"}>
             <div>
@@ -51,7 +51,7 @@ export default function PowertablePage() {
           {"\n      "}
           <div className={"figure-label"}>
             <span className={"eyebrow"}>{"Supplied design screen / Fabric Gantt"}</span>
-            <h3>{"Give the timeline a clear data structure."}</h3>
+            <h3>{"Mapping data to the timeline."}</h3>
           </div>
           {"\n      "}
           <a className={"product-screenshot annotated-screen"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Fabric Gantt layout configuration full-size (opens in a new tab)"}>
