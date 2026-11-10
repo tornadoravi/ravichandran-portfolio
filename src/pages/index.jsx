@@ -255,6 +255,11 @@ export default function IndexPage() {
               <strong className={"scan-emphasis"}>{"UX/UI, developer handoff, and implementation review"}</strong>
               {" across enterprise data products."}
             </p>
+            <p>
+              {"My work also includes contributions to the "}
+              <strong className={"scan-emphasis"}>{"Microsoft Fabric design system"}</strong>
+              {"."}
+            </p>
             <div className={"profile-links"}>
               <a className={"text-link"} href={"/about.html"}>
                 {"Experience & recommendations "}

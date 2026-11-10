@@ -57,3 +57,17 @@ test('supplied screenshot cases reflect confirmed publication permission without
     await expect(evidence).not.toContainText(/local preview|pending permission|confirm permission before/i);
   }
 });
+
+for (const width of [390, 1440]) {
+  test(`Fabric design-system contribution is consistent across Home and About at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await expect(page.locator('.home-about')).toContainText('My work also includes contributions to the Microsoft Fabric design system.');
+    await expect(page.locator('.home-about .scan-emphasis').last()).toHaveText('Microsoft Fabric design system');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.locator('.home-about a[href="/about.html"]').click();
+    await expect(page.locator('.about-intro')).toContainText('My work also includes contributions to the Microsoft Fabric design system.');
+    await expect(page.locator('.about-intro')).toContainText('Lumel Technologies');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  });
+}

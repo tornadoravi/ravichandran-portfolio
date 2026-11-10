@@ -63,7 +63,7 @@ export default function AboutPage() {
               {"\n          "}
               <p className={"large-copy"}>{"I design enterprise experiences that help people understand data, communicate insights, and manage complex planning workflows."}</p>
               {"\n          "}
-              <p>{"Over four years at Lumel Technologies, I’ve worked across PowerTable for Microsoft Fabric and Inforiver Analytics+ for Microsoft Power BI. My responsibilities span requirements, existing-experience reviews, user flows, prototypes, interaction and visual design, developer handoff, and implementation reviews."}</p>
+              <p>{"Over four years at Lumel Technologies, I’ve worked across PowerTable for Microsoft Fabric and Inforiver Analytics+ for Microsoft Power BI. My responsibilities span requirements, existing-experience reviews, user flows, prototypes, interaction and visual design, developer handoff, and implementation reviews. My work also includes contributions to the Microsoft Fabric design system."}</p>
               {"\n          "}
               <p>{"My focus is on making powerful functionality understandable: a clear entry point, a coherent workflow, and the right level of detail at each step."}</p>
               {"\n          "}
