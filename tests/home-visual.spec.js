@@ -105,7 +105,7 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     await expect(page.locator('.portrait-wordmark')).toHaveAttribute('aria-hidden', 'true');
     expect(await page.locator('.portrait-wordmark').evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(72);
     const portrait = page.locator('.hero-portrait .portrait-art');
-    await expect(portrait).toHaveAttribute('src', '/assets/portrait-3d.webp?v=2');
+    await expect(portrait).toHaveAttribute('src', '/assets/portrait-3d.webp?v=3');
     await expect(portrait).toHaveJSProperty('complete', true);
     expect(await portrait.evaluate(image => image.naturalWidth)).toBe(1254);
     const portraitWidth = width > 1050

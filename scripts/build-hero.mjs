@@ -41,13 +41,26 @@ for (let y = 0; y < height; y++) {
   if (right - left > 3) mask.fill(255, start + left, start + right + 1);
 }
 const softened = await sharp(mask, { raw: { width, height, channels: 1 } }).blur(.6).toColourspace('b-w').raw().toBuffer();
+// Inset the matte by two source pixels to exclude the black-background fringe.
+const cleanMask = new Uint8Array(width * height);
+for (let y = 2; y < height - 2; y++) {
+  for (let x = 2; x < width - 2; x++) {
+    const index = y * width + x;
+    if (!softened[index]) continue;
+    let alpha = 255;
+    for (let dy = -2; dy <= 2; dy++) {
+      for (let dx = -2; dx <= 2; dx++) alpha = Math.min(alpha, softened[(y + dy) * width + x + dx]);
+    }
+    cleanMask[index] = alpha;
+  }
+}
 // Finish the fade before the source illustration's curved cut edge, in image coordinates.
 for (let y = 0; y < height; y++) {
   const t = Math.max(0, Math.min(1, (y / (height - 1) - .64) / .26));
   const opacity = 1 - t * t * t * (t * (t * 6 - 15) + 10);
   for (let x = 0; x < width; x++) {
     const index = y * width + x;
-    data[index * 4 + 3] = Math.round(softened[index] * opacity);
+    data[index * 4 + 3] = Math.round(cleanMask[index] * opacity);
   }
 }
 await sharp(data, { raw: { width, height, channels: 4 } }).webp({ quality: 92, alphaQuality: 100 })

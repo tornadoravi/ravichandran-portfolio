@@ -69,7 +69,7 @@ export default function IndexPage() {
               {"DESIGNER"}
             </span>
             {"\n        "}
-            <img className={"portrait-art"} src={"/assets/portrait-3d.webp?v=2"} width={"1254"} height={"1254"} fetchPriority={"high"} alt={"3D-style illustrated portrait of Ravichandran V, smiling with swept-up dark hair and a mint-green collared shirt."} />
+            <img className={"portrait-art"} src={"/assets/portrait-3d.webp?v=3"} width={"1254"} height={"1254"} fetchPriority={"high"} alt={"3D-style illustrated portrait of Ravichandran V, smiling with swept-up dark hair and a mint-green collared shirt."} />
             {"\n      "}
           </figure>
           {"\n    "}

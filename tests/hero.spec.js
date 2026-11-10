@@ -39,6 +39,21 @@ test('jaw and beard retain a continuous cut-out without horizontal notches', asy
   expect(data[(590 * info.width + 450) * 4 + 3]).toBe(0);
 });
 
+test('shirt edges do not retain the black source-background outline', async () => {
+  const { data, info } = await sharp('assets/portrait-3d.webp').raw().toBuffer({ resolveWithObject: true });
+  for (let y = 700; y <= 790; y += 5) {
+    let left = 0;
+    let right = info.width - 1;
+    while (left < info.width && data[(y * info.width + left) * 4 + 3] < 128) left++;
+    while (right > left && data[(y * info.width + right) * 4 + 3] < 128) right--;
+    for (const x of [left, right]) {
+      const pixel = (y * info.width + x) * 4;
+      const brightness = (data[pixel] + data[pixel + 1] + data[pixel + 2]) / 3;
+      expect(brightness).toBeGreaterThan(90);
+    }
+  }
+});
+
 for (const width of [320, 390, 768, 1440]) {
   test(`3D-style portrait replaces the dot sculpture at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
