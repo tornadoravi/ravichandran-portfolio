@@ -504,6 +504,7 @@ export default function AnalyticsPlusPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"My feature work / Five experiences"}</p>
             <h2 id={"features-title"}>{"Five feature stories."}</h2>
+            <p>{"My design work, with product examples labeled separately. "}<a className={"text-link"} href={"#feature-references"}>{"Official feature references →"}</a></p>
           </div>
           {"\n      "}
           <nav className={"feature-card-grid"} aria-label={"Analytics+ feature index"}>
@@ -511,7 +512,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-storyboard"} className={"album-card album-card--lilac"} href={"/storyboard.html"} aria-label={"Read Storyboard authoring case study"}>
               <span className={"album-kicker"}>{"01 / Report authoring"}</span>
               <h3>{"Storyboard"}</h3>
-              <p className={"album-description"}>{"Arrange visuals into one clear report."}</p>
+              <p className={"album-description"}>{"Build reports from templates, custom layouts, or auto-create."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Storyboard workspace with report layers, charts, KPI cards, and a table."} />
               </div>
@@ -524,7 +525,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-gantt"} className={"album-card"} href={"/gantt.html"} aria-label={"Read Power BI Gantt case study"}>
               <span className={"album-kicker"}>{"02 / Task planning"}</span>
               <h3>{"Gantt for Power BI"}</h3>
-              <p className={"album-description"}>{"Connect field setup with a readable timeline."}</p>
+              <p className={"album-description"}>{"Map tasks and dates; visualize progress, milestones, and dependencies."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/gantt-timeline.png"} width={"1406"} height={"786"} loading={"lazy"} alt={"Analytics+ Gantt workspace showing task details beside blue timeline bars."} />
               </div>
@@ -537,7 +538,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-wizard"} className={"album-card album-card--peach"} href={"/analytics.html"} aria-label={"Read Chart Wizard case study"}>
               <span className={"album-kicker"}>{"03 / Visual discovery"}</span>
               <h3>{"Chart Wizard"}</h3>
-              <p className={"album-description"}>{"Start with a question. Find the right visual."}</p>
+              <p className={"album-description"}>{"Choose by chart or function, then customize and configure."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/wizard-chart-family.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard dialog with chart-family choices and visual recommendations."} />
               </div>
@@ -549,8 +550,8 @@ export default function AnalyticsPlusPage() {
             {"\n        "}
             <a id={"feature-annotations"} className={"album-card album-card--lilac"} href={"/presentation.html"} aria-label={"Read Annotations, Comments and Presentation case study"}>
               <span className={"album-kicker"}>{"04 / Data storytelling"}</span>
-              <h3>{"Annotations"}</h3>
-              <p className={"album-description"}>{"Keep the explanation beside the insight."}</p>
+              <h3>{"Annotations & Presentation"}</h3>
+              <p className={"album-description"}>{"Add contextual comments and present them in reading mode."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/annotation-detail.png"} width={"700"} height={"420"} loading={"lazy"} alt={"Chart detail with an explanatory annotation connected to a data point."} />
               </div>
@@ -563,12 +564,12 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-kpi"} className={"album-card"} href={"/kpi.html"} aria-label={"Read KPI Presets case study"}>
               <span className={"album-kicker"}>{"05 / Reusable patterns"}</span>
               <h3>{"KPI Presets"}</h3>
-              <p className={"album-description"}>{"Give metrics a reusable, meaningful starting point."}</p>
+              <p className={"album-description"}>{"Choose Simple or Variance layouts for reusable metric cards."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/kpi-variance.png"} width={"2000"} height={"1046"} loading={"lazy"} alt={"KPI Presets panel with variance layouts beside a Power BI report."} />
+                <img src={"/assets/analytics-kpi-official-presets.webp"} width={"520"} height={"300"} loading={"lazy"} alt={"Official Analytics+ variance preset example with an actual-value KPI and prior-year, plan, and forecast comparisons. Demo values, not project outcomes."} />
               </div>
               <span className={"album-footer"}>
-                {"KPI Presets design screen "}
+                {"Official product example · Variance preset "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -644,7 +645,33 @@ export default function AnalyticsPlusPage() {
                   </a>
                   {". They identify the platform relationship, not a Microsoft endorsement or ownership of Analytics+."}
                 </p>
-                <p>{"The competitive analysis cites Microsoft Learn and Tableau's official Stories documentation. The feature sections use the supplied product/design screens and preserve their existing detailed case studies."}</p>
+                <p>{"The competitive analysis cites Microsoft Learn and Tableau's official Stories documentation. The detailed feature cases retain the supplied product/design screens; the overview labels official product examples separately."}</p>
+                <div id={"feature-references"}>
+                  <h3>{"Feature references."}</h3>
+                  <p>{"Checked against official sources on 11 November 2026. These confirm product capabilities, not individual design ownership or the release status of each supplied screen."}</p>
+                  <p>
+                    <a href={"https://docs.inforiver.com/analytics+/storyboard"} target={"_blank"} rel={"noopener noreferrer"}>{"Storyboard documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" — Auto-create, template selection, custom layouts, and arranging report elements."}
+                  </p>
+                  <p>
+                    <a href={"https://docs.inforiver.com/analytics+/gantt-chart"} target={"_blank"} rel={"noopener noreferrer"}>{"Gantt documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" — Task/date mapping, progress, milestones, and dependency connectors inside Analytics+ for Power BI, not PowerTable in Fabric."}
+                  </p>
+                  <p>
+                    <a href={"https://inforiver.com/blog/inforiver-analytics-plus/inforiver-analytics-flexible-kpi-containers/#Chart-wizard"} target={"_blank"} rel={"noopener noreferrer"}>{"Chart Wizard release notes ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" — Chart- and function-based discovery, customization, and advanced analytics/sorting/ranking."}
+                  </p>
+                  <p>
+                    <a href={"https://docs.inforiver.com/analytics+/storyboard/annotations"} target={"_blank"} rel={"noopener noreferrer"}>{"Annotations & presentation documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" — Data-point and dashboard annotations, a comments pane, and the Present option for reading mode."}
+                  </p>
+                  <p>
+                    <a href={"https://docs.inforiver.com/analytics+/working-with-analytics+/4.-cards/4.2.-quick-options-cards/kpi-customizations"} target={"_blank"} rel={"noopener noreferrer"}>{"KPI preset documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" — Simple and Variance presets. The card preview is cropped from "}
+                    <a href={"https://inforiver.com/blog/inforiver-analytics-plus/inforiver-analytics-flexible-kpi-containers/#KPI-templates"} target={"_blank"} rel={"noopener noreferrer"}>{"Inforiver’s official KPI examples ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {", not my design deliverable. The linked KPI case retains my original supplied design screens and confirmed contribution."}
+                  </p>
+                </div>
                 <p>
                   <a href={"https://www.linkedin.com/posts/info-river_powerbi-datastorytelling-dashboarddesign-activity-7449433719045537792-W7XT"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Inforiver’s public post on storyboarding, layouts, and reusable templates ↗"}

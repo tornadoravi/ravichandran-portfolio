@@ -17,6 +17,14 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(page.locator('h1')).toContainText('Inforiver Analytics+');
   await expect(page.locator('.analytics-logo-plate img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
   expect(await page.locator('.feature-card-grid > a').evaluateAll((items) => items.map((item) => item.id))).toEqual(features.map(([id]) => id));
+  await expect(page.locator('.feature-card-grid h3')).toHaveText(['Storyboard', 'Gantt for Power BI', 'Chart Wizard', 'Annotations & Presentation', 'KPI Presets']);
+  await expect(page.locator('#feature-storyboard .album-description')).toContainText('templates, custom layouts, or auto-create');
+  await expect(page.locator('#feature-gantt .album-description')).toContainText('progress, milestones, and dependencies');
+  await expect(page.locator('#feature-wizard .album-description')).toContainText('chart or function');
+  await expect(page.locator('#feature-annotations .album-description')).toContainText('reading mode');
+  await expect(page.locator('#feature-kpi .album-description')).toContainText('Simple or Variance');
+  await expect(page.locator('#feature-kpi img')).toHaveAttribute('src', '/assets/analytics-kpi-official-presets.webp');
+  await expect(page.locator('#feature-kpi .album-footer')).toContainText('Official product example');
   await expect(page.locator('.metadata')).toContainText('Competitive analysis, developer handoff & implementation review');
   const overview = page.locator('.analytics-lead-screen');
   await expect(overview.locator('h2')).toHaveText('Analytics+ in action.');
@@ -47,6 +55,35 @@ test('Analytics+ is one product with five ordered feature stories and official b
     const target = await page.request.get(path);
     expect(await target.text()).toContain(`href="/analytics-plus.html#features"`);
   }
+});
+
+test('official feature references open the existing evidence disclosure and preserve source attribution', async ({ page }) => {
+  await page.goto('/analytics-plus.html#features');
+  await expect(page.locator('#evidence-notes')).not.toHaveAttribute('open');
+  await page.getByRole('link', { name: 'Official feature references →', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#feature-references$/);
+  await expect(page.locator('#evidence-notes')).toHaveAttribute('open');
+  const references = page.locator('#feature-references');
+  await expect(references).toBeInViewport();
+  for (const source of [
+    'https://docs.inforiver.com/analytics+/storyboard',
+    'https://docs.inforiver.com/analytics+/gantt-chart',
+    'https://inforiver.com/blog/inforiver-analytics-plus/inforiver-analytics-flexible-kpi-containers/#Chart-wizard',
+    'https://docs.inforiver.com/analytics+/storyboard/annotations',
+    'https://docs.inforiver.com/analytics+/working-with-analytics+/4.-cards/4.2.-quick-options-cards/kpi-customizations'
+  ]) {
+    const link = references.locator(`a[href="${source}"]`);
+    await expect(link).toHaveCount(1);
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(link).toHaveAttribute('target', '_blank');
+  }
+  await expect(references).toContainText('not individual design ownership');
+  await expect(references).toContainText('not PowerTable in Fabric');
+  await expect(references).toContainText('not my design deliverable');
+  await page.reload();
+  await expect(page.locator('#evidence-notes')).toHaveAttribute('open');
+  await expect(references).toBeInViewport();
 });
 
 for (const width of [320, 390, 768, 1440]) {
@@ -94,6 +131,10 @@ test('product overview, supplied feature evidence, and full cases work without J
   await expect(page).toHaveURL(/analytics-plus\.html$/);
   await expect(page.locator('.analytics-lead-screen .product-screenshot img')).toBeVisible();
   await expect(page.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('href', 'https://store-ap.inforiver.com/');
+  await page.locator('#evidence-notes > summary').click();
+  await page.getByRole('link', { name: 'Official feature references →', exact: true }).click();
+  await expect(page.locator('#feature-references')).toBeInViewport();
+  await expect(page.locator('#feature-references')).toContainText('Simple and Variance presets');
   await page.getByRole('link', { name: 'Read Power BI Gantt case study' }).click();
   await expect(page).toHaveURL(/gantt\.html$/);
   await page.locator('.back-link').click();

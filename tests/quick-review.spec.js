@@ -135,7 +135,7 @@ test('feature cards and their source labels work without JavaScript', async ({ b
         expect(await image.evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
       }
       await expect(card.locator('figcaption, .album-footer')).toBeVisible();
-      await expect(card.locator('figcaption, .album-footer')).toHaveText(/My .* UX\/UI|product (workspace|screen)|design screen|Original concept diagram/i);
+      await expect(card.locator('figcaption, .album-footer')).toHaveText(/My .* UX\/UI|product (workspace|screen)|design screen|Original concept diagram|Official product example/i);
     }
   }
   for (const [id, path] of analyticsFeatures) {

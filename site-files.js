@@ -36,6 +36,7 @@ export const files = new Map([
   ['/assets/inforiver-analytics-logo.svg', ['assets/inforiver-analytics-logo.svg', 'image/svg+xml']],
   ['/assets/inforiver-analytics-official.png', ['assets/inforiver-analytics-official.png', 'image/png']],
   ['/assets/analytics-plus-official-dashboard.webp', ['assets/analytics-plus-official-dashboard.webp', 'image/webp']],
+  ['/assets/analytics-kpi-official-presets.webp', ['assets/analytics-kpi-official-presets.webp', 'image/webp']],
   ['/assets/microsoft-power-bi.svg', ['assets/microsoft-power-bi.svg', 'image/svg+xml']],
   ['/assets/microsoft-fabric.svg', ['assets/microsoft-fabric.svg', 'image/svg+xml']],
   ['/assets/fabric-gantt-configuration.png', ['assets/fabric-gantt-configuration.png', 'image/png']],

@@ -1194,7 +1194,8 @@ test('KPI is reachable from Home and About with original evidence without JavaSc
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
-  await expect(page.locator('#feature-kpi img')).toHaveAttribute('src', '/assets/kpi-variance.png');
+  await expect(page.locator('#feature-kpi img')).toHaveAttribute('src', '/assets/analytics-kpi-official-presets.webp');
+  await expect(page.locator('#feature-kpi')).toContainText('Official product example');
   await page.getByRole('link', { name: 'Read KPI Presets case study', exact: true }).click();
   await expect(page).toHaveURL(/kpi\.html$/);
   await expect(page.locator('.inspect-button')).toHaveCount(0);
