@@ -3,6 +3,7 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
+  const [appearance, setAppearance] = useState('system');
   const [mode, setMode] = useState('focus');
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -70,7 +71,7 @@ export function ThemeProvider({ children }) {
     try {
       sessionStorage.setItem('portfolio-listening-mode', nextMode);
     } catch (error) {
-      console.warn('Unable to save the portfolio theme:', error);
+      console.warn('Unable to save the portfolio listening preference:', error);
     }
     if (nextMode === 'focus') pause();
     else if (audio.current?.paused && !pending.current) start();
@@ -81,7 +82,18 @@ export function ThemeProvider({ children }) {
     if (audio.current) audio.current.volume = value / 100;
   }
 
+  function selectAppearance(value) {
+    setAppearance(value);
+    try {
+      localStorage.setItem('portfolio-appearance', value);
+    } catch (error) {
+      console.warn('Unable to save the portfolio appearance:', error);
+    }
+  }
+
   useEffect(() => {
+    const savedAppearance = document.documentElement.dataset.appearance;
+    setAppearance(['light', 'dark', 'system'].includes(savedAppearance) ? savedAppearance : 'system');
     const restored = document.documentElement.dataset.listeningMode === 'soundroom' ? 'soundroom' : 'focus';
     modeRef.current = restored;
     setMode(restored);
@@ -119,15 +131,29 @@ export function ThemeProvider({ children }) {
     if (!ready) return;
     document.documentElement.dataset.listeningMode = mode;
     document.body.dataset.listeningMode = mode;
-    document.querySelector('meta[name="theme-color"]').content = mode === 'soundroom' ? '#432720' : '#faf9f6';
   }, [mode, ready]);
+
+  useEffect(() => {
+    if (!ready) return;
+    const system = matchMedia('(prefers-color-scheme: dark)');
+    function applyAppearance() {
+      const resolved = appearance === 'system' ? (system.matches ? 'dark' : 'light') : appearance;
+      document.documentElement.dataset.appearance = appearance;
+      document.documentElement.dataset.theme = resolved;
+      document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#202024' : '#faf9f6';
+    }
+    applyAppearance();
+    if (appearance !== 'system') return;
+    system.addEventListener('change', applyAppearance);
+    return () => system.removeEventListener('change', applyAppearance);
+  }, [appearance, ready]);
 
   useEffect(() => {
     document.body.classList.toggle('is-listening', playing);
     return () => document.body.classList.remove('is-listening');
   }, [playing]);
 
-  return <ThemeContext.Provider value={{ mode, ready, playing, starting, volume, status, selectMode, changeVolume, start, pause }}>
+  return <ThemeContext.Provider value={{ appearance, selectAppearance, mode, ready, playing, starting, volume, status, selectMode, changeVolume, start, pause }}>
     {children}
   </ThemeContext.Provider>;
 }

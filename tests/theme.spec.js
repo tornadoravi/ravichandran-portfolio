@@ -10,16 +10,16 @@ const pages = [
 
 test.use({ reducedMotion: 'reduce' });
 
-for (const mode of ['focus', 'soundroom']) {
+for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`${mode} has a consistent, readable editorial theme across every active page at ${width}px`, async ({ page }) => {
+    test(`${appearance} has a consistent, readable editorial theme across every active page at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
-      await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
+      await page.addInitScript(appearance => localStorage.setItem('portfolio-appearance', appearance), appearance);
       const failures = [];
       page.on('pageerror', error => failures.push(error.message));
       for (const path of pages) {
         await page.goto(path);
-        const background = mode === 'soundroom' ? 'rgb(67, 39, 32)' : 'rgb(250, 249, 246)';
+        const background = appearance === 'dark' ? 'rgb(32, 32, 36)' : 'rgb(250, 249, 246)';
         await expect(page.locator('body')).toHaveCSS('background-color', background);
         await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
         await expect(page.locator('h1')).toBeVisible();

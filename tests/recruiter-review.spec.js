@@ -24,11 +24,11 @@ const analytics = [
 
 test.use({ reducedMotion: 'reduce' });
 
-for (const mode of ['focus', 'soundroom']) {
+for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`recruiter summaries and verified branding are concise and usable in ${mode} at ${width}px`, async ({ page }) => {
+    test(`recruiter summaries and verified branding are concise and usable in ${appearance} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
-      await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
+      await page.addInitScript(appearance => localStorage.setItem('portfolio-appearance', appearance), appearance);
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       for (const path of ['/', '/about.html', '/powertable.html', '/analytics-plus.html', '/crosstab.html', ...features.map(([path]) => path)]) {

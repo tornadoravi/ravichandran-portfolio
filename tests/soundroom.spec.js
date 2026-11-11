@@ -41,9 +41,10 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('[data-soundroom]')).not.toContainText(/Pudhu|Instrumental|Roja/);
     await expect.poll(() => page.locator('audio').evaluate(audio => !audio.paused && audio.currentTime > 0)).toBe(true);
     expect(audioRequests).toHaveLength(1);
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(67, 39, 32)');
-    await expect(soundroom).toHaveCSS('background-color', 'rgb(58, 42, 30)');
-    await expect(soundroom).toHaveCSS('color', 'rgb(232, 217, 194)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+    await expect(page.locator('html')).toHaveAttribute('data-appearance', 'system');
+    await expect(soundroom).toHaveCSS('background-color', 'rgb(239, 238, 233)');
+    await expect(soundroom).toHaveCSS('color', 'rgb(41, 45, 41)');
     for (const control of await page.locator('.listening-modes button, .ambience-play, .soundroom-volume input').all()) {
       expect((await control.boundingBox()).height).toBeGreaterThanOrEqual(44);
     }
@@ -158,16 +159,16 @@ test('a stalled request restores Play instead of leaving the control disabled', 
   await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeEnabled();
 });
 
-test('the chosen palette carries through case pages and About but reloads never start audio', async ({ page }) => {
+test('listening preference carries through case pages and About without changing appearance or restarting audio', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(67, 39, 32)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
   await page.locator('#gantt-features a[href="/column-mapping.html"]').click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(67, 39, 32)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
   await page.locator('#main-nav').getByRole('link', { name: 'About', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(67, 39, 32)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
   await page.locator('#main-nav').getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Soundroom Mode', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
