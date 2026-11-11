@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function GanttPage() {
   return (
@@ -18,43 +18,38 @@ export default function GanttPage() {
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="gantt" />
           {"\n      "}
-          <h1>
-            {"Gantt for Power BI."}
-            <br />
-            <em>{"From fields to a timeline."}</em>
-          </h1>
+          <h1>{"Gantt for Power BI."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"A clear starting point, guidance for mapping data,"}
-            <br className={"desktop-break"} />
-            {" and task detail connected to its place in time."}
-          </p>
+          <p className="case-summary">{"Turn mapped task fields into a readable timeline."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Role"}</dt>
-              <dd>{"Product Designer"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Product context"}</dt>
-              <dd>{"Analytics+ · Microsoft Power BI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Case focus"}</dt>
-              <dd>{"Entry, data mapping & timeline"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="Feature UX/UI · Handoff & implementation review">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Role"}</dt>
+                <dd>{"Product Designer"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Product context"}</dt>
+                <dd>{"Analytics+ · Microsoft Power BI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Case focus"}</dt>
+                <dd>{"Entry, data mapping & timeline"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <div className={"wizard-gallery case-evidence wrap"}>
           {"\n      "}

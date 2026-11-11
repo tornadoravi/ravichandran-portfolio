@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function AnalyticsPage() {
   return (
@@ -18,38 +18,33 @@ export default function AnalyticsPage() {
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="wizard" />
           {"\n      "}
-          <h1>
-            {"Chart Wizard."}
-            <br />
-            <em>{"Guiding visualization selection."}</em>
-          </h1>
+          <h1>{"Chart Wizard."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"A familiar chart name or an analytical question:"}
-            <br className={"desktop-break"} />
-            {" two starting points, one guided configuration flow."}
-          </p>
+          <p className="case-summary">{"Start with a chart or an analytical question."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            <div>
-              <dt>{"Role"}</dt>
-              <dd>{"Product Designer · End-to-end UX/UI"}</dd>
-            </div>
-            <div>
-              <dt>{"Product context"}</dt>
-              <dd>{"Analytics+ · Microsoft Power BI"}</dd>
-            </div>
-            <div>
-              <dt>{"Work context"}</dt>
-              <dd>{"Within 2.5 years on Analytics+"}</dd>
-            </div>
-          </dl>
+          <CaseContext role="End-to-end UX/UI · Shipped">
+            <dl className={"metadata"}>
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              <div>
+                <dt>{"Role"}</dt>
+                <dd>{"Product Designer · End-to-end UX/UI"}</dd>
+              </div>
+              <div>
+                <dt>{"Product context"}</dt>
+                <dd>{"Analytics+ · Microsoft Power BI"}</dd>
+              </div>
+              <div>
+                <dt>{"Work context"}</dt>
+                <dd>{"Within 2.5 years on Analytics+"}</dd>
+              </div>
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n    "}
         <div className={"wizard-gallery case-evidence wrap"}>
           {"\n      "}

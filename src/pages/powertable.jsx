@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseContext, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function PowertablePage() {
   return (
@@ -12,37 +13,31 @@ export default function PowertablePage() {
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={"/#work"}>{"← Selected work"}</a>
           <ProjectIdentity product="powertable" />
-          <h1>
-            {"Complex planning."}
-            <br />
-            <em>{"Connected workflows."}</em>
-          </h1>
-          <p className={"case-summary"}>
-            {"End-to-end Gantt & resource UX/UI."}
-            <br className={"desktop-break"} />
-            {" Microsoft Fabric design system."}
-          </p>
-          <dl className={"metadata"}>
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            <div>
-              <dt>{"Role"}</dt>
-              <dd>
-                {"Product Designer · "}
-                <strong className={"scan-emphasis"}>{"End-to-end UX/UI"}</strong>
-              </dd>
-            </div>
-            <div>
-              <dt>{"Scope"}</dt>
-              <dd>{"Competitive analysis, developer handoff & implementation review"}</dd>
-            </div>
-            <div>
-              <dt>{"Duration"}</dt>
-              <dd>{"1.5 years on PowerTable"}</dd>
-            </div>
-          </dl>
+          <h1>{"PowerTable."}</h1>
+          <p className="case-summary">{"Complex planning. Connected workflows."}</p>
+          <CaseContext role="End-to-end Gantt & resource UX/UI · Cross-tab contribution">
+            <dl className={"metadata"}>
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              <div>
+                <dt>{"Role"}</dt>
+                <dd>
+                  {"Product Designer · "}
+                  <strong className={"scan-emphasis"}>{"End-to-end UX/UI"}</strong>
+                </dd>
+              </div>
+              <div>
+                <dt>{"Scope"}</dt>
+                <dd>{"Competitive analysis, developer handoff & implementation review"}</dd>
+              </div>
+              <div>
+                <dt>{"Duration"}</dt>
+                <dd>{"1.5 years on PowerTable"}</dd>
+              </div>
+            </dl>
+          </CaseContext>
         </section>
         {"\n    "}
         <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>
@@ -72,30 +67,7 @@ export default function PowertablePage() {
           {"\n    "}
         </figure>
         {"\n    "}
-        <section className={"case-brief case-brief--compact wrap"} aria-label={"Case study at a glance"}>
-          <div>
-            <h2>{"Design challenge"}</h2>
-            <p>
-              {"Connect "}
-              <strong>{"task detail, time, and capacity"}</strong>
-              {" inside Fabric."}
-            </p>
-          </div>
-          <div>
-            <h2>{"My contribution"}</h2>
-            <p>
-              <strong>{"End-to-end Gantt and resource UX/UI"}</strong>
-              {" using the Microsoft Fabric design system; cross-tab contribution."}
-            </p>
-          </div>
-          <div>
-            <h2>{"Evidence & status"}</h2>
-            <p>
-              {"Task, time-entry, resource, and cost configuration screens. Resource earned-value and baseline planning "}
-              <strong>{"remain explorations."}</strong>
-            </p>
-          </div>
-        </section>
+        <CaseSnapshot caseId="powertable" />
         {"\n    "}
         <section id={"workspaces"} className={"workspace-directory wrap"} aria-labelledby={"workspaces-title"}>
           {"\n      "}
@@ -182,6 +154,30 @@ export default function PowertablePage() {
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
+            <section className={"case-brief case-brief--compact wrap"} aria-label={"Detailed contribution summary"}>
+              <div>
+                <h2>{"Design challenge"}</h2>
+                <p>
+                  {"Connect "}
+                  <strong>{"task detail, time, and capacity"}</strong>
+                  {" inside Fabric."}
+                </p>
+              </div>
+              <div>
+                <h2>{"My contribution"}</h2>
+                <p>
+                  <strong>{"End-to-end Gantt and resource UX/UI"}</strong>
+                  {" using the Microsoft Fabric design system; cross-tab contribution."}
+                </p>
+              </div>
+              <div>
+                <h2>{"Evidence & status"}</h2>
+                <p>
+                  {"Task, time-entry, resource, and cost configuration screens. Resource earned-value and baseline planning "}
+                  <strong>{"remain explorations."}</strong>
+                </p>
+              </div>
+            </section>
             {"\n    "}
             <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
               <a href={"#business-case"}>{"Context & role"}</a>

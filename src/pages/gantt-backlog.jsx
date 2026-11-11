@@ -1,7 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function GanttBacklogPage() {
   return (
@@ -18,43 +18,38 @@ export default function GanttBacklogPage() {
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="backlog" />
           {"\n      "}
-          <h1>
-            {"Gantt Backlog."}
-            <br />
-            {"Keep unscheduled work in view."}
-          </h1>
+          <h1>{"Gantt Backlog."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Make an empty panel actionable, then keep the task list manageable."}
-            <br className={"desktop-break"} />
-            {" A dedicated backlog beside the Gantt schedule."}
-          </p>
+          <p className="case-summary">{"Keep unscheduled tasks beside the plan."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>{"End-to-end Gantt UX/UI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Delivery scope"}</dt>
-              <dd>{"Developer handoff & implementation review"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Evidence"}</dt>
-              <dd>{"Two backlog design states"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="End-to-end Gantt UX/UI">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>{"End-to-end Gantt UX/UI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Delivery scope"}</dt>
+                <dd>{"Developer handoff & implementation review"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Evidence"}</dt>
+                <dd>{"Two backlog design states"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         {"\n\n    "}
         <section className={"mapping-evidence wrap"} aria-labelledby={"backlog-states-title"}>
@@ -62,7 +57,7 @@ export default function GanttBacklogPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Design evidence / Two panel states"}</p>
             <h2 id={"backlog-states-title"}>{"A clear start. A manageable list."}</h2>
-            <p>{"The empty state explains the next action. The populated state introduces search and row controls. These are supplied states, not a recorded creation sequence."}</p>
+            <p>{"Empty and populated states, not a recorded creation sequence."}</p>
           </div>
           {"\n      "}
           <div className={"backlog-state-grid"}>

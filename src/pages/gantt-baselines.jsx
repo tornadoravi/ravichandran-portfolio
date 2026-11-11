@@ -1,7 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function GanttBaselinesPage() {
   return (
@@ -18,43 +18,38 @@ export default function GanttBaselinesPage() {
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="baselines" />
           {"\n      "}
-          <h1>
-            {"Gantt Baselines."}
-            <br />
-            {"Configure & compare."}
-          </h1>
+          <h1>{"Gantt Baselines."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Keep a reference plan in view as the schedule changes."}
-            <br className={"desktop-break"} />
-            {" Choose the comparison on the timeline; manage saved baselines separately."}
-          </p>
+          <p className="case-summary">{"Compare the current schedule with a saved reference."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>{"End-to-end Gantt UX/UI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Delivery scope"}</dt>
-              <dd>{"Developer handoff & implementation review"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Evidence"}</dt>
-              <dd>{"Two comparison design states"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="End-to-end Gantt UX/UI">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>{"End-to-end Gantt UX/UI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Delivery scope"}</dt>
+                <dd>{"Developer handoff & implementation review"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Evidence"}</dt>
+                <dd>{"Two comparison design states"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <section id={"overview"} className={"mapping-lead wrap"} aria-labelledby={"baseline-overview-title"}>
           {"\n      "}
@@ -67,16 +62,21 @@ export default function GanttBaselinesPage() {
               <br />
               {"Keep the choice bounded."}
             </h2>
-            {"\n        "}
-            <p>{"Set Baseline groups Create New, Manage, and Compare. The open Compare submenu lists Current Data and three named baselines."}</p>
-            {"\n        "}
-            <p>
-              <strong>{"Current Data + Baseline 1"}</strong>
-              {" are selected. “Select upto 2 options to compare” states a limit of two total selections, not two baselines plus current data."}
-            </p>
-            {"\n        "}
-            <p className={"fine-print"}>{"Create New is visible, but its configuration dialog is not supplied."}</p>
-            {"\n      "}
+            <p className="visual-takeaway">Compare two selections. Keep management separate.</p>
+            <details className="interface-notes">
+              <summary>Screen notes</summary>
+              {"\n        "}
+              <p>{"Set Baseline groups Create New, Manage, and Compare. The open Compare submenu lists Current Data and three named baselines."}</p>
+              {"\n        "}
+              <p>
+                <strong>{"Current Data + Baseline 1"}</strong>
+                {" are selected. “Select upto 2 options to compare” states a limit of two total selections, not two baselines plus current data."}
+              </p>
+              {"\n        "}
+              <p className={"fine-print"}>{"Create New is visible, but its configuration dialog is not supplied."}</p>
+              {"\n      "}
+            </details>
+
           </div>
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>

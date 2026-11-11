@@ -1,6 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseContext, CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function CrosstabPage() {
   return (
@@ -10,16 +11,20 @@ export default function CrosstabPage() {
           <a className="back-link" href="/powertable.html#crosstab-features">← PowerTable / Cross-tab</a>
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="crosstab" />
-          <h1>Cross-tab.<br /><em>Summary & detail.</em></h1>
-          <p className="case-summary">Contributions to layout and data configuration.<br className="desktop-break" /> Rows, columns, measures, and contextual settings.</p>
-          <dl className="metadata">
-            <div><dt>Company</dt><dd>Lumel Technologies</dd></div>
-            <div><dt>My role</dt><dd>Cross-tab design contributions</dd></div>
-            <div><dt>Focus</dt><dd>Layout & data configuration</dd></div>
-            <div><dt>Evidence</dt><dd>Contribution overview · Concept diagram</dd></div>
-          </dl>
+          <h1>{"Cross-tab."}</h1>
+          <p className="case-summary">{"Shape rows, columns, and measures into a useful view."}</p>
+          <CaseContext role="Cross-tab contribution · Not end-to-end ownership">
+            <dl className="metadata">
+              <div><dt>Company</dt><dd>Lumel Technologies</dd></div>
+              <div><dt>My role</dt><dd>Cross-tab design contributions</dd></div>
+              <div><dt>Focus</dt><dd>Layout & data configuration</dd></div>
+              <div><dt>Evidence</dt><dd>Contribution overview · Concept diagram</dd></div>
+            </dl>
+          </CaseContext>
         </section>
-        <section id="contribution" className="editorial-section wrap" aria-labelledby="contribution-title">
+        <CaseSnapshot caseId="crosstab" id="contribution" />
+        <CaseDetails>
+        <section id="contribution-notes" className="editorial-section wrap" aria-labelledby="contribution-title">
           <div className="section-label">
             <span className="eyebrow">01 / Contribution overview</span>
             <h2 id="contribution-title">Structured data.<br /><em>Flexible perspectives.</em></h2>
@@ -54,6 +59,7 @@ export default function CrosstabPage() {
             <a className="text-link" href="/powertable.html#role">View the full PowerTable role & scope <span aria-hidden="true">→</span></a>
           </div>
         </section>
+        </CaseDetails>
       </main>
       <footer className="site-footer wrap">
         <a className="wordmark" href="/">Ravichandran<span className="accent"> V.</span></a>

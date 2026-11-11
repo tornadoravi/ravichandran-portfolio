@@ -1,7 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function ResourceConfigurationPage() {
   return (
@@ -18,43 +18,38 @@ export default function ResourceConfigurationPage() {
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="resources" active="configuration" />
           {"\n      "}
-          <h1>
-            {"Resource Configuration."}
-            <br />
-            {"One panel. Four contexts."}
-          </h1>
+          <h1>{"Resource Side Panel."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Keep scheduling settings and visual styling organized."}
-            <br className={"desktop-break"} />
-            {" A shared side panel separates Timeline, Milestone, Data Color, and Label."}
-          </p>
+          <p className="case-summary">{"Four focused settings beside resource planning."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>{"End-to-end resource Gantt UX/UI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Delivery scope"}</dt>
-              <dd>{"Developer handoff & implementation review"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Evidence"}</dt>
-              <dd>{"Four configuration tab states"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="End-to-end resource Gantt UX/UI">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>{"End-to-end resource Gantt UX/UI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Delivery scope"}</dt>
+                <dd>{"Developer handoff & implementation review"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Evidence"}</dt>
+                <dd>{"Four configuration tab states"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <section id={"timeline"} className={"mapping-lead wrap"} aria-labelledby={"timeline-title"}>
           {"\n      "}
@@ -63,24 +58,29 @@ export default function ResourceConfigurationPage() {
             <p className={"eyebrow"}>{"01 / Timeline"}</p>
             {"\n        "}
             <h2 id={"timeline-title"}>{"Start with the working context."}</h2>
-            {"\n        "}
-            <p>
-              <strong>{"Daily Capacity: 8 hrs."}</strong>
-              {" Working Days groups the Work Week selector with Holidays & Exceptions. Color and Pattern provide separate styling controls."}
-            </p>
-            {"\n        "}
-            <p>{"The shown state has Sunday and a +6 indicator, no selected exception dates, a Backward-Diagonal pattern, and mouse-wheel zoom switched Off."}</p>
-            {"\n        "}
-            <p>
-              <strong>{"Configuration, not a conditional rule."}</strong>
-              {" Edit Resource sets the view's scheduling and appearance options; the separate Format Rules experience defines conditions."}
-            </p>
-            {"\n        "}
+            <p className="visual-takeaway">Keep capacity and styling separate from rules.</p>
+            <details className="interface-notes">
+              <summary>Screen notes</summary>
+              {"\n        "}
+              <p>
+                <strong>{"Daily Capacity: 8 hrs."}</strong>
+                {" Working Days groups the Work Week selector with Holidays & Exceptions. Color and Pattern provide separate styling controls."}
+              </p>
+              {"\n        "}
+              <p>{"The shown state has Sunday and a +6 indicator, no selected exception dates, a Backward-Diagonal pattern, and mouse-wheel zoom switched Off."}</p>
+              {"\n        "}
+              <p>
+                <strong>{"Configuration, not a conditional rule."}</strong>
+                {" Edit Resource sets the view's scheduling and appearance options; the separate Format Rules experience defines conditions."}
+              </p>
+              {"\n        "}
+
+              {"\n      "}
+            </details>
             <a className={"text-link"} href={"#panel-walkthrough"}>
               {"Explore the other three tabs "}
               <span aria-hidden={"true"}>{"↓"}</span>
             </a>
-            {"\n      "}
           </div>
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>

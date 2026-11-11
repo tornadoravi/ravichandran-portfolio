@@ -30,6 +30,7 @@ for (const appearance of ['light', 'dark']) {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(appearance => localStorage.setItem('portfolio-appearance', appearance), appearance);
       const errors = [];
+      const sceneSignatures = new Set();
       page.on('pageerror', error => errors.push(error.message));
       for (const path of ['/', '/about.html', '/powertable.html', '/analytics-plus.html', '/crosstab.html', ...features.map(([path]) => path)]) {
         await page.goto(path);
@@ -50,7 +51,55 @@ for (const appearance of ['light', 'dark']) {
         }
         const words = await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length);
         expect(words, path).toBeLessThanOrEqual(path === '/analytics-plus.html' ? 400 : 350);
+        if (path !== '/' && path !== '/about.html') {
+          const overview = ['/powertable.html', '/analytics-plus.html'].includes(path);
+          await expect(page.locator('.case-diagram')).toHaveCount(overview ? 0 : 1);
+          if (!overview) {
+            await expect(page.locator('.case-diagram')).toBeVisible();
+            await expect(page.locator('.case-diagram')).toHaveAttribute('aria-label', /.+/);
+            await expect(page.locator('.decision-illustration figcaption')).toHaveText('Concept diagram · Not a product screenshot.');
+          }
+          await expect(page.locator('.decision-flow > li')).toHaveCount(3);
+          await expect(page.locator('.case-topic-art')).toHaveCount(3);
+          for (const illustration of await page.locator('.case-topic-art').all()) {
+            await expect(illustration).toBeVisible();
+            const signature = await illustration.locator('.case-topic-scene').evaluate(scene => scene.innerHTML);
+            expect(sceneSignatures.has(signature), `Repeated illustration on ${path}`).toBe(false);
+            sceneSignatures.add(signature);
+          }
+          await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
+          if (!['/powertable.html', '/analytics-plus.html'].includes(path)) {
+            await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
+            await expect(page.locator('.scenario-visual')).toBeVisible();
+            expect(await page.locator('.scenario-visual').getAttribute('data-use-case')).toBeTruthy();
+            await expect(page.getByRole('region', { name: 'Design choices', exact: true }).locator('tbody tr')).toHaveCount(2);
+          }
+          await expect(page.locator('.case-context')).not.toHaveAttribute('open');
+          await expect(page.locator('.case-ownership')).toBeVisible();
+          const hero = await page.locator('.case-hero').boundingBox();
+          expect(hero.height, path).toBeLessThan(width < 700 ? 510 : 420);
+          const outsideLabels = await page.locator('.case-diagram').evaluateAll(svgs =>
+            svgs.flatMap(svg => [...svg.querySelectorAll('text')].filter(text => {
+              const box = text.getBBox();
+              return box.x < 0 || box.x + box.width > svg.viewBox.baseVal.width;
+            }).map(text => text.textContent)));
+          expect(outsideLabels, path).toEqual([]);
+          for (const image of await page.locator('main > .mapping-lead img, main > .case-evidence img, main > .mapping-evidence img').all()) {
+            if (!await image.isVisible()) continue;
+            await expect(image).toHaveJSProperty('complete', true);
+            const size = await image.evaluate(image => {
+              const rect = image.getBoundingClientRect();
+              const style = getComputedStyle(image);
+              const width = rect.width - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+              const height = rect.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+              return { sourceRatio: image.naturalWidth / image.naturalHeight, renderedRatio: width / height, height: rect.height };
+            });
+            expect(size.renderedRatio, path).toBeCloseTo(size.sourceRatio, 2);
+            expect(size.height, path).toBeLessThanOrEqual(420);
+          }
+        }
         if (features.some(([feature]) => feature === path)) {
+          expect(words, path).toBeLessThanOrEqual(['/gantt-backlog.html', '/presentation.html'].includes(path) ? 350 : 280);
           await expect(page.locator('#case-details')).not.toHaveAttribute('open');
           await expect(page.locator('.decision-flow > li')).toHaveCount(3);
           await expect(page.locator('.decision-flow .small-index')).toHaveText(['01 / Challenge', '02 / Design', '03 / Evidence']);
@@ -64,9 +113,28 @@ for (const appearance of ['light', 'dark']) {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), path).toBe(true);
       }
       expect(errors).toEqual([]);
+      expect(sceneSignatures.size).toBe(42);
     });
+
   }
 }
+
+test('role context and original screen notes remain native keyboard disclosures', async ({ page }) => {
+  for (const path of ['/powertable.html', '/analytics-plus.html', '/crosstab.html', ...features.map(([path]) => path)]) {
+    await page.goto(path);
+    for (const disclosure of await page.locator('.case-context, .interface-notes').all()) {
+      await expect(disclosure).not.toHaveAttribute('open');
+      const summary = disclosure.locator(':scope > summary');
+      await summary.focus();
+      await page.keyboard.press('Enter');
+      await expect(disclosure).toHaveAttribute('open');
+      expect(await disclosure.evaluate(element => element.innerText.length)).toBeGreaterThan(50);
+      await summary.focus();
+      await page.keyboard.press('Enter');
+      await expect(disclosure).not.toHaveAttribute('open');
+    }
+  }
+});
 
 test('all detailed evidence remains keyboard-accessible and bookmarked sections open their parent disclosures', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 });
@@ -115,6 +183,11 @@ test('recruiter summaries, branding, evidence disclosures and feature navigation
     for (const [path] of features) {
       await page.goto(baseURL + path);
       await expect(page.locator('.case-snapshot')).toBeVisible();
+      await expect(page.locator('.case-topic-art')).toHaveCount(3);
+      await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
+      await page.locator('.case-context > summary').focus();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('.case-context .metadata')).toBeVisible();
       await page.locator('#case-details > summary').focus();
       await page.keyboard.press('Enter');
       await expect(page.locator('#case-details .case-nav')).toBeVisible();

@@ -41,8 +41,8 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(page.locator('.analytics-official-figure figcaption')).toContainText('not my design deliverable');
   await expect(page.locator('#competitive-analysis')).toContainText('current public product documentation');
   await expect(page.locator('.comparison-table tbody tr')).toHaveCount(3);
-  await expect(page.locator('.analytics-host')).toContainText('Analytics+ · Power BI');
-  await expect(page.locator('.analytics-host img[alt="Microsoft"]')).toBeVisible();
+  await expect(page.locator('.identity-platform')).toContainText('Analytics+ · Power BI');
+  await expect(page.locator('.identity-platform img[alt="Microsoft"]')).toBeVisible();
   await expect(page.locator('.platform-stack h3')).toHaveText(['Microsoft Fabric', 'Microsoft Power BI', 'Inforiver Analytics+']);
   await expect(page.locator('#platform-context')).toContainText('custom visual from Lumel');
   await expect(page.locator('#platform-context')).toContainText('not a required setup sequence');

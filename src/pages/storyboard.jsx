@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function StoryboardPage() {
   return (
@@ -15,35 +15,30 @@ export default function StoryboardPage() {
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="storyboard" />
-          <h1>
-            {"Storyboard"}
-            <br />
-            <em>{"Authoring."}</em>
-          </h1>
-          <p className={"case-summary"}>
-            {"From report creation and layout configuration"}
-            <br className={"desktop-break"} />
-            {" to a structured story people can present."}
-          </p>
-          <dl className={"metadata"}>
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            <div>
-              <dt>{"Role"}</dt>
-              <dd>{"Product Designer"}</dd>
-            </div>
-            <div>
-              <dt>{"Product context"}</dt>
-              <dd>{"Analytics+ · Microsoft Power BI"}</dd>
-            </div>
-            <div>
-              <dt>{"Work context"}</dt>
-              <dd>{"Within 2.5 years on Analytics+"}</dd>
-            </div>
-          </dl>
+          <h1>{"Storyboard."}</h1>
+          <p className="case-summary">{"Choose a start. Build a report. Tell the story."}</p>
+          <CaseContext role="Feature UX/UI · Handoff & implementation review">
+            <dl className={"metadata"}>
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              <div>
+                <dt>{"Role"}</dt>
+                <dd>{"Product Designer"}</dd>
+              </div>
+              <div>
+                <dt>{"Product context"}</dt>
+                <dd>{"Analytics+ · Microsoft Power BI"}</dd>
+              </div>
+              <div>
+                <dt>{"Work context"}</dt>
+                <dd>{"Within 2.5 years on Analytics+"}</dd>
+              </div>
+            </dl>
+          </CaseContext>
         </section>
+
         {"\n    "}
         <figure className={"detail-figure case-evidence wrap screenshot-scene"}>
           <div className={"figure-label"}>

@@ -33,9 +33,9 @@ for (const width of [320, 390, 768, 1440]) {
       }
       expect(errors).toEqual([]);
       if (path !== '/about.html') {
-        await expect(page.locator('.product-screenshot img, [data-illustration] svg, .structure-map').first()).toBeVisible();
+        await expect(page.locator('.product-screenshot img, [data-illustration] svg, .case-diagram, .structure-map').first()).toBeVisible();
       }
-      for (const disclosure of await page.locator('.case-deep-dive, .feature-previews').all()) {
+      for (const disclosure of await page.locator('.case-deep-dive, .feature-previews, .case-context').all()) {
         if (await disclosure.getAttribute('open') === null) {
           await disclosure.locator(':scope > summary').click();
         }
@@ -239,7 +239,7 @@ test('storyboard screenshots are separate from Chart Wizard and planning', async
   await page.goto('/storyboard.html');
   await openCaseDetails(page);
   await expect(page.locator('h1')).toContainText('Storyboard');
-  await expect(page.locator('h1')).toContainText('Authoring');
+  await expect(page.locator('.case-summary')).toContainText('Build a report.');
   await expect(page.locator('main img:not(.brand-image)[src^="/assets/"]')).toHaveCount(6);
   await expect(page.locator('img[src^="/assets/wizard-"]')).toHaveCount(0);
   await page.goto('/analytics.html');
@@ -576,6 +576,7 @@ test('floating back-to-top navigation returns position and keyboard focus on eve
     await page.goto(path);
     const top = page.locator('.back-to-top');
     await expect(top).toBeHidden();
+    if (path === '/crosstab.html') await openCaseDetails(page);
     await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
     await expect(top).toBeVisible();
     await top.focus();
@@ -934,8 +935,7 @@ test('Gantt flow navigation and timeline inspection work on mobile', async ({ pa
 test('presentation case separates contribution scope, concepts, and vendor evidence', async ({ page }) => {
   await page.goto('/presentation.html');
   await openCaseDetails(page);
-  await expect(page.locator('h1')).toContainText('Annotations, Comments');
-  await expect(page.locator('h1')).toContainText('& Presentation');
+  await expect(page.locator('h1')).toHaveText('Annotations & Presentation.');
   await expect(page.locator('.metadata')).toContainText('Analytics+ · Microsoft Power BI');
   await expect(page.locator('.metadata')).not.toContainText('Microsoft Fabric');
   await expect(page.locator('.case-brief')).toContainText('Nine supplied full-resolution design screens');
@@ -1156,7 +1156,8 @@ test('all nine supplied presentation screens retain full resolution, source orde
   await page.setViewportSize({ width: 1440, height: 1000 });
   const firstImage = page.locator(`img[src="${sources[0]}"]`);
   await firstImage.scrollIntoViewIfNeeded();
-  expect(await firstImage.evaluate(image => image.clientWidth)).toBeGreaterThan(900);
+  expect(await firstImage.evaluate(image => image.clientHeight)).toBeLessThanOrEqual(380);
+  expect(await firstImage.evaluate(image => image.clientWidth)).toBeLessThan(900);
   expect(await firstImage.evaluate(image => image.clientWidth <= image.naturalWidth)).toBe(true);
   await page.goto('/analytics-plus.html');
   const card = page.locator('#feature-annotations');

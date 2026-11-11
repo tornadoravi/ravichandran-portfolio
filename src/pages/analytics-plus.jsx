@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseContext, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -15,39 +16,35 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <ProjectIdentity product="analytics" />
           {"\n      "}
-          <h1>
-            {"Inforiver Analytics+."}
-            <br />
-            <em>{"Connected authoring."}</em>
-          </h1>
+          <h1>{"Inforiver Analytics+."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"End-to-end UX/UI across five connected features."}
-          </p>
+          <p className="case-summary">{"Connected authoring across five feature experiences."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>
-                {"Product Designer · "}
-                <strong className={"scan-emphasis"}>{"End-to-end UX/UI"}</strong>
-              </dd>
-            </div>
-            <div>
-              <dt>{"Scope"}</dt>
-              <dd>{"Competitive analysis, developer handoff & implementation review"}</dd>
-            </div>
-            <div>
-              <dt>{"Product"}</dt>
-              <dd className={"analytics-logo-plate"}>
-                <img src={"/assets/inforiver-analytics-logo.svg"} width={"130"} height={"27"} alt={"Official Inforiver Analytics+ logo"} />
-              </dd>
-            </div>
-            <div>
-              <dt>{"Work context"}</dt>
-              <dd>{"2.5 years on Analytics+ at Lumel"}</dd>
-            </div>
-          </dl>
+          <CaseContext role="Five-feature UX/UI · Chart Wizard & KPI templates shipped">
+            <dl className={"metadata"}>
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>
+                  {"Product Designer · "}
+                  <strong className={"scan-emphasis"}>{"End-to-end UX/UI"}</strong>
+                </dd>
+              </div>
+              <div>
+                <dt>{"Scope"}</dt>
+                <dd>{"Competitive analysis, developer handoff & implementation review"}</dd>
+              </div>
+              <div>
+                <dt>{"Product"}</dt>
+                <dd className={"analytics-logo-plate"}>
+                  <img src={"/assets/inforiver-analytics-logo.svg"} width={"130"} height={"27"} alt={"Official Inforiver Analytics+ logo"} />
+                </dd>
+              </div>
+              <div>
+                <dt>{"Work context"}</dt>
+                <dd>{"2.5 years on Analytics+ at Lumel"}</dd>
+              </div>
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
         {"\n    "}
@@ -92,28 +89,7 @@ export default function AnalyticsPlusPage() {
           {"\n    "}
         </figure>
         {"\n    "}
-        <section className={"case-brief case-brief--compact wrap"} aria-label={"Case study at a glance"}>
-          <div>
-            <h2>{"Design challenge"}</h2>
-            <p>
-              <strong>{"Connect visual discovery, report building, and presentation."}</strong>
-            </p>
-          </div>
-          <div>
-            <h2>{"My contribution"}</h2>
-            <p>
-              <strong>{"Five connected feature experiences"}</strong>
-              {", through handoff and implementation review."}
-            </p>
-          </div>
-          <div>
-            <h2>{"Evidence"}</h2>
-            <p>
-              <strong>{"Chart Wizard shipped."}</strong>
-              {" Reusable KPI templates shipped; other feature statuses remain separate."}
-            </p>
-          </div>
-        </section>
+        <CaseSnapshot caseId="analyticsSuite" />
         {"\n    "}
         <details id={"design-details"} className={"case-deep-dive"}>
           {"\n      "}
@@ -126,6 +102,28 @@ export default function AnalyticsPlusPage() {
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
+            <section className={"case-brief case-brief--compact wrap"} aria-label={"Detailed contribution summary"}>
+              <div>
+                <h2>{"Design challenge"}</h2>
+                <p>
+                  <strong>{"Connect visual discovery, report building, and presentation."}</strong>
+                </p>
+              </div>
+              <div>
+                <h2>{"My contribution"}</h2>
+                <p>
+                  <strong>{"Five connected feature experiences"}</strong>
+                  {", through handoff and implementation review."}
+                </p>
+              </div>
+              <div>
+                <h2>{"Evidence"}</h2>
+                <p>
+                  <strong>{"Chart Wizard shipped."}</strong>
+                  {" Reusable KPI templates shipped; other feature statuses remain separate."}
+                </p>
+              </div>
+            </section>
             {"\n    "}
             <section id={"platform-context"} className={"platform-context wrap"} aria-labelledby={"platform-context-title"}>
               {"\n      "}

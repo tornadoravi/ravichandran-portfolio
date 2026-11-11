@@ -1,7 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function GanttConditionalFormattingPage() {
   return (
@@ -20,43 +20,38 @@ export default function GanttConditionalFormattingPage() {
           {"\n      "}
           <p className={"eyebrow"}>{"Feature case study 03"}</p>
           {"\n      "}
-          <h1>
-            {"Gantt Resources."}
-            <br />
-            {"Conditional Formatting."}
-          </h1>
+          <h1>{"Conditional Formatting."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Turn resource metrics into deliberate visual cues."}
-            <br className={"desktop-break"} />
-            {" Define the condition, its scope, and its appearance beside the schedule."}
-          </p>
+          <p className="case-summary">{"Define the condition, target, and style separately."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>{"End-to-end resource Gantt UX/UI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Delivery scope"}</dt>
-              <dd>{"Developer handoff & implementation review"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Evidence"}</dt>
-              <dd>{"One rule-editing design state"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="End-to-end resource Gantt UX/UI">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>{"End-to-end resource Gantt UX/UI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Delivery scope"}</dt>
+                <dd>{"Developer handoff & implementation review"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Evidence"}</dt>
+                <dd>{"One rule-editing design state"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <section id={"overview"} className={"mapping-lead wrap"} aria-labelledby={"formatting-overview-title"}>
           {"\n      "}
@@ -69,22 +64,27 @@ export default function GanttConditionalFormattingPage() {
               <br />
               {"Not just a color choice."}
             </h2>
-            {"\n        "}
-            <p>
-              <strong>{"Schedule Hours > 0"}</strong>
-              {" is the displayed condition. Rule 1 separates the qualifying metric from its targets and appearance."}
-            </p>
-            {"\n        "}
-            <p>
-              {"Milestone Icon, Fill, Bar Fill, and Data Label have individual controls. The shown fill swatches are orange; the data-label swatch is black. "}
-              <strong>{"Discard and Apply"}</strong>
-              {" remain separate actions."}
-            </p>
-            {"\n        "}
-            <p className={"fine-print"}>{"A positive-hours threshold identifies scheduled work, not over-allocation against capacity."}</p>
-            {"\n        "}
-            <p className={"fine-print"}>{"“Impacts On” shows Bar and a +2 indicator. “Apply To” includes Bar and a truncated second label. Hidden selections are not inferred."}</p>
-            {"\n      "}
+            <p className="visual-takeaway">Positive hours identify scheduled work, not overload.</p>
+            <details className="interface-notes">
+              <summary>Screen notes</summary>
+              {"\n        "}
+              <p>
+                <strong>{"Schedule Hours > 0"}</strong>
+                {" is the displayed condition. Rule 1 separates the qualifying metric from its targets and appearance."}
+              </p>
+              {"\n        "}
+              <p>
+                {"Milestone Icon, Fill, Bar Fill, and Data Label have individual controls. The shown fill swatches are orange; the data-label swatch is black. "}
+                <strong>{"Discard and Apply"}</strong>
+                {" remain separate actions."}
+              </p>
+              {"\n        "}
+              <p className={"fine-print"}>{"A positive-hours threshold identifies scheduled work, not over-allocation against capacity."}</p>
+              {"\n        "}
+              <p className={"fine-print"}>{"“Impacts On” shows Bar and a +2 indicator. “Apply To” includes Bar and a truncated second label. Hidden selections are not inferred."}</p>
+              {"\n      "}
+            </details>
+
           </div>
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>

@@ -16,7 +16,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/gantt-conditional-formatting.html')).status()).toBe(200);
     await openCaseDetails(page);
-    await expect(page.locator('h1')).toHaveText('Gantt Resources.Conditional Formatting.');
+    await expect(page.locator('h1')).toHaveText('Conditional Formatting.');
     await expect(page).toHaveTitle('Gantt Resources — Conditional Formatting — Ravichandran V');
     await expect(page.locator('.case-hero')).toContainText('Feature case study 03');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');

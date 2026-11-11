@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function KpiPage() {
   return (
@@ -18,43 +18,38 @@ export default function KpiPage() {
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="kpi" />
           {"\n      "}
-          <h1>
-            {"KPI Presets."}
-            <br />
-            <em>{"Make the metric readable."}</em>
-          </h1>
+          <h1>{"KPI Presets."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Reusable starting points for a clear headline metric,"}
-            <br className={"desktop-break"} />
-            {" a meaningful comparison, and a consistent report."}
-          </p>
+          <p className="case-summary">{"Reusable starting points for metrics and comparisons."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Role"}</dt>
-              <dd>{"Product Designer"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Product context"}</dt>
-              <dd>{"Analytics+ · Microsoft Power BI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Case focus"}</dt>
-              <dd>{"KPI layouts & reusable presets"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="Reusable KPI templates shipped">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Role"}</dt>
+                <dd>{"Product Designer"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Product context"}</dt>
+                <dd>{"Analytics+ · Microsoft Power BI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Case focus"}</dt>
+                <dd>{"KPI layouts & reusable presets"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <figure id={"simple-screen"} className={"detail-figure case-evidence wrap screenshot-scene"}>
           {"\n      "}

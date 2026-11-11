@@ -1,7 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function ColumnMappingPage() {
   return (
@@ -18,43 +18,38 @@ export default function ColumnMappingPage() {
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="mapping" />
           {"\n      "}
-          <h1>
-            {"Column Mapping"}
-            <br />
-            {"& Configuration."}
-          </h1>
+          <h1>{"Column Mapping & Configuration."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Give source columns a clear role in the plan."}
-            <br className={"desktop-break"} />
-            {" Connect tasks, time entries, resources, and costs without presenting every setting at once."}
-          </p>
+          <p className="case-summary">{"Connect tasks, time, resources, and costs."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>{"End-to-end Gantt & resource UX/UI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Delivery scope"}</dt>
-              <dd>{"Developer handoff & implementation review"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Evidence"}</dt>
-              <dd>{"Five configuration design states"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="End-to-end Gantt & resource UX/UI">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>{"End-to-end Gantt & resource UX/UI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Delivery scope"}</dt>
+                <dd>{"Developer handoff & implementation review"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Evidence"}</dt>
+                <dd>{"Five configuration design states"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <section id={"overview"} className={"mapping-lead wrap"} aria-labelledby={"mapping-overview-title"}>
           {"\n      "}
@@ -67,16 +62,21 @@ export default function ColumnMappingPage() {
               <br />
               {"Distinct data roles."}
             </h2>
-            {"\n        "}
-            <p>{"Layout navigation stays on the left. Task, Time Entries, Resource, and Cost organize the mapping decisions across the top."}</p>
-            {"\n        "}
-            <p>{"Here, a time-entry table connects logged hours to the task through a shared Task ID."}</p>
-            {"\n        "}
+            <p className="visual-takeaway">Task ID links time entries to the task.</p>
+            <details className="interface-notes">
+              <summary>Screen notes</summary>
+              {"\n        "}
+              <p>{"Layout navigation stays on the left. Task, Time Entries, Resource, and Cost organize the mapping decisions across the top."}</p>
+              {"\n        "}
+              <p>{"Here, a time-entry table connects logged hours to the task through a shared Task ID."}</p>
+              {"\n        "}
+
+              {"\n      "}
+            </details>
             <a className={"text-link"} href={"#mapping-walkthrough"}>
               {"Explore all five screens "}
               <span aria-hidden={"true"}>{"↓"}</span>
             </a>
-            {"\n      "}
           </div>
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>

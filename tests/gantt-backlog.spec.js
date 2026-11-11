@@ -16,7 +16,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/gantt-backlog.html')).status()).toBe(200);
     await openCaseDetails(page);
-    await expect(page.locator('h1')).toHaveText('Gantt Backlog.Keep unscheduled work in view.');
+    await expect(page.locator('h1')).toHaveText('Gantt Backlog.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     const images = page.locator('main .product-screenshot img');

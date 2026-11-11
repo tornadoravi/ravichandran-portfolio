@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function PresentationPage() {
   return (
@@ -18,43 +18,38 @@ export default function PresentationPage() {
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="presentation" />
           {"\n      "}
-          <h1>
-            {"Annotations, Comments"}
-            <br />
-            <em>{"& Presentation."}</em>
-          </h1>
+          <h1>{"Annotations & Presentation."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Keep the explanation with the data."}
-            <br className={"desktop-break"} />
-            {" Bring the audience’s attention to what matters."}
-          </p>
+          <p className="case-summary">{"Connect the observation, explanation, and audience."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Role"}</dt>
-              <dd>{"Product Designer"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Product context"}</dt>
-              <dd>{"Analytics+ · Microsoft Power BI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Case focus"}</dt>
-              <dd>{"Data context & presentation"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="Feature UX/UI · Handoff & implementation review">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Role"}</dt>
+                <dd>{"Product Designer"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Product context"}</dt>
+                <dd>{"Analytics+ · Microsoft Power BI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Case focus"}</dt>
+                <dd>{"Data context & presentation"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <section className={"case-evidence wrap"} aria-labelledby={"screens-title"}>
           {"\n      "}

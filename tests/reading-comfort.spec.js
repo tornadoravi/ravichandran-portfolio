@@ -19,8 +19,8 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       const top = await image.evaluate(element => element.getBoundingClientRect().top + scrollY);
       expect(top, `${path} first product screen`).toBeLessThan(limit);
       expect(await image.evaluate(element => element.naturalWidth)).toBeGreaterThan(0);
-      await expect(page.locator('.case-summary')).toContainText('End-to-end');
-      await expect(page.locator('.case-summary')).toHaveCSS('font-size', '18px');
+      await expect(page.locator('.case-ownership')).toContainText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'Five-feature UX/UI');
+      await expect(page.locator('.case-summary')).toHaveCSS('font-size', '17px');
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
   });

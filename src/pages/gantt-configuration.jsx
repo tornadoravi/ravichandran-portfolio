@@ -1,7 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
 
 export default function GanttConfigurationPage() {
   return (
@@ -18,43 +18,38 @@ export default function GanttConfigurationPage() {
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="configuration" />
           {"\n      "}
-          <h1>
-            {"Gantt Configuration."}
-            <br />
-            {"From calendar to connector."}
-          </h1>
+          <h1>{"Gantt Side Panel."}</h1>
           {"\n      "}
-          <p className={"case-summary"}>
-            {"Organize the settings behind the schedule."}
-            <br className={"desktop-break"} />
-            {" Five focused tabs separate working time, milestones, dependencies, colors, and labels."}
-          </p>
+          <p className="case-summary">{"Five focused tabs, without leaving the schedule."}</p>
           {"\n      "}
-          <dl className={"metadata"}>
-            {"\n        "}
-            <div>
-              <dt>{"Company"}</dt>
-              <dd>{"Lumel Technologies"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"My role"}</dt>
-              <dd>{"End-to-end Gantt UX/UI"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Delivery scope"}</dt>
-              <dd>{"Developer handoff & implementation review"}</dd>
-            </div>
-            {"\n        "}
-            <div>
-              <dt>{"Evidence"}</dt>
-              <dd>{"Five configuration tab states"}</dd>
-            </div>
-            {"\n      "}
-          </dl>
+          <CaseContext role="End-to-end Gantt UX/UI">
+            <dl className={"metadata"}>
+              {"\n        "}
+              <div>
+                <dt>{"Company"}</dt>
+                <dd>{"Lumel Technologies"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"My role"}</dt>
+                <dd>{"End-to-end Gantt UX/UI"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Delivery scope"}</dt>
+                <dd>{"Developer handoff & implementation review"}</dd>
+              </div>
+              {"\n        "}
+              <div>
+                <dt>{"Evidence"}</dt>
+                <dd>{"Five configuration tab states"}</dd>
+              </div>
+              {"\n      "}
+            </dl>
+          </CaseContext>
           {"\n    "}
         </section>
+
         {"\n\n    "}
         <section id={"timeline"} className={"mapping-lead wrap"} aria-labelledby={"timeline-title"}>
           {"\n      "}
@@ -63,24 +58,29 @@ export default function GanttConfigurationPage() {
             <p className={"eyebrow"}>{"01 / Timeline"}</p>
             {"\n        "}
             <h2 id={"timeline-title"}>{"Define the working context first."}</h2>
-            {"\n        "}
-            <p>
-              <strong>{"Daily Capacity: 8 hrs."}</strong>
-              {" Working Days groups Work Week and Holidays & Exceptions. Color and Pattern provide separate controls for the timeline treatment."}
-            </p>
-            {"\n        "}
-            <p>{"The shown state has Sunday and a +6 indicator, no selected exception dates, a Backward-Diagonal pattern, and mouse-wheel zoom switched Off."}</p>
-            {"\n        "}
-            <p>
-              <strong>{"Five tabs, one editor."}</strong>
-              {" Edit Gantt includes a dedicated Dependency tab alongside Timeline, Milestone, Data Color, and Label. This is separate from field mapping and the Resource Configuration panel."}
-            </p>
-            {"\n        "}
+            <p className="visual-takeaway">Separate working time, dependencies, and visual styling.</p>
+            <details className="interface-notes">
+              <summary>Screen notes</summary>
+              {"\n        "}
+              <p>
+                <strong>{"Daily Capacity: 8 hrs."}</strong>
+                {" Working Days groups Work Week and Holidays & Exceptions. Color and Pattern provide separate controls for the timeline treatment."}
+              </p>
+              {"\n        "}
+              <p>{"The shown state has Sunday and a +6 indicator, no selected exception dates, a Backward-Diagonal pattern, and mouse-wheel zoom switched Off."}</p>
+              {"\n        "}
+              <p>
+                <strong>{"Five tabs, one editor."}</strong>
+                {" Edit Gantt includes a dedicated Dependency tab alongside Timeline, Milestone, Data Color, and Label. This is separate from field mapping and the Resource Configuration panel."}
+              </p>
+              {"\n        "}
+
+              {"\n      "}
+            </details>
             <a className={"text-link"} href={"#panel-walkthrough"}>
               {"Explore the other four tabs "}
               <span aria-hidden={"true"}>{"↓"}</span>
             </a>
-            {"\n      "}
           </div>
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>

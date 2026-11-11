@@ -62,15 +62,16 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       expect(action.height).toBeGreaterThanOrEqual(44);
       await expect(page.locator('.metadata .scan-emphasis')).toHaveText('End-to-end UX/UI');
       if (path === '/powertable.html') {
-        await expect(page.locator('h1')).toHaveText('Complex planning.Connected workflows.');
-        await expect(page.locator('.case-summary')).toContainText('Microsoft Fabric design system');
+        await expect(page.locator('h1')).toHaveText('PowerTable.');
+        await expect(page.locator('.case-summary')).toHaveText('Complex planning. Connected workflows.');
+        await expect(page.locator('.decision-flow')).toContainText('Microsoft Fabric design system');
         await expect(figure.locator('figcaption')).toContainText('Official product screenshot');
         await expect(figure.locator('.product-overview-copy')).toContainText('No-code data apps');
         await expect(page.locator('.case-brief')).toContainText('remain explorations');
         await expect(page.getByRole('link', { name: 'Explore Cross-tab', exact: true })).toHaveAttribute('href', '/crosstab.html');
       } else {
-        await expect(page.locator('h1 em')).toHaveText('Connected authoring.');
-        await expect(page.locator('.case-summary')).toContainText('five connected features');
+        await expect(page.locator('h1')).toHaveText('Inforiver Analytics+.');
+        await expect(page.locator('.case-summary')).toContainText('five feature experiences');
         await expect(page.locator('.case-brief')).toContainText('Reusable KPI templates shipped');
         expect(action.y).toBeGreaterThanOrEqual(image.y + image.height);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');

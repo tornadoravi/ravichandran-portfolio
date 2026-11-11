@@ -12,7 +12,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/resource-configuration.html')).status()).toBe(200);
     await openCaseDetails(page);
-    await expect(page.locator('h1')).toHaveText('Resource Configuration.One panel. Four contexts.');
+    await expect(page.locator('h1')).toHaveText('Resource Side Panel.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('#panel-walkthrough')).not.toHaveAttribute('open');
