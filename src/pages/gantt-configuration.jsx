@@ -62,17 +62,17 @@ export default function GanttConfigurationPage() {
             <details className="interface-notes">
               <summary>Screen notes</summary>
               {"\n        "}
-              <p>
+              <ul className="case-key-points">
+              <li>
                 <strong>{"Daily Capacity: 8 hrs."}</strong>
                 {" Working Days groups Work Week and Holidays & Exceptions. Color and Pattern provide separate controls for the timeline treatment."}
-              </p>
-              {"\n        "}
-              <p>{"The shown state has Sunday and a +6 indicator, no selected exception dates, a Backward-Diagonal pattern, and mouse-wheel zoom switched Off."}</p>
-              {"\n        "}
-              <p>
+              </li>
+              <li>{"Shown: Sunday +6, no exception dates, Backward-Diagonal pattern, mouse-wheel zoom Off."}</li>
+              <li>
                 <strong>{"Five tabs, one editor."}</strong>
                 {" Edit Gantt includes a dedicated Dependency tab alongside Timeline, Milestone, Data Color, and Label. This is separate from field mapping and the Resource Configuration panel."}
-              </p>
+              </li>
+            </ul>
               {"\n        "}
 
               {"\n      "}
@@ -118,7 +118,7 @@ export default function GanttConfigurationPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Design rationale / Interface analysis"}</p>
             <h2 id={"decisions-title"}>{"Separate scheduling behavior from appearance."}</h2>
-            <p>{"The original screens retain the task grid and timeline beside the panel. The design rationale below interprets these interfaces, not a usability study."}</p>
+            <p>{"Task grid and timeline stay beside the panel. These are design interpretations—not usability-study findings."}</p>
           </div>
           {"\n      "}
           <ol className={"mapping-decision-list"}>
@@ -127,7 +127,7 @@ export default function GanttConfigurationPage() {
               <span className={"small-index"}>{"01"}</span>
               <div>
                 <h3>{"Give dependencies their own context."}</h3>
-                <p>{"Connector styling, Auto Scheduling, and Successor controls share one tab. Auto Scheduling is On and Successor is Off in the supplied state; their runtime effects are not demonstrated."}</p>
+                <p>{"Dependency tab: connector styling, Auto Scheduling On, Successor Off. Runtime effects are not demonstrated."}</p>
               </div>
             </li>
             {"\n        "}
@@ -135,7 +135,7 @@ export default function GanttConfigurationPage() {
               <span className={"small-index"}>{"02"}</span>
               <div>
                 <h3>{"Keep a consistent editing frame."}</h3>
-                <p>{"Search, five tabs, close, and Reset to Default Styling stay in place. Switching contexts limits visible complexity, but hides settings on other tabs."}</p>
+                <p>{"Search, five tabs, close, and Reset stay fixed. Focused contexts reduce clutter but hide other tabs’ settings."}</p>
               </div>
             </li>
             {"\n        "}
@@ -143,7 +143,7 @@ export default function GanttConfigurationPage() {
               <span className={"small-index"}>{"03"}</span>
               <div>
                 <h3>{"Distinguish the rule from the rendering."}</h3>
-                <p>{"A connector's solid Type and Stroke 2 describe its appearance, not its scheduling relationship. Separating these concepts avoids reading a line style as a dependency rule."}</p>
+                <p>{"Solid Type and Stroke 2 describe connector appearance, not its scheduling relationship."}</p>
               </div>
             </li>
             {"\n      "}
@@ -171,9 +171,11 @@ export default function GanttConfigurationPage() {
                 {"\n            "}
                 <h2 id={"milestone-title"}>{"Make the event marker configurable."}</h2>
                 {"\n            "}
-                <p>{"Under Default, Shape displays a flag and Fill shows a purple swatch. Symbol and color have independent controls."}</p>
+                <ul className="case-key-points">
+              <li>{"Under Default, Shape displays a flag and Fill shows a purple swatch. Symbol and color have independent controls."}</li>
+            </ul>
                 {"\n            "}
-                <p className={"fine-print"}>{"The picker contents and a changed milestone are not supplied. “Default” is the visible group label, not evidence that these exact values are factory defaults."}</p>
+                <p className={"fine-print"}>{"“Default” is a group label, not evidence that these exact values are factory defaults. Shape picker and applied changes are not shown."}</p>
                 {"\n          "}
               </div>
               {"\n          "}
@@ -203,7 +205,8 @@ export default function GanttConfigurationPage() {
                 {"\n            "}
                 <h2 id={"dependency-title"}>{"Keep the connector and schedule controls distinct."}</h2>
                 {"\n            "}
-                <p>
+                <ul className="case-key-points">
+              <li>
                   {"Connector shows a dark Color, Type set to "}
                   <strong>{"solid"}</strong>
                   {", and Stroke "}
@@ -213,9 +216,9 @@ export default function GanttConfigurationPage() {
                   {"; Successor is "}
                   <strong>{"Off"}</strong>
                   {", each in a separate group."}
-                </p>
-                {"\n            "}
-                <p>{"These are visible settings, not a demonstration of rescheduling. Successor being Off does not establish that the tasks have no successors."}</p>
+                </li>
+              <li>{"Settings are not a demonstration of rescheduling. Successor Off does not establish that the tasks have no successors."}</li>
+            </ul>
                 {"\n            "}
                 <p className={"fine-print"}>{"No changed dates, dependency-type selection, cycle handling, or scheduling-conflict state is supplied."}</p>
                 {"\n          "}
@@ -247,13 +250,15 @@ export default function GanttConfigurationPage() {
                 {"\n            "}
                 <h2 id={"data-color-title"}>{"Set the task-bar treatment."}</h2>
                 {"\n            "}
-                <p>
+                <ul className="case-key-points">
+              <li>
                   {"Bars has Color by set to "}
                   <strong>{"All"}</strong>
                   {" with a blue Fill. This supplied tab does not show the separate Summary Bar controls found in the Resource Configuration case."}
-                </p>
+                </li>
+            </ul>
                 {"\n            "}
-                <p className={"fine-print"}>{"Alternative color modes and conditional thresholds are not shown. These tab states are not a before/after sequence or verified live-preview behavior."}</p>
+                <p className={"fine-print"}>{"Alternative modes and thresholds are not shown. Tab states are not a before/after sequence or verified live preview."}</p>
                 {"\n          "}
               </div>
               {"\n          "}
@@ -283,7 +288,8 @@ export default function GanttConfigurationPage() {
                 {"\n            "}
                 <h2 id={"label-title"}>{"Control what the task bar says."}</h2>
                 {"\n            "}
-                <p>
+                <ul className="case-key-points">
+              <li>
                   {"Enable Data Label is "}
                   <strong>{"On"}</strong>
                   {", Based On is "}
@@ -291,9 +297,9 @@ export default function GanttConfigurationPage() {
                   {", and Font Size is "}
                   <strong>{"12"}</strong>
                   {". Text Color shows a dark swatch; Background Color has a separate control."}
-                </p>
-                {"\n            "}
-                <p>{"Adaptive label and summary-label controls are not shown in this supplied Gantt state; they are not carried over from the Resource case."}</p>
+                </li>
+              <li>{"Adaptive label and summary-label controls are not shown. Resource-specific controls are not carried into this case."}</li>
+            </ul>
                 {"\n            "}
                 <p className={"fine-print"}>{"The still image does not establish responsive-label behavior, text contrast, or a readability improvement."}</p>
                 {"\n          "}
@@ -326,7 +332,7 @@ export default function GanttConfigurationPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Official product context / Microsoft Learn"}</p>
             <h2 id={"evidence-title"}>{"Gantt context, with clear evidence boundaries."}</h2>
-            <p>{"Microsoft Learn documents PowerTable's Gantt tasks, milestones, dependencies, and rescheduling. Planning in Fabric places PowerTable within the suite. These sources support product context, not verification of the exact Edit Gantt panel or its Auto Scheduling and Successor behavior."}</p>
+            <p>{"Microsoft Learn documents Gantt capabilities—not the exact Edit Gantt panel or its Auto Scheduling and Successor behavior."}</p>
           </div>
           {"\n      "}
           <div className={"mapping-source-links"}>

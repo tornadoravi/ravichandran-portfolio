@@ -68,20 +68,21 @@ export default function GanttConditionalFormattingPage() {
             <details className="interface-notes">
               <summary>Screen notes</summary>
               {"\n        "}
-              <p>
+              <ul className="case-key-points">
+              <li>
                 <strong>{"Schedule Hours > 0"}</strong>
                 {" is the displayed condition. Rule 1 separates the qualifying metric from its targets and appearance."}
-              </p>
-              {"\n        "}
-              <p>
+              </li>
+              <li>
                 {"Milestone Icon, Fill, Bar Fill, and Data Label have individual controls. The shown fill swatches are orange; the data-label swatch is black. "}
                 <strong>{"Discard and Apply"}</strong>
                 {" remain separate actions."}
-              </p>
+              </li>
+            </ul>
               {"\n        "}
               <p className={"fine-print"}>{"A positive-hours threshold identifies scheduled work, not over-allocation against capacity."}</p>
               {"\n        "}
-              <p className={"fine-print"}>{"“Impacts On” shows Bar and a +2 indicator. “Apply To” includes Bar and a truncated second label. Hidden selections are not inferred."}</p>
+              <p className={"fine-print"}>{"Impacts On: Bar +2. Apply To: Bar and a truncated label. Hidden selections are not inferred."}</p>
               {"\n      "}
             </details>
 
@@ -178,7 +179,7 @@ export default function GanttConditionalFormattingPage() {
               <span className={"small-index"}>{"01"}</span>
               <div>
                 <h3>{"Make the threshold readable."}</h3>
-                <p>{"Field, operator, and value expose the rule in one row. Schedule Hours > 0 should not be presented as an overload alert: that needs a capacity-based criterion not shown here."}</p>
+                <p>{"Field → operator → value. Schedule Hours > 0 means scheduled work—not overload; no capacity criterion is shown."}</p>
               </div>
             </li>
             {"\n        "}
@@ -186,7 +187,7 @@ export default function GanttConditionalFormattingPage() {
               <span className={"small-index"}>{"02"}</span>
               <div>
                 <h3>{"Where does it apply?"}</h3>
-                <p>{"Impacts On and Apply To precede the rule. The trade-off is compactness: hidden selections and truncated labels need inspection before the full scope is clear."}</p>
+                <p>{"Set scope before the rule. Trade-off: compact controls hide selections and truncate labels."}</p>
               </div>
             </li>
             {"\n        "}
@@ -194,7 +195,7 @@ export default function GanttConditionalFormattingPage() {
               <span className={"small-index"}>{"03"}</span>
               <div>
                 <h3>{"Keep values legible alongside color."}</h3>
-                <p>{"Numeric summary labels retain meaning beyond the fill. Separate label styling provides control, but contrast and non-color cues still need validation; the screen alone does not establish accessibility."}</p>
+                <p>{"Keep numeric labels beside the fill. Separate label styling is visible; contrast and non-color accessibility still require validation."}</p>
               </div>
             </li>
             {"\n      "}

@@ -62,17 +62,17 @@ export default function ResourceConfigurationPage() {
             <details className="interface-notes">
               <summary>Screen notes</summary>
               {"\n        "}
-              <p>
+              <ul className="case-key-points">
+              <li>
                 <strong>{"Daily Capacity: 8 hrs."}</strong>
                 {" Working Days groups the Work Week selector with Holidays & Exceptions. Color and Pattern provide separate styling controls."}
-              </p>
-              {"\n        "}
-              <p>{"The shown state has Sunday and a +6 indicator, no selected exception dates, a Backward-Diagonal pattern, and mouse-wheel zoom switched Off."}</p>
-              {"\n        "}
-              <p>
+              </li>
+              <li>{"Shown: Sunday +6, no exception dates, Backward-Diagonal pattern, mouse-wheel zoom Off."}</li>
+              <li>
                 <strong>{"Configuration, not a conditional rule."}</strong>
                 {" Edit Resource sets the view's scheduling and appearance options; the separate Format Rules experience defines conditions."}
-              </p>
+              </li>
+            </ul>
               {"\n        "}
 
               {"\n      "}
@@ -126,7 +126,7 @@ export default function ResourceConfigurationPage() {
               <span className={"small-index"}>{"01"}</span>
               <div>
                 <h3>{"Group settings by the object being edited."}</h3>
-                <p>{"Four tabs distinguish working context, milestone symbols, color, and labels. The trade-off is that settings across tabs cannot be compared at once."}</p>
+                <p>{"Four focused tabs: Timeline, Milestone, Data Color, Label. Trade-off: settings cannot be compared across tabs at once."}</p>
               </div>
             </li>
             {"\n        "}
@@ -142,7 +142,7 @@ export default function ResourceConfigurationPage() {
               <span className={"small-index"}>{"03"}</span>
               <div>
                 <h3>{"Keep a consistent panel frame."}</h3>
-                <p>{"Search, tab navigation, close, and Reset to Default Styling stay in place across the four states. Search results and reset behavior are not supplied."}</p>
+                <p>{"Search, tabs, close, and Reset remain consistent. Search results and reset behavior are not supplied."}</p>
               </div>
             </li>
             {"\n      "}
@@ -170,9 +170,11 @@ export default function ResourceConfigurationPage() {
                 {"\n            "}
                 <h2 id={"milestone-title"}>{"Keep the symbol and its fill distinct."}</h2>
                 {"\n            "}
-                <p>{"Shape displays a flag icon; Fill shows a purple swatch. This focused tab exposes two separate appearance choices without mixing them into timeline settings."}</p>
+                <ul className="case-key-points">
+              <li>{"Shape: flag icon. Fill: purple. Two independent appearance choices, separate from timeline settings."}</li>
+            </ul>
                 {"\n            "}
-                <p className={"fine-print"}>{"The shape picker and any upload interaction are not shown. This is a configuration state, not evidence of an applied milestone change."}</p>
+                <p className={"fine-print"}>{"Shape picker and uploads are not shown. This configuration is not evidence of an applied milestone change."}</p>
                 {"\n          "}
               </div>
               {"\n          "}
@@ -202,13 +204,14 @@ export default function ResourceConfigurationPage() {
                 {"\n            "}
                 <h2 id={"data-color-title"}>{"Differentiate tasks from summaries."}</h2>
                 {"\n            "}
-                <p>
+                <ul className="case-key-points">
+              <li>
                   {"Bars has Color by set to "}
                   <strong>{"All"}</strong>
                   {" with a blue Fill. Summary Bar has a separate brown Color swatch."}
-                </p>
-                {"\n            "}
-                <p>{"Separate groups make the two styling targets explicit. This state does not show a column-based color configuration or a conditional threshold."}</p>
+                </li>
+              <li>{"Two explicit styling targets. Column-based coloring and conditional thresholds are not shown."}</li>
+            </ul>
                 {"\n            "}
                 <p className={"fine-print"}>{"The supplied screens are tab states, not a before/after sequence or verified live-preview behavior."}</p>
                 {"\n          "}
@@ -240,14 +243,15 @@ export default function ResourceConfigurationPage() {
                 {"\n            "}
                 <h2 id={"label-title"}>{"Control the information on the bar."}</h2>
                 {"\n            "}
-                <p>
+                <ul className="case-key-points">
+              <li>
                   <strong>{"Enable Data Label"}</strong>
                   {" and "}
                   <strong>{"Adaptive label"}</strong>
                   {" are On. Based On is Auto; the bar-label font size is 12, with separate Text Color and Background Color controls."}
-                </p>
-                {"\n            "}
-                <p>{"Summary Bar has its own font size of 12 and a black Text Color swatch. Task and summary labels have independent styling groups."}</p>
+                </li>
+              <li>{"Summary Bar: font size 12, black text. Task and summary labels have independent styling groups."}</li>
+            </ul>
                 {"\n            "}
                 <p className={"fine-print"}>{"No responsive-label behavior, contrast result, or readability improvement is established by this still image."}</p>
                 {"\n          "}
@@ -280,7 +284,7 @@ export default function ResourceConfigurationPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Official product context / Microsoft Learn"}</p>
             <h2 id={"evidence-title"}>{"Resource customization is documented."}</h2>
-            <p>{"The Customize Resource Layout guide documents Timeline, Milestone, Data Color, and Label components, including daily capacity, working days, bar colors, and adaptive labels. Planning in Fabric establishes PowerTable's place in the suite. These are product references, not independent reviews of this design."}</p>
+            <p>{"Official guides document Timeline, Milestone, Data Color, Label, and the Fabric context—not independent reviews of this design."}</p>
           </div>
           {"\n      "}
           <div className={"mapping-source-links"}>

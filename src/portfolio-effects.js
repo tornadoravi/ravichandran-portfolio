@@ -354,8 +354,14 @@ export function initializePortfolioEffects() {
       if (nav.hasAttribute('data-section-tabs')) {
         current = visibleSections.find(({ link }) => link.hash === location.hash) || current;
       } else {
+        const readingLine = nav.matches('.case-nav') ? Math.max(128, Math.min(240, window.innerHeight / 3)) : 128;
+        let currentTop = -Infinity;
         visibleSections.forEach((section) => {
-          if (section.target.getBoundingClientRect().top <= 128) current = section;
+          const top = section.target.getBoundingClientRect().top;
+          if (top <= readingLine && (Math.abs(top - currentTop) > 1 || section.link.hash === location.hash)) {
+            current = section;
+            currentTop = top;
+          }
         });
       }
       const changed = current.link.getAttribute('aria-current') !== 'location';

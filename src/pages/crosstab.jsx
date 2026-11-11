@@ -30,8 +30,10 @@ export default function CrosstabPage() {
             <h2 id="contribution-title">Structured data.<br /><em>Flexible perspectives.</em></h2>
           </div>
           <div className="section-copy">
-            <p>Alongside the Gantt work, I contributed to cross-tab layout and data configuration: rows, columns, measures, contextual settings, and the presentation of summarized and detailed information.</p>
-            <p>The intent was to make the relationship between configuration and the resulting view understandable, so people can shape a useful perspective on their data without losing its structure.</p>
+            <ul className="case-key-points">
+              <li>My contribution: rows, columns, measures, contextual settings, and summary/detail layouts.</li>
+              <li>Make configuration and its resulting view understandable together.</li>
+            </ul>
           </div>
         </section>
         <section id="configuration" className="editorial-section wrap" aria-labelledby="configuration-title">
@@ -54,8 +56,10 @@ export default function CrosstabPage() {
             <h2 id="evidence-title">Contribution.<br /><em>Not suite ownership.</em></h2>
           </div>
           <div className="section-copy">
-            <p>This overview describes my contribution to Cross-tab configuration, not end-to-end ownership of the Cross-tab product. My end-to-end Gantt and resource UX/UI work is documented separately.</p>
-            <p>No dedicated Cross-tab design screens, historical iteration records, or measured customer outcomes are included here. The diagram explains the configuration structure; it is not evidence of a shipped interface.</p>
+            <ul className="case-key-points">
+              <li>Cross-tab contribution—not end-to-end ownership. My Gantt and resource work is documented separately.</li>
+              <li>Concept diagram only. No dedicated Cross-tab design screens, historical iterations, measured outcomes, or proof of a shipped interface.</li>
+            </ul>
             <a className="text-link" href="/powertable.html#role">View the full PowerTable role & scope <span aria-hidden="true">→</span></a>
           </div>
         </section>

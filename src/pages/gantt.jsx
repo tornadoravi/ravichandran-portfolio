@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
 
 export default function GanttPage() {
   return (
@@ -181,7 +181,7 @@ export default function GanttPage() {
           {"\n      "}
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"Turn task and date fields into an understandable project view."}</p>
-            <p>{"The timeline depends on fields being available and assigned meaningful roles. The objective is clear entry, useful mapping guidance, and configuration beside the resulting report."}</p>
+            <CaseFlow steps={[["Choose Gantt","Start with project reporting"],["Map fields","Assign task and date roles"],["Read the timeline","Keep configuration beside the view"]]} />
           </div>
           {"\n    "}
         </section>
@@ -196,49 +196,30 @@ export default function GanttPage() {
           </div>
           {"\n      "}
           <ol className={"solution-grid"} role={"list"}>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"01 / Pain point"}</span>
-              <h3>{"The intended view must be clear."}</h3>
-              <p>{"A task-and-timeline report needs a recognizable starting point among the product’s other analysis options."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Present Gantt as its own entry option alongside Charts, Cards, Tables, and Storyboard."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Pain point"}</span><h3>{"The intended view must be clear."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Give project reporting a dedicated Gantt entry."}</p>
               <a className={"text-link"} href={"#entry"}>
                 {"See the Gantt entry "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"02 / Pain point"}</span>
-              <h3>{"Adding fields and assigning roles differ."}</h3>
-              <p>{"A field in the Power BI field well still needs a meaning such as actual start, actual end, or progress."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Bridge the field-well guidance and Pivot data role assignment, explaining both layers of setup."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Pain point"}</span><h3>{"Adding fields and assigning roles differ."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Add fields in Power BI; assign their roles in Pivot data."}</p>
               <a className={"text-link"} href={"#mapping"}>
                 {"See data mapping "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"03 / Pain point"}</span>
-              <h3>{"Configuration needs a visible result."}</h3>
-              <p>{"Field settings are difficult to interpret in isolation from the task rows and timeline they shape."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Keep Pivot data beside the Gantt workspace, connecting task detail to its date-axis context."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Pain point"}</span><h3>{"Configuration needs a visible result."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Keep field configuration beside task rows and timeline bars."}</p>
               <a className={"text-link"} href={"#timeline"}>
                 {"See the timeline "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n      "}
           </ol>
           {"\n    "}
         </section>
@@ -291,16 +272,17 @@ export default function GanttPage() {
             {"\n        "}
             <p className={"large-copy"}>{"A Gantt view starts with a relationship between tasks, dates, and the fields that describe them."}</p>
             {"\n        "}
-            <p>{"In Analytics+ for Power BI, that relationship spans two places: the Power BI field well and the visual’s Pivot data configuration. The setup needs to explain both where data is added and how each field is used."}</p>
-            {"\n        "}
-            <p>
+            <ul className="case-key-points">
+              <li>{"Two setup layers: add data in Power BI’s field well; assign meaning in Pivot data."}</li>
+              <li>
               {"This case follows Gantt selection, the data-mapping help state, and the populated workspace. It is separate from my "}
               <a className={"text-link"} href={"/powertable.html"}>
                 {"PowerTable work in Microsoft Fabric "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
               {"."}
-            </p>
+            </li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -321,9 +303,10 @@ export default function GanttPage() {
             {"\n        "}
             <p className={"large-copy"}>{"Make the intended view explicit before asking people to configure it."}</p>
             {"\n        "}
-            <p>{"The landing screen presents Gantt alongside Charts, Cards, Tables, and Storyboard. In the supplied state, Gantt is selected and grouped under Projects, distinguishing the task-and-timeline route from general analysis and presentation."}</p>
-            {"\n        "}
-            <p>{"The field instruction and inactive Build chart control communicate that setup is still required. Choosing a view is a starting point, not evidence that the underlying data is ready."}</p>
+            <ul className="case-key-points">
+              <li>{"Gantt sits under Projects, alongside Charts, Cards, Tables, and Storyboard. A distinct route for task-and-time reporting."}</li>
+              <li>{"Field guidance + inactive Build chart = setup still required. Choosing Gantt does not mean data is ready."}</li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -344,9 +327,10 @@ export default function GanttPage() {
             {"\n        "}
             <p className={"large-copy"}>{"Explain the destination, not just the missing information."}</p>
             {"\n        "}
-            <p>{"The Data-mapping dialog shows date fields moving into Gantt/Network fields in Power BI. Its instruction explicitly names the Gantt fields destination, making the requirement more concrete than a generic request to add data."}</p>
-            {"\n        "}
-            <p>{"The next layer is role assignment inside Pivot data: start date, end date, progress, and other Gantt-specific roles. Adding a field to Power BI and assigning its meaning within the visual are related but distinct actions."}</p>
+            <ul className="case-key-points">
+              <li>{"The mapping dialog names the destination: Gantt/Network fields in Power BI."}</li>
+              <li>{"Then assign start, end, progress, and other roles in Pivot data. Adding fields and assigning meaning are distinct."}</li>
+            </ul>
             {"\n        "}
             <div className={"two-column"}>
               <div>
@@ -380,9 +364,10 @@ export default function GanttPage() {
             {"\n        "}
             <p className={"large-copy"}>{"The configuration and the resulting view should be understandable together."}</p>
             {"\n        "}
-            <p>{"The populated workspace places Pivot data and field-role settings on the left, with task rows and timeline bars alongside them. The date axis spans years, quarters, and months, while task names and group labels remain visible in the grid."}</p>
-            {"\n        "}
-            <p>{"The screenshot shows actual-start, actual-end, and progress mappings. The planned-date, milestone, and connector slots are also visible, but their presence is not a demonstration of configured behavior. The walkthrough stays focused on the setup and timeline states shown."}</p>
+            <ul className="case-key-points">
+              <li>{"Pivot data sits beside task rows and timeline bars. Years, quarters, and months preserve time context."}</li>
+              <li>{"Actual-start, actual-end, and progress are mapped. Planned dates, milestones, and connectors are visible slots—not demonstrated configured behavior."}</li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -424,9 +409,10 @@ export default function GanttPage() {
             {"\n        "}
             <p className={"large-copy"}>{"The setup experience is part of the visualization experience."}</p>
             {"\n        "}
-            <p>{"The sequence makes three questions visible: Which view am I creating? Where should the fields go? How do those fields become a timeline? The interface connects those questions through a dedicated entry, mapping guidance, and configuration beside the resulting view."}</p>
-            {"\n        "}
-            <p>{"One next refinement: align the entry instruction’s “Chart fields” wording with the mapping guidance’s “Gantt fields.” That is a terminology recommendation from these screens, not a change shown as implemented."}</p>
+            <ul className="case-key-points">
+              <li>{"Three setup questions: Which view? Where do fields go? How do they become a timeline?"}</li>
+              <li>{"Next refinement: align “Chart fields” with “Gantt fields.” A recommendation, not a change shown as implemented."}</li>
+            </ul>
             {"\n        "}
             <details className={"evidence-note"}>
               <summary>{"Role, delivery & evidence"}</summary>

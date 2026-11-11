@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
 
 export default function KpiPage() {
   return (
@@ -126,7 +126,7 @@ export default function KpiPage() {
               <span aria-hidden={"true"}>{"↗"}</span>
             </a>
             {"\n        "}
-            <p className={"flow-route-note"}>{"Simple and Variance are alternative preset families, not consecutive required steps. The Advanced tab is visible, but its contents were not supplied."}</p>
+            <p className={"flow-route-note"}>{"Simple and Variance are alternative preset families, not consecutive required steps. Advanced contents are not supplied."}</p>
             {"\n        "}
             <a className={"flow-stage"} href={"#library"}>
               <span className={"flow-number"}>{"02"}</span>
@@ -137,7 +137,7 @@ export default function KpiPage() {
               <span aria-hidden={"true"}>{"↗"}</span>
             </a>
             {"\n        "}
-            <p className={"flow-caption"}>{"Illustrative user flow grounded in the supplied screens and official documentation, not a recorded task. The screens do not demonstrate data preparation or prove that a highlighted preset produced the adjacent canvas values."}</p>
+            <p className={"flow-caption"}>{"Illustrative flow—not a recorded task. No data-preparation or matched preset-to-canvas result is demonstrated."}</p>
             {"\n      "}
           </nav>
           {"\n    "}
@@ -167,13 +167,8 @@ export default function KpiPage() {
           </div>
           {"\n      "}
           <div className={"section-copy"}>
-            {"\n        "}
             <p className={"large-copy"}>{"Help report authors communicate performance without starting every KPI layout from a blank canvas."}</p>
-            {"\n        "}
-            <p>{"A KPI can communicate a headline number, a comparison, or a trend. Authors need a starting point that matches that intent; audiences need to distinguish the main value from its supporting information."}</p>
-            {"\n        "}
-            <p>{"The business objective is to make Analytics+ card authoring more approachable and support visual consistency across a report. A reusable preset provides a starting hierarchy, while the actual measures and reporting context determine what belongs in the card."}</p>
-            {"\n      "}
+            <CaseFlow steps={[["Intent","Headline, comparison, or trend"],["Preset family","Simple or Variance"],["Reading order","Main value before supporting context"]]} />
           </div>
           {"\n    "}
         </section>
@@ -187,49 +182,30 @@ export default function KpiPage() {
           </div>
           {"\n      "}
           <ol className={"solution-grid"} role={"list"}>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"01 / Pain point"}</span>
-              <h3>{"A blank card has no hierarchy."}</h3>
-              <p>{"Even a single number requires decisions about its label, alignment, spacing, and supporting elements."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Offer Simple presets as recognizable starting arrangements for the main metric and its label."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Pain point"}</span><h3>{"A blank card has no hierarchy."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Simple presets establish the value and label."}</p>
               <a className={"text-link"} href={"#simple"}>
                 {"See Simple presets "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"02 / Pain point"}</span>
-              <h3>{"A value needs comparison context."}</h3>
-              <p>{"The headline alone does not communicate the size or direction of a difference from another measure."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Group comparison-oriented layouts under Variance, with visible value, percentage, and directional treatments."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Pain point"}</span><h3>{"A value needs comparison context."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Variance presets add differences, percentages, and directional cues."}</p>
               <a className={"text-link"} href={"#variance"}>
                 {"See Variance presets "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"03 / Pain point"}</span>
-              <h3>{"More information can compete for attention."}</h3>
-              <p>{"Icons, comparisons, and trend graphics must support the metric rather than obscure which information matters first."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Build reusable layout patterns with a deliberate relationship between the primary value and supporting context."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Pain point"}</span><h3>{"More information can compete for attention."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Keep the main value first; give supporting context its own place."}</p>
               <a className={"text-link"} href={"#library"}>
                 {"See the preset library "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n      "}
           </ol>
           {"\n    "}
         </section>
@@ -282,13 +258,14 @@ export default function KpiPage() {
             {"\n        "}
             <p className={"large-copy"}>{"A KPI card needs to communicate what the number is and how to interpret it."}</p>
             {"\n        "}
-            <p>{"My Analytics+ work included reusable KPI layouts, presets, and custom icons. This case focuses on the reusable visual structure: how a report author finds a starting arrangement and how that arrangement makes information readable."}</p>
-            {"\n        "}
-            <p>{"The supplied Power BI screens show the Card ribbon and KPI Preset pane beside the report canvas. Measures are already present in the field well. This is a preset-selection experience, not a data-preparation workflow."}</p>
+            <ul className="case-key-points">
+              <li>{"My scope: reusable KPI layouts, presets, and custom icons. Help authors recognize a useful starting arrangement."}</li>
+              <li>{"Measures are already mapped. This is preset selection—not data preparation."}</li>
+            </ul>
             {"\n        "}
             <div className={"note"}>
               <span className={"eyebrow"}>{"Reading the evidence"}</span>
-              <p>{"The preset tiles use sample values that differ from the adjacent report canvas. A highlighted tile is a visible selection state, not proof of an applied result or a matched before-and-after example. The shared Figma link required sign-in; this case uses the supplied images, not inspected prototype interactions."}</p>
+              <p>{"Preset tiles use sample values that differ from the adjacent report canvas. Selection is not an applied result. Figma required sign-in; prototype interactions were not inspected."}</p>
             </div>
             {"\n      "}
           </div>
@@ -310,16 +287,16 @@ export default function KpiPage() {
             {"\n        "}
             <p className={"large-copy"}>{"A clear starting hierarchy matters even when the card contains one metric."}</p>
             {"\n        "}
-            <p>
-              {"The "}
+            <ul className="case-key-points">
+              <li>
               <a className={"text-link"} href={"#simple-screen"}>
-                {"first supplied screen "}
+                {"Simple screen "}
                 <span aria-hidden={"true"}>{"↑"}</span>
               </a>
-              {" shows the Simple tab with centered and left-aligned arrangements, a side-accent treatment, and image placeholders. Each preview presents an alternative balance between the value and its label."}
-            </p>
-            {"\n        "}
-            <p>{"The design intent is to make those arrangements recognizable before the author commits to further formatting. The screenshot documents the visible choices, not every available preset or its interaction behavior."}</p>
+              {": centered or left-aligned layouts, side accents, and image placeholders."}
+            </li>
+              <li>{"Recognize the layout before formatting. The screenshot shows choices—not every preset or its interaction behavior."}</li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -340,11 +317,11 @@ export default function KpiPage() {
             {"\n        "}
             <p className={"large-copy"}>{"Comparison information should explain the main value without competing with it."}</p>
             {"\n        "}
-            <p>{"The Variance tab groups layouts that combine a headline metric with differences, percentages, arrows, and colored comparison blocks. The previews vary the position and emphasis of those elements while retaining a distinct main value."}</p>
-            {"\n        "}
-            <p>{"The selected canvas example and the preset thumbnails use different values and comparison counts. They illustrate the design space, not a demonstration that the selected thumbnail generated that exact report card."}</p>
-            {"\n        "}
-            <p>{"The Advanced tab is visible in both supplied screens. Its detailed contents and behavior are not shown, so this walkthrough does not invent an Advanced selection state."}</p>
+            <ul className="case-key-points">
+              <li>{"Variance adds differences, percentages, arrows, and comparison blocks while keeping the main value distinct."}</li>
+              <li>{"Thumbnails and canvas use different values/comparison counts—not a matched before-and-after example."}</li>
+              <li>{"Advanced is visible. Its detailed contents and behavior are not shown."}</li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -386,9 +363,10 @@ export default function KpiPage() {
             {"\n        "}
             <p className={"large-copy"}>{"Reuse the visual logic while allowing different reporting needs."}</p>
             {"\n        "}
-            <p>{"The supplied design sheet brings together simple metric arrangements, icon placements, variance treatments, and compact trend examples. It illustrates how a common value-and-context hierarchy can extend across different card compositions."}</p>
-            {"\n        "}
-            <p>{"Across my broader KPI design work, the confirmed deliverables included 30+ KPI layouts, 20+ presets, and 70+ custom icons. Reusable KPI templates shipped. These are scope counts, not a count of the examples in this image or a claim that every pictured variation shipped."}</p>
+            <ul className="case-key-points">
+              <li>{"One reading hierarchy across metric cards, icons, variances, and compact trends."}</li>
+              <li>{"Reusable templates shipped. Scope counts—not a count of the examples in this image or proof every pictured variation shipped."}</li>
+            </ul>
             {"\n        "}
             <div className={"deliverable-stats"}>
               <div>
@@ -445,7 +423,9 @@ export default function KpiPage() {
             {"\n        "}
             <p className={"large-copy"}>{"A reusable preset needs a repeatable reading order, not only a repeatable appearance."}</p>
             {"\n        "}
-            <p>{"The main design principle is to keep the metric recognizable while giving comparisons and supporting visuals a deliberate place. Separating Simple and Variance families makes the reporting intent part of browsing, rather than asking every author to rebuild the hierarchy."}</p>
+            <ul className="case-key-points">
+              <li>{"Simple establishes the metric. Variance adds context. Both preserve a repeatable reading order."}</li>
+            </ul>
             {"\n        "}
             <details className={"evidence-note"}>
               <summary>{"Role, delivery & evidence"}</summary>
@@ -482,7 +462,9 @@ export default function KpiPage() {
           {"\n      "}
           <div className={"section-copy"}>
             {"\n        "}
-            <p>{"Official documentation corroborates simple and variance presets. These are vendor references, not independent customer reviews or proof of personal design ownership."}</p>
+            <ul className="case-key-points">
+              <li>{"Simple/Variance presets are documented. These are vendor references, not independent customer reviews or proof of personal design ownership."}</li>
+            </ul>
             {"\n        "}
             <div className={"note"}>
               <span className={"eyebrow"}>{"Official feature references"}</span>

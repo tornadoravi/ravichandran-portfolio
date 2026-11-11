@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
 
 export default function AnalyticsPage() {
   return (
@@ -165,7 +165,7 @@ export default function AnalyticsPage() {
             <div>
               <p className={"eyebrow"}>{"A visible edge state"}</p>
               <h3 id={"edge-state-title"}>{"Not every visual form is available."}</h3>
-              <p>{"The Visualize menu shows Boxes disabled alongside Lines, Points, and Bar. The screen records the unavailable state; explaining its eligibility rule is a follow-up design question."}</p>
+              <p>{"Boxes disabled; Lines, Points, and Bar available. Eligibility guidance is an open design question."}</p>
             </div>
             <a className={"text-link"} href={"#visual-form"}>
               {"Inspect the actual state "}
@@ -284,10 +284,9 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p className={"large-copy"}>{"Help report authors turn an analytical question into an appropriate visual."}</p>
-                <p>{"Analytics+ offers a wide range of charts inside Power BI. Authors who know chart names and authors who know only their analytical goal need different starting points."}</p>
-                <p>{"The objective was approachable discovery without removing the direct route for experienced authors."}</p>
-              </div>
+            <p className={"large-copy"}>{"Help report authors turn an analytical question into an appropriate visual."}</p>
+            <CaseFlow steps={[["Chart or Function","Known visual or analytical goal"],["Customize","Set appearance and visibility"],["Advanced","Set analytical rules"]]} />
+          </div>
               {"\n    "}
             </section>
             {"\n    "}
@@ -301,50 +300,31 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <ol className={"solution-grid"} role={"list"}>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"01 / Pain point"}</span>
-                  <h3>{"The chart name is not always known."}</h3>
-                  <p>{"A broad catalogue is difficult to enter when the user knows the comparison they need, but not the visualization vocabulary."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Solution highlight"}</strong>
-                    {"Offer Chart and Function routes into the same selection flow: one starts with a family, the other with an analytical goal."}
-                  </p>
-                  <a className={"text-link"} href={"#wizard"}>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Pain point"}</span><h3>{"The chart name is not always known."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Start with Chart or Function; converge on one selection flow."}</p>
+              <a className={"text-link"} href={"#wizard"}>
                     {"See discovery routes "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"02 / Pain point"}</span>
-                  <h3>{"Selection is only the first decision."}</h3>
-                  <p>{"Measures, labels, and visual styling still need to form a coherent view after a chart is chosen."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Solution highlight"}</strong>
-                    {"Make Customize a distinct stage for appearance and visibility, with deeper chart-specific settings left in configuration panels."}
-                  </p>
-                  <a className={"text-link"} href={"#configuration"}>
+            </li>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Pain point"}</span><h3>{"Selection is only the first decision."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Use Customize for appearance and visibility."}</p>
+              <a className={"text-link"} href={"#configuration"}>
                     {"See configuration "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"03 / Pain point"}</span>
-                  <h3>{"Different decisions compete for attention."}</h3>
-                  <p>{"Appearance controls and analytical rules have different purposes, even when they affect the same chart."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Solution highlight"}</strong>
-                    {"Separate Customize from Advanced, with clear movement between stages and a return to the report canvas."}
-                  </p>
-                  <a className={"text-link"} href={"#advanced"}>
+            </li>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Pain point"}</span><h3>{"Different decisions compete for attention."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Keep analytical rules in Advanced, separate from appearance."}</p>
+              <a className={"text-link"} href={"#advanced"}>
                     {"See Advanced "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n      "}
-              </ol>
+            </li>
+          </ol>
               {"\n    "}
             </section>
             {"\n    "}
@@ -394,8 +374,9 @@ export default function AnalyticsPage() {
               {"\n      "}
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"Inforiver Analytics+ brings no-code analytics, dashboarding, and reporting into Microsoft Power BI."}</p>
-                <p>{"My work covered requirements and existing-experience reviews with product managers and stakeholders, followed by user flows, prototypes, interaction and visual design, developer handoff, and implementation checks."}</p>
-                <p>
+                <ul className="case-key-points">
+              <li>{"My scope: requirements, flows, prototypes, UX/UI, developer handoff, and implementation checks."}</li>
+              <li>
                   {"This case follows chart selection and configuration. Explore the separate cases for "}
                   <a className={"text-link"} href={"/storyboard.html"}>
                     {"Storyboard authoring "}
@@ -407,7 +388,8 @@ export default function AnalyticsPage() {
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
                   {"."}
-                </p>
+                </li>
+            </ul>
               </div>
               {"\n    "}
             </section>
@@ -424,9 +406,11 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p className={"large-copy"}>{"A person who knows the chart name and a person who knows the question need different routes into the same experience."}</p>
-                <p>{"Actual-versus-target comparison was one of the workflows behind the design problem: select a chart, configure measures and labels, and match KPI styling. A broad catalogue and inconsistent controls complicated that sequence."}</p>
-                <p>{"The walkthrough shows a multi-measure column-chart example with measures already mapped in Power BI."}</p>
+                <p className={"large-copy"}>{"Known chart name and known analytical question need different routes into the same experience."}</p>
+                <ul className="case-key-points">
+              <li>{"Actual versus target: select a chart, configure measures/labels, then align styling. Catalogue breadth and inconsistent controls complicated that workflow."}</li>
+              <li>{"The walkthrough shows a multi-measure column-chart example with measures already mapped in Power BI."}</li>
+            </ul>
               </div>
               {"\n    "}
             </section>
@@ -444,7 +428,9 @@ export default function AnalyticsPage() {
               {"\n      "}
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"Keep the familiar route direct. Make the guided route specific."}</p>
-                <p>{"Opened from the Chart Type dropdown, the wizard offers Chart and Function routes. Both lead to chart recommendations, with access to Favorites."}</p>
+                <ul className="case-key-points">
+              <li>{"Chart Type → Chart or Function → recommendations. Favorites remains available within discovery."}</li>
+            </ul>
                 <div className={"two-column"}>
                   <div>
                     <span className={"small-index"}>{"PATH A / CHART"}</span>
@@ -454,7 +440,7 @@ export default function AnalyticsPage() {
                   <div>
                     <span className={"small-index"}>{"PATH B / FUNCTION"}</span>
                     <h3>{"Start with the analytical need"}</h3>
-                    <p>{"The Function view exposes Data type, Use case, Visualize, and Measure filters. The screenshot shows categorical data and the 2–4 measure option selected."}</p>
+                    <p>{"Function filters: Data type, Use case, Visualize, Measure. Shown: categorical data and 2–4 measures."}</p>
                   </div>
                 </div>
               </div>
@@ -473,8 +459,10 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p>{"The open Use case menu shows Comparison, Part to Whole, Ranking, Distribution, and Time series. The separate Visualize menu shows Lines, Points, and Bar, with Boxes disabled in the supplied state."}</p>
-                <p>{"Separating analytical purpose from visual form gives authors a route into the catalogue without starting from a chart name."}</p>
+                <ul className="case-key-points">
+              <li>{"Use case: Comparison, Part to Whole, Ranking, Distribution, Time series. Visualize: Lines, Points, Bar; Boxes disabled."}</li>
+              <li>{"Separating analytical purpose from visual form gives authors a route into the catalogue without starting from a chart name."}</li>
+            </ul>
               </div>
               {"\n    "}
             </section>
@@ -529,8 +517,10 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p>{"The Favorites tab shows a saved Overlapped column chart, while the Function filters remain visible alongside it. Public product documentation also describes adding go-to chart types to Favorites."}</p>
-                <p>{"Favorites belongs within chart discovery, not as another mandatory stage. It supports returning to a known choice without changing the three-stage structure."}</p>
+                <ul className="case-key-points">
+              <li>{"Favorites shows an Overlapped column chart beside the Function filters. Documentation supports saving go-to chart types."}</li>
+              <li>{"Favorites is a discovery shortcut—not a fourth required stage."}</li>
+            </ul>
               </div>
               {"\n    "}
             </section>
@@ -564,9 +554,11 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p>{"Customize brings Theme, Font, Auto color, and category fill controls together with visibility toggles for titles, axes, sliders, and Data Label. Back and Proceed provide a route between stages."}</p>
-                <p>{"Advanced separates analytic controls from the appearance settings. The supplied view has Reference line enabled and sorting set to Descending by AC. TopN is visible as a tab; its configuration is not shown in these screenshots."}</p>
-                <p>{"The wizard connects selection, appearance, and analysis while deeper chart-specific settings remain in the wider product’s configuration panels. Detailed bullet bands and layouts are part of that broader scope, not the column-chart screens shown here."}</p>
+                <ul className="case-key-points">
+              <li>{"Customize handles theme, font, colors, titles, axes, sliders, and Data Label. Back/Proceed connects the stages."}</li>
+              <li>{"Advanced handles analysis. Shown: Reference line On and Descending by AC. TopN configuration is not supplied."}</li>
+              <li>{"Discovery → appearance → analysis. Detailed bullet bands and layouts belong to broader work, not these column-chart screens."}</li>
+            </ul>
               </div>
               {"\n    "}
             </section>
@@ -621,7 +613,9 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p>{"The report view shows a multi-measure column chart by Weekday, with data labels, annotation markers, and an average reference line. The Analytics+ ribbon remains visible above the chart."}</p>
+                <ul className="case-key-points">
+              <li>{"Result: Weekday column chart, multiple measures, labels, annotation markers, average line, and the Analytics+ ribbon."}</li>
+            </ul>
               </div>
               {"\n    "}
             </section>
@@ -655,7 +649,9 @@ export default function AnalyticsPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p>{"Alongside the core flows, I worked on redesigned side panels that are implemented and in use, and reusable KPI templates that shipped. That supporting work included 30+ KPI layouts, 20+ presets, and 70+ custom icons."}</p>
+                <ul className="case-key-points">
+              <li>{"Redesigned side panels are implemented and in use; reusable KPI templates shipped. Scope: 30+ layouts, 20+ presets, 70+ icons."}</li>
+            </ul>
                 <div className={"deliverable-stats"}>
                   <div>
                     <strong>{"30+"}</strong>
@@ -696,8 +692,10 @@ export default function AnalyticsPage() {
           {"\n      "}
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"Chart Wizard shipped, with my UX/UI involvement continuing through handoff and implementation review."}</p>
-            <p>{"PM, developer, and stakeholder walkthroughs checked flow clarity and requirements coverage. Implementation reviews checked fidelity to the intended design."}</p>
-            <p>{"Giving discovery, appearance, and analysis distinct places is the central design thread. Delivery and internal review are documented here; customer-impact measurements are not included."}</p>
+            <ul className="case-key-points">
+              <li>{"PM, developer, and stakeholder walkthroughs checked flow clarity and requirements coverage. Implementation reviews checked fidelity to the intended design."}</li>
+              <li>{"Give discovery, appearance, and analysis distinct places. Delivery/internal review are documented; customer-impact measurements are not included."}</li>
+            </ul>
             {"\n        "}
             <details className={"evidence-note"}>
               <summary>{"Role, delivery & evidence"}</summary>

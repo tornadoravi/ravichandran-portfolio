@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
 
 export default function StoryboardPage() {
   return (
@@ -166,7 +166,7 @@ export default function StoryboardPage() {
           {"\n      "}
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"Support different starting points within one authoring experience."}</p>
-            <p>{"Some report authors begin with a template; others need a custom layout or an empty board. Reusable starting points and flexible composition need to work together."}</p>
+            <CaseFlow steps={[["Choose a start","Auto-create, layout, template, or blank"],["Shape the report","Connect elements and data"],["Author","Keep the canvas structure visible"]]} />
           </div>
           {"\n    "}
         </section>
@@ -181,49 +181,30 @@ export default function StoryboardPage() {
           </div>
           {"\n      "}
           <ol className={"solution-grid"} role={"list"}>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"01 / Pain point"}</span>
-              <h3>{"Authors do not all begin the same way."}</h3>
-              <p>{"A blank report, a predefined layout, and an existing template represent different authoring intentions."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Expose four starting options with explanations, rather than forcing every author through one setup path."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Pain point"}</span><h3>{"Authors do not all begin the same way."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Offer four starting routes, each with a clear purpose."}</p>
               <a className={"text-link"} href={"#starting-point"}>
                 {"See entry choices "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"02 / Pain point"}</span>
-              <h3>{"Configuration needs spatial context."}</h3>
-              <p>{"Element counts and data choices are harder to interpret without seeing their relationship to the report layout."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Place element configuration beside a layout preview and Pivot data, making the three parts visible together."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Pain point"}</span><h3>{"Configuration needs spatial context."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Show element configuration, layout preview, and data together."}</p>
               <a className={"text-link"} href={"#layout"}>
                 {"See the layout "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"03 / Pain point"}</span>
-              <h3>{"The canvas needs a readable structure."}</h3>
-              <p>{"An empty board needs a next action; a populated report needs a way to understand its elements."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Pair the blank-state insert instruction with an authoring workspace whose layer hierarchy exposes report structure."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Pain point"}</span><h3>{"The canvas needs a readable structure."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Give blank boards an insert action; expose populated reports through layers."}</p>
               <a className={"text-link"} href={"#editor"}>
                 {"See authoring context "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n      "}
           </ol>
           {"\n    "}
         </section>
@@ -272,18 +253,20 @@ export default function StoryboardPage() {
           </div>
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"Storyboard connects the choice of starting point, report structure, and editing context into one authoring experience."}</p>
-            <p>{"My work included storyboard enhancements, presentation mode, annotations, slideshow interactions, Text-to-Visual, and PowerPoint visualization templates, within Analytics+ at Lumel Technologies."}</p>
-            <p>
+            <ul className="case-key-points">
+              <li>{"My work included storyboard enhancements, presentation mode, annotations, slideshow interactions, Text-to-Visual, and PowerPoint visualization templates, within Analytics+ at Lumel Technologies."}</li>
+              <li>
               {"The walkthrough follows report creation, layout, template entry points, and the canvas. Chart Wizard has a "}
               <a className={"text-link"} href={"/analytics.html"}>
                 {"separate case study "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
               {"."}
-            </p>
+            </li>
+            </ul>
             <div className={"note"}>
               <span className={"eyebrow"}>{"Scope & evidence"}</span>
-              <p>{"Product screenshots provide context, not independent ownership of every displayed feature or template. Presentation contributions are described separately from the authoring screenshots."}</p>
+              <p>{"Authoring screenshots show product context—not ownership of every feature or template. Presentation contributions stay separate."}</p>
             </div>
           </div>
         </section>
@@ -298,8 +281,10 @@ export default function StoryboardPage() {
             </h2>
           </div>
           <div className={"section-copy"}>
-            <p>{"The entry screen presents four routes: Auto create – report, Custom layout, Choose template, and Blank report. Each option pairs a label with a short explanation of the starting point it offers."}</p>
-            <p>{"This separates different authoring intentions before the user enters the canvas: an automatically generated report, a configured structure, an existing template, or an empty workspace."}</p>
+            <ul className="case-key-points">
+              <li>{"Four starting routes: Auto create – report, Custom layout, Choose template, Blank report."}</li>
+              <li>{"Choose the amount of starting structure before entering the canvas."}</li>
+            </ul>
           </div>
         </section>
         {"\n    "}
@@ -313,9 +298,11 @@ export default function StoryboardPage() {
             </h2>
           </div>
           <div className={"section-copy"}>
-            <p>{"The Custom layout screen uses three regions: Elements Configuration, a central Preview, and Pivot data – KPI. The visible controls include KPI, chart, and table counts, trellis toggles, navigation placement, comments, and a viz-data-ink ratio slider."}</p>
-            <p>{"The preview places the selected KPI region within the larger report, while the adjacent data area shows category and measure fields. This creates a visible relationship between the element being configured, its place in the layout, and its data context."}</p>
-            <p>{"Reset and Apply sit at the bottom of the workspace, keeping the confirmation controls separate from the configuration regions."}</p>
+            <ul className="case-key-points">
+              <li>{"Three regions: Elements Configuration, Preview, Pivot data – KPI. Counts, trellis, navigation, comments, and viz-data-ink controls stay together."}</li>
+              <li>{"See the configured element, its report position, and its category/measure fields together."}</li>
+              <li>{"Reset and Apply sit at the bottom of the workspace, keeping the confirmation controls separate from the configuration regions."}</li>
+            </ul>
           </div>
         </section>
         {"\n    "}
@@ -346,9 +333,11 @@ export default function StoryboardPage() {
             </h2>
           </div>
           <div className={"section-copy"}>
-            <p>{"The Choose template screen distinguishes Explore template store from Import templates. The import route includes a drag-and-drop instruction, while Explore provides a route to the template catalogue."}</p>
-            <p>{"The public Analytics+ store organizes its offerings into standalone templates, dashboard templates, visual components, and data apps. The supplied store screenshot shows search, category filters, and preview cards that provide context for browsing reusable assets."}</p>
-            <p>{"The store is included as product-ecosystem context. Individual dashboards, community assets, and the store itself are not presented as separate projects I owned."}</p>
+            <ul className="case-key-points">
+              <li>{"Choose between Explore template store and Import templates. Import includes a drag-and-drop instruction."}</li>
+              <li>{"The store offers dashboard/standalone templates, visual components, and data apps. Search, filters, and previews support browsing."}</li>
+              <li>{"Store imagery is ecosystem context—not ownership of the catalogue, community assets, or individual dashboards."}</li>
+            </ul>
           </div>
         </section>
         {"\n    "}
@@ -401,8 +390,10 @@ export default function StoryboardPage() {
             </h2>
           </div>
           <div className={"section-copy"}>
-            <p>{"Blank report is another starting route, separate from custom-layout configuration and template selection. Its empty state explains that no elements are present and directs the user to the insert control."}</p>
-            <p>{"The left rail exposes Pivot data, Properties, Advanced, and Action, while board tabs remain available along the bottom. The authoring workspace is visible before report content has been added."}</p>
+            <ul className="case-key-points">
+              <li>{"Blank report → empty-state instruction → insert control. An alternative to layouts and templates, not a later required step."}</li>
+              <li>{"Pivot data, Properties, Advanced, Action, and board tabs remain visible before content is added."}</li>
+            </ul>
           </div>
         </section>
         {"\n    "}
@@ -433,8 +424,10 @@ export default function StoryboardPage() {
             </h2>
           </div>
           <div className={"section-copy"}>
-            <p>{"The populated workspace shows a report containing KPI cards, three bar charts, a slicer, and detailed table data. A layer hierarchy on the left exposes top-bar elements, cards, charts, and a table within the report structure."}</p>
-            <p>{"This view follows the starting-route examples in the case study so the reader can see the contrast between setup and a composed report. It is a supplied authoring-state example, not a recorded sequence of every action taken to create the report."}</p>
+            <ul className="case-key-points">
+              <li>{"KPI cards, three charts, a slicer, and a table. The layer hierarchy exposes the report’s structure."}</li>
+              <li>{"A composed authoring state—not a recording of how every element was created."}</li>
+            </ul>
           </div>
         </section>
         {"\n    "}
@@ -466,15 +459,17 @@ export default function StoryboardPage() {
           </div>
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"A composed report is the foundation for communicating insights in a deliberate sequence."}</p>
-            <p>
+            <ul className="case-key-points">
+              <li>
               {"My contributions extended to presentation mode, annotations, and slideshow interactions. That communication layer now has a "}
               <a className={"text-link"} href={"/presentation.html"}>
                 {"dedicated Annotations, Comments & Presentation case "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
               {"."}
-            </p>
-            <p>{"The six images in this case study show storyboard authoring and its template ecosystem. They are not presentation-mode or slideshow screenshots, and no specific presentation behavior or customer result is inferred from them."}</p>
+            </li>
+              <li>{"Six authoring/template screens—not presentation playback or slideshow evidence. No customer results are inferred."}</li>
+            </ul>
           </div>
         </section>
         {"\n    "}
@@ -489,7 +484,9 @@ export default function StoryboardPage() {
           </div>
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"The authoring context matters as much as the final report."}</p>
-            <p>{"A useful starting point, a readable layout, and a visible relationship between elements and data give report composition a clearer structure."}</p>
+            <ul className="case-key-points">
+              <li>{"Keep the starting point, report structure, and element-to-data relationship visible."}</li>
+            </ul>
             <details className={"evidence-note"}>
               <summary>{"Role, delivery & evidence"}</summary>
               <div className={"note"}>

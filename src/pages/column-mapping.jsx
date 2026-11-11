@@ -66,9 +66,10 @@ export default function ColumnMappingPage() {
             <details className="interface-notes">
               <summary>Screen notes</summary>
               {"\n        "}
-              <p>{"Layout navigation stays on the left. Task, Time Entries, Resource, and Cost organize the mapping decisions across the top."}</p>
-              {"\n        "}
-              <p>{"Here, a time-entry table connects logged hours to the task through a shared Task ID."}</p>
+              <ul className="case-key-points">
+              <li>{"Layout navigation stays on the left. Task, Time Entries, Resource, and Cost organize the mapping decisions across the top."}</li>
+              <li>{"Here, a time-entry table connects logged hours to the task through a shared Task ID."}</li>
+            </ul>
               {"\n        "}
 
               {"\n      "}
@@ -124,7 +125,7 @@ export default function ColumnMappingPage() {
               <span className={"small-index"}>{"01"}</span>
               <div>
                 <h3>{"Separate the layout from the data role."}</h3>
-                <p>{"Keep Gantt or Resource visible in the layout navigation while tabs divide the mapping domains. This reduces one long form, at the cost of navigation between domains."}</p>
+                <p>{"Keep the layout visible; split mapping into focused tabs. Trade-off: navigation between domains."}</p>
               </div>
             </li>
             {"\n        "}
@@ -132,7 +133,7 @@ export default function ColumnMappingPage() {
               <span className={"small-index"}>{"02"}</span>
               <div>
                 <h3>{"Expose the relationship, not just the field."}</h3>
-                <p>{"The resource form names both sides of the ID relationship: current table and resource table. More explicit labels take space, but distinguish similar-looking selectors."}</p>
+                <p>{"Name both ID sources: current table and resource table. Clearer relationships cost extra label space."}</p>
               </div>
             </li>
             {"\n        "}
@@ -140,7 +141,7 @@ export default function ColumnMappingPage() {
               <span className={"small-index"}>{"03"}</span>
               <div>
                 <h3>{"Explain a blocked state where it occurs."}</h3>
-                <p>{"The Cost banner names resource mapping as a prerequisite for Standard and Usage Cost. Disabled controls alone would not explain the next action."}</p>
+                <p>{"Explain the dependency: resource mapping enables Standard Cost and Usage Cost."}</p>
               </div>
             </li>
             {"\n      "}
@@ -165,9 +166,11 @@ export default function ColumnMappingPage() {
               <div className={"mapping-step-copy"}>
                 <p className={"eyebrow"}>{"01 / Gantt · Task"}</p>
                 <h2 id={"task-title"}>{"Establish task identity and timing."}</h2>
-                <p>{"Start Date, End Date/Duration, and Task ID define the core mappings. Parent ID and Multiple Column Hierarchy provide alternative ways to represent task structure."}</p>
-                <p>{"The selected Parent ID state pairs Parent_Id with Task_Name. Milestone and Progress are also visible."}</p>
-                <p className={"fine-print"}>{"This attachment is lower resolution and is deliberately shown without enlargement. The banner describes shared configuration across layouts; the still image does not verify synchronization."}</p>
+                <ul className="case-key-points">
+              <li>{"Core mappings: Start Date, End Date/Duration, Task ID. Hierarchy alternatives: Parent ID or Multiple Column Hierarchy."}</li>
+              <li>{"The selected Parent ID state pairs Parent_Id with Task_Name. Milestone and Progress are also visible."}</li>
+            </ul>
+                <p className={"fine-print"}>{"Native-size image; no enlargement. The shared-configuration banner is not proof of cross-view synchronization."}</p>
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen mapping-screen--small"}>
@@ -190,8 +193,10 @@ export default function ColumnMappingPage() {
               <div className={"mapping-step-copy"}>
                 <p className={"eyebrow"}>{"02 / Gantt · Time Entries"}</p>
                 <h2 id={"time-title"}>{"Connect recorded effort to the task."}</h2>
-                <p>{"The screen separates Direct Time Entry from Time entry with Approvals. In the visible direct-entry state, Time Entries is the source table, Task_Id connects it to a task, and Hours_Logged maps actual effort in hours."}</p>
-                <p>{"Save is enabled in this state. The approvals route is visible as an option, but its configuration is not shown."}</p>
+                <ul className="case-key-points">
+              <li>{"Direct entry: Time Entries → Task_Id → Hours_Logged. Time entry with Approvals is an alternative; its setup is not shown."}</li>
+              <li>{"Save is enabled in this state. The approvals route is visible as an option, but its configuration is not shown."}</li>
+            </ul>
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
@@ -214,8 +219,10 @@ export default function ColumnMappingPage() {
               <div className={"mapping-step-copy"}>
                 <p className={"eyebrow"}>{"03 / Gantt · Resource"}</p>
                 <h2 id={"resource-title"}>{"Make both sides of the relationship explicit."}</h2>
-                <p>{"Employees is selected as the resource table. Assigned To identifies the resource from the current table; a second selector identifies the matching ID from the resource table."}</p>
-                <p>{"The related ID and display-column mappings remain incomplete, and Save is disabled. This records the visible state, not a tested validation sequence."}</p>
+                <ul className="case-key-points">
+              <li>{"Resource table: Employees. Match Assigned To in the current table with the resource table’s ID."}</li>
+              <li>{"Resource ID and display mappings are incomplete; Save is disabled. A visible state, not a tested validation sequence."}</li>
+            </ul>
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
@@ -238,8 +245,10 @@ export default function ColumnMappingPage() {
               <div className={"mapping-step-copy"}>
                 <p className={"eyebrow"}>{"04 / Gantt · Cost"}</p>
                 <h2 id={"cost-title"}>{"Name the prerequisite before asking for costs."}</h2>
-                <p>{"“Complete the Resource mapping to enable Standard Cost and Usage Cost calculations.” The inline message explains why those two selectors are unavailable."}</p>
-                <p>{"Fixed Cost is shown separately. The screen does not establish calculation formulas, currency handling, or what happens after resource mapping is completed."}</p>
+                <ul className="case-key-points">
+              <li>{"Resource mapping first → Standard Cost and Usage Cost become available. The banner explains the blocked selectors."}</li>
+              <li>{"Fixed Cost is separate. This screen does not establish calculation formulas, currency handling, or post-mapping behavior."}</li>
+            </ul>
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
@@ -262,8 +271,10 @@ export default function ColumnMappingPage() {
               <div className={"mapping-step-copy"}>
                 <p className={"eyebrow"}>{"05 / Related view · Resource layout"}</p>
                 <h2 id={"resource-layout-title"}>{"Keep the configuration language consistent across layouts."}</h2>
-                <p>{"Resource is now selected in the left navigation, while Task remains the active mapping tab. Assigned To, dates, Estimated_hours, and filter columns define this view’s task information."}</p>
-                <p>{"Additional Mapping Options stays collapsed, keeping the core fields visible. This is a related layout, not a mandatory fifth step in Gantt setup."}</p>
+                <ul className="case-key-points">
+              <li>{"Related Resource layout: Assigned To, dates, Estimated_hours, and filters. Task remains the active mapping tab."}</li>
+              <li>{"Additional Mapping Options stays collapsed. This related layout is not a mandatory fifth step in Gantt setup."}</li>
+            </ul>
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
@@ -290,7 +301,7 @@ export default function ColumnMappingPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Evidence & product context"}</p>
             <h2 id={"evidence-title"}>{"Documented capability. My design evidence, separately."}</h2>
-            <p>{"Microsoft Learn confirms Gantt layout configuration, necessary date and task-ID fields, and optional hierarchy, milestone, progress, dependency, effort, and filter mappings. The overview places PowerTable within Planning in Fabric."}</p>
+            <p>{"Microsoft Learn documents required task/date fields and optional mappings. It supplies product context, not validation of these design states."}</p>
           </div>
           {"\n      "}
           <div className={"mapping-source-links"}>

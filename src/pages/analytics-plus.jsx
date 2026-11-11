@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseContext, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseContext, CaseSnapshot, CaseFlow } from '../CaseReview.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -130,7 +130,7 @@ export default function AnalyticsPlusPage() {
               <div className={"case-section-heading"}>
                 <p className={"eyebrow"}>{"Product context / New to the platform?"}</p>
                 <h2 id={"platform-context-title"}>{"Where Analytics+ fits."}</h2>
-                <p>{"Microsoft Fabric is the broader data and analytics platform. Power BI is its reporting and visualization experience. Inforiver Analytics+ is a custom visual from Lumel that report authors add inside a Power BI report."}</p>
+                <p>{"Fabric is the wider platform. Power BI is its reporting and visualization experience. Analytics+ is a custom visual from Lumel."}</p>
               </div>
               {"\n      "}
               <ol className={"platform-stack"} aria-label={"Platform, reporting experience, and custom visual"}>
@@ -191,9 +191,9 @@ export default function AnalyticsPlusPage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p className={"large-copy"}>{"A chart-rich product still needs a clear path from choosing a view to telling a story."}</p>
-                <p>{"Analytics+ extends Power BI with visualization, report authoring, and storytelling capabilities. The design challenge is to connect chart choice, report composition, and explanation while keeping deeper controls available."}</p>
-              </div>
+            <p className={"large-copy"}>{"A chart-rich product still needs a clear path from choosing a view to telling a story."}</p>
+            <CaseFlow steps={[["Discover","Find a useful visual"],["Compose","Build the report"],["Explain","Give the insight context"]]} />
+          </div>
               {"\n    "}
             </section>
             {"\n    "}
@@ -219,50 +219,31 @@ export default function AnalyticsPlusPage() {
               </div>
               {"\n      "}
               <ol className={"solution-grid"} role={"list"}>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"01 / Discovery"}</span>
-                  <h3>{"The analytical goal comes before the chart name."}</h3>
-                  <p>{"Authors may know the question they need to answer without knowing the right visualization."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Design response"}</strong>
-                    {"Make chart-family and analytical-function discovery alternative routes into configuration."}
-                  </p>
-                  <a className={"text-link"} href={"#feature-wizard"}>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Discovery"}</span><h3>{"The analytical goal comes before the chart name."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Design response"}</strong>{"Offer Chart and Function routes into shared configuration."}</p>
+              <a className={"text-link"} href={"#feature-wizard"}>
                     {"Explore Chart Wizard "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"02 / Authoring"}</span>
-                  <h3>{"Individual visuals need a coherent report."}</h3>
-                  <p>{"Layout, reusable patterns, task fields, and timeline context must work as part of the wider workspace."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Design response"}</strong>
-                    {"Connect Storyboard authoring, Gantt setup, and reusable KPI starting points."}
-                  </p>
-                  <a className={"text-link"} href={"#feature-storyboard"}>
+            </li>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Authoring"}</span><h3>{"Individual visuals need a coherent report."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Design response"}</strong>{"Connect report composition, Gantt setup, and reusable KPI patterns."}</p>
+              <a className={"text-link"} href={"#feature-storyboard"}>
                     {"Explore Storyboard "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"03 / Communication"}</span>
-                  <h3>{"A data point does not explain itself."}</h3>
-                  <p>{"Report authors need to connect an observation with the context their audience needs."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Design response"}</strong>
-                    {"Keep annotations close to the data and support a focused presentation sequence."}
-                  </p>
-                  <a className={"text-link"} href={"#feature-annotations"}>
+            </li>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Communication"}</span><h3>{"A data point does not explain itself."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Design response"}</strong>{"Keep annotations beside the data; guide presentation focus."}</p>
+              <a className={"text-link"} href={"#feature-annotations"}>
                     {"Explore annotations "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n      "}
-              </ol>
+            </li>
+          </ol>
               {"\n    "}
             </section>
             {"\n\n    "}
@@ -284,7 +265,7 @@ export default function AnalyticsPlusPage() {
                   <div>
                     <span>{"01"}</span>
                     <h3>{"Frame the problem"}</h3>
-                    <p>{"Review requirements and the existing experience with product managers, developers, and stakeholders. Identify the decisions and controls the workflow needs to support."}</p>
+                    <p>{"Review requirements and existing workflows with PMs, developers, and stakeholders."}</p>
                   </div>
                   {"\n        "}
                   <div>
@@ -315,7 +296,7 @@ export default function AnalyticsPlusPage() {
               <div className={"case-section-heading"}>
                 <p className={"eyebrow"}>{"03 / Competitive analysis · Author & viewer perspectives"}</p>
                 <h2 id={"comparison-title"}>{"What should authors and viewers be able to do?"}</h2>
-                <p>{"Two viewpoints shape this comparison: the author building the report and the viewer trying to understand it. The focus is their task, the documented product pattern, and the design response in Analytics+."}</p>
+                <p>{"Two perspectives: the author building a report and the viewer interpreting it. Compare tasks, documented patterns, and design responses."}</p>
               </div>
               {"\n      "}
               <div className={"comparison-table-wrap"} tabIndex={"0"} role={"region"} aria-label={"Competitive analysis comparison"}>
@@ -597,8 +578,10 @@ export default function AnalyticsPlusPage() {
               </div>
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"The design thread is the relationship between the decisions an author makes."}</p>
-                <p>{"Discovery, configuration, report composition, and explanation need different controls, but they should not feel like unrelated products. Carrying the work through handoff and implementation review helps preserve that intended connection."}</p>
-                <p>{"The feature stories show concrete interface decisions and the supplied evidence behind them. They do not substitute screen counts, vendor claims, or current public comparisons for measured user outcomes."}</p>
+                <ul className="case-key-points">
+              <li>{"Connect discovery, configuration, composition, and explanation. Carry that intent through handoff and implementation review."}</li>
+              <li>{"Feature screens show design decisions—not measured user outcomes, regardless of screen counts or vendor claims."}</li>
+            </ul>
               </div>
             </section>
             {"\n    "}
@@ -612,15 +595,16 @@ export default function AnalyticsPlusPage() {
                 </h2>
               </div>
               <div className={"section-copy"}>
-                <p>
+                <ul className="case-key-points">
+              <li>
                   <a className={"text-link"} href={"https://inforiver.com/analytics-plus/"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Inforiver Analytics+ official website "}
                     <span aria-hidden={"true"}>{"↗"}</span>
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
-                </p>
-                <p>{"The official logo and product-consolidation illustration are sourced from this page and belong to Inforiver / Lumel. They are used for product identification and context, not presented as assets I designed."}</p>
-                <p>
+                </li>
+              <li>{"Official logo and product artwork belong to Inforiver / Lumel. Used for identification, not claimed as my design deliverables."}</li>
+              <li>
                   {"The lead dashboard is the "}
                   <a href={"https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Planning Report | IBCS Theme template by Lumel Inc. ↗"}
@@ -632,19 +616,20 @@ export default function AnalyticsPlusPage() {
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
                   {". The preview and catalogue categories illustrate current product capabilities, not my authorship of the template, ownership of the Marketplace, or measured project outcomes."}
-                </p>
-                <p>
+                </li>
+              <li>
                   {"The unchanged Microsoft Power BI and Fabric icons come from "}
                   <a href={"https://learn.microsoft.com/en-us/fabric/fundamentals/icons"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Microsoft's official icon collection ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
                   {". They identify the platform relationship, not a Microsoft endorsement or ownership of Analytics+."}
-                </p>
-                <p>{"The competitive analysis cites Microsoft Learn and Tableau's official Stories documentation. The detailed feature cases retain the supplied product/design screens; the overview labels official product examples separately."}</p>
+                </li>
+              <li>{"Comparisons cite Microsoft Learn and Tableau Stories. Feature cases retain supplied screens; official examples are labeled separately."}</li>
+            </ul>
                 <div id={"feature-references"}>
                   <h3>{"Feature references."}</h3>
-                  <p>{"Checked against official sources on 11 November 2026. These confirm product capabilities, not individual design ownership or the release status of each supplied screen."}</p>
+                  <p>{"Official sources checked 11 November 2026: capabilities, not individual design ownership or each screen’s release status."}</p>
                   <p>
                     <a href={"https://docs.inforiver.com/analytics+/storyboard"} target={"_blank"} rel={"noopener noreferrer"}>{"Storyboard documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                     {" — Auto-create, template selection, custom layouts, and arranging report elements."}
@@ -668,13 +653,15 @@ export default function AnalyticsPlusPage() {
                     {", not my design deliverable. The linked KPI case retains my original supplied design screens and confirmed contribution."}
                   </p>
                 </div>
-                <p>
+                <ul className="case-key-points">
+              <li>
                   <a href={"https://www.linkedin.com/posts/info-river_powerbi-datastorytelling-dashboarddesign-activity-7449433719045537792-W7XT"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Inforiver’s public post on storyboarding, layouts, and reusable templates ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
                   {" describes the vendor’s product perspective. It is not independent customer feedback or evidence of measured results from my designs."}
-                </p>
+                </li>
+            </ul>
                 <p className={"fine-print"}>{"No customer interviews, competitor test results, usability improvements, ROI, adoption metrics, or third-party endorsements are invented."}</p>
               </div>
             </section>

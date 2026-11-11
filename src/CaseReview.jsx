@@ -221,6 +221,15 @@ export function CaseContext({ role, children }) {
   </details>;
 }
 
+export function CaseFlow({ steps }) {
+  return <ol className="case-highlight-flow" aria-label="Design intent">
+    {steps.map(([title, detail]) => <li key={title}>
+      <strong>{title}</strong>
+      <span>{detail}</span>
+    </li>)}
+  </ol>;
+}
+
 export function CaseSnapshot({ caseId, id }) {
   const story = stories[caseId];
   return (

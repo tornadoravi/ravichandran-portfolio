@@ -293,6 +293,35 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 .editorial-case .product-overview .product-screenshot { display: flex; justify-content: center; }
 .editorial-case main > figure.product-overview img { max-height: 420px; }
 .editorial-case .case-summary { max-width: 62ch; font-size: 18px; line-height: 1.55; margin-bottom: 20px; }
+.editorial-case .editorial-section { gap: clamp(28px, 4vw, 64px); padding-block: 48px; }
+.editorial-case .section-label h2 { max-width: 23ch; font-size: clamp(26px, 2.5vw, 36px); }
+.editorial-case .section-copy .large-copy { max-width: 42ch; margin-bottom: 18px; font-size: 22px; }
+.case-key-points { list-style: none; max-width: 66ch; margin: 0 0 18px; padding: 0; }
+.case-key-points > li { position: relative; padding: 10px 0 10px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 16px; line-height: 1.65; }
+.case-key-points > li:first-child { border-top: 0; }
+.case-key-points > li::before { content: ""; position: absolute; top: 21px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.case-highlight-flow { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; list-style: none; margin: 24px 0 0; padding: 0; }
+.case-highlight-flow::before { content: ""; position: absolute; top: 5px; left: 5px; right: 5px; height: 1px; background: var(--line); }
+.case-highlight-flow > li { position: relative; min-width: 0; padding-top: 24px; }
+.case-highlight-flow > li::before { content: ""; position: absolute; top: 0; left: 0; width: 11px; height: 11px; border: 2px solid var(--bg); border-radius: 50%; background: var(--accent); }
+.case-highlight-flow strong { display: block; margin-bottom: 6px; color: var(--ink); font-size: 16px; font-weight: 500; }
+.case-highlight-flow span { display: block; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.editorial-case .solution-grid { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 24px; border-top: 1px solid var(--line); }
+.editorial-case .solution-grid > li { display: grid; grid-template-columns: 1fr 1.2fr minmax(130px, .7fr); gap: 28px; align-items: center; padding: 20px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+.editorial-case .solution-grid > li:hover { box-shadow: none; border-color: var(--line); }
+.editorial-case .solution-grid h3 { margin: 8px 0 0; font-size: 19px; }
+.editorial-case .solution-grid .solution-highlight { border: 0; padding: 0; margin: 0; font-size: 16px; line-height: 1.6; }
+.editorial-case .solution-grid .solution-highlight strong { margin-bottom: 6px; }
+.editorial-case .solution-grid .text-link { justify-self: end; margin: 0; font-size: 14px; }
+@media (max-width: 700px) {
+  .editorial-case .editorial-section { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 32px; }
+  .editorial-case .solution-grid > li { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-block: 20px; }
+  .editorial-case .solution-grid .text-link { justify-self: start; }
+  .case-highlight-flow { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .case-highlight-flow::before { top: 5px; bottom: 5px; right: auto; width: 1px; height: auto; }
+  .case-highlight-flow > li { padding: 0 0 0 28px; }
+  .case-highlight-flow > li::before { top: 6px; }
+}
 .editorial-case .metadata { gap: 16px 24px; padding-top: 18px; }
 .editorial-case .metadata dt { line-height: 1.4; margin-bottom: 6px; }
 .editorial-case .metadata dd { line-height: 1.55; }

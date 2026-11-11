@@ -145,3 +145,16 @@ test('Home and Work bookmarks keep the same song and native history', async ({ p
   await expect(page.locator('#work')).toBeInViewport();
   expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused)).toBe(true);
 });
+
+test('work index respects the chosen project when covers share a desktop row', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#work');
+  const index = page.getByRole('navigation', { name: 'Selected work index' });
+  for (const id of ['project-analytics', 'project-planning', 'project-analytics']) {
+    const link = index.locator(`a[href="#${id}"]`);
+    await link.click();
+    await expect(link).toHaveAttribute('aria-current', 'location');
+    await expect(index.locator('[aria-current="location"]')).toHaveCount(1);
+    await expect(page.locator(`#${id}`)).toBeInViewport();
+  }
+});

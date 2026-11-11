@@ -152,13 +152,15 @@ export default function GanttBacklogPage() {
             {"\n        "}
             <h2 id={"pending-title"}>{"A visible item is not proof of a saved record."}</h2>
             {"\n        "}
-            <p>
+            <ul className="case-key-points">
+              <li>
               {"The second screen also shows "}
               <strong>{"Preview Changes (1)"}</strong>
               {", Save to Database, and Discard Changes. This crop preserves that distinction between the current view and a save action."}
-            </p>
+            </li>
+            </ul>
             {"\n        "}
-            <p className={"fine-print"}>{"No save confirmation or database result is supplied. The change count does not establish which fields changed or prove that T0011 was persisted."}</p>
+            <p className={"fine-print"}>{"No save confirmation or database result is supplied. The change count does not identify changed fields or prove T0011 was persisted."}</p>
             {"\n      "}
           </div>
           {"\n      "}
@@ -193,7 +195,7 @@ export default function GanttBacklogPage() {
               <span className={"small-index"}>{"01"}</span>
               <div>
                 <h3>{"Make the first action explicit."}</h3>
-                <p>{"The empty-state message and Add Task button work together. Loading, permission, and error states are not supplied and should not be confused with this empty state."}</p>
+                <p>{"Empty message + Add Task = clear next action. Loading, permission, and error states are not supplied."}</p>
               </div>
             </li>
             {"\n        "}
@@ -201,7 +203,7 @@ export default function GanttBacklogPage() {
               <span className={"small-index"}>{"02"}</span>
               <div>
                 <h3>{"Retain creation alongside management."}</h3>
-                <p>{"The populated panel keeps New Task, search, and row actions together. The identifier-only row is compact; task recognizability at scale remains a review question, not a measured finding."}</p>
+                <p>{"Keep New Task, search, and row actions together. Identifier-only task recognition at scale remains an open review question."}</p>
               </div>
             </li>
             {"\n        "}
@@ -209,7 +211,7 @@ export default function GanttBacklogPage() {
               <span className={"small-index"}>{"03"}</span>
               <div>
                 <h3>{"Distinguish local changes from persistence."}</h3>
-                <p>{"Preview, save, and discard controls expose separate choices. The screenshots do not establish validation, conflict handling, or success feedback after saving."}</p>
+                <p>{"Preview, save, and discard are separate choices. Validation, conflicts, and save-success feedback are not shown."}</p>
               </div>
             </li>
             {"\n      "}

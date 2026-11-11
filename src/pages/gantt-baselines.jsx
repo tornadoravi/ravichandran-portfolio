@@ -66,12 +66,13 @@ export default function GanttBaselinesPage() {
             <details className="interface-notes">
               <summary>Screen notes</summary>
               {"\n        "}
-              <p>{"Set Baseline groups Create New, Manage, and Compare. The open Compare submenu lists Current Data and three named baselines."}</p>
-              {"\n        "}
-              <p>
+              <ul className="case-key-points">
+              <li>{"Set Baseline groups Create New, Manage, and Compare. The open Compare submenu lists Current Data and three named baselines."}</li>
+              <li>
                 <strong>{"Current Data + Baseline 1"}</strong>
                 {" are selected. “Select upto 2 options to compare” states a limit of two total selections, not two baselines plus current data."}
-              </p>
+              </li>
+            </ul>
               {"\n        "}
               <p className={"fine-print"}>{"Create New is visible, but its configuration dialog is not supplied."}</p>
               {"\n      "}
@@ -112,8 +113,8 @@ export default function GanttBaselinesPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"02 / Same screen · Timeline detail"}</p>
             <h2 id={"comparison-title"}>{"Read the comparison in schedule context."}</h2>
-            <p>{"Blue task bars and light-grey comparison bars share the same month and week scale. Dependencies and progress labels remain visible, rather than moving the comparison to a separate report."}</p>
-            <p className={"fine-print"}>{"This is another crop of the first supplied screen, not an additional state. Bar positions are visual evidence, not a calculated variance or a measured project outcome."}</p>
+            <p>{"Blue task bars and light-grey comparison bars share one timescale. Dependencies and progress remain visible."}</p>
+            <p className={"fine-print"}>{"Another crop of the first screen, not an additional state, a calculated variance, or a measured outcome."}</p>
           </div>
           {"\n      "}
           <figure className={"detail-figure mapping-screen"}>
@@ -142,11 +143,12 @@ export default function GanttBaselinesPage() {
             {"\n        "}
             <h2 id={"management-title"}>{"Give saved baselines a dedicated place."}</h2>
             {"\n        "}
-            <p>{"The side panel lists Baseline 1, Baseline 2, and Baseline 3 with row-level action icons. The original screen keeps the Gantt canvas visible beside it."}</p>
+            <ul className="case-key-points">
+              <li>{"Baseline 1–3 and row actions sit in a side panel, beside the Gantt canvas."}</li>
+              <li>{"Menu = comparison selection. Panel = saved baselines. Creation, permissions, action results, and confirmations are not supplied."}</li>
+            </ul>
             {"\n        "}
-            <p>{"Management and comparison have different surfaces: the menu chooses the active comparison; the panel presents the saved baselines. Screens behind Create New or the action icons, permission rules, and confirmation states are not supplied."}</p>
-            {"\n        "}
-            <p className={"fine-print"}>{"The panel crop preserves baseline names and controls. Author metadata rows have been redacted for privacy; they are not empty product states."}</p>
+            <p className={"fine-print"}>{"Names and controls are retained. Author metadata rows have been redacted—not empty product states."}</p>
             {"\n      "}
           </div>
           {"\n      "}
@@ -182,7 +184,7 @@ export default function GanttBaselinesPage() {
               <span className={"small-index"}>{"01"}</span>
               <div>
                 <h3>{"Keep comparison selection close to the timeline."}</h3>
-                <p>{"A compact submenu retains the schedule context. The trade-off is nested navigation and a small surface for explaining the selection rule."}</p>
+                <p>{"The submenu keeps schedule context. Trade-off: nested navigation and limited explanation space."}</p>
               </div>
             </li>
             {"\n        "}
@@ -190,7 +192,7 @@ export default function GanttBaselinesPage() {
               <span className={"small-index"}>{"02"}</span>
               <div>
                 <h3>{"Make the comparison limit explicit."}</h3>
-                <p>{"The two-option instruction sets a clear boundary before selection. The supplied state does not show how a third selection is prevented or explained."}</p>
+                <p>{"Two selections total. The supplied state does not show third-selection prevention or feedback."}</p>
               </div>
             </li>
             {"\n        "}
@@ -198,7 +200,7 @@ export default function GanttBaselinesPage() {
               <span className={"small-index"}>{"03"}</span>
               <div>
                 <h3>{"Keep baseline names consistent across surfaces."}</h3>
-                <p>{"Baseline 1–3 appear in both the menu and manager. Matching names connect the saved references to the comparison choice; more descriptive names would be a future design question, not a tested improvement."}</p>
+                <p>{"Baseline 1–3 connects menu and manager. More descriptive naming remains a future review question—not a tested improvement."}</p>
               </div>
             </li>
             {"\n      "}
@@ -211,7 +213,7 @@ export default function GanttBaselinesPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Evidence & product context"}</p>
             <h2 id={"evidence-title"}>{"PowerTable context, without overstating the feature."}</h2>
-            <p>{"Microsoft Learn places PowerTable within Planning in Fabric and documents its Gantt timeline, task bars, progress, and dependencies. The checked pages do not document these Set Baseline controls or the two-selection rule; those details are described from the supplied designs only."}</p>
+            <p>{"The checked guides do not document these Set Baseline controls or the two-selection rule. Those details come from supplied designs."}</p>
           </div>
           {"\n      "}
           <div className={"mapping-source-links"}>

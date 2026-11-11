@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
+import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
 
 export default function PresentationPage() {
   return (
@@ -56,7 +56,7 @@ export default function PresentationPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Design screens / 01–03"}</p>
             <h2 id={"screens-title"}>{"Prepare the report for presentation."}</h2>
-            <p>{"Nine full-resolution design screens show presentation setup, annotation styling, playback controls, and chart callouts. They are displayed in supplied order, not as a recording of every interaction."}</p>
+            <p>{"Nine design screens: setup, annotation styling, playback controls, chart callouts. Supplied order, not as a recording of every interaction."}</p>
           </div>
           {"\n      "}
           <div className={"presentation-gallery"}>
@@ -132,7 +132,7 @@ export default function PresentationPage() {
           {"\n      "}
           <div>
             <h2>{"Evidence & status"}</h2>
-            <p>{"Nine supplied full-resolution design screens, two separate concept illustrations, and official feature references. Each screenshot can be inspected at its original 1707 × 830 resolution."}</p>
+            <p>{"Nine supplied full-resolution design screens, two concept illustrations, and official references. Inspect each at 1707 × 830."}</p>
           </div>
           {"\n    "}
         </section>
@@ -179,7 +179,7 @@ export default function PresentationPage() {
               <span aria-hidden={"true"}>{"↗"}</span>
             </a>
             {"\n        "}
-            <p className={"flow-caption"}>{"Illustrative user flow grounded in the supplied screen groups and public feature documentation, not a recorded click sequence. A report author’s annotation work and the audience’s presentation view are different contexts."}</p>
+            <p className={"flow-caption"}>{"Illustrative flow—not recorded clicks. Authoring annotations and presenting to an audience are different contexts."}</p>
             {"\n      "}
           </nav>
           {"\n    "}
@@ -210,7 +210,7 @@ export default function PresentationPage() {
           {"\n      "}
           <div className={"section-copy"}>
             <p className={"large-copy"}>{"Support the explanation of data, not only its display."}</p>
-            <p>{"Authors need to connect observations to a specific visual or the wider report. Audiences need a clear reference for the point being discussed."}</p>
+            <CaseFlow steps={[["Reference","A data point or the whole report"],["Explain","Attach the observation"],["Focus","Guide the audience"]]} />
           </div>
           {"\n    "}
         </section>
@@ -225,49 +225,30 @@ export default function PresentationPage() {
           </div>
           {"\n      "}
           <ol className={"solution-grid"} role={"list"}>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"01 / Pain point"}</span>
-              <h3>{"An explanation needs a reference."}</h3>
-              <p>{"A note about one value can be confused with a statement about the whole report if their contexts are not distinguished."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Keep data-point and canvas-level annotation contexts distinct, so the intended reference remains understandable."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Pain point"}</span><h3>{"An explanation needs a reference."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Distinguish data-point notes from report-wide explanations."}</p>
               <a className={"text-link"} href={"#annotations"}>
                 {"See annotations "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"02 / Pain point"}</span>
-              <h3>{"Notes need a shared reading context."}</h3>
-              <p>{"Explanations attached to separate elements also need to make sense as part of the wider report."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"The documented Comments pane consolidates element-level and dashboard-level annotations. This is product context, not a claim of full panel ownership."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Pain point"}</span><h3>{"Notes need a shared reading context."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Connect notes through the documented Comments pane—not full-panel ownership."}</p>
               <a className={"text-link"} href={"#comments"}>
                 {"See comments context "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n        "}
             <li>
-              <span className={"small-index"}>{"03 / Pain point"}</span>
-              <h3>{"A dense report divides attention."}</h3>
-              <p>{"An audience may need guidance toward the visual and explanation currently being discussed."}</p>
-              <p className={"solution-highlight"}>
-                <strong>{"Solution highlight"}</strong>
-                {"Presentation and slideshow design focus on directing attention while maintaining the connection to the wider data story."}
-              </p>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Pain point"}</span><h3>{"A dense report divides attention."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Guide attention from the report overview to the relevant observation."}</p>
               <a className={"text-link"} href={"#presentation"}>
                 {"See presentation intent "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </li>
-            {"\n      "}
           </ol>
           {"\n    "}
         </section>
@@ -320,16 +301,17 @@ export default function PresentationPage() {
             {"\n        "}
             <p className={"large-copy"}>{"Data storytelling connects what the audience can see with what the presenter needs to explain."}</p>
             {"\n        "}
-            <p>{"My Analytics+ contributions included annotations, presentation mode, and slideshow interactions. This case focuses on that communication layer: relating explanations to visuals and directing attention during a presentation."}</p>
-            {"\n        "}
-            <p>
+            <ul className="case-key-points">
+              <li>{"My scope: annotations, presentation mode, slideshow interactions. Connect explanations to visuals and guide audience attention."}</li>
+              <li>
               {"Report creation, layout, and templates are covered in the separate "}
               <a className={"text-link"} href={"/storyboard.html"}>
                 {"Storyboard authoring case "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
               {". Its six screenshots remain authoring evidence, not presentation-mode screenshots."}
-            </p>
+            </li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -350,9 +332,10 @@ export default function PresentationPage() {
             {"\n        "}
             <p className={"large-copy"}>{"An explanation is useful only when its relationship to the visual is clear."}</p>
             {"\n        "}
-            <p>{"The design intent behind my annotation work was to keep an observation close to the data it describes. A note about a specific value needs a different reference from a statement about the whole report."}</p>
-            {"\n        "}
-            <p>{"Analytics+ documentation distinguishes canvas-level and data-point annotations, with rich-text formatting and annotation indicators. Those capabilities provide context for the design problem; they are not a claim that I designed every documented setting."}</p>
+            <ul className="case-key-points">
+              <li>{"Keep the observation beside its reference. Distinguish one data point from the whole report."}</li>
+              <li>{"Documentation covers canvas/data-point annotations, rich text, and indicators—not my ownership of every setting."}</li>
+            </ul>
             {"\n        "}
             <div className={"two-column"}>
               <div>
@@ -407,11 +390,11 @@ export default function PresentationPage() {
             {"\n        "}
             <p className={"large-copy"}>{"The report needs a way to make its explanations understandable together."}</p>
             {"\n        "}
-            <p>{"The official annotation guide describes an All comments view and a Comments pane that collects element-level and dashboard-level annotations. In this context, “comments” refers to the documented annotation experience, not an assumed threaded discussion system."}</p>
-            {"\n        "}
-            <p>{"The design consideration is the relationship between a note and its source: a consolidated explanation should still make clear which element or report-level context it describes. The concept illustration expresses this relationship, not an exact product layout."}</p>
-            {"\n        "}
-            <p>{"Comments-panel capabilities provide product context; my contribution here covers annotations, presentation mode, and slideshow interactions."}</p>
+            <ul className="case-key-points">
+              <li>{"All comments consolidates element-level and dashboard annotations. This is documented annotation behavior—not an assumed threaded discussion system."}</li>
+              <li>{"Keep each consolidated note connected to its source. The concept illustration shows this relationship—not an exact product layout."}</li>
+              <li>{"Comments-panel capabilities provide product context; my contribution here covers annotations, presentation mode, and slideshow interactions."}</li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -422,7 +405,7 @@ export default function PresentationPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Design screens / 04–07"}</p>
             <h2 id={"annotation-screens-title"}>{"From the report to a chart."}</h2>
-            <p>{"The supplied states show annotation-template choices, an enlarged monthly chart, playback guidance, and a contextual annotation. Their order follows the supplied images, not a verified sequence of every action."}</p>
+            <p>{"Supplied states: template choice, enlarged chart, playback guidance, contextual annotation. Their order is not a verified action sequence."}</p>
           </div>
           {"\n      "}
           <div className={"presentation-gallery"}>
@@ -514,11 +497,11 @@ export default function PresentationPage() {
             {"\n        "}
             <p className={"large-copy"}>{"Presentation changes the question from “What can I configure?” to “What should the audience follow?”"}</p>
             {"\n        "}
-            <p>{"My contribution included presentation mode and slideshow interactions. The intent was to support a deliberate explanation of the data rather than leave the audience to interpret every element at once."}</p>
-            {"\n        "}
-            <p>{"The official guide also documents animated annotations and a Present option in the Comments pane. That is a vendor-described capability, not a recording of my prototype or proof that the conceptual sequence below was implemented."}</p>
-            {"\n        "}
-            <p>{"The diagram illustrates the communication principle: establish the wider report, focus on a relevant region, and explain the observation. It intentionally does not invent playback controls, keyboard shortcuts, or transition timing."}</p>
+            <ul className="case-key-points">
+              <li>{"My presentation/slideshow contribution focused on guiding the explanation, rather than asking viewers to interpret everything at once."}</li>
+              <li>{"Animated annotations and Present are vendor-documented capabilities—not recordings of my prototype or proof the concept sequence shipped."}</li>
+              <li>{"Report overview → relevant region → observation. Concept diagram only; no invented shortcuts, controls, or transition timing."}</li>
+            </ul>
             {"\n      "}
           </div>
           {"\n    "}
@@ -598,7 +581,9 @@ export default function PresentationPage() {
             {"\n        "}
             <p className={"large-copy"}>{"The visual and the narrative should support each other."}</p>
             {"\n        "}
-            <p>{"Annotations give an observation a reference. A comments view provides a place to consider explanations together. Presentation focuses the audience on the part of the story being discussed. Keeping these relationships clear is the central design intent of this case."}</p>
+            <ul className="case-key-points">
+              <li>{"Annotation = reference. Comments = connected explanation. Presentation = audience focus. Keep the visual and narrative aligned."}</li>
+            </ul>
             {"\n        "}
             <details className={"evidence-note"}>
               <summary>{"Role, delivery & evidence"}</summary>
@@ -635,7 +620,9 @@ export default function PresentationPage() {
           {"\n      "}
           <div className={"section-copy"}>
             {"\n        "}
-            <p>{"The sources below describe product capabilities. They are vendor documentation, not independent customer reviews or proof of personal design ownership."}</p>
+            <ul className="case-key-points">
+              <li>{"The sources below describe product capabilities. They are vendor documentation, not independent customer reviews or proof of personal design ownership."}</li>
+            </ul>
             {"\n        "}
             <div className={"note"}>
               {"\n          "}

@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseContext, CaseSnapshot } from '../CaseReview.jsx';
+import { CaseContext, CaseSnapshot, CaseFlow } from '../CaseReview.jsx';
 
 export default function PowertablePage() {
   return (
@@ -198,9 +198,9 @@ export default function PowertablePage() {
               </div>
               {"\n      "}
               <div className={"section-copy"}>
-                <p className={"large-copy"}>{"Support planning decisions without separating the task from its wider context."}</p>
-                <p>{"PowerTable combines no-code, writeback-enabled data management with planning experiences in Microsoft Fabric. The objective is a coherent relationship between task detail, time, and resource availability."}</p>
-              </div>
+            <p className={"large-copy"}>{"Support planning decisions without separating the task from its wider context."}</p>
+            <CaseFlow steps={[["Task","What needs doing"],["Time","When it belongs"],["Capacity","Who can take it on"]]} />
+          </div>
               {"\n    "}
             </section>
             {"\n    "}
@@ -209,7 +209,7 @@ export default function PowertablePage() {
               <div className={"case-section-heading"}>
                 <p className={"eyebrow"}>{"Product context / Microsoft Learn"}</p>
                 <h2 id={"platform-title"}>{"What is planning in Fabric?"}</h2>
-                <p>{"Microsoft Fabric is the wider data platform. Planning brings budgets, forecasts, scenarios, and operational data into that governed environment. PowerTable is its structured-data and data-application component; this case focuses on my planning UX/UI work, not the entire suite."}</p>
+                <p>{"Fabric is the platform; planning is the wider suite; PowerTable handles structured data. My scope is planning UX/UI."}</p>
               </div>
               {"\n      "}
               <ol className={"platform-stack"} aria-label={"Fabric planning product context"}>
@@ -235,7 +235,7 @@ export default function PowertablePage() {
                 {"\n      "}
               </ol>
               {"\n      "}
-              <p className={"fine-print"}>{"A product relationship, not a mandatory setup sequence. Current Microsoft documentation calls this component “PowerTable sheets.” The supplied screen uses “PowerTable.” Neither the suite description nor the Microsoft icon implies ownership of all Fabric planning capabilities."}</p>
+              <p className={"fine-print"}>{"Product relationships, not setup steps. Documentation calls it “PowerTable sheets”; the supplied screen says “PowerTable.” Neither implies suite ownership."}</p>
               {"\n      "}
               <a className={"text-link"} href={"https://learn.microsoft.com/en-us/fabric/iq/plan/overview"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Read “What is planning in Fabric?” "}
@@ -294,7 +294,7 @@ export default function PowertablePage() {
               <div className={"case-section-heading"}>
                 <p className={"eyebrow"}>{"Competitive analysis / Planner & configurator perspectives"}</p>
                 <h2 id={"comparison-title"}>{"Can people configure the plan and understand the work?"}</h2>
-                <p>{"Compare the decisions people need to make, rather than count features. Microsoft Project is an adjacent scheduling reference; Fabric and PowerTable documentation establish the platform and product baseline."}</p>
+                <p>{"Compare planning decisions, not feature counts. Microsoft Project supplies an adjacent scheduling reference; Fabric documentation establishes product context."}</p>
               </div>
               {"\n      "}
               <div className={"comparison-table-wrap"} tabIndex={"0"} role={"region"} aria-label={"Planning workflow comparison"}>
@@ -435,50 +435,31 @@ export default function PowertablePage() {
               </div>
               {"\n      "}
               <ol className={"solution-grid"} role={"list"}>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"01 / Pain point"}</span>
-                  <h3>{"A task row does not show the whole plan."}</h3>
-                  <p>{"Task details need to remain connected to timing, timescale, and broader plan comparisons."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Solution highlight"}</strong>
-                    {"Design task creation and editing alongside a Gantt canvas, timeline navigation, columns, and comparison scope."}
-                  </p>
-                  <a className={"text-link"} href={"#gantt"}>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"01 / Pain point"}</span><h3>{"A task row does not show the whole plan."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Keep task editing beside timeline navigation, columns, and baseline comparison."}</p>
+              <a className={"text-link"} href={"#gantt"}>
                     {"See Gantt design scope "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"02 / Pain point"}</span>
-                  <h3>{"Assignments need capacity context."}</h3>
-                  <p>{"A list of tasks alone does not explain who can take on work or how assignments relate to workload."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Solution highlight"}</strong>
-                    {"Connect resource assignments, backlog, summary bars, time tracking, and capacity visibility within resource Gantt design."}
-                  </p>
-                  <a className={"text-link"} href={"#resources"}>
+            </li>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"02 / Pain point"}</span><h3>{"Assignments need capacity context."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Connect assignments, backlog, time tracking, and capacity visibility."}</p>
+              <a className={"text-link"} href={"#resources"}>
                     {"See resource planning "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n        "}
-                <li>
-                  <span className={"small-index"}>{"03 / Pain point"}</span>
-                  <h3>{"Summary and detail need different views."}</h3>
-                  <p>{"Planning information needs a configurable structure rather than one fixed arrangement of all data."}</p>
-                  <p className={"solution-highlight"}>
-                    <strong>{"Solution highlight"}</strong>
-                    {"Contribute cross-tab configuration for rows, columns, measures, and contextual settings that shape summary and detail."}
-                  </p>
-                  <a className={"text-link"} href={"#crosstab"}>
+            </li>
+            <li>
+              <div className="solution-problem"><span className={"small-index"}>{"03 / Pain point"}</span><h3>{"Summary and detail need different views."}</h3></div>
+              <p className={"solution-highlight"}><strong>{"Solution highlight"}</strong>{"Expose rows, columns, measures, and contextual configuration."}</p>
+              <a className={"text-link"} href={"#crosstab"}>
                     {"See cross-tab contribution "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                </li>
-                {"\n      "}
-              </ol>
+            </li>
+          </ol>
               {"\n    "}
             </section>
             {"\n    "}
@@ -526,7 +507,9 @@ export default function PowertablePage() {
               </div>
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"PowerTable is a no-code, writeback-enabled product for data and master data management in Microsoft Fabric."}</p>
-                <p>{"I designed Gantt and resource Gantt experiences end to end, and contributed to cross-tab layout and data configuration."}</p>
+                <ul className="case-key-points">
+              <li>{"I designed Gantt and resource Gantt experiences end to end, and contributed to cross-tab layout and data configuration."}</li>
+            </ul>
               </div>
             </section>
             {"\n    "}
@@ -572,7 +555,7 @@ export default function PowertablePage() {
                   <span aria-hidden={"true"}>{"↗"}</span>
                 </a>
                 {"\n        "}
-                <p className={"flow-caption"}>{"Illustrative planning journey based on confirmed design scope, not a tested task sequence or a claim that every feature shipped. Resource and cross-tab views are related perspectives, not mandatory steps. Resource earned-value and baseline-planning work remained exploratory."}</p>
+                <p className={"flow-caption"}>{"Illustrative journey—not a tested sequence or release record. Resource and Cross-tab are related views; resource baseline/earned-value work remained exploratory."}</p>
                 {"\n      "}
               </nav>
               {"\n    "}
@@ -589,8 +572,10 @@ export default function PowertablePage() {
               </div>
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"Make the relationship between the work and its timing easier to follow."}</p>
-                <p>{"The design scope included the Gantt canvas, task creation and editing, timeline and timescale controls, column configuration, navigation, baseline comparison, effort tracking, and export."}</p>
-                <p>{"The intent was to support movement between task detail and the broader plan. A connected canvas gives task information and timeline context a shared place, while configuration makes room for different planning needs."}</p>
+                <ul className="case-key-points">
+              <li>{"Scope: task editing, timeline controls, columns, navigation, baseline comparison, effort tracking, and export."}</li>
+              <li>{"Keep task details beside the timeline. Use configuration to accommodate different planning needs."}</li>
+            </ul>
                 <div className={"two-column"}>
                   <div>
                     <span className={"small-index"}>{"WORK DETAIL"}</span>
@@ -619,20 +604,24 @@ export default function PowertablePage() {
               {"\n      "}
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"The setup connects source columns to the meaning a planning view needs."}</p>
-                <p>{"The earlier Layout Configuration screen keeps Gantt selected in the view navigation and groups mappings under Tasks, Time Entries, Resource, and Cost. In the visible Tasks tab, start date, end date/duration, and Task ID carry required markers."}</p>
+                <ul className="case-key-points">
+              <li>{"Four mapping domains: Tasks, Time Entries, Resource, Cost. Required task fields: start, end/duration, and Task ID."}</li>
+            </ul>
                 <div className={"two-column"}>
                   <div>
                     <span className={"small-index"}>{"STRUCTURE"}</span>
                     <h3>{"Dates, identity, hierarchy"}</h3>
-                    <p>{"Parent ID and Multiple Column Hierarchy are alternative hierarchy choices. Milestone, progress, dependency, and estimated effort have their own mapping controls."}</p>
+                    <p>{"Choose Parent ID or Multiple Column Hierarchy. Map milestones, progress, dependencies, and effort separately."}</p>
                   </div>
                   <div>
                     <span className={"small-index"}>{"DISCLOSURE"}</span>
                     <h3>{"Core first, more when needed"}</h3>
-                    <p>{"Filter columns and the expanded Additional mapping options area separate further settings from the core roles. Reset and Next remain visible in this earlier screen; the new supplied states use Save."}</p>
+                    <p>{"Core mappings first; filter and additional options separate. This earlier screen uses Reset/Next; newer states use Save."}</p>
                   </div>
                 </div>
-                <p>{"The information banner describes a configuration shared across Gantt, Resource, Calendar, and Kanban layouts. That message explains the intended relationship; the supplied evidence does not verify cross-view synchronization or the completed save behavior."}</p>
+                <ul className="case-key-points">
+              <li>{"The banner describes four related layouts; it does not verify cross-view synchronization or completed saves."}</li>
+            </ul>
                 <a className={"text-link"} href={"/column-mapping.html"}>
                   {"Explore Column Mapping & Configuration "}
                   <span aria-hidden={"true"}>{"→"}</span>
@@ -675,11 +664,13 @@ export default function PowertablePage() {
               </div>
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"A plan needs a view of resources as well as a view of time."}</p>
-                <p>{"My resource Gantt scope included workspace and navigation, summary bars, resource assignment, backlog, time-tracking interactions, and capacity and workload visibility."}</p>
-                <p>{"The design intent was to help people connect outstanding work with resource availability and see how assignments fit into a broader plan. This describes the purpose of the design, not a measured improvement in allocation or productivity."}</p>
+                <ul className="case-key-points">
+              <li>{"My resource Gantt scope included workspace and navigation, summary bars, resource assignment, backlog, time-tracking interactions, and capacity and workload visibility."}</li>
+              <li>{"Design intent: connect outstanding work with resource availability. Allocation and productivity improvements were not measured."}</li>
+            </ul>
                 <div className={"note"}>
                   <span className={"eyebrow"}>{"Exploration, not a shipped claim"}</span>
-                  <p>{"Earned-value and baseline-planning work for resource Gantt was exploratory. It is separate from the baseline-comparison design scope of the Gantt experience and is not presented as released functionality."}</p>
+                  <p>{"Resource earned-value and baseline planning remained exploratory—not released functionality or the Gantt baseline-comparison scope."}</p>
                 </div>
               </div>
             </section>
@@ -707,8 +698,10 @@ export default function PowertablePage() {
                 </h2>
               </div>
               <div className={"section-copy"}>
-                <p>{"Alongside the Gantt work, I contributed to cross-tab layout and data configuration: rows, columns, measures, contextual settings, and the presentation of summarized and detailed information."}</p>
-                <p>{"The intent was to make the relationship between configuration and the resulting view understandable, so people can shape a useful perspective on their data without losing its structure."}</p>
+                <ul className="case-key-points">
+              <li>{"Cross-tab contribution: rows, columns, measures, contextual settings, and summary/detail layouts."}</li>
+              <li>{"Make the connection between configuration and the resulting view visible."}</li>
+            </ul>
                 <div className={"flow-strip"} aria-label={"Cross-tab configuration dimensions"}>
                   <div>
                     <span>{"01"}</span>
@@ -739,20 +732,22 @@ export default function PowertablePage() {
               </div>
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"The design work continues when engineering starts implementing it."}</p>
-                <p>{"My involvement covered developer handoff, interaction and visual clarification, and implementation reviews. The goal was to keep the agreed workflow and interface behavior understandable as the experience moved from design into the build."}</p>
+                <ul className="case-key-points">
+              <li>{"Developer handoff, interaction clarification, visual checks, and implementation review—not production-code ownership."}</li>
+            </ul>
                 <div className={"two-column"}>
                   <div>
                     <span className={"small-index"}>{"HANDOFF"}</span>
                     <h3>{"Make decisions explicit"}</h3>
-                    <p>{"Explain the intended flow, control hierarchy, and state relationships so implementation questions can be resolved with the design context in view."}</p>
+                    <p>{"Explain flow, control hierarchy, and state relationships during handoff."}</p>
                   </div>
                   <div>
                     <span className={"small-index"}>{"IMPLEMENTATION REVIEW"}</span>
                     <h3>{"Review against the intent"}</h3>
-                    <p>{"Work with engineering on interaction and visual details rather than treat the final design screen as the end of the contribution."}</p>
+                    <p>{"Resolve interaction and visual details with engineering during implementation."}</p>
                   </div>
                 </div>
-                <p className={"fine-print"}>{"This describes my design-delivery scope, not production-code ownership. No handoff documents, QA logs, release records, or before-and-after performance results are supplied here."}</p>
+                <p className={"fine-print"}>{"No handoff files, QA logs, release records, or performance comparisons are supplied."}</p>
                 <a className={"text-link"} href={"/about.html#recommendations"}>
                   {"Read colleague feedback on collaboration "}
                   <span aria-hidden={"true"}>{"→"}</span>
@@ -771,7 +766,9 @@ export default function PowertablePage() {
               </div>
               <div className={"section-copy"}>
                 <p className={"large-copy"}>{"The core design challenge was keeping the connections visible."}</p>
-                <p>{"Tasks depend on time. Assignments depend on capacity. Data views depend on configuration. Designing across those layers means considering transitions and shared context, not only individual screens."}</p>
+                <ul className="case-key-points">
+              <li>{"Task → time. Assignment → capacity. Configuration → data view. Keep those relationships visible across the system."}</li>
+            </ul>
                 <details className={"evidence-note"}>
                   <summary>{"Role, delivery & evidence"}</summary>
                   <div className={"note"}>
@@ -806,24 +803,26 @@ export default function PowertablePage() {
                 </h2>
               </div>
               <div className={"section-copy"}>
-                <p>
+                <ul className="case-key-points">
+              <li>
                   <a className={"text-link"} href={"https://lumel.com/powertable/"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"PowerTable — official Lumel product page "}
                     <span aria-hidden={"true"}>{"↗"}</span>
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
-                </p>
-                <p>
+                </li>
+              <li>
                   {"The opening product overview is paraphrased from Lumel’s official PowerTable page. Its screenshot comes from the "}
                   <a href={"https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"official Gantt Chart View documentation ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
                   {", re-encoded as WebP without cropping or added callouts. This is product context, not evidence that I designed every capability shown."}
-                </p>
+                </li>
+            </ul>
                 <div id={"workspace-sources"}>
                   <h3>{"Workspace screenshot sources."}</h3>
-                  <p>{"Official documentation screenshots, checked on 11 November 2026. They show implemented product views, not proof of my ownership of every control or a release record for each supplied design."}</p>
+                  <p>{"Official product views, checked 11 November 2026—not proof of my ownership or release records for each supplied design."}</p>
                   <p>
                     <a href={"https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view"} target={"_blank"} rel={"noopener noreferrer"}>{"Gantt · PowerTable documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                     {" · "}
@@ -839,40 +838,42 @@ export default function PowertablePage() {
                     {" · "}
                     <a href={"/assets/powertable-official-crosstab.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Cross-tab full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                   </p>
-                  <p>{"All previews retain their source dimensions and interface content, with WebP compression only. Original design evidence remains in the supporting story and linked feature cases; Cross-tab remains contribution-level work."}</p>
+                  <p>{"Original dimensions and UI retained; WebP compression only. Supplied design evidence stays separate. Cross-tab remains contribution-level work."}</p>
                 </div>
-                <p>
+                <ul className="case-key-points">
+              <li>
                   <a className={"text-link"} href={"https://learn.microsoft.com/en-us/fabric/iq/plan/overview"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"What is planning in Fabric? "}
                     <span aria-hidden={"true"}>{"↗"}</span>
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
-                </p>
-                <p>
+                </li>
+              <li>
                   <a className={"text-link"} href={"https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-overview"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"PowerTable sheets in planning "}
                     <span aria-hidden={"true"}>{"↗"}</span>
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
-                </p>
-                <p>{"Microsoft Learn provides current product context, not evidence that I designed the entire planning suite or that each design shown here shipped. The competitive comparison also cites Microsoft Project's official task and scheduling guidance."}</p>
-                <p>
+                </li>
+              <li>{"Microsoft Learn supplies current product context, not suite ownership or release proof. Scheduling comparisons cite Microsoft Project guidance."}</li>
+              <li>
                   <a href={"https://www.linkedin.com/feed/update/urn:li:activity:7270117667141742592/"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Lumel’s public announcement about the Microsoft planning collaboration ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
                   {" provides company-level context. It is not independent user research, an endorsement of my work, or evidence of my individual contribution."}
-                </p>
-                <p>
+                </li>
+              <li>
                   {"The unchanged Microsoft Fabric icon comes from "}
                   <a href={"https://learn.microsoft.com/en-us/fabric/fundamentals/icons"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Microsoft's official icon collection ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
                   {" and identifies the actual platform, not Microsoft Office. It is not a custom PowerTable logo or an endorsement."}
-                </p>
-                <p>{"The Layout Configuration image is the supplied design screen, cropped to remove account and tenant chrome. It is not taken from Microsoft Learn. The process and connected-planning diagrams are original portfolio illustrations; their fictional sample data is not customer evidence."}</p>
-                <p className={"fine-print"}>{"No interviews, competitor test results, usability improvements, adoption figures, or business impact metrics are invented. Analytics+ Gantt for Power BI remains a separate feature story."}</p>
+                </li>
+              <li>{"Layout Configuration is a supplied design crop, not Microsoft Learn imagery. Portfolio diagrams use fictional data—not customer evidence."}</li>
+            </ul>
+                <p className={"fine-print"}>{"No research, usability gains, adoption, or business-impact metrics are invented. Analytics+ Gantt remains a separate Power BI story."}</p>
               </div>
             </section>
             {"\n      "}

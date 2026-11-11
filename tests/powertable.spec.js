@@ -12,7 +12,8 @@ for (const width of [320, 390, 768, 1440]) {
       const card = page.locator('#' + id);
       await expect(card.locator('.project-categories li')).toHaveCount(2);
       await expect(card.locator('.project-role')).toHaveCount(1);
-      await expect(card.locator('.project-description a')).toHaveCount(1);
+      await expect(card.locator('.project-description .case-link')).toHaveCount(1);
+      await expect(card.locator('.project-description a')).toHaveCount(id === 'project-analytics' ? 2 : 1);
       await expect(card.locator('.case-link')).toHaveAttribute('href', path);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
