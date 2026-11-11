@@ -33,13 +33,12 @@ for (const width of [320, 390, 768, 1440]) {
   });
 }
 
-test('Fabric callouts preserve the source while new mapping evidence replaces overview concepts', async ({ page }) => {
+test('official PowerTable product context stays separate from personal feature evidence', async ({ page }) => {
   await page.goto('/powertable.html');
-  await expect(page.locator('.case-evidence .screen-pin')).toHaveCount(3);
-  await expect(page.locator('.screen-key li')).toHaveCount(3);
-  await expect(page.locator('.case-evidence figcaption')).toContainText('portfolio annotations');
+  await expect(page.locator('.case-evidence .screen-pin, .case-evidence .screen-key')).toHaveCount(0);
+  await expect(page.locator('.case-evidence figcaption')).toContainText('Official product screenshot');
   await expect(page.locator('.case-brief')).toContainText('resource, and cost configuration screens');
-  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
+  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('.workspace-preview figcaption').filter({ hasText: /My .* UX\/UI/ })).toHaveCount(2);
   await expect(page.locator('.review-grid')).toHaveCount(0);
   await expect(page.locator('#column-mapping a')).toHaveAttribute('href', '/column-mapping.html');

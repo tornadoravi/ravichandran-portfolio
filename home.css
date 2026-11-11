@@ -153,6 +153,8 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-case main > figure.case-evidence { padding: 20px 24px 18px; }
 .editorial-case main > figure.case-evidence .figure-label .eyebrow { margin: 0; }
 .editorial-case main > figure.case-evidence .product-screenshot { margin-top: 16px; }
+.powertable-product-overview .figure-label h2 { font-size: 22px; letter-spacing: -.5px; font-weight: 500; line-height: 1.3; margin: 0; }
+.powertable-product-overview .product-overview-copy { max-width: 74ch; margin: 8px 0 0; font-size: 16px; line-height: 1.65; }
 .recommended-case { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-size: 13px; font-weight: 500; line-height: 1.4; }
 .recommended-case:hover { text-decoration: underline; text-underline-offset: 4px; }
 .editorial-case .analytics-brand-row { gap: 12px 24px; margin-bottom: 16px; }

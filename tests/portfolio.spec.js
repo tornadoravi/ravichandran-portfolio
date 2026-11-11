@@ -240,7 +240,7 @@ test('storyboard screenshots are separate from Chart Wizard and planning', async
   await expect(page.locator('img[src="/assets/storyboard-editor.png"], img[src="/assets/template-store.png"], img[src="/assets/custom-layout.png"]')).toHaveCount(0);
   await page.goto('/powertable.html');
   await expect(page.locator('img[src^="/assets/wizard-"], img[src^="/assets/storyboard-"]')).toHaveCount(0);
-  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
+  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(productPages.length);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();

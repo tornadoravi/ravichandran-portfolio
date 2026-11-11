@@ -22,7 +22,7 @@ export default function PowertablePage() {
           <p className={"case-summary"}>
             {"End-to-end Gantt and resource UX/UI in Microsoft Fabric."}
             <br className={"desktop-break"} />
-            {" Give source columns clear roles in the plan."}
+            {" Connecting tasks, timelines, and capacity."}
           </p>
           <dl className={"metadata"}>
             <div>
@@ -47,42 +47,27 @@ export default function PowertablePage() {
           </dl>
         </section>
         {"\n    "}
-        <figure className={"detail-figure screenshot-scene case-evidence wrap"}>
+        <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview wrap"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <a className={"recommended-case"} href={"/column-mapping.html"} aria-label={"Recommended first read: Column Mapping & Configuration"}>
-              <span>{"Start here · Column Mapping"}</span>
-              <span aria-hidden={"true"}>{"→"}</span>
-            </a>
-            <h3>{"Separate the data roles."}</h3>
+            <span className={"eyebrow"}>{"Product overview / Microsoft Fabric"}</span>
+            <h2>{"PowerTable in action."}</h2>
           </div>
+          <p className={"product-overview-copy"}>{"No-code data apps for managing data, approvals, and project plans in Microsoft Fabric."}</p>
           {"\n      "}
-          <a className={"product-screenshot annotated-screen"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Fabric Gantt layout configuration full-size (opens in a new tab)"}>
-            <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} fetchPriority={"high"} alt={"PowerTable Gantt workspace with a Layout Configuration dialog: Tasks, Time Entries, Resource, and Cost tabs; start and end dates, Task ID, hierarchy, milestone, progress, dependency, and effort mappings; Reset and Next controls."} />
-            <span className={"screen-pin screen-pin--first"} aria-hidden={"true"}>{"01"}</span>
-            <span className={"screen-pin screen-pin--second"} aria-hidden={"true"}>{"02"}</span>
-            <span className={"screen-pin screen-pin--third"} aria-hidden={"true"}>{"03"}</span>
+          <a className={"product-screenshot"} href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official PowerTable Gantt workspace full-size (opens in a new tab)"}>
+            <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} fetchPriority={"high"} alt={"Official PowerTable workspace in Microsoft Fabric, with a task table beside a Gantt timeline showing progress bars, milestones, and dependency connectors."} />
           </a>
           {"\n      "}
-          <ol className={"screen-key"} aria-label={"Configuration callouts"}>
-            <li>
-              <b>{"01"}</b>
-              {" Required mappings"}
-            </li>
-            <li>
-              <b>{"02"}</b>
-              {" Hierarchy choices"}
-            </li>
-            <li>
-              <b>{"03"}</b>
-              {" Additional mappings"}
-            </li>
-          </ol>
-          {"\n      "}
           <figcaption>
-            {"My Gantt configuration UX/UI · PowerTable in Microsoft Fabric. Tabs separate mapping domains rather than use one long form; the trade-off is navigation between them. Numbered callouts are portfolio annotations. "}
-            <a className={"image-link"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"}>
-              {"View original full-size ↗"}
+            {"Official product screenshot · PowerTable in Microsoft Fabric. "}
+            <a className={"image-link"} href={"https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view"} target={"_blank"} rel={"noopener noreferrer"}>
+              {"Source: PowerTable documentation ↗"}
+              <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+            </a>
+            {" "}
+            <a className={"image-link"} href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"}>
+              {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
           </figcaption>
@@ -868,7 +853,7 @@ export default function PowertablePage() {
                     </p>
                     <p>
                       <strong>{"Evidence:"}</strong>
-                      {" an earlier configuration screen with portfolio callouts and five newly supplied configuration states in the linked feature case. Resource configuration is now shown; historical iteration records and customer-outcome measurements are not included. The planning-canvas artwork remains conceptual."}
+                      {" the opening screenshot provides official product context. The linked feature cases show supplied mapping and configuration design states; historical iteration records and customer-outcome measurements are not included. The planning-canvas artwork remains conceptual."}
                     </p>
                     <p>
                       <strong>{"Status:"}</strong>
@@ -893,6 +878,21 @@ export default function PowertablePage() {
                 </h2>
               </div>
               <div className={"section-copy"}>
+                <p>
+                  <a className={"text-link"} href={"https://lumel.com/powertable/"} target={"_blank"} rel={"noopener noreferrer"}>
+                    {"PowerTable — official Lumel product page "}
+                    <span aria-hidden={"true"}>{"↗"}</span>
+                    <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                  </a>
+                </p>
+                <p>
+                  {"The opening product overview is paraphrased from Lumel’s official PowerTable page. Its screenshot comes from the "}
+                  <a href={"https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view"} target={"_blank"} rel={"noopener noreferrer"}>
+                    {"official Gantt Chart View documentation ↗"}
+                    <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                  </a>
+                  {", re-encoded as WebP without cropping or added callouts. This is product context, not evidence that I designed every capability shown."}
+                </p>
                 <p>
                   <a className={"text-link"} href={"https://learn.microsoft.com/en-us/fabric/iq/plan/overview"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"What is planning in Fabric? "}

@@ -38,28 +38,31 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 
-  test(`recommended cases expose supported reasoning before deeper browsing at ${width}px`, async ({ page }) => {
+  test(`product overviews lead into supported feature cases at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     for (const [path, destination, focus] of [
-      ['/powertable.html', '/column-mapping.html', 'Separate the data roles.'],
+      ['/powertable.html', '/column-mapping.html', 'PowerTable in action.'],
       ['/analytics-plus.html', '/storyboard.html', 'Choose a starting path.']
     ]) {
       await openReady(page, path);
       const figure = page.locator('main > .case-evidence');
-      const recommendation = figure.getByRole('link', { name: /Recommended first read/ });
+      const recommendation = path === '/powertable.html'
+        ? page.locator('#column-mapping a')
+        : figure.getByRole('link', { name: /Recommended first read/ });
       await expect(recommendation).toHaveAttribute('href', destination);
       await expect(figure.locator('.figure-label')).toContainText(focus);
       expect(await recommendation.evaluate(element => element.closest('details') === null)).toBe(true);
       const action = await recommendation.boundingBox();
       const image = await figure.locator('.product-screenshot img').boundingBox();
       expect(action.height).toBeGreaterThanOrEqual(44);
-      expect(action.y + action.height).toBeLessThanOrEqual(image.y);
       await expect(page.locator('.metadata .scan-emphasis')).toHaveText('End-to-end UX/UI');
       if (path === '/powertable.html') {
-        await expect(figure.locator('figcaption')).toContainText('trade-off');
+        await expect(figure.locator('figcaption')).toContainText('Official product screenshot');
+        await expect(figure.locator('.product-overview-copy')).toContainText('No-code data apps');
         await expect(page.locator('.case-brief')).toContainText('remain explorations');
         await expect(page.locator('#crosstab-features')).toContainText('Contribution overview');
       } else {
+        expect(action.y + action.height).toBeLessThanOrEqual(image.y);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');
         await expect(figure.locator('figcaption')).toContainText('alternative starting routes');
         await expect(figure.locator('.product-screenshot')).toHaveAttribute('href', '/assets/storyboard-start.png');
@@ -109,7 +112,10 @@ test('the recommended reading route and Home work link work without JavaScript',
     await expect(page.locator('#work')).toBeInViewport();
     for (const [path, destination] of [['/powertable.html', '/column-mapping.html'], ['/analytics-plus.html', '/storyboard.html']]) {
       await page.goto(baseURL + path);
-      await page.getByRole('link', { name: /Recommended first read/ }).click();
+      const firstRead = path === '/powertable.html'
+        ? page.locator('#column-mapping a')
+        : page.getByRole('link', { name: /Recommended first read/ });
+      await firstRead.click();
       await expect(page).toHaveURL(baseURL + destination);
       await expect(page.locator('h1')).toBeVisible();
     }

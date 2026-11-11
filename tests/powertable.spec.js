@@ -73,18 +73,25 @@ test('workspace groups and feature links remain available without JavaScript', a
   await context.close();
 });
 
-test('Fabric evidence retains native crop dimensions and is separate from Analytics+ evidence', async ({ page }) => {
+test('official PowerTable overview is attributed and original design evidence stays intact', async ({ page }) => {
   const image = await sharp(fileURLToPath(new URL('../assets/fabric-gantt-configuration.png', import.meta.url))).metadata();
   expect([image.width, image.height]).toEqual([1912, 1038]);
+  const official = await sharp(fileURLToPath(new URL('../assets/powertable-official-gantt.webp', import.meta.url))).metadata();
+  expect([official.width, official.height]).toEqual([2944, 1570]);
   await page.goto('/powertable.html');
   await expect(page.locator('.case-evidence img')).toHaveCount(1);
-  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
+  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
+  await expect(page.locator('.case-evidence h2')).toHaveText('PowerTable in action.');
+  await expect(page.locator('.product-overview-copy')).toHaveText('No-code data apps for managing data, approvals, and project plans in Microsoft Fabric.');
   await expect(page.locator('.case-evidence figcaption')).toContainText('PowerTable in Microsoft Fabric');
-  await expect(page.locator('.case-evidence figcaption')).toContainText('portfolio annotations');
+  await expect(page.locator('.case-evidence figcaption')).toContainText('Official product screenshot');
+  await expect(page.locator('.case-evidence a[href^="https://docs.powertable.com/"]')).toHaveAttribute('rel', 'noopener noreferrer');
+  await expect(page.locator('.case-evidence .annotated-screen, .case-evidence .screen-key, .case-evidence .screen-pin')).toHaveCount(0);
+  await expect(page.locator('#gantt-features img')).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
   await expect(page.locator('img[src^="/assets/gantt-"], img[src^="/assets/wizard-"], img[src^="/assets/storyboard-"]')).toHaveCount(0);
-  const response = await page.request.get('/assets/fabric-gantt-configuration.png');
+  const response = await page.request.get('/assets/powertable-official-gantt.webp');
   expect(response.status()).toBe(200);
-  expect(response.headers()['content-type']).toContain('image/png');
+  expect(response.headers()['content-type']).toContain('image/webp');
 });
 
 test('PowerTable explains the product before personal scope, comparison, and delivery', async ({ page }) => {
@@ -115,7 +122,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.goto('/powertable.html');
     const image = page.locator('.case-evidence img');
     await expect(image).toHaveJSProperty('complete', true);
-    expect(await image.evaluate(node => node.naturalWidth)).toBe(1912);
+    expect(await image.evaluate(node => node.naturalWidth)).toBe(2944);
     await page.locator('.case-evidence').getByRole('button', { name: 'Inspect screenshot' }).click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
@@ -175,11 +182,12 @@ test('Fabric screenshot and new case sections remain available without JavaScrip
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/powertable.html');
-  await expect(page.locator('.case-evidence img')).toHaveJSProperty('naturalWidth', 1912);
+  await expect(page.locator('.case-evidence img')).toHaveJSProperty('naturalWidth', 2944);
   await expect(page.locator('#process .concept-node')).toHaveCount(5);
   await page.locator('#study-details > summary').click();
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Handoff & implementation', exact: true }).click();
   await expect(page.locator('#delivery')).toBeInViewport();
-  await expect(page.locator('.case-evidence .image-link')).toHaveAttribute('href', '/assets/fabric-gantt-configuration.png');
+  await expect(page.locator('.case-evidence .image-link').filter({ hasText: 'View full-size' })).toHaveAttribute('href', '/assets/powertable-official-gantt.webp');
+  await expect(page.locator('.case-evidence a[href^="https://docs.powertable.com/"]')).toBeVisible();
   await context.close();
 });
