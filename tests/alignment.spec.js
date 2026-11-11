@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures.js';
 
-const routes = ['/', '/about.html', '/powertable.html', '/analytics-plus.html',
+const routes = ['/', '/about.html', '/powertable.html', '/analytics-plus.html', '/analytics-spatial.html',
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
   '/gantt-conditional-formatting.html', '/gantt-configuration.html', '/resource-configuration.html',
   '/crosstab.html', '/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html'];

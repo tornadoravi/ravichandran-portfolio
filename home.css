@@ -239,6 +239,7 @@ html[data-theme="dark"] .editorial-home {
 .editorial-home .project-description .project-role { font-size: 12px; }
 .editorial-home .scan-highlight { color: var(--ink); background: var(--pill-bg); border-radius: 2px; }
 .editorial-home .case-link { margin-top: 4px; font-size: 13px; }
+.editorial-home .concept-case-link { display: flex; width: fit-content; margin-top: 12px; font-size: 13px; }
 .listening-room { position: relative; display: flex; flex-direction: column; align-items: flex-end; max-width: 100%; }
 .listening-room[hidden], .soundroom-panel[hidden] { display: none; }
 .page-listening { display: flex; justify-content: flex-end; padding-top: 16px; }

@@ -5,7 +5,7 @@ import sharp from 'sharp';
 test.use({ reducedMotion: 'reduce' });
 
 const activePages = [
-  '/', '/about.html', '/powertable.html', '/analytics-plus.html',
+  '/', '/about.html', '/powertable.html', '/analytics-plus.html', '/analytics-spatial.html',
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
   '/gantt-conditional-formatting.html', '/gantt-configuration.html',
   '/resource-configuration.html', '/crosstab.html', '/storyboard.html', '/gantt.html',

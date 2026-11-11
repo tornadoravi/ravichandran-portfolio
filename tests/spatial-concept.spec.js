@@ -8,12 +8,12 @@ for (const appearance of ['light', 'dark']) {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.addInitScript(appearance => localStorage.setItem('portfolio-appearance', appearance), appearance);
-      await page.goto('/analytics-plus.html#spatial-exploration');
+      await page.goto('/analytics-spatial.html#spatial-exploration');
       const section = page.locator('#spatial-exploration');
       await expect(section).toBeInViewport();
-      await expect(section).toContainText('Concept exploration · Apple Vision Pro-inspired');
-      await expect(section).toContainText('Prototype only—not a shipped Vision Pro product.');
-      await expect(page.locator('.feature-card-grid > a')).toHaveCount(5);
+      await expect(page.locator('.case-hero')).toContainText('Concept exploration · Apple Vision Pro-inspired');
+      await expect(page.locator('.case-hero')).toContainText('Prototype only—not a shipped Vision Pro product.');
+      await expect(page.locator('.feature-card-grid > a')).toHaveCount(0);
       await expect(section.locator('figure')).toHaveCount(3);
       await expect(section.locator('.inspect-button')).toHaveCount(3);
       for (const image of await section.locator('img').all()) {
@@ -27,6 +27,7 @@ for (const appearance of ['light', 'dark']) {
         expect(size.width / size.height).toBeCloseTo(size.nativeWidth / size.nativeHeight, 2);
       }
       expect(await section.evaluate(element => element.innerText.trim().split(/\s+/).length)).toBeLessThanOrEqual(50);
+      expect(await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length)).toBeLessThanOrEqual(125);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await section.locator('.inspect-button').last().click();
       await expect(page.locator('dialog[open] img')).toHaveJSProperty('naturalWidth', 276);
@@ -52,11 +53,33 @@ test('the spatial exploration remains available with native image links and no J
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } });
   try {
     const page = await context.newPage();
-    await page.goto(baseURL + '/analytics-plus.html#spatial-exploration');
+    await page.goto(baseURL + '/analytics-spatial.html#spatial-exploration');
     await expect(page.locator('#spatial-exploration')).toBeInViewport();
     await expect(page.locator('#spatial-exploration img')).toHaveCount(3);
     await expect(page.getByRole('link', { name: 'View original concept sequence (opens in a new tab)', exact: true })).toHaveAttribute('href', '/assets/analytics-spatial-sequence.png');
+    await page.goto(baseURL + '/analytics-plus.html#spatial-exploration');
+    await expect(page.locator('#spatial-exploration a')).toHaveAttribute('href', '/analytics-spatial.html');
+    await page.locator('#spatial-exploration a').click();
+    await expect(page.locator('h1')).toHaveText('Analytics+, beyond the screen.');
   } finally {
     await context.close();
   }
+});
+
+test('Home and the product case link to a separate concept without mixing its evidence into feature work', async ({ page }) => {
+  await page.goto('/#work');
+  await page.locator('#project-analytics a[href="/analytics-spatial.html"]').click();
+  await expect(page).toHaveTitle('Spatial Analytics+ Concept — Ravichandran V');
+  await expect(page.locator('h1')).toHaveText('Analytics+, beyond the screen.');
+  await expect(page.locator('body')).toHaveClass(/spatial-case/);
+  await page.locator('.back-link').click();
+  await expect(page).toHaveURL(/\/analytics-plus\.html#spatial-exploration$/);
+  await expect(page.locator('.feature-card-grid > a')).toHaveCount(5);
+  await expect(page.locator('.spatial-sequence')).toHaveCount(0);
+  await expect(page.locator('#spatial-exploration')).toBeInViewport();
+  await page.locator('#spatial-exploration a').click();
+  await expect(page.locator('body')).toHaveAttribute('data-page', 'analytics-spatial');
+  await expect(page.locator('.spatial-sequence figure')).toHaveCount(3);
+  await page.reload();
+  await expect(page.locator('h1')).toHaveText('Analytics+, beyond the screen.');
 });

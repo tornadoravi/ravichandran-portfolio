@@ -4,6 +4,7 @@ export const files = new Map([
   ['/about.html', ['about.html', 'text/html']],
   ['/analytics.html', ['analytics.html', 'text/html']],
   ['/analytics-plus.html', ['analytics-plus.html', 'text/html']],
+  ['/analytics-spatial.html', ['analytics-spatial.html', 'text/html']],
   ['/storyboard.html', ['storyboard.html', 'text/html']],
   ['/presentation.html', ['presentation.html', 'text/html']],
   ['/gantt.html', ['gantt.html', 'text/html']],

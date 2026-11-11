@@ -41,7 +41,7 @@ test('React production build preserves public boundaries, prerenders routes, and
     assert.deepEqual(await readFile(new URL(file, output)), await readFile(new URL(file, root)), file);
   }
 
-  assert.equal(reactPages.length, 16);
+  assert.equal(reactPages.length, 17);
   assert.ok(compiledFiles.filter(file => file.endsWith('.js')).length > 1, 'Expected split client bundles');
   for (const [index, file] of reactPages.entries()) {
     const source = await readFile(new URL(file, root), 'utf8');
@@ -105,7 +105,7 @@ test('React production build preserves public boundaries, prerenders routes, and
     });
   });
 
-  for (const pathname of ['/', '/about.html', '/powertable.html', '/portrait-standalone.html']) {
+  for (const pathname of ['/', '/about.html', '/powertable.html', '/analytics-spatial.html', '/portrait-standalone.html']) {
     const response = await fetch(`${origin}${pathname}`);
     assert.equal(response.status, 200);
     const [file] = files.get(pathname);

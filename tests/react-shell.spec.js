@@ -32,7 +32,7 @@ test('all React pages hydrate without errors and preserve the Focus default', as
   page.on('console', message => {
     if (message.type() === 'error') errors.push(message.text());
   });
-  for (const path of ['/', '/about.html', '/powertable.html', '/analytics-plus.html',
+  for (const path of ['/', '/about.html', '/powertable.html', '/analytics-plus.html', '/analytics-spatial.html',
     '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
     '/gantt-conditional-formatting.html', '/gantt-configuration.html', '/resource-configuration.html', '/crosstab.html',
     '/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html']) {

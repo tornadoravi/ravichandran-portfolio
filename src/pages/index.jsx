@@ -242,6 +242,9 @@ export default function IndexPage() {
                   {"Explore case study "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
+                <a className="text-link concept-case-link" href="/analytics-spatial.html">
+                  Spatial Analytics+ · Concept study <span aria-hidden="true">→</span>
+                </a>
               </div>
             </div>
             {"\n      "}
