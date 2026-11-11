@@ -37,6 +37,8 @@ export const files = new Map([
   ['/assets/inforiver-analytics-official.png', ['assets/inforiver-analytics-official.png', 'image/png']],
   ['/assets/analytics-plus-official-dashboard.webp', ['assets/analytics-plus-official-dashboard.webp', 'image/webp']],
   ['/assets/analytics-kpi-official-presets.webp', ['assets/analytics-kpi-official-presets.webp', 'image/webp']],
+  ...['sequence', 'launch', 'entry', 'report'].map(name =>
+    [`/assets/analytics-spatial-${name}.png`, [`assets/analytics-spatial-${name}.png`, 'image/png']]),
   ['/assets/microsoft-power-bi.svg', ['assets/microsoft-power-bi.svg', 'image/svg+xml']],
   ['/assets/microsoft-logo.png', ['assets/microsoft-logo.png', 'image/png']],
   ['/assets/lumel-logo.svg', ['assets/lumel-logo.svg', 'image/svg+xml']],

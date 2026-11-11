@@ -157,7 +157,7 @@ export default function ResourceConfigurationPage() {
               <strong>{"Explore Milestone, Data Color & Label"}</strong>
               <small>{"Three configuration tab states · original-resolution inspection"}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"disclosure-symbol"} aria-hidden={"true"}><span>{"+"}</span></span>
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>

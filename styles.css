@@ -176,8 +176,9 @@ a.product-screenshot:hover img { border-color: #778a9b; }
 .case-deep-dive > summary::-webkit-details-marker, .feature-previews > summary::-webkit-details-marker { display: none; }
 .case-deep-dive > summary strong, .feature-previews > summary strong { display: block; font-size: 19px; font-weight: 500; line-height: 1.4; }
 .case-deep-dive > summary small, .feature-previews > summary small { display: block; color: var(--muted); font-size: 13px; line-height: 1.7; margin-top: 6px; }
-.disclosure-symbol { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; color: var(--accent); font-size: 24px; transition: transform .2s; }
-details[open] > summary > .disclosure-symbol { transform: rotate(45deg); }
+.disclosure-symbol { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; color: var(--accent); font-size: 24px; }
+.disclosure-symbol > span { line-height: 1; transition: transform .2s; }
+details[open] > summary > .disclosure-symbol > span { transform: rotate(45deg); }
 .case-deep-dive > summary:hover, .feature-previews > summary:hover { color: var(--accent); }
 .deep-dive-content { display: flow-root; padding-top: 24px; }
 .review-features { padding-top: 36px; padding-bottom: 24px; }
@@ -336,8 +337,9 @@ figcaption .image-link { display: inline-flex; align-items: center; min-height: 
 .recommendation-full { margin-top: 25px; border-top: 1px solid var(--line); }
 .recommendation-full summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 44px; list-style: none; font-size: 14px; padding-block: 14px 0; cursor: pointer; }
 .recommendation-full summary::-webkit-details-marker { display: none; }
-.recommendation-full summary > span { transition: transform .2s; }
-.recommendation-full[open] summary > span { transform: rotate(45deg); }
+.recommendation-full summary > span { display: grid; place-items: center; flex: 0 0 24px; height: 24px; }
+.recommendation-full summary > span > span { line-height: 1; transition: transform .2s; }
+.recommendation-full[open] summary > span > span { transform: rotate(45deg); }
 .recommendation-full blockquote { margin: 20px 0 0; color: var(--muted); font-size: 16px; }
 .recommendation-full[open] blockquote { animation: enter-surface .3s var(--ease-out); }
 .recommendation-full blockquote p:last-child { margin-bottom: 0; }

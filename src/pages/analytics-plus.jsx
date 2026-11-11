@@ -98,7 +98,7 @@ export default function AnalyticsPlusPage() {
               <strong>{"Explore the design thinking"}</strong>
               <small>{"Context, competitive analysis & process"}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"disclosure-symbol"} aria-hidden={"true"}><span>{"+"}</span></span>
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
@@ -566,6 +566,31 @@ export default function AnalyticsPlusPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
+          <div className="case-section-heading">
+            <p className="eyebrow">Concept exploration · Apple Vision Pro-inspired</p>
+            <h2 id="spatial-title">Analytics+, beyond the screen.</h2>
+            <p>From app launch to an Analytics+ report.</p>
+          </div>
+          <div className="spatial-sequence">
+            {[
+              ['launch', 275, '01 / Launch', 'Concept frame showing an app launcher in a room-like spatial environment.'],
+              ['entry', 280, '02 / Enter Analytics+', 'Concept frame showing the Analytics+ entry experience in a floating window.'],
+              ['report', 276, '03 / Explore a report', 'Concept frame showing an Analytics+ report with charts and a table in a floating window.']
+            ].map(([name, width, caption, alt]) => (
+              <figure className="detail-figure spatial-step" key={name}>
+                <a className="product-screenshot" href={`/assets/analytics-spatial-${name}.png`} target="_blank" rel="noopener noreferrer" aria-label={`${caption}: view concept frame full-size (opens in a new tab)`}>
+                  <img src={`/assets/analytics-spatial-${name}.png`} width={width} height="156" loading="lazy" alt={alt} />
+                </a>
+                <figcaption>{caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="spatial-scope">
+            <p>Prototype only—not a shipped Vision Pro product.</p>
+            <a className="text-link" href="/assets/analytics-spatial-sequence.png" target="_blank" rel="noopener noreferrer" aria-label="View original concept sequence (opens in a new tab)">View original sequence ↗</a>
+          </div>
+        </section>
         <details id={"evidence-notes"} className={"case-deep-dive"}>
           {"\n      "}
           <summary className={"wrap"}>
@@ -573,7 +598,7 @@ export default function AnalyticsPlusPage() {
               <strong>{"Reflection, evidence & credits"}</strong>
               <small>{"Sources & scope boundaries"}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"disclosure-symbol"} aria-hidden={"true"}><span>{"+"}</span></span>
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>

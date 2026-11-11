@@ -216,7 +216,7 @@ function ScenarioVisual({ caseId }) {
 
 export function CaseContext({ role, children }) {
   return <details className="case-context">
-    <summary><span className="case-ownership">{role}</span><span className="case-context-action">Role & context <span aria-hidden="true">+</span></span></summary>
+    <summary><span className="case-ownership">{role}</span><span className="case-context-action">Role & context <span aria-hidden="true"><span>+</span></span></span></summary>
     {children}
   </details>;
 }

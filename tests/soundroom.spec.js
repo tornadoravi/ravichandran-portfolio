@@ -159,10 +159,15 @@ test('a stalled request restores Play instead of leaving the control disabled', 
   await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeEnabled();
 });
 
-test('listening preference carries through case pages and About without changing appearance or restarting audio', async ({ page }) => {
+test('music keeps playing through case pages and About without changing appearance or restarting audio', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
+  await expect.poll(() => page.locator('audio').evaluate(audio => audio.currentTime)).toBeGreaterThan(0);
+  await page.evaluate(() => {
+    window.originalAudio = document.querySelector('audio');
+    window.originalPlaybackTime = window.originalAudio.currentTime;
+  });
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
   await page.locator('#gantt-features a[href="/column-mapping.html"]').click();
@@ -171,8 +176,9 @@ test('listening preference carries through case pages and About without changing
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
   await page.locator('#main-nav').getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Soundroom Mode', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
-  expect(await page.locator('audio').evaluate(audio => audio.readyState)).toBe(0);
+  expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused &&
+    audio.currentTime >= window.originalPlaybackTime)).toBe(true);
+  await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeVisible();
   await page.reload();
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
   expect(await page.locator('audio').evaluate(audio => audio.readyState)).toBe(0);

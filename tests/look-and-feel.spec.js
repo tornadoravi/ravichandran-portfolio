@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 
 test('hero adds bounded pointer depth and resets when motion is reduced', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -33,7 +33,9 @@ test('touch browsing keeps the portrait still and calls to action usable', async
 });
 
 test('new case cards reveal once without nesting existing section fades', async ({ page }) => {
-  await page.goto('/analytics.html');
+  await page.goto('/analytics-plus.html');
+  await page.locator('a[href="/analytics.html"]:visible').first().click();
+  await openCaseDetails(page);
   await page.locator('#feature-walkthrough > summary').click();
   const card = page.locator('.solution-grid > li').last();
   await expect(card).toHaveClass(/reveal-target/);

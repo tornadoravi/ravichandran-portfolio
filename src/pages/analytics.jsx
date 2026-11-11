@@ -267,7 +267,7 @@ export default function AnalyticsPage() {
               <strong>{"Explore all eight screens & the full walkthrough"}</strong>
               <small>{"Product context, discovery, configuration & supporting work"}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"disclosure-symbol"} aria-hidden={"true"}><span>{"+"}</span></span>
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>

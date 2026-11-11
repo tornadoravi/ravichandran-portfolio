@@ -18,6 +18,12 @@ export default function Header({ page }) {
     : 'Hello! Pick a project card. Let’s explore the work.';
 
   useEffect(() => {
+    setMenuOpen(false);
+    setAppearanceOpen(false);
+    setGreetingOpen(false);
+  }, [page]);
+
+  useEffect(() => {
     const events = new AbortController();
     document.addEventListener('click', event => {
       if (!brand.current.contains(event.target)) setGreetingOpen(false);

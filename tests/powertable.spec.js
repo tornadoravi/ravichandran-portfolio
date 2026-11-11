@@ -88,7 +88,7 @@ test('official PowerTable overview is attributed and original design evidence st
   await expect(page.locator('.case-evidence img')).toHaveCount(1);
   await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('.case-evidence h2')).toHaveText('PowerTable in action.');
-  await expect(page.locator('.product-overview-copy')).toHaveText('No-code data apps for managing data, approvals, and project plans in Microsoft Fabric.');
+  await expect(page.locator('.product-overview-copy')).toHaveText('No-code data apps and planning in Microsoft Fabric.');
   await expect(page.locator('.case-evidence figcaption')).toContainText('PowerTable in Microsoft Fabric');
   await expect(page.locator('.case-evidence figcaption')).toContainText('Official product screenshot');
   await expect(page.locator('.case-evidence a[href^="https://docs.powertable.com/"]')).toHaveAttribute('rel', 'noopener noreferrer');
@@ -133,7 +133,7 @@ test('PowerTable explains the product before personal scope, comparison, and del
     'business-case', 'platform-context', 'role', 'competitive-analysis', 'process', 'gantt', 'resources', 'crosstab', 'delivery', 'references'
   ]);
   await expect(page.locator('.platform-stack h3')).toHaveText(['Microsoft Fabric', 'Planning in Fabric', 'PowerTable']);
-  await expect(page.locator('.case-hero .platform-pill img')).toHaveAttribute('src', '/assets/microsoft-fabric.svg');
+  await expect(page.locator('.case-hero .identity-platform .identity-product img')).toHaveAttribute('src', '/assets/microsoft-fabric.svg');
   await expect(page.locator('#role')).toContainText('end-to-end UX/UI');
   await expect(page.locator('#role')).toContainText('developer handoff and implementation review');
   await expect(page.locator('#delivery')).toContainText('not production-code ownership');
@@ -246,7 +246,8 @@ for (const mode of ['focus', 'soundroom']) {
         await expect(element).toHaveCSS('border-top-width', '0px');
         await expect(element).toHaveCSS('border-bottom-width', '0px');
       }
-      await expect(story.locator('.deep-dive-content > :first-child')).toHaveClass('case-nav wrap');
+      await expect(story.locator('.deep-dive-content > :first-child')).toHaveClass('case-brief case-brief--compact wrap');
+      await expect(story.locator('.case-brief--compact + .case-nav')).toBeVisible();
       await expect(nav.locator('a')).toHaveText(['Context & role', 'Design decisions', 'Feature scope', 'Delivery & sources']);
       expect(await nav.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
       expect(await story.locator('.story-toggle').evaluate(element => getComputedStyle(element, '::before').content)).toBe('"-"');

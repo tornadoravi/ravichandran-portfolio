@@ -59,7 +59,7 @@ for (const mode of ['focus', 'soundroom']) {
 }
 
 for (const width of [320, 390, 680, 1440]) {
-  test(`default review stays within an 875-word editorial budget at ${width}px`, async ({ page }) => {
+  test(`default review including the spatial concept stays within a 925-word editorial budget at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     let words = 0;
     for (const path of ['/', '/powertable.html', '/analytics-plus.html']) {
@@ -78,7 +78,7 @@ for (const width of [320, 390, 680, 1440]) {
         await expect(page.locator('.project-description .scan-highlight')).toHaveCount(2);
       }
     }
-    expect(words).toBeLessThanOrEqual(875);
+    expect(words).toBeLessThanOrEqual(925);
   });
 }
 

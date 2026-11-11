@@ -343,7 +343,7 @@ export default function AboutPage() {
                   {"\n              "}
                   <summary>
                     {"Read full recommendation "}
-                    <span aria-hidden={"true"}>{"+"}</span>
+                    <span aria-hidden={"true"}><span>{"+"}</span></span>
                   </summary>
                   {"\n              "}
                   <blockquote>
@@ -382,7 +382,7 @@ export default function AboutPage() {
                   {"\n              "}
                   <summary>
                     {"Read full recommendation "}
-                    <span aria-hidden={"true"}>{"+"}</span>
+                    <span aria-hidden={"true"}><span>{"+"}</span></span>
                   </summary>
                   {"\n              "}
                   <blockquote>

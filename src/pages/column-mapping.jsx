@@ -155,7 +155,7 @@ export default function ColumnMappingPage() {
               <strong>{"Explore the five configuration screens"}</strong>
               <small>{"Task structure, time entries, resource relationships, cost dependencies, and the Resource layout"}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"disclosure-symbol"} aria-hidden={"true"}><span>{"+"}</span></span>
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>

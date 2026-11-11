@@ -158,7 +158,7 @@ export default function GanttConfigurationPage() {
               <strong>{"Explore Milestone, Dependency, Data Color & Label"}</strong>
               <small>{"Four configuration tab states · original-resolution inspection"}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"disclosure-symbol"} aria-hidden={"true"}><span>{"+"}</span></span>
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>

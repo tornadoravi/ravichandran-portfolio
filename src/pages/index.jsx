@@ -304,8 +304,6 @@ export default function IndexPage() {
         {"\n  "}
       </main>
       {"\n  "}
-      <audio id={"portfolio-ambience"} src={"/assets/soundroom-roja.mp3"} preload={"none"} loop={true}>{""}</audio>
-      {"\n  "}
       <footer className={"site-footer wrap"}>
         <a className={"wordmark"} href={"/"}>
           {"Ravichandran"}
