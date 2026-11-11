@@ -96,8 +96,16 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     await expect(page.locator('.hero-role strong')).toHaveText('Product Designer II at Lumel.');
     await expect(page.locator('.hero-role > span')).toHaveText('Enterprise analytics & connected planning.');
     const role = await page.locator('.hero-role').boundingBox();
+    const identity = page.locator('.hero-context .project-identity');
+    await expect(identity.locator('.identity-company')).toContainText('Designed at');
+    await expect(identity.locator('.identity-company img')).toHaveAttribute('alt', 'Lumel Technologies');
+    await expect(identity.locator('.identity-platform')).toContainText('Fabric & Power BI');
+    await expect(identity.locator('.identity-platform img[alt="Microsoft"]')).toBeVisible();
+    const badges = await identity.boundingBox();
     const title = await page.locator('.portrait-title').boundingBox();
-    expect(role.y + role.height).toBeLessThan(title.y);
+    expect(badges.y).toBeGreaterThanOrEqual(role.y + role.height + 12);
+    expect(badges.x).toBeCloseTo(role.x, 1);
+    expect(badges.y + badges.height).toBeLessThan(title.y);
     await expect(page.locator('.portrait-footer, .portrait-work-link')).toHaveCount(0);
     await expect(page.locator('.portrait-stage')).toHaveCount(0);
     await expect(page.locator('.portrait-wordmark')).toHaveText('PRODUCTDESIGNER');

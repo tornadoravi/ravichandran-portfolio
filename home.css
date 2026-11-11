@@ -65,7 +65,7 @@ html[data-theme="dark"] .editorial-home {
 .review-reading-note { width: 100%; margin: 0 0 8px; color: var(--muted); font-size: 14px; }
 .case-hero > .project-identity + .eyebrow { margin-bottom: 8px; }
 .hero-copy .project-identity { margin-top: 16px; }
-.hero-context { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 20px; margin-bottom: 20px; }
+.hero-context { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
 .hero-context .hero-role, .hero-copy .hero-context .project-identity { margin: 0; }
 .case-context { margin-top: 12px; }
 .case-context > summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 20px; min-height: 44px; padding-block: 8px; cursor: pointer; list-style: none; }
