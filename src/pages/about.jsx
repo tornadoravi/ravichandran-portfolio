@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails } from '../CaseReview.jsx';
+import ExperienceHighlights from '../ExperienceHighlights.jsx';
 
 export default function AboutPage() {
   return (
@@ -63,13 +64,12 @@ export default function AboutPage() {
             {"\n        "}
             <div>
               {"\n          "}
-              <p className={"large-copy"}>{"I design enterprise experiences that help people understand data, communicate insights, and manage complex planning workflows."}</p>
+              <p className={"large-copy"}>{"I design how complex enterprise products work, not just how their screens look."}</p>
               {"\n          "}
-              <p>{"Over four years at Lumel Technologies, I’ve worked across PowerTable for Microsoft Fabric and Inforiver Analytics+ for Microsoft Power BI. My responsibilities span requirements, existing-experience reviews, user flows, prototypes, interaction and visual design, developer handoff, and implementation reviews."}</p>
+              <p>{"Four years at Lumel Technologies, across PowerTable for Microsoft Fabric and Inforiver Analytics+ for Microsoft Power BI."}</p>
+              <ExperienceHighlights />
               {"\n          "}
               <p>{"My design work on PowerTable was based entirely on the Microsoft Fabric design system."}</p>
-              {"\n          "}
-              <p>{"My focus is on making powerful functionality understandable: a clear entry point, a coherent workflow, and the right level of detail at each step."}</p>
               {"\n          "}
               <p className={"profile-current"}>{"Currently Product Designer II at Lumel, since January 2025."}</p>
               <ProjectIdentity product="portfolio" />

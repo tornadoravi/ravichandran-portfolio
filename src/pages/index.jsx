@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import SoundroomControls from '../SoundroomControls.jsx';
+import ExperienceHighlights from '../ExperienceHighlights.jsx';
 
 const headlinePhrases = [
   'Considered experiences.',
@@ -61,7 +62,7 @@ export default function IndexPage() {
               </em>
             </h1>
             {"\n        "}
-            <p className={"hero-introduction"}>{"I turn complex enterprise data tools into clear workflows, from UX/UI to implementation review."}</p>
+            <p className={"hero-introduction"}>{"Four years designing complex enterprise workflows, from UX/UI to implementation review."}</p>
             <a className={"text-link hero-work-link"} href={"#work"}>
               {"View selected work "}
               <span aria-hidden={"true"}>{"↓"}</span>
@@ -254,19 +255,15 @@ export default function IndexPage() {
         {"\n    "}
         <section className={"home-about wrap"} aria-labelledby={"about-title"}>
           {"\n      "}
-          <p className={"eyebrow"}>{"About my work"}</p>
+          <p className={"eyebrow"}>{"4 years at Lumel"}</p>
           {"\n      "}
           <div>
             <h2 id={"about-title"}>
-              {"From requirements"}
+              {"Design decisions."}
               <br />
-              <em>{"to implementation."}</em>
+              <em>{"Through to delivery."}</em>
             </h2>
-            <p>
-              {"At Lumel, I connect user flows, "}
-              <strong className={"scan-emphasis"}>{"UX/UI, developer handoff, and implementation review"}</strong>
-              {" across enterprise data products."}
-            </p>
+            <ExperienceHighlights />
             <p>
               {"My design work on PowerTable was based entirely on the "}
               <strong className={"scan-emphasis"}>{"Microsoft Fabric design system"}</strong>
