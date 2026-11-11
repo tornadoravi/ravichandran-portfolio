@@ -495,7 +495,7 @@ test('Wizard screenshots use native-size crops and the product overview shows re
   await page.goto('/analytics-plus.html');
   const wizard = page.locator('#feature-wizard');
   await expect(wizard.locator('img')).toHaveAttribute('src', '/assets/wizard-chart-family.png');
-  await expect(wizard).toContainText('Supplied product screen');
+  await expect(wizard).toContainText('Chart Wizard product screen');
   await expect(wizard.locator('[data-illustration]')).toHaveCount(0);
   expect(await wizard.locator('img').evaluate((element) => element.clientWidth)).toBeLessThanOrEqual(540);
   await page.goto('/analytics.html');
@@ -1097,7 +1097,7 @@ test('all nine supplied presentation screens retain full resolution, source orde
     await expect(image).toHaveAttribute('height', '830');
     await expect(image).toHaveAttribute('alt', /.+/);
     expect(await image.evaluate(image => image.clientWidth <= image.naturalWidth)).toBe(true);
-    await expect(image.locator('xpath=ancestor::figure').locator('figcaption')).toContainText('Supplied design screen');
+    await expect(image.locator('xpath=ancestor::figure').locator('figcaption')).toContainText('Design screen');
   }
   await expect(page.locator('main')).not.toContainText('low-resolution');
   await expect(page.locator('main')).not.toContainText('contact sheet');
@@ -1121,7 +1121,7 @@ test('all nine supplied presentation screens retain full resolution, source orde
   const card = page.locator('#feature-annotations');
   await expect(card).toHaveAttribute('href', '/presentation.html');
   await expect(card.locator('img')).toHaveAttribute('src', '/assets/annotation-detail.png');
-  await expect(card).toContainText('Supplied design screen · Detail');
+  await expect(card).toContainText('Design screen · Annotation detail');
   for (const path of ['/analytics.html', '/storyboard.html', '/gantt.html', '/powertable.html']) {
     await page.goto(path);
     await expect(page.locator('img[src^="/assets/presentation-screen-"]')).toHaveCount(0);

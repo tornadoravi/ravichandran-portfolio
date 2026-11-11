@@ -40,7 +40,7 @@ test('Fabric callouts preserve the source while new mapping evidence replaces ov
   await expect(page.locator('.case-evidence figcaption')).toContainText('portfolio annotations');
   await expect(page.locator('.case-brief')).toContainText('resource, and cost configuration screens');
   await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
-  await expect(page.locator('.workspace-preview figcaption').filter({ hasText: 'Supplied design screen' })).toHaveCount(2);
+  await expect(page.locator('.workspace-preview figcaption').filter({ hasText: /My .* UX\/UI/ })).toHaveCount(2);
   await expect(page.locator('.review-grid')).toHaveCount(0);
   await expect(page.locator('#column-mapping a')).toHaveAttribute('href', '/column-mapping.html');
 });

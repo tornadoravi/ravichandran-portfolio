@@ -48,7 +48,7 @@ export default function GanttBacklogPage() {
             {"\n        "}
             <div>
               <dt>{"Evidence"}</dt>
-              <dd>{"Two supplied backlog states"}</dd>
+              <dd>{"Two backlog design states"}</dd>
             </div>
             {"\n      "}
           </dl>
@@ -66,7 +66,7 @@ export default function GanttBacklogPage() {
         <section className={"mapping-evidence wrap"} aria-labelledby={"backlog-states-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>
-            <p className={"eyebrow"}>{"Supplied design / Two panel states"}</p>
+            <p className={"eyebrow"}>{"Design evidence / Two panel states"}</p>
             <h2 id={"backlog-states-title"}>{"A clear start. A manageable list."}</h2>
             <p>{"The empty state explains the next action. The populated state introduces search and row controls. These are supplied states, not a recorded creation sequence."}</p>
           </div>
@@ -96,7 +96,7 @@ export default function GanttBacklogPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Empty panel crop from the first screen. "}
+                  {"Design screen / Empty panel crop from the first screen. "}
                   <a className={"image-link"} href={"/assets/fabric-backlog-empty.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -131,7 +131,7 @@ export default function GanttBacklogPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / One-item panel crop from the second screen. "}
+                  {"Design screen / One-item panel crop from the second screen. "}
                   <a className={"image-link"} href={"/assets/fabric-backlog-list.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -171,7 +171,7 @@ export default function GanttBacklogPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Toolbar detail from the second screen, not a third state. "}
+              {"Design screen / Toolbar detail from the second screen, not a third state. "}
               <a className={"image-link"} href={"/assets/fabric-backlog-pending.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>

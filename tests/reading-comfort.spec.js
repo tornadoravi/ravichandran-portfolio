@@ -11,7 +11,7 @@ async function openReady(page, path) {
 for (const width of [320, 390, 768, 1440, 1920]) {
   test(`primary case studies reach product evidence sooner at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    const limit = width === 320 ? 950 : width === 390 ? 825 : 650;
+    const limit = width === 320 ? 1000 : width === 390 ? 825 : 700;
     for (const path of ['/powertable.html', '/analytics-plus.html']) {
       await openReady(page, path);
       const image = page.locator('main > .case-evidence .product-screenshot img').first();

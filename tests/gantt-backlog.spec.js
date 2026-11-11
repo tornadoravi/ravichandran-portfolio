@@ -68,7 +68,7 @@ test('only the three native backlog crops are served', async ({ request }) => {
 
 test('backlog states, pending changes, and resource-layout documentation remain distinct', async ({ page }) => {
   await page.goto('/gantt-backlog.html');
-  await expect(page.locator('.metadata')).toContainText('Two supplied backlog states');
+  await expect(page.locator('.metadata')).toContainText('Two backlog design states');
   await expect(page.locator('#empty-state')).toContainText('No Task Available');
   await expect(page.locator('#empty-state')).toContainText('+ Add Task');
   await expect(page.locator('#backlog-list')).toContainText('Backlog List (1)');

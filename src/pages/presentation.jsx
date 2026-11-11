@@ -55,7 +55,7 @@ export default function PresentationPage() {
         <section className={"case-evidence wrap"} aria-labelledby={"screens-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>
-            <p className={"eyebrow"}>{"Supplied screens / 01–03"}</p>
+            <p className={"eyebrow"}>{"Design screens / 01–03"}</p>
             <h2 id={"screens-title"}>{"Prepare the report for presentation."}</h2>
             <p>{"Nine full-resolution design screens show presentation setup, annotation styling, playback controls, and chart callouts. They are displayed in supplied order, not as a recording of every interaction."}</p>
           </div>
@@ -71,7 +71,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-01.png"} width={"1707"} height={"830"} fetchPriority={"high"} alt={"Analytics+ Advanced panel with Enable Present switched off, numbered annotation markers, and a report-level comments region."} />
               </a>
               <figcaption>
-                {"Supplied design screen · Enable Present is off; an instructional callout identifies the setting. "}
+                {"Design screen · Enable Present is off; an instructional callout identifies the setting. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-01.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -88,7 +88,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-02.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Enable Present switched on in the Advanced panel, with a blue Present button above the numbered comments."} />
               </a>
               <figcaption>
-                {"Supplied design screen · The enabled state shows a Present action within the comments region. "}
+                {"Design screen · The enabled state shows a Present action within the comments region. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-02.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -105,7 +105,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-03.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Expanded Enable Present settings showing text formatting and a Template Style selector alongside the report."} />
               </a>
               <figcaption>
-                {"Supplied design screen · Expanded presentation settings expose text formatting and the template-style selector. "}
+                {"Design screen · Expanded presentation settings expose text formatting and the template-style selector. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-03.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -419,7 +419,7 @@ export default function PresentationPage() {
         <section className={"wrap"} aria-labelledby={"annotation-screens-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>
-            <p className={"eyebrow"}>{"Supplied screens / 04–07"}</p>
+            <p className={"eyebrow"}>{"Design screens / 04–07"}</p>
             <h2 id={"annotation-screens-title"}>{"From the report to a chart."}</h2>
             <p>{"The supplied states show annotation-template choices, an enlarged monthly chart, playback guidance, and a contextual annotation. Their order follows the supplied images, not a verified sequence of every action."}</p>
           </div>
@@ -435,7 +435,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-04.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Presentation settings with four blue callout-style previews open and a Present button above the report comments."} />
               </a>
               <figcaption>
-                {"Supplied design screen · Callout-style choices are shown alongside guidance for starting presentation. "}
+                {"Design screen · Callout-style choices are shown alongside guidance for starting presentation. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-04.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -452,7 +452,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-05.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Enlarged Actuals and Plan by Month chart with monthly columns and a deviation strip, surrounded by the Power BI interface."} />
               </a>
               <figcaption>
-                {"Supplied design screen · A single monthly chart fills the report canvas while Power BI panels remain visible. "}
+                {"Design screen · A single monthly chart fills the report canvas while Power BI panels remain visible. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-05.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -469,7 +469,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-06.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Monthly chart with Back to storyboard, a playback toolbar, and yellow guidance callouts describing cursor and toolbar visibility."} />
               </a>
               <figcaption>
-                {"Supplied design screen · Playback controls and Back to storyboard appear with instructional hover guidance; this static screen does not demonstrate playback behavior. "}
+                {"Design screen · Playback controls and Back to storyboard appear with instructional hover guidance; this static screen does not demonstrate playback behavior. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-06.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -486,7 +486,7 @@ export default function PresentationPage() {
                 <img src={"/assets/presentation-screen-07.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Monthly Actuals and Plan chart with a blue annotation callout pointing to the February column."} />
               </a>
               <figcaption>
-                {"Supplied design screen · A blue callout connects the explanation to the February column. "}
+                {"Design screen · A blue callout connects the explanation to the February column. "}
                 <a className={"image-link"} href={"/assets/presentation-screen-07.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -534,7 +534,7 @@ export default function PresentationPage() {
               <img src={"/assets/presentation-screen-08.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Actuals and Plan by Quarter small-multiple waterfall charts for Enterprise, Business, SuperMarket, and Mid size."} />
             </a>
             <figcaption>
-              {"Supplied design screen · Four quarterly waterfall charts provide a small-multiple comparison. "}
+              {"Design screen · Four quarterly waterfall charts provide a small-multiple comparison. "}
               <a className={"image-link"} href={"/assets/presentation-screen-08.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -551,7 +551,7 @@ export default function PresentationPage() {
               <img src={"/assets/presentation-screen-09.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Quarterly small-multiple waterfall charts with a blue annotation callout pointing into the Enterprise chart."} />
             </a>
             <figcaption>
-              {"Supplied design screen · A blue annotation callout is positioned within the Enterprise chart. "}
+              {"Design screen · A blue annotation callout is positioned within the Enterprise chart. "}
               <a className={"image-link"} href={"/assets/presentation-screen-09.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>

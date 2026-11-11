@@ -58,6 +58,10 @@ export default function IndexPage() {
             </h1>
             {"\n        "}
             <p className={"hero-introduction"}>{"I bring structure, clarity, and craft to enterprise data tools."}</p>
+            <a className={"text-link hero-work-link"} href={"#work"}>
+              {"View selected work "}
+              <span aria-hidden={"true"}>{"↓"}</span>
+            </a>
             {"\n      "}
           </div>
           {"\n      "}
@@ -119,17 +123,17 @@ export default function IndexPage() {
               </div>
               {"\n          "}
               <p className={"cover-statement"}>
-                {"A connected view"}
+                {"Task and resource"}
                 <br />
-                {"of what comes next."}
+                {"planning in Fabric."}
               </p>
               {"\n          "}
               <div className={"product-screenshot"}>
-                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"Supplied PowerTable Gantt Layout Configuration screen inside Microsoft Fabric, with task-field mappings over the planning timeline."} />
+                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"PowerTable Gantt Layout Configuration screen inside Microsoft Fabric, with task-field mappings over the planning timeline."} />
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
-                <span>{"My Gantt work · Supplied design screen"}</span>
+                <span>{"My Gantt UX/UI · Configuration design"}</span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
               {"\n        "}
@@ -148,8 +152,8 @@ export default function IndexPage() {
               </div>
               <div className={"project-description"}>
                 <p>
-                  {"Connect "}
-                  <mark className={"scan-highlight"}>{"tasks, timelines, and capacity."}</mark>
+                  {"Designing "}
+                  <mark className={"scan-highlight"}>{"task setup, timelines, and resource planning."}</mark>
                 </p>
                 <p className={"project-role"}>
                   {"My role · "}
@@ -192,17 +196,17 @@ export default function IndexPage() {
               </div>
               {"\n          "}
               <p className={"cover-statement"}>
-                {"From data"}
+                {"Report authoring"}
                 <br />
-                {"to a point of view."}
+                {"inside Power BI."}
               </p>
               {"\n          "}
               <div className={"product-screenshot"}>
-                <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} alt={"Supplied Analytics+ Storyboard workspace with report layers, KPI cards, charts, and a table."} />
+                <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} alt={"Analytics+ Storyboard workspace with report layers, KPI cards, charts, and a table."} />
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
-                <span>{"My feature work · Supplied product screen"}</span>
+                <span>{"My Storyboard feature work · Product workspace"}</span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
               {"\n        "}
@@ -221,8 +225,8 @@ export default function IndexPage() {
               </div>
               <div className={"project-description"}>
                 <p>
-                  {"Lumel’s custom visual: "}
-                  <mark className={"scan-highlight"}>{"choose, build, and explain."}</mark>
+                  {"Lumel’s custom visual for "}
+                  <mark className={"scan-highlight"}>{"visual discovery, report authoring, and presentation."}</mark>
                 </p>
                 <p className={"project-role"}>
                   {"My role · "}
@@ -277,6 +281,14 @@ export default function IndexPage() {
               </a>
               <a className={"text-link"} href={"https://github.com/tornadoravi"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View GitHub "}
+                <span aria-hidden={"true"}>{"↗"}</span>
+                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+              </a>
+            </div>
+            <div className={"home-contact"} aria-labelledby={"home-contact-title"}>
+              <h3 id={"home-contact-title"}>{"Let’s talk product design."}</h3>
+              <a className={"text-link contact-link"} href={"https://www.linkedin.com/in/ravichandran-uxui/"} target={"_blank"} rel={"noopener noreferrer"}>
+                {"Discuss a product design role "}
                 <span aria-hidden={"true"}>{"↗"}</span>
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>

@@ -48,7 +48,7 @@ export default function GanttBaselinesPage() {
             {"\n        "}
             <div>
               <dt>{"Evidence"}</dt>
-              <dd>{"Two supplied design states"}</dd>
+              <dd>{"Two comparison design states"}</dd>
             </div>
             {"\n      "}
           </dl>
@@ -85,7 +85,7 @@ export default function GanttBaselinesPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Comparison menu detail, cropped from the first screen. "}
+              {"Design screen / Comparison menu detail, cropped from the first screen. "}
               <a className={"image-link"} href={"/assets/fabric-baseline-compare-menu.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -120,7 +120,7 @@ export default function GanttBaselinesPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Timeline detail from the same comparison screen. Task names and workspace chrome are excluded. "}
+              {"Design screen / Timeline detail from the same comparison screen. Task names and workspace chrome are excluded. "}
               <a className={"image-link"} href={"/assets/fabric-baseline-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -154,7 +154,7 @@ export default function GanttBaselinesPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Manager panel crop. Author metadata redacted; control labels unchanged. "}
+              {"Design screen / Manager panel crop. Author metadata redacted; control labels unchanged. "}
               <a className={"image-link"} href={"/assets/fabric-baseline-manager.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>

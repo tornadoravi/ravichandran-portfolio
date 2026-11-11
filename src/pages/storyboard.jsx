@@ -327,7 +327,7 @@ export default function StoryboardPage() {
             <img src={"/assets/custom-layout.png"} width={"1350"} height={"759"} loading={"lazy"} alt={"Custom layout workspace with element counts and toggles, a report preview with a selected KPI, and category and measure fields."} />
           </a>
           <figcaption>
-            {"Supplied product screenshot · The custom-layout workspace, cropped without browser chrome. "}
+            {"Product screenshot · The custom-layout workspace, cropped without browser chrome. "}
             <a className={"image-link"} href={"/assets/custom-layout.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -360,7 +360,7 @@ export default function StoryboardPage() {
             <img src={"/assets/template-selection.png"} width={"1350"} height={"760"} loading={"lazy"} alt={"Choose template screen with Explore template store, Import templates, and a drag-and-drop import instruction."} />
           </a>
           <figcaption>
-            {"Supplied product screenshot · Template browsing and import entry points. "}
+            {"Product screenshot · Template browsing and import entry points. "}
             <a className={"image-link"} href={"/assets/template-selection.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -377,7 +377,7 @@ export default function StoryboardPage() {
             <img src={"/assets/template-store.png"} width={"2000"} height={"1020"} loading={"lazy"} alt={"Analytics+ template store showing navigation categories, search, filters, dashboard previews, and standalone visual templates."} />
           </a>
           <figcaption>
-            {"Supplied store screenshot · Product context, not a claim of ownership of the catalogue. "}
+            {"Store screenshot · Product context, not a claim of ownership of the catalogue. "}
             <a className={"image-link"} href={"/assets/template-store.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -414,7 +414,7 @@ export default function StoryboardPage() {
             <img src={"/assets/blank-canvas.png"} width={"1350"} height={"759"} loading={"lazy"} alt={"Empty storyboard canvas with an instruction to insert new elements, authoring controls, a left tool rail, and board tabs."} />
           </a>
           <figcaption>
-            {"Supplied product screenshot · Blank report state and authoring controls. "}
+            {"Product screenshot · Blank report state and authoring controls. "}
             <a className={"image-link"} href={"/assets/blank-canvas.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -446,7 +446,7 @@ export default function StoryboardPage() {
             <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Inforiver storyboard editor with a layer hierarchy on the left and a report containing KPI cards, bar charts, and a table."} />
           </a>
           <figcaption>
-            {"Supplied product screenshot · Cropped to the authoring workspace; browser and account chrome removed. "}
+            {"Product screenshot · Cropped to the authoring workspace; browser and account chrome removed. "}
             <a className={"image-link"} href={"/assets/storyboard-editor.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>

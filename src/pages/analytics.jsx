@@ -489,7 +489,7 @@ export default function AnalyticsPage() {
                   <img src={"/assets/wizard-use-case.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard with the Use case menu open, showing Comparison, Part to Whole, Ranking, Distribution, and Time series."} />
                 </a>
                 <figcaption>
-                  {"Supplied product screenshot · Analytical-purpose options. "}
+                  {"Product screenshot · Analytical-purpose options. "}
                   <a className={"image-link"} href={"/assets/wizard-use-case.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -543,7 +543,7 @@ export default function AnalyticsPage() {
                 <img src={"/assets/wizard-favorites.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Favorites tab showing a starred Overlapped column chart and the Function filter controls."} />
               </a>
               <figcaption>
-                {"Supplied product screenshot · A saved chart choice, not an additional required step. "}
+                {"Product screenshot · A saved chart choice, not an additional required step. "}
                 <a className={"image-link"} href={"/assets/wizard-favorites.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -581,7 +581,7 @@ export default function AnalyticsPage() {
                   <img src={"/assets/wizard-customize.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Customize stage with theme, font, category fill settings, chart-element toggles, Back, and Proceed."} />
                 </a>
                 <figcaption>
-                  {"Supplied product screenshot · Appearance and chart-element controls. "}
+                  {"Product screenshot · Appearance and chart-element controls. "}
                   <a className={"image-link"} href={"/assets/wizard-customize.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -598,7 +598,7 @@ export default function AnalyticsPage() {
                   <img src={"/assets/wizard-advanced.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Advanced stage with Reference line enabled, other analytics toggles, Descending sort by AC, a TopN tab, Back, and Finish."} />
                 </a>
                 <figcaption>
-                  {"Supplied product screenshot · Advanced settings; TopN contents are not shown. "}
+                  {"Product screenshot · Advanced settings; TopN contents are not shown. "}
                   <a className={"image-link"} href={"/assets/wizard-advanced.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -634,7 +634,7 @@ export default function AnalyticsPage() {
                 <img src={"/assets/wizard-result.png"} width={"1420"} height={"805"} loading={"lazy"} alt={"Analytics+ report canvas with a multi-measure column chart by Weekday, labels, annotation markers, an average reference line, and the chart ribbon."} />
               </a>
               <figcaption>
-                {"Supplied product screenshot · Report-canvas example, cropped without browser, account, or surrounding Power BI panels. "}
+                {"Product screenshot · Report-canvas example, cropped without browser, account, or surrounding Power BI panels. "}
                 <a className={"image-link"} href={"/assets/wizard-result.png"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>

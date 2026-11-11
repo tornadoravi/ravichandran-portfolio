@@ -48,7 +48,7 @@ export default function ResourceConfigurationPage() {
             {"\n        "}
             <div>
               <dt>{"Evidence"}</dt>
-              <dd>{"Four supplied tab states"}</dd>
+              <dd>{"Four configuration tab states"}</dd>
             </div>
             {"\n      "}
           </dl>
@@ -89,7 +89,7 @@ export default function ResourceConfigurationPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Timeline panel crop. Resource names and workspace chrome excluded. "}
+              {"Design screen / Timeline panel crop. Resource names and workspace chrome excluded. "}
               <a className={"image-link"} href={"/assets/fabric-resource-config-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -152,7 +152,7 @@ export default function ResourceConfigurationPage() {
           <summary className={"wrap"}>
             <span>
               <strong>{"Explore Milestone, Data Color & Label"}</strong>
-              <small>{"Three supplied tab states · original-resolution inspection"}</small>
+              <small>{"Three configuration tab states · original-resolution inspection"}</small>
             </span>
             <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
           </summary>
@@ -180,7 +180,7 @@ export default function ResourceConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Milestone tab, second attachment. "}
+                  {"Design screen / Milestone tab. "}
                   <a className={"image-link"} href={"/assets/fabric-resource-config-milestone.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -218,7 +218,7 @@ export default function ResourceConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Data Color tab, third attachment. "}
+                  {"Design screen / Data Color tab. "}
                   <a className={"image-link"} href={"/assets/fabric-resource-config-data-color.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -257,7 +257,7 @@ export default function ResourceConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Label tab, fourth attachment. "}
+                  {"Design screen / Label tab. "}
                   <a className={"image-link"} href={"/assets/fabric-resource-config-label.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>

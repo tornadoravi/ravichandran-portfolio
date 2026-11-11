@@ -48,7 +48,7 @@ export default function ColumnMappingPage() {
             {"\n        "}
             <div>
               <dt>{"Evidence"}</dt>
-              <dd>{"Five supplied configuration states"}</dd>
+              <dd>{"Five configuration design states"}</dd>
             </div>
             {"\n      "}
           </dl>
@@ -85,7 +85,7 @@ export default function ColumnMappingPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Selected detail / Time Entries. Supplied design screen, dialog-only crop. "}
+              {"My mapping UX/UI / Time Entries. Design screen, dialog-only crop. "}
               <a className={"image-link"} href={"/assets/fabric-mapping-time-entries.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -172,7 +172,7 @@ export default function ColumnMappingPage() {
                   <img src={"/assets/fabric-mapping-task.png"} width={"312"} height={"235"} loading={"lazy"} alt={"Gantt Task configuration showing start and end dates, Task_Id, Parent ID hierarchy, Parent_Id, Task_Name, Milestone, Progress, Reset, and Save."} />
                 </a>
                 <figcaption>
-                  {"Supplied design screen / Task. Native 312 × 235 dialog crop. "}
+                  {"Design screen / Task. Native 312 × 235 dialog crop. "}
                   <a className={"image-link"} href={"/assets/fabric-mapping-task.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -196,7 +196,7 @@ export default function ColumnMappingPage() {
                   <img src={"/assets/fabric-mapping-time-entries.png"} width={"780"} height={"588"} loading={"lazy"} alt={"Time Entries tab with Direct Time Entry selected and required Time Entry, Task ID column, and Actual Effort mappings filled."} />
                 </a>
                 <figcaption>
-                  {"Supplied design screen / Time Entries. "}
+                  {"Design screen / Time Entries. "}
                   <a className={"image-link"} href={"/assets/fabric-mapping-time-entries.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -220,7 +220,7 @@ export default function ColumnMappingPage() {
                   <img src={"/assets/fabric-mapping-resource.png"} width={"780"} height={"588"} loading={"lazy"} alt={"Gantt Resource tab with Employees selected, Assigned To mapped from the current table, unfilled resource-table ID and display column, and disabled Save."} />
                 </a>
                 <figcaption>
-                  {"Supplied design screen / Resource relationship, incomplete state. "}
+                  {"Design screen / Resource relationship, incomplete state. "}
                   <a className={"image-link"} href={"/assets/fabric-mapping-resource.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -244,7 +244,7 @@ export default function ColumnMappingPage() {
                   <img src={"/assets/fabric-mapping-cost.png"} width={"778"} height={"586"} loading={"lazy"} alt={"Cost tab with a Resource mapping prerequisite banner, disabled Standard Cost and Usage Cost selectors, a separate Fixed Cost selector, and disabled Save."} />
                 </a>
                 <figcaption>
-                  {"Supplied design screen / Cost prerequisite state. "}
+                  {"Design screen / Cost prerequisite state. "}
                   <a className={"image-link"} href={"/assets/fabric-mapping-cost.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -268,7 +268,7 @@ export default function ColumnMappingPage() {
                   <img src={"/assets/fabric-mapping-resource-layout.png"} width={"779"} height={"586"} loading={"lazy"} alt={"Resource layout selected with Task tab active, Assigned To resource, start and end dates, Estimated_hours, filter columns, and collapsed Additional Mapping Options."} />
                 </a>
                 <figcaption>
-                  {"Supplied design screen / Resource layout, Task tab. "}
+                  {"Design screen / Resource layout, Task tab. "}
                   <a className={"image-link"} href={"/assets/fabric-mapping-resource-layout.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -286,7 +286,7 @@ export default function ColumnMappingPage() {
           {"\n      "}
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Evidence & product context"}</p>
-            <h2 id={"evidence-title"}>{"Documented capability. Supplied design, separately."}</h2>
+            <h2 id={"evidence-title"}>{"Documented capability. My design evidence, separately."}</h2>
             <p>{"Microsoft Learn confirms Gantt layout configuration, necessary date and task-ID fields, and optional hierarchy, milestone, progress, dependency, effort, and filter mappings. The overview places PowerTable within Planning in Fabric."}</p>
           </div>
           {"\n      "}

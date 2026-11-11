@@ -20,9 +20,9 @@ export default function PowertablePage() {
             <em>{"Planning Experiences."}</em>
           </h1>
           <p className={"case-summary"}>
-            {"End-to-end Gantt and resource UX/UI for Microsoft Fabric."}
+            {"End-to-end Gantt and resource UX/UI in Microsoft Fabric."}
             <br className={"desktop-break"} />
-            {" Connecting tasks, timelines, and capacity."}
+            {" Give source columns clear roles in the plan."}
           </p>
           <dl className={"metadata"}>
             <div>
@@ -50,8 +50,11 @@ export default function PowertablePage() {
         <figure className={"detail-figure screenshot-scene case-evidence wrap"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <span className={"eyebrow"}>{"Supplied design screen / Fabric Gantt"}</span>
-            <h3>{"Mapping data to the timeline."}</h3>
+            <a className={"recommended-case"} href={"/column-mapping.html"} aria-label={"Recommended first read: Column Mapping & Configuration"}>
+              <span>{"Start here · Column Mapping"}</span>
+              <span aria-hidden={"true"}>{"→"}</span>
+            </a>
+            <h3>{"Separate the data roles."}</h3>
           </div>
           {"\n      "}
           <a className={"product-screenshot annotated-screen"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Fabric Gantt layout configuration full-size (opens in a new tab)"}>
@@ -77,7 +80,7 @@ export default function PowertablePage() {
           </ol>
           {"\n      "}
           <figcaption>
-            {"Design screen · PowerTable in Microsoft Fabric. Numbered callouts are portfolio annotations. "}
+            {"My Gantt configuration UX/UI · PowerTable in Microsoft Fabric. Tabs separate mapping domains rather than use one long form; the trade-off is navigation between them. Numbered callouts are portfolio annotations. "}
             <a className={"image-link"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View original full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -129,8 +132,8 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Map the data. Configure the plan. Track the work."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"Supplied PowerTable Gantt configuration screen with task mappings over the planning timeline."} />
-                <figcaption>{"Supplied design screen"}</figcaption>
+                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"PowerTable Gantt configuration screen with task mappings over the planning timeline."} />
+                <figcaption>{"My Gantt configuration UX/UI"}</figcaption>
               </figure>
               {"\n          "}
               <section id={"column-mapping"} className={"feature-case-link"} aria-labelledby={"column-mapping-title"}>
@@ -188,8 +191,8 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Make workload and formatting rules easier to read."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/fabric-conditional-timeline.png"} width={"1076"} height={"732"} loading={"lazy"} alt={"Supplied Gantt Resources timeline showing conditional-formatting colors across the resource plan."} />
-                <figcaption>{"Supplied design screen"}</figcaption>
+                <img src={"/assets/fabric-conditional-timeline.png"} width={"1076"} height={"732"} loading={"lazy"} alt={"Gantt Resources timeline showing conditional-formatting colors across the resource plan."} />
+                <figcaption>{"My resource conditional-formatting UX/UI"}</figcaption>
               </figure>
               {"\n          "}
               <section id={"conditional-formatting"} className={"feature-case-link"} aria-labelledby={"conditional-formatting-title"}>
@@ -703,7 +706,7 @@ export default function PowertablePage() {
             <section id={"gantt-configuration"} className={"editorial-section wrap"}>
               {"\n      "}
               <div className={"section-label"}>
-                <span className={"eyebrow"}>{"Gantt / Supplied configuration screen"}</span>
+                <span className={"eyebrow"}>{"Gantt / Configuration design"}</span>
                 <h2>
                   {"Start with the fields."}
                   <br />
@@ -837,6 +840,10 @@ export default function PowertablePage() {
                   </div>
                 </div>
                 <p className={"fine-print"}>{"This describes my design-delivery scope, not production-code ownership. No handoff documents, QA logs, release records, or before-and-after performance results are supplied here."}</p>
+                <a className={"text-link"} href={"/about.html#recommendations"}>
+                  {"Read colleague feedback on collaboration "}
+                  <span aria-hidden={"true"}>{"→"}</span>
+                </a>
               </div>
             </section>
             {"\n    "}
@@ -901,6 +908,13 @@ export default function PowertablePage() {
                   </a>
                 </p>
                 <p>{"Microsoft Learn provides current product context, not evidence that I designed the entire planning suite or that each design shown here shipped. The competitive comparison also cites Microsoft Project's official task and scheduling guidance."}</p>
+                <p>
+                  <a href={"https://www.linkedin.com/feed/update/urn:li:activity:7270117667141742592/"} target={"_blank"} rel={"noopener noreferrer"}>
+                    {"Lumel’s public announcement about the Microsoft planning collaboration ↗"}
+                    <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                  </a>
+                  {" provides company-level context. It is not independent user research, an endorsement of my work, or evidence of my individual contribution."}
+                </p>
                 <p>
                   {"The unchanged Microsoft Fabric icon comes from "}
                   <a href={"https://learn.microsoft.com/en-us/fabric/fundamentals/icons"} target={"_blank"} rel={"noopener noreferrer"}>

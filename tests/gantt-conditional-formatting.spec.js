@@ -62,7 +62,7 @@ test('only approved formatting crops are served at native resolution', async ({ 
 
 test('formatting case distinguishes the configured rule from an applied result', async ({ page }) => {
   await page.goto('/gantt-conditional-formatting.html');
-  await expect(page.locator('.metadata')).toContainText('One supplied editing state');
+  await expect(page.locator('.metadata')).toContainText('One rule-editing design state');
   await expect(page.locator('#overview')).toContainText('Schedule Hours > 0');
   await expect(page.locator('#overview')).toContainText('Hidden selections are not inferred');
   await expect(page.locator('#overview')).toContainText('not over-allocation against capacity');

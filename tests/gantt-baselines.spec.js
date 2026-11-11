@@ -67,7 +67,7 @@ test('baseline crops are allowlisted, native resolution, and privacy redacted', 
 
 test('baseline content distinguishes observed controls from unverified behavior', async ({ page }) => {
   await page.goto('/gantt-baselines.html');
-  await expect(page.locator('.metadata')).toContainText('Two supplied design states');
+  await expect(page.locator('.metadata')).toContainText('Two comparison design states');
   await expect(page.locator('#overview')).toContainText('two total selections, not two baselines plus current data');
   await expect(page.locator('#overview')).toContainText('configuration dialog is not supplied');
   await expect(page.locator('#management')).toContainText('Author metadata rows have been redacted');

@@ -17,7 +17,6 @@ export default function AnalyticsPlusPage() {
           <div className={"analytics-brand-row"}>
             <div className={"analytics-logo-plate"}>
               <img src={"/assets/inforiver-analytics-logo.svg"} width={"173"} height={"36"} alt={"Official Inforiver Analytics+ logo"} />
-              <span>{"By Lumel Technologies"}</span>
             </div>
             <div className={"analytics-host"}>
               <img src={"/assets/microsoft-power-bi.svg"} width={"40"} height={"40"} alt={""} />
@@ -35,7 +34,7 @@ export default function AnalyticsPlusPage() {
           </h1>
           {"\n      "}
           <p className={"case-summary"}>
-            {"End-to-end UX/UI across five Analytics+ features in Power BI."}
+            {"End-to-end UX/UI across five Analytics+ features, including flexible report creation."}
           </p>
           {"\n      "}
           <dl className={"metadata"}>
@@ -65,17 +64,20 @@ export default function AnalyticsPlusPage() {
         <figure className={"detail-figure wrap screenshot-scene case-evidence analytics-lead-screen"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <span className={"eyebrow"}>{"My feature work / Storyboard"}</span>
-            <h2>{"Report authoring."}</h2>
+            <a className={"recommended-case"} href={"/storyboard.html"} aria-label={"Recommended first read: Storyboard authoring"}>
+              <span>{"Start here · Storyboard"}</span>
+              <span aria-hidden={"true"}>{"→"}</span>
+            </a>
+            <h2>{"Choose a starting path."}</h2>
           </div>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/storyboard-editor.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Analytics+ Storyboard workspace full-size (opens in a new tab)"}>
-            <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} fetchPriority={"high"} alt={"Supplied Storyboard workspace showing layers, KPI cards, multiple charts, and a detailed table in Analytics+."} />
+          <a className={"product-screenshot"} href={"/assets/storyboard-start.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Analytics+ report creation options full-size (opens in a new tab)"}>
+            <img src={"/assets/storyboard-start.png"} width={"1400"} height={"790"} fetchPriority={"high"} alt={"Storyboard report creation screen offering Auto create report, Custom layout, Choose template, and Blank report."} />
           </a>
           {"\n      "}
           <figcaption>
-            {"Supplied product screenshot · Storyboard authoring. "}
-            <a className={"image-link"} href={"/assets/storyboard-editor.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            {"Storyboard report creation · My feature work. Four starting options support different authoring intentions. The linked case shows alternative starting routes, not mandatory setup steps. "}
+            <a className={"image-link"} href={"/assets/storyboard-start.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -494,10 +496,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Storyboard"}</h3>
               <p className={"album-description"}>{"Arrange visuals into one clear report."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Supplied Storyboard workspace with report layers, charts, KPI cards, and a table."} />
+                <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Storyboard workspace with report layers, charts, KPI cards, and a table."} />
               </div>
               <span className={"album-footer"}>
-                {"Supplied product screen "}
+                {"Storyboard product workspace "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -507,10 +509,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Gantt for Power BI"}</h3>
               <p className={"album-description"}>{"Connect field setup with a readable timeline."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/gantt-timeline.png"} width={"1406"} height={"786"} loading={"lazy"} alt={"Supplied Analytics+ Gantt workspace showing task details beside blue timeline bars."} />
+                <img src={"/assets/gantt-timeline.png"} width={"1406"} height={"786"} loading={"lazy"} alt={"Analytics+ Gantt workspace showing task details beside blue timeline bars."} />
               </div>
               <span className={"album-footer"}>
-                {"Supplied product screen "}
+                {"Gantt product workspace "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -520,10 +522,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Chart Wizard"}</h3>
               <p className={"album-description"}>{"Start with a question. Find the right visual."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/wizard-chart-family.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Supplied Chart Wizard dialog with chart-family choices and visual recommendations."} />
+                <img src={"/assets/wizard-chart-family.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard dialog with chart-family choices and visual recommendations."} />
               </div>
               <span className={"album-footer"}>
-                {"Supplied product screen "}
+                {"Chart Wizard product screen "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -533,10 +535,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Annotations"}</h3>
               <p className={"album-description"}>{"Keep the explanation beside the insight."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/annotation-detail.png"} width={"700"} height={"420"} loading={"lazy"} alt={"Supplied chart detail with an explanatory annotation connected to a data point."} />
+                <img src={"/assets/annotation-detail.png"} width={"700"} height={"420"} loading={"lazy"} alt={"Chart detail with an explanatory annotation connected to a data point."} />
               </div>
               <span className={"album-footer"}>
-                {"Supplied design screen · Detail "}
+                {"Design screen · Annotation detail "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -546,10 +548,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"KPI Presets"}</h3>
               <p className={"album-description"}>{"Give metrics a reusable, meaningful starting point."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/kpi-variance.png"} width={"2000"} height={"1046"} loading={"lazy"} alt={"Supplied KPI Presets panel with variance layouts beside a Power BI report."} />
+                <img src={"/assets/kpi-variance.png"} width={"2000"} height={"1046"} loading={"lazy"} alt={"KPI Presets panel with variance layouts beside a Power BI report."} />
               </div>
               <span className={"album-footer"}>
-                {"Supplied design screen "}
+                {"KPI Presets design screen "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -613,6 +615,13 @@ export default function AnalyticsPlusPage() {
                   {". They identify the platform relationship, not a Microsoft endorsement or ownership of Analytics+."}
                 </p>
                 <p>{"The competitive analysis cites Microsoft Learn and Tableau's official Stories documentation. The feature sections use the supplied product/design screens and preserve their existing detailed case studies."}</p>
+                <p>
+                  <a href={"https://www.linkedin.com/posts/info-river_powerbi-datastorytelling-dashboarddesign-activity-7449433719045537792-W7XT"} target={"_blank"} rel={"noopener noreferrer"}>
+                    {"Inforiver’s public post on storyboarding, layouts, and reusable templates ↗"}
+                    <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                  </a>
+                  {" describes the vendor’s product perspective. It is not independent customer feedback or evidence of measured results from my designs."}
+                </p>
                 <p className={"fine-print"}>{"No customer interviews, competitor test results, usability improvements, ROI, adoption metrics, or third-party endorsements are invented."}</p>
               </div>
             </section>
@@ -631,6 +640,10 @@ export default function AnalyticsPlusPage() {
           <div className={"profile-links"}>
             <a className={"text-link"} href={"/about.html#experience"}>
               {"Experience & recommendations "}
+              <span aria-hidden={"true"}>{"→"}</span>
+            </a>
+            <a className={"text-link"} href={"/about.html#recommendations"}>
+              {"Colleague feedback on collaboration "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
             <a className={"text-link"} href={"https://www.linkedin.com/in/ravichandran-uxui/"} target={"_blank"} rel={"noopener noreferrer"}>

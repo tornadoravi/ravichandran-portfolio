@@ -54,7 +54,7 @@ test('only the five panel crops are served at their unchanged dimensions', async
 
 test('Gantt settings remain distinct from Resource settings and demonstrated outcomes', async ({ page }) => {
   await page.goto('/gantt-configuration.html');
-  await expect(page.locator('.metadata')).toContainText('Five supplied tab states');
+  await expect(page.locator('.metadata')).toContainText('Five configuration tab states');
   await expect(page.locator('#timeline')).toContainText('Daily Capacity: 8 hrs');
   await expect(page.locator('#decisions')).toContainText('not its scheduling relationship');
   await page.locator('#panel-walkthrough > summary').click();

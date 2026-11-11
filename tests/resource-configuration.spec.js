@@ -54,7 +54,7 @@ test('only panel crops are served at their unchanged dimensions', async ({ reque
 
 test('source boundaries and all four configuration states remain explicit', async ({ page }) => {
   await page.goto('/resource-configuration.html');
-  await expect(page.locator('.metadata')).toContainText('Four supplied tab states');
+  await expect(page.locator('.metadata')).toContainText('Four configuration tab states');
   await expect(page.locator('#timeline')).toContainText('Daily Capacity: 8 hrs');
   await expect(page.locator('#timeline')).toContainText('Configuration, not a conditional rule');
   await page.locator('#panel-walkthrough > summary').click();

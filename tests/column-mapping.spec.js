@@ -56,7 +56,7 @@ test('mapping crops are served at their native dimensions and sources remain dis
     expect([metadata.width, metadata.height]).toEqual([width, height]);
   }
   await page.goto('/column-mapping.html');
-  await expect(page.locator('.metadata')).toContainText('Five supplied configuration states');
+  await expect(page.locator('.metadata')).toContainText('Five configuration design states');
   await expect(page.locator('#evidence')).toContainText('does not independently verify every Time Entries, Resource, or Cost state');
   await expect(page.locator('#evidence')).toContainText('cropping is not publication clearance');
   await expect(page.locator('#evidence a[href^="https://learn.microsoft.com/"]')).toHaveCount(2);

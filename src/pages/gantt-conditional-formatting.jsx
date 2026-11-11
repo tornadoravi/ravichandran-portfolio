@@ -50,7 +50,7 @@ export default function GanttConditionalFormattingPage() {
             {"\n        "}
             <div>
               <dt>{"Evidence"}</dt>
-              <dd>{"One supplied editing state"}</dd>
+              <dd>{"One rule-editing design state"}</dd>
             </div>
             {"\n      "}
           </dl>
@@ -93,7 +93,7 @@ export default function GanttConditionalFormattingPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Rule editor crop. Product controls and values are unchanged. "}
+              {"Design screen / Rule editor crop. Product controls and values are unchanged. "}
               <a className={"image-link"} href={"/assets/fabric-conditional-rule.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -134,7 +134,7 @@ export default function GanttConditionalFormattingPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Metric and timescale detail from the same editing state. "}
+              {"Design screen / Metric and timescale detail from the same editing state. "}
               <a className={"image-link"} href={"/assets/fabric-conditional-summary.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -150,7 +150,7 @@ export default function GanttConditionalFormattingPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Timeline-only crop from the same screenshot, not a second state. Resource names and workspace chrome are excluded. "}
+              {"Design screen / Timeline-only crop from the same screenshot, not a second state. Resource names and workspace chrome are excluded. "}
               <a className={"image-link"} href={"/assets/fabric-conditional-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>

@@ -48,7 +48,7 @@ export default function GanttConfigurationPage() {
             {"\n        "}
             <div>
               <dt>{"Evidence"}</dt>
-              <dd>{"Five supplied tab states"}</dd>
+              <dd>{"Five configuration tab states"}</dd>
             </div>
             {"\n      "}
           </dl>
@@ -89,7 +89,7 @@ export default function GanttConfigurationPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Supplied design / Timeline panel crop. Task data and workspace chrome excluded. "}
+              {"Design screen / Timeline panel crop. Task data and workspace chrome excluded. "}
               <a className={"image-link"} href={"/assets/fabric-gantt-config-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -153,7 +153,7 @@ export default function GanttConfigurationPage() {
           <summary className={"wrap"}>
             <span>
               <strong>{"Explore Milestone, Dependency, Data Color & Label"}</strong>
-              <small>{"Four supplied tab states · original-resolution inspection"}</small>
+              <small>{"Four configuration tab states · original-resolution inspection"}</small>
             </span>
             <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
           </summary>
@@ -181,7 +181,7 @@ export default function GanttConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Milestone tab, second attachment. "}
+                  {"Design screen / Milestone tab. "}
                   <a className={"image-link"} href={"/assets/fabric-gantt-config-milestone.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -225,7 +225,7 @@ export default function GanttConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Dependency tab, third attachment. "}
+                  {"Design screen / Dependency tab. "}
                   <a className={"image-link"} href={"/assets/fabric-gantt-config-dependency.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -261,7 +261,7 @@ export default function GanttConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Data Color tab, fourth attachment. "}
+                  {"Design screen / Data Color tab. "}
                   <a className={"image-link"} href={"/assets/fabric-gantt-config-data-color.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -303,7 +303,7 @@ export default function GanttConfigurationPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Supplied design / Label tab, fifth attachment. "}
+                  {"Design screen / Label tab. "}
                   <a className={"image-link"} href={"/assets/fabric-gantt-config-label.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>

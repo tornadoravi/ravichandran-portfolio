@@ -55,7 +55,7 @@ export default function KpiPage() {
         <figure id={"simple-screen"} className={"detail-figure case-evidence wrap screenshot-scene"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <span className={"eyebrow"}>{"Supplied screen / 01"}</span>
+            <span className={"eyebrow"}>{"Design screen / 01"}</span>
             <h3>{"Choose a starting point for the metric"}</h3>
           </div>
           {"\n      "}
@@ -64,7 +64,7 @@ export default function KpiPage() {
           </a>
           {"\n      "}
           <figcaption>
-            {"Supplied design screen · The Simple tab shows alternative arrangements of labels, values, accents, and image placeholders. "}
+            {"Design screen · The Simple tab shows alternative arrangements of labels, values, accents, and image placeholders. "}
             <a className={"image-link"} href={"/assets/kpi-simple.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -352,7 +352,7 @@ export default function KpiPage() {
         <figure className={"detail-figure wrap screenshot-scene"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <span className={"eyebrow"}>{"Supplied screen / 02"}</span>
+            <span className={"eyebrow"}>{"Design screen / 02"}</span>
             <h3>{"Make comparisons visible in the preset browser"}</h3>
           </div>
           {"\n      "}
@@ -361,7 +361,7 @@ export default function KpiPage() {
           </a>
           {"\n      "}
           <figcaption>
-            {"Supplied design screen · Variance-family browsing. Tile sample values and report values differ; this is not a matched before-and-after result. "}
+            {"Design screen · Variance-family browsing. Tile sample values and report values differ; this is not a matched before-and-after result. "}
             <a className={"image-link"} href={"/assets/kpi-variance.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -411,16 +411,16 @@ export default function KpiPage() {
         <figure className={"detail-figure wrap screenshot-scene"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <span className={"eyebrow"}>{"Supplied design / 03"}</span>
+            <span className={"eyebrow"}>{"Design sheet / 03"}</span>
             <h3>{"The reusable KPI layout library"}</h3>
           </div>
           {"\n      "}
           <a className={"product-screenshot native-shot"} href={"/assets/kpi-preset-library.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View KPI preset design library full-size (opens in a new tab)"}>
-            <img src={"/assets/kpi-preset-library.png"} width={"1996"} height={"211"} loading={"lazy"} alt={"Supplied KPI design sheet with simple metric cards, icon arrangements, variance indicators, colored comparison blocks, and compact sparkline and area-chart examples."} />
+            <img src={"/assets/kpi-preset-library.png"} width={"1996"} height={"211"} loading={"lazy"} alt={"KPI design sheet with simple metric cards, icon arrangements, variance indicators, colored comparison blocks, and compact sparkline and area-chart examples."} />
           </a>
           {"\n      "}
           <figcaption>
-            {"Supplied design sheet · Preserved at its original 1996 × 211 resolution. Use Actual size in the inspector to read the small cards; no missing detail has been redrawn. "}
+            {"Design sheet · Preserved at its original 1996 × 211 resolution. Use Actual size in the inspector to read the small cards; no missing detail has been redrawn. "}
             <a className={"image-link"} href={"/assets/kpi-preset-library.png"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>

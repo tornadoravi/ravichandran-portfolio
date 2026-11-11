@@ -55,6 +55,7 @@ html[data-listening-mode="soundroom"] .editorial-home {
 .headline-phrase { grid-area: 1 / 1; min-width: 0; animation: headline-enter .4s ease-out; }
 @keyframes headline-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .hero-introduction { max-width: 48ch; font-size: 18px; color: var(--muted); margin: 0; }
+.hero-work-link { margin-top: 12px; font-size: 14px; color: var(--accent); }
 .hero-copy { align-self: center; }
 .hero-portrait { position: relative; isolation: isolate; container-type: inline-size; align-self: center; justify-self: end; width: min(100%, 640px, max(360px, calc(100svh - 184px))); max-width: 100%; }
 .portrait-wordmark { position: absolute; z-index: -1; inset: 0; padding-top: 5%; text-align: center; color: var(--ink); opacity: .14; font: 400 clamp(72px, 27.5cqw, 176px)/1.05 "Portfolio Display", var(--sans); letter-spacing: -.02em; -webkit-mask-image: linear-gradient(#000 48%, transparent 60%); mask-image: linear-gradient(#000 48%, transparent 60%); pointer-events: none; }
@@ -112,10 +113,10 @@ html[data-listening-mode="soundroom"] .editorial-home {
 .companion-button[aria-expanded="true"] .soundroom-companion { animation: companion-hello .9s ease-in-out; }
 .companion-greeting { position: absolute; z-index: 3; left: 0; top: calc(100% + 12px); width: 260px; max-width: calc(100vw - 40px); margin: 0; padding: 12px 16px; border: 1px solid var(--control-line); border-radius: 3px 12px 12px; color: var(--ink); background: var(--bg); box-shadow: 0 8px 24px #00000014; font-size: 13px; line-height: 1.6; text-align: left; }
 .companion-greeting[hidden] { display: none; }
-.listening-modes { display: inline-flex; gap: 4px; padding: 4px; max-width: 100%; border: 1px solid var(--pill-border); border-radius: 40px; background: var(--bg); }
-.listening-modes button { min-height: 48px; padding: 9px 22px; border: 0; border-radius: 32px; color: var(--muted); background: transparent; font: italic 19px var(--serif); white-space: nowrap; cursor: pointer; transition: background .25s, color .25s; }
+.listening-modes { display: inline-flex; gap: 2px; padding: 2px; max-width: 100%; border: 1px solid var(--pill-border); border-radius: 28px; background: transparent; }
+.listening-modes button { min-height: 44px; padding: 8px 12px; border: 0; border-radius: 24px; color: var(--muted); background: transparent; font: 500 13px var(--sans); white-space: nowrap; cursor: pointer; transition: background .25s, color .25s; }
 .listening-modes button:hover { color: var(--ink); background: var(--pill-bg); }
-.listening-modes button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.listening-modes button[aria-pressed="true"] { background: var(--pill-bg); color: var(--ink); }
 html[data-listening-mode="soundroom"] .listening-modes { background: #ffffff0b; border-color: var(--line); }
 html[data-listening-mode="soundroom"] .listening-modes button[aria-pressed="true"] { background: #3a2a1e; color: #e8d9c2; }
 .soundroom-panel { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 6px 12px; width: 100%; max-width: 360px; padding: 14px 0 0; margin-top: 0; background: transparent; border: 0; }
@@ -152,9 +153,10 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-case main > figure.case-evidence { padding: 20px 24px 18px; }
 .editorial-case main > figure.case-evidence .figure-label .eyebrow { margin: 0; }
 .editorial-case main > figure.case-evidence .product-screenshot { margin-top: 16px; }
+.recommended-case { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-size: 13px; font-weight: 500; line-height: 1.4; }
+.recommended-case:hover { text-decoration: underline; text-underline-offset: 4px; }
 .editorial-case .analytics-brand-row { gap: 12px 24px; margin-bottom: 16px; }
 .editorial-case .analytics-logo-plate { gap: 12px; padding: 8px 12px; }
-.editorial-case .analytics-logo-plate span { width: auto; }
 .editorial-case .case-hero h1 em, .editorial-case .section-label h2 em, .editorial-case .case-section-heading em, .editorial-case .next-title em { font: inherit; font-style: italic; color: var(--accent); }
 .editorial-case :is(.section-label h2, .case-section-heading h2, .mapping-lead-copy h2, .mapping-step-copy h2, .decision-ledger h3, .analytics-feature h3, .next-title) { font-family: var(--serif); font-weight: 400; }
 .editorial-case .case-brief { background: var(--surface); }
@@ -224,6 +226,9 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-home .home-about h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 3.8vw, 52px); }
 .editorial-home .home-about h2 em { font-family: inherit; font-style: italic; }
 .editorial-home .home-about p:not(.eyebrow) { max-width: 66ch; font-size: 16px; line-height: 1.75; }
+.home-contact { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.home-contact h3 { font: 400 28px/1.3 var(--serif); margin-bottom: 8px; }
+.editorial-home .home-contact .contact-link { font-size: 15px; color: var(--accent); }
 .editorial-home .profile-links { gap: 8px 24px; }
 .editorial-home .profile-links .text-link { font-size: 12px; }
 .editorial-home .site-footer { padding-block: 24px; border-image: none; }
@@ -276,8 +281,7 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
   .editorial-home .project-index { gap: 20px; padding-bottom: 0; }
   .work-browse { padding-bottom: 20px; }
   .listening-room { width: 100%; align-items: flex-start; }
-  .listening-modes { width: 100%; }
-  .listening-modes button { flex: 1; padding: 8px 12px; font-size: 17px; }
+  .listening-modes { width: auto; }
   .soundroom-status { text-align: left; }
   .soundroom-panel { max-width: none; }
   .editorial-home .project + .project { margin-top: 52px; }
@@ -298,7 +302,10 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
   .editorial-case .metadata { gap: 12px 18px; padding-top: 16px; }
   .editorial-case main > figure.case-evidence { padding: 20px 12px 18px; }
   .editorial-case .analytics-logo-plate { gap: 8px; padding: 8px; }
-  .editorial-case .analytics-logo-plate > img { width: clamp(120px, 40vw, 173px); height: auto; }
+  .editorial-case .analytics-brand-row { gap: 8px; }
+  .editorial-case .analytics-logo-plate > img { width: clamp(110px, 34vw, 173px); height: auto; }
+  .editorial-case .analytics-host { gap: 8px; font-size: 13px; }
+  .editorial-case .analytics-host > img { width: 24px; height: 24px; }
   .editorial-case .feature-card-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .editorial-case .feature-card-grid > .album-card { min-height: 350px; }
   .editorial-case .album-card { padding: 24px 20px 20px 28px; }

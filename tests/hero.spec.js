@@ -80,7 +80,8 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(hero.locator('canvas, button, [role="progressbar"]')).toHaveCount(0);
     expect(requests.some((url) => /portrait-dots|hero\.bundle/.test(url))).toBe(false);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await expect(hero.getByRole('link')).toHaveCount(0);
+    await expect(hero.getByRole('link')).toHaveCount(1);
+    await expect(hero.getByRole('link', { name: 'View selected work', exact: true })).toHaveAttribute('href', '#work');
     if (width <= 700) await page.locator('.menu-toggle').click();
     await page.locator('#main-nav a[href="/#work"]').click();
     await expect(page.locator('#work')).toBeInViewport();
