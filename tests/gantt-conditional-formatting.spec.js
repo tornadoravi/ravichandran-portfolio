@@ -93,7 +93,7 @@ test('Home, parent, and baseline sibling link the new feature without adding a p
   await page.locator('.back-link').click();
   await expect(page).toHaveURL(/powertable\.html#conditional-formatting$/);
   const featureLinks = page.locator('.feature-case-link');
-  await expect(featureLinks).toHaveCount(4);
+  await expect(featureLinks).toHaveCount(1);
   await expect(page.locator('#resource-features')).toContainText('Gantt Resources');
   await expect(page.locator('#resource-features #conditional-formatting')).toHaveCount(1);
   await page.locator('#conditional-formatting a').click();

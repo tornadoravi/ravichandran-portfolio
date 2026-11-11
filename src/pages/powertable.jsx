@@ -121,49 +121,10 @@ export default function PowertablePage() {
                 <figcaption>{"My Gantt configuration UX/UI"}</figcaption>
               </figure>
               {"\n          "}
-              <section id={"column-mapping"} className={"feature-case-link"} aria-labelledby={"column-mapping-title"}>
-                {"\n            "}
-                <h3 id={"column-mapping-title"}>
-                  <a href={"/column-mapping.html"}>
-                    {"Column Mapping & Configuration "}
-                    <span aria-hidden={"true"}>{"↗"}</span>
-                  </a>
-                </h3>
-                {"\n          "}
-              </section>
-              {"\n          "}
-              <section id={"baseline-comparison"} className={"feature-case-link"} aria-labelledby={"baseline-comparison-title"}>
-                {"\n            "}
-                <h3 id={"baseline-comparison-title"}>
-                  <a href={"/gantt-baselines.html"}>
-                    {"Baseline Configuration & Comparison "}
-                    <span aria-hidden={"true"}>{"↗"}</span>
-                  </a>
-                </h3>
-                {"\n          "}
-              </section>
-              {"\n          "}
-              <section id={"backlog"} className={"feature-case-link"} aria-labelledby={"backlog-title"}>
-                {"\n            "}
-                <h3 id={"backlog-title"}>
-                  <a href={"/gantt-backlog.html"}>
-                    {"Backlog Tasks "}
-                    <span aria-hidden={"true"}>{"↗"}</span>
-                  </a>
-                </h3>
-                {"\n          "}
-              </section>
-              {"\n          "}
-              <div id={"gantt-sidepanel"} className={"workspace-contribution"}>
-                {"\n            "}
-                <p>{"Related configuration"}</p>
-                {"\n            "}
-                <a className={"text-link"} href={"/gantt-configuration.html"}>
-                  {"Gantt side panel "}
-                  <span aria-hidden={"true"}>{"→"}</span>
-                </a>
-                {"\n          "}
-              </div>
+              <a className={"text-link"} href={"/column-mapping.html"}>
+                {"Explore Gantt "}
+                <span aria-hidden={"true"}>{"→"}</span>
+              </a>
               {"\n        "}
             </section>
             {"\n        "}

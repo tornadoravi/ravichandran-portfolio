@@ -41,7 +41,7 @@ test('official PowerTable product context stays separate from personal feature e
   await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('.workspace-preview figcaption').filter({ hasText: /My .* UX\/UI/ })).toHaveCount(2);
   await expect(page.locator('.review-grid')).toHaveCount(0);
-  await expect(page.locator('#column-mapping a')).toHaveAttribute('href', '/column-mapping.html');
+  await expect(page.getByRole('link', { name: 'Explore Gantt', exact: true })).toHaveAttribute('href', '/column-mapping.html');
 });
 
 test('full case details remain natively accessible without JavaScript', async ({ browser, baseURL }) => {

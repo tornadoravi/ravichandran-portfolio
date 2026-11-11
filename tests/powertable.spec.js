@@ -24,14 +24,13 @@ for (const width of [320, 390, 768, 1440]) {
     await page.goto('/powertable.html');
     await expect(page.locator('#workspaces-title')).toHaveText('My feature work.');
     await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
-    await expect(page.locator('#gantt-features .feature-case-link')).toHaveCount(3);
+    await expect(page.locator('#gantt-features .feature-case-link, #gantt-features .workspace-contribution')).toHaveCount(0);
     await expect(page.locator('#resource-features .feature-case-link')).toHaveCount(1);
-    expect(await page.locator('#gantt-features .feature-case-link a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
-      .toEqual(['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html']);
+    await expect(page.locator('#gantt-features a')).toHaveCount(1);
+    await expect(page.getByRole('link', { name: 'Explore Gantt', exact: true })).toHaveAttribute('href', '/column-mapping.html');
     expect(await page.locator('#resource-features .feature-case-link a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
       .toEqual(['/gantt-conditional-formatting.html']);
     await expect(page.locator('#resource-features #backlog')).toHaveCount(0);
-    await expect(page.locator('#gantt-sidepanel a')).toHaveAttribute('href', '/gantt-configuration.html');
     await expect(page.locator('#resource-configuration a')).toHaveAttribute('href', '/resource-configuration.html');
     await expect(page.locator('#crosstab-features')).toContainText('Contribution overview');
     const groups = await page.locator('.workspace-group').all();
@@ -59,14 +58,16 @@ test('workspace groups and feature links remain available without JavaScript', a
   const page = await context.newPage();
   await page.goto(baseURL + '/');
   await page.locator('#project-planning .case-link').click();
-  await page.locator('.workspace-grid').getByRole('link', { name: /Backlog/ }).click();
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.goto(baseURL + '/powertable.html');
   await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
-  await page.locator('#gantt-features #backlog a').click();
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.locator('.back-link').click();
-  await expect(page.locator('#backlog')).toBeInViewport();
+  await expect(page.locator('#gantt-features')).toBeInViewport();
   await page.locator('#study-details > summary').click();
   await page.locator('#crosstab-features a').click();
   await expect(page.locator('#crosstab')).toBeInViewport();
@@ -167,7 +168,12 @@ test('Home leads into keyboard-usable PowerTable feature links including the Cro
     await productLink.focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/powertable\.html$/);
-    const link = page.locator('.workspace-grid').locator(`a[href="${target.endsWith('#crosstab') ? '#crosstab' : target}"]`);
+    const ganttTargets = ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html'];
+    if (ganttTargets.includes(target)) {
+      await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+    }
+    const link = page.locator(ganttTargets.includes(target) ? '.gantt-feature-tabs' : '.workspace-grid')
+      .locator(`a[href="${target.endsWith('#crosstab') ? '#crosstab' : target}"]`);
     await link.focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(new URL(target, page.url()).href);

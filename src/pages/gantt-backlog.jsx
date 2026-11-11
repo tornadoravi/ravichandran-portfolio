@@ -1,4 +1,5 @@
 import React from 'react';
+import GanttFeatureTabs from '../GanttFeatureTabs.jsx';
 
 export default function GanttBacklogPage() {
   return (
@@ -10,12 +11,13 @@ export default function GanttBacklogPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#backlog"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
           {"\n      "}
           <p className={"eyebrow platform-pill"}>
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt / Microsoft Fabric"}
           </p>
+          <GanttFeatureTabs active="backlog" />
           {"\n      "}
           <h1>
             {"Gantt Backlog."}

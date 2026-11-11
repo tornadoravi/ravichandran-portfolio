@@ -1,4 +1,5 @@
 import React from 'react';
+import GanttFeatureTabs from '../GanttFeatureTabs.jsx';
 
 export default function ColumnMappingPage() {
   return (
@@ -10,12 +11,13 @@ export default function ColumnMappingPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#column-mapping"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
           {"\n      "}
           <p className={"eyebrow platform-pill"}>
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt / Microsoft Fabric"}
           </p>
+          <GanttFeatureTabs active="mapping" />
           {"\n      "}
           <h1>
             {"Column Mapping"}

@@ -70,11 +70,11 @@ test('Home and PowerTable link to the new feature without changing the product o
   await expect(page.locator('.project')).toHaveCount(2);
   await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
   await page.locator('#project-planning .case-link').click();
-  await page.locator('#column-mapping a[href="/column-mapping.html"]').click();
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await expect(page).toHaveURL(/column-mapping\.html$/);
   await page.locator('.back-link').click();
-  await expect(page).toHaveURL(/powertable\.html#column-mapping$/);
-  await page.locator('#column-mapping a').click();
+  await expect(page).toHaveURL(/powertable\.html#gantt-features$/);
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await expect(page).toHaveURL(/column-mapping\.html$/);
 });
 

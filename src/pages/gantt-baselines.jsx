@@ -1,4 +1,5 @@
 import React from 'react';
+import GanttFeatureTabs from '../GanttFeatureTabs.jsx';
 
 export default function GanttBaselinesPage() {
   return (
@@ -10,12 +11,13 @@ export default function GanttBaselinesPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#baseline-comparison"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
           {"\n      "}
           <p className={"eyebrow platform-pill"}>
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt / Microsoft Fabric"}
           </p>
+          <GanttFeatureTabs active="baselines" />
           {"\n      "}
           <h1>
             {"Gantt Baselines."}

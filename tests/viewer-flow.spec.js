@@ -47,7 +47,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       await openReady(page, path);
       const figure = page.locator('main > .case-evidence');
       const recommendation = path === '/powertable.html'
-        ? page.locator('#column-mapping a')
+        ? page.getByRole('link', { name: 'Explore Gantt', exact: true })
         : figure.getByRole('link', { name: /Recommended first read/ });
       await expect(recommendation).toHaveAttribute('href', destination);
       await expect(figure.locator('.figure-label')).toContainText(focus);
@@ -113,7 +113,7 @@ test('the recommended reading route and Home work link work without JavaScript',
     for (const [path, destination] of [['/powertable.html', '/column-mapping.html'], ['/analytics-plus.html', '/storyboard.html']]) {
       await page.goto(baseURL + path);
       const firstRead = path === '/powertable.html'
-        ? page.locator('#column-mapping a')
+        ? page.getByRole('link', { name: 'Explore Gantt', exact: true })
         : page.getByRole('link', { name: /Recommended first read/ });
       await firstRead.click();
       await expect(page).toHaveURL(baseURL + destination);

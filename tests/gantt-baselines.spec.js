@@ -85,11 +85,13 @@ test('Home, parent, and sibling connect both feature cases without changing prod
   await expect(page.locator('.project')).toHaveCount(2);
   await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
   await page.locator('#project-planning .case-link').click();
-  await page.locator('.workspace-grid a[href="/gantt-baselines.html"]').click();
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Baselines', exact: true }).click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
   await page.locator('.back-link').click();
-  await expect(page).toHaveURL(/powertable\.html#baseline-comparison$/);
-  await page.locator('#baseline-comparison a').click();
+  await expect(page).toHaveURL(/powertable\.html#gantt-features$/);
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Baselines', exact: true }).click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/column-mapping\.html$/);

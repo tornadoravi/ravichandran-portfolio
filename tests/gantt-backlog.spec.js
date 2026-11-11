@@ -92,11 +92,13 @@ test('Home, parent, and formatting sibling expose backlog without adding another
   await expect(page.locator('.project')).toHaveCount(2);
   await expect(page.locator('.case-link')).toHaveCount(2);
   await page.locator('#project-planning .case-link').click();
-  await page.locator('.workspace-grid a[href="/gantt-backlog.html"]').click();
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.locator('.back-link').click();
-  await expect(page).toHaveURL(/powertable\.html#backlog$/);
-  await page.locator('#backlog a').click();
+  await expect(page).toHaveURL(/powertable\.html#gantt-features$/);
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
   await page.locator('a[href="/gantt-backlog.html"]').click();
@@ -143,6 +145,6 @@ test('backlog images, source disclosure, and parent navigation work without Java
   await expect(page.locator('.inspect-button')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.locator('.back-link').click();
-  await expect(page.locator('#backlog')).toBeInViewport();
+  await expect(page.locator('#gantt-features')).toBeInViewport();
   await context.close();
 });

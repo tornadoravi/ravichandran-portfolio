@@ -1,4 +1,5 @@
 import React from 'react';
+import GanttFeatureTabs from '../GanttFeatureTabs.jsx';
 
 export default function GanttConfigurationPage() {
   return (
@@ -10,12 +11,13 @@ export default function GanttConfigurationPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#gantt-sidepanel"}>{"← PowerTable / Gantt"}</a>
+          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable / Gantt"}</a>
           {"\n      "}
           <p className={"eyebrow platform-pill"}>
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt / Microsoft Fabric"}
           </p>
+          <GanttFeatureTabs active="configuration" />
           {"\n      "}
           <h1>
             {"Gantt Configuration."}
