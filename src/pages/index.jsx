@@ -129,11 +129,11 @@ export default function IndexPage() {
               </p>
               {"\n          "}
               <div className={"product-screenshot"}>
-                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"PowerTable Gantt Layout Configuration screen inside Microsoft Fabric, with task-field mappings over the planning timeline."} />
+                <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} loading={"lazy"} alt={"Official PowerTable implementation in Microsoft Fabric, with a task table and a populated Gantt timeline showing progress, milestones, and dependencies."} />
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
-                <span>{"My Gantt UX/UI · Configuration design"}</span>
+                <span>{"Official PowerTable implementation · Product preview"}</span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
               {"\n        "}
@@ -202,11 +202,11 @@ export default function IndexPage() {
               </p>
               {"\n          "}
               <div className={"product-screenshot"}>
-                <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} alt={"Analytics+ Storyboard workspace with report layers, KPI cards, charts, and a table."} />
+                <img src={"/assets/analytics-plus-official-dashboard.webp"} width={"1920"} height={"1080"} loading={"lazy"} alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
-                <span>{"My Storyboard feature work · Product workspace"}</span>
+                <span>{"Official Analytics+ template · Lumel Inc."}</span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
               {"\n        "}

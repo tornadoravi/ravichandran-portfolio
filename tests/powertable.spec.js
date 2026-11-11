@@ -151,9 +151,10 @@ for (const width of [320, 390, 768, 1440]) {
   });
 }
 
-test('Home uses the Fabric screen and leaves feature navigation inside the case study', async ({ page }) => {
+test('Home uses the PowerTable implementation and leaves feature navigation inside the case study', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#project-planning img[src="/assets/fabric-gantt-configuration.png"]')).toHaveCount(1);
+  await expect(page.locator('#project-planning .product-screenshot img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
+  await expect(page.locator('#project-planning .visual-bottom')).toContainText('Official PowerTable implementation');
   await expect(page.locator('#project-planning .platform-pill img')).toHaveAttribute('src', '/assets/microsoft-fabric.svg');
   await expect(page.locator('.project-features')).toHaveCount(0);
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();

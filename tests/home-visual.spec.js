@@ -132,6 +132,11 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
       await expect(project.locator('.project-categories li')).toHaveCount(2);
       await expect(project.locator('.project-categories a, .project-categories button')).toHaveCount(0);
       const image = project.locator('.product-screenshot img');
+      const expectedImage = await project.getAttribute('id') === 'project-planning'
+        ? '/assets/powertable-official-gantt.webp'
+        : '/assets/analytics-plus-official-dashboard.webp';
+      await expect(image).toHaveAttribute('src', expectedImage);
+      await expect(project.locator('.visual-bottom')).toContainText('Official');
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(image => image.decode());
       const frame = await project.locator('.project-visual').boundingBox();

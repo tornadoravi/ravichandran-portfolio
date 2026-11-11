@@ -491,7 +491,8 @@ test('Chart Wizard flow preserves alternative routes and reaches configuration a
 
 test('Wizard screenshots use native-size crops and the product overview shows real evidence', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#project-analytics .product-screenshot img')).toHaveAttribute('src', '/assets/storyboard-editor.png');
+  await expect(page.locator('#project-analytics .product-screenshot img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
+  await expect(page.locator('#project-analytics .visual-bottom')).toContainText('Official Analytics+ template · Lumel Inc.');
   await page.goto('/analytics-plus.html');
   const wizard = page.locator('#feature-wizard');
   await expect(wizard.locator('img')).toHaveAttribute('src', '/assets/wizard-chart-family.png');
