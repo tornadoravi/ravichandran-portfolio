@@ -80,6 +80,10 @@ test('official PowerTable overview is attributed and original design evidence st
   expect([image.width, image.height]).toEqual([1912, 1038]);
   const official = await sharp(fileURLToPath(new URL('../assets/powertable-official-gantt.webp', import.meta.url))).metadata();
   expect([official.width, official.height]).toEqual([2944, 1570]);
+  for (const [name, width, height] of [['resource', 2304, 1118], ['crosstab', 2304, 892]]) {
+    const image = await sharp(fileURLToPath(new URL(`../assets/powertable-official-${name}.webp`, import.meta.url))).metadata();
+    expect([image.width, image.height]).toEqual([width, height]);
+  }
   await page.goto('/powertable.html');
   await expect(page.locator('.case-evidence img')).toHaveCount(1);
   await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
@@ -89,11 +93,38 @@ test('official PowerTable overview is attributed and original design evidence st
   await expect(page.locator('.case-evidence figcaption')).toContainText('Official product screenshot');
   await expect(page.locator('.case-evidence a[href^="https://docs.powertable.com/"]')).toHaveAttribute('rel', 'noopener noreferrer');
   await expect(page.locator('.case-evidence .annotated-screen, .case-evidence .screen-key, .case-evidence .screen-pin')).toHaveCount(0);
-  await expect(page.locator('#gantt-features img')).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
+  await expect(page.locator('#gantt-features img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
+  await expect(page.locator('#resource-features img')).toHaveAttribute('src', '/assets/powertable-official-resource.webp');
+  await expect(page.locator('#crosstab-features img')).toHaveAttribute('src', '/assets/powertable-official-crosstab.webp');
+  await expect(page.locator('#study-details img[src="/assets/fabric-gantt-configuration.png"]')).toHaveCount(1);
   await expect(page.locator('img[src^="/assets/gantt-"], img[src^="/assets/wizard-"], img[src^="/assets/storyboard-"]')).toHaveCount(0);
   const response = await page.request.get('/assets/powertable-official-gantt.webp');
   expect(response.status()).toBe(200);
   expect(response.headers()['content-type']).toContain('image/webp');
+});
+
+test('workspace image sources distinguish official implementations from personal design evidence', async ({ page }) => {
+  await page.goto('/powertable.html');
+  await page.getByRole('link', { name: 'Image sources →', exact: true }).click();
+  await expect(page.locator('#study-details')).toHaveAttribute('open');
+  const sources = page.locator('#workspace-sources');
+  await expect(sources).toBeInViewport();
+  for (const url of [
+    'https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view',
+    'https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-configure-resource-overview',
+    'https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-configure-crosstab-layout',
+    '/assets/powertable-official-gantt.webp',
+    '/assets/powertable-official-resource.webp',
+    '/assets/powertable-official-crosstab.webp'
+  ]) {
+    const link = sources.locator(`a[href="${url}"]`);
+    await expect(link).toHaveCount(1);
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  }
+  await expect(sources).toContainText('not proof of my ownership');
+  await expect(sources).toContainText('Cross-tab remains contribution-level work');
+  await page.reload();
+  await expect(sources).toBeInViewport();
 });
 
 test('PowerTable explains the product before personal scope, comparison, and delivery', async ({ page }) => {

@@ -41,6 +41,8 @@ export const files = new Map([
   ['/assets/microsoft-fabric.svg', ['assets/microsoft-fabric.svg', 'image/svg+xml']],
   ['/assets/fabric-gantt-configuration.png', ['assets/fabric-gantt-configuration.png', 'image/png']],
   ['/assets/powertable-official-gantt.webp', ['assets/powertable-official-gantt.webp', 'image/webp']],
+  ['/assets/powertable-official-resource.webp', ['assets/powertable-official-resource.webp', 'image/webp']],
+  ['/assets/powertable-official-crosstab.webp', ['assets/powertable-official-crosstab.webp', 'image/webp']],
   ['/assets/fabric-configuration-detail.png', ['assets/fabric-configuration-detail.png', 'image/png']],
   ...['task', 'time-entries', 'resource', 'cost', 'resource-layout'].map((name) =>
     [`/assets/fabric-mapping-${name}.png`, [`assets/fabric-mapping-${name}.png`, 'image/png']]),

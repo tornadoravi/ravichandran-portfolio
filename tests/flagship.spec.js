@@ -39,7 +39,8 @@ test('official PowerTable product context stays separate from personal feature e
   await expect(page.locator('.case-evidence figcaption')).toContainText('Official product screenshot');
   await expect(page.locator('.case-brief')).toContainText('resource, and cost configuration screens');
   await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
-  await expect(page.locator('.workspace-preview figcaption').filter({ hasText: /My .* UX\/UI/ })).toHaveCount(2);
+  await expect(page.locator('.workspace-preview figcaption').filter({ hasText: 'Official product example' })).toHaveCount(3);
+  await expect(page.locator('#study-details img[src="/assets/fabric-gantt-configuration.png"]')).toHaveCount(1);
   await expect(page.locator('.review-grid')).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Explore Gantt', exact: true })).toHaveAttribute('href', '/column-mapping.html');
 });

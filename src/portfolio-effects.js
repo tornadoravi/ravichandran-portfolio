@@ -23,9 +23,21 @@ export function initializePortfolioEffects() {
         opened = true;
       }
     }
-    if (opened) requestAnimationFrame(() => target.scrollIntoView({ behavior: 'instant', block: 'start' }));
+    // Let disclosure layout and native scroll restoration settle before aligning.
+    if (opened) requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!events.signal.aborted && location.hash === hash) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }));
   }
   openLinkedDetails(location.hash);
+  const entryHash = location.hash;
+  const entryTarget = document.getElementById(entryHash.slice(1));
+  if (entryTarget?.closest('details')) {
+    const pageReady = document.readyState === 'complete' ? Promise.resolve() :
+      new Promise(resolve => listen(window, 'load', resolve, { once: true }));
+    Promise.all([pageReady, document.fonts.ready]).then(() => requestAnimationFrame(() => {
+      if (!events.signal.aborted && location.hash === entryHash) entryTarget.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }));
+  }
   listen(document, 'click', (event) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.defaultPrevented) return;
     const link = event.target.closest('a[href]');

@@ -15,14 +15,14 @@ export default function PowertablePage() {
             {"01 / PowerTable · Microsoft Fabric"}
           </p>
           <h1>
-            {"Designing Connected"}
+            {"Complex planning."}
             <br />
-            <em>{"Planning Experiences."}</em>
+            <em>{"Connected workflows."}</em>
           </h1>
           <p className={"case-summary"}>
-            {"End-to-end Gantt and resource UX/UI in Microsoft Fabric."}
+            {"End-to-end Gantt and resource UX/UI."}
             <br className={"desktop-break"} />
-            {" Connecting tasks, timelines, and capacity."}
+            {" Built on the Microsoft Fabric design system."}
           </p>
           <dl className={"metadata"}>
             <div>
@@ -87,7 +87,7 @@ export default function PowertablePage() {
             <h2>{"My contribution"}</h2>
             <p>
               <strong>{"End-to-end Gantt and resource UX/UI"}</strong>
-              {"; cross-tab contributions."}
+              {" using the Microsoft Fabric design system; cross-tab contribution."}
             </p>
           </div>
           <div>
@@ -104,6 +104,7 @@ export default function PowertablePage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"PowerTable / Three areas"}</p>
             <h2 id={"workspaces-title"}>{"My feature work."}</h2>
+            <p>{"Official product previews. "}<a className={"text-link"} href={"#workspace-sources"}>{"Image sources →"}</a></p>
           </div>
           {"\n      "}
           <div className={"workspace-grid"}>
@@ -117,8 +118,8 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Map the data. Configure the plan. Track the work."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"PowerTable Gantt configuration screen with task mappings over the planning timeline."} />
-                <figcaption>{"My Gantt configuration UX/UI"}</figcaption>
+                <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} loading={"lazy"} alt={"Official PowerTable Gantt implementation with task rows, timeline bars, milestones, and dependency connectors."} />
+                <figcaption>{"Official product example · Gantt"}</figcaption>
               </figure>
               {"\n          "}
               <a className={"text-link"} href={"/column-mapping.html"}>
@@ -137,8 +138,8 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Make workload and formatting rules easier to read."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/fabric-conditional-timeline.png"} width={"1076"} height={"732"} loading={"lazy"} alt={"Gantt Resources timeline showing conditional-formatting colors across the resource plan."} />
-                <figcaption>{"My resource conditional-formatting UX/UI"}</figcaption>
+                <img src={"/assets/powertable-official-resource.webp"} width={"2304"} height={"1118"} loading={"lazy"} alt={"Official PowerTable Resource layout showing assignees and their assigned tasks across a quarterly timeline."} />
+                <figcaption>{"Official product example · Resources"}</figcaption>
               </figure>
               {"\n          "}
               <a className={"text-link"} href={"/gantt-conditional-formatting.html"}>
@@ -157,13 +158,8 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Shape the same data into summary and detail."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <div className={"structure-map"} role={"img"} aria-label={"Concept diagram: rows and columns organize measures into summary and detail."}>
-                  <span>{"Columns"}</span>
-                  <span>{"Rows"}</span>
-                  <strong>{"Measures"}</strong>
-                  <span>{"Summary + detail"}</span>
-                </div>
-                <figcaption>{"Original concept diagram"}</figcaption>
+                <img src={"/assets/powertable-official-crosstab.webp"} width={"2304"} height={"892"} loading={"lazy"} alt={"Official PowerTable Cross-tab implementation with product categories, year-quarter-month column hierarchies, profit and units sold, and totals."} />
+                <figcaption>{"Official product example · Cross-tab"}</figcaption>
               </figure>
               {"\n          "}
               <a className={"text-link"} href={"/crosstab.html"}>
@@ -651,6 +647,16 @@ export default function PowertablePage() {
               {"\n    "}
             </section>
             {"\n    "}
+            <figure className={"detail-figure wrap screenshot-scene"}>
+              <div className={"figure-label"}>
+                <span className={"eyebrow"}>{"My design evidence / Gantt configuration"}</span>
+                <h3>{"Mapping data to the plan."}</h3>
+              </div>
+              <a className={"product-screenshot"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View my Gantt Layout Configuration design screen full-size (opens in a new tab)"}>
+                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"My supplied PowerTable Layout Configuration design screen with required task-field mappings and additional mapping options."} />
+              </a>
+              <figcaption>{"Layout Configuration design screen · Personal feature evidence, separate from the official product previews above."}</figcaption>
+            </figure>
             <figure className={"detail-figure wrap gantt-scene"}>
               <div className={"figure-label"}>
                 <span className={"eyebrow"}>{"A shared planning canvas"}</span>
@@ -821,6 +827,26 @@ export default function PowertablePage() {
                   </a>
                   {", re-encoded as WebP without cropping or added callouts. This is product context, not evidence that I designed every capability shown."}
                 </p>
+                <div id={"workspace-sources"}>
+                  <h3>{"Workspace screenshot sources."}</h3>
+                  <p>{"Official documentation screenshots, checked on 11 November 2026. They show implemented product views, not proof of my ownership of every control or a release record for each supplied design."}</p>
+                  <p>
+                    <a href={"https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view"} target={"_blank"} rel={"noopener noreferrer"}>{"Gantt · PowerTable documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" · "}
+                    <a href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Gantt full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                  </p>
+                  <p>
+                    <a href={"https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-configure-resource-overview"} target={"_blank"} rel={"noopener noreferrer"}>{"Resource layout · Microsoft Learn ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" · "}
+                    <a href={"/assets/powertable-official-resource.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Resources full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                  </p>
+                  <p>
+                    <a href={"https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-configure-crosstab-layout"} target={"_blank"} rel={"noopener noreferrer"}>{"Cross-tab layout · Microsoft Learn ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    {" · "}
+                    <a href={"/assets/powertable-official-crosstab.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Cross-tab full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                  </p>
+                  <p>{"All previews retain their source dimensions and interface content, with WebP compression only. Original design evidence remains in the supporting story and linked feature cases; Cross-tab remains contribution-level work."}</p>
+                </div>
                 <p>
                   <a className={"text-link"} href={"https://learn.microsoft.com/en-us/fabric/iq/plan/overview"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"What is planning in Fabric? "}

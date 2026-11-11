@@ -12,6 +12,11 @@ for (const width of [320, 390, 768, 1440, 1920]) {
   test(`Home prioritizes work and contact without oversized secondary controls at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await openReady(page, '/');
+    await expect(page.locator('.hero-introduction')).toContainText('from UX/UI to implementation review');
+    await expect(page.locator('#project-planning .scan-highlight')).toHaveText('connected task, timeline, and resource workflows.');
+    await expect(page.locator('#project-planning .project-role')).toContainText('End-to-end Gantt & resource UX/UI');
+    await expect(page.locator('#project-analytics .scan-highlight')).toHaveText('consistent report authoring across five connected features.');
+    await expect(page.locator('#project-analytics .project-role')).toContainText('Chart Wizard and reusable KPI templates shipped');
     const workLink = page.getByRole('link', { name: 'View selected work', exact: true });
     await expect(workLink).toHaveAttribute('href', '#work');
     const hero = await page.locator('.portrait-hero').boundingBox();
@@ -57,11 +62,16 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       expect(action.height).toBeGreaterThanOrEqual(44);
       await expect(page.locator('.metadata .scan-emphasis')).toHaveText('End-to-end UX/UI');
       if (path === '/powertable.html') {
+        await expect(page.locator('h1')).toHaveText('Complex planning.Connected workflows.');
+        await expect(page.locator('.case-summary')).toContainText('Microsoft Fabric design system');
         await expect(figure.locator('figcaption')).toContainText('Official product screenshot');
         await expect(figure.locator('.product-overview-copy')).toContainText('No-code data apps');
         await expect(page.locator('.case-brief')).toContainText('remain explorations');
         await expect(page.getByRole('link', { name: 'Explore Cross-tab', exact: true })).toHaveAttribute('href', '/crosstab.html');
       } else {
+        await expect(page.locator('h1 em')).toHaveText('Connected authoring.');
+        await expect(page.locator('.case-summary')).toContainText('five connected features');
+        await expect(page.locator('.case-brief')).toContainText('Reusable KPI templates shipped');
         expect(action.y).toBeGreaterThanOrEqual(image.y + image.height);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');
         await expect(figure.locator('figcaption')).toContainText('not my design deliverable');

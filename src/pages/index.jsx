@@ -57,7 +57,7 @@ export default function IndexPage() {
               </em>
             </h1>
             {"\n        "}
-            <p className={"hero-introduction"}>{"I bring structure, clarity, and craft to enterprise data tools."}</p>
+            <p className={"hero-introduction"}>{"I turn complex enterprise data tools into clear workflows, from UX/UI to implementation review."}</p>
             <a className={"text-link hero-work-link"} href={"#work"}>
               {"View selected work "}
               <span aria-hidden={"true"}>{"↓"}</span>
@@ -123,9 +123,9 @@ export default function IndexPage() {
               </div>
               {"\n          "}
               <p className={"cover-statement"}>
-                {"Task and resource"}
+                {"Complex planning."}
                 <br />
-                {"planning in Fabric."}
+                {"Connected workflows."}
               </p>
               {"\n          "}
               <div className={"product-screenshot"}>
@@ -153,11 +153,11 @@ export default function IndexPage() {
               <div className={"project-description"}>
                 <p>
                   {"Designing "}
-                  <mark className={"scan-highlight"}>{"task setup, timelines, and resource planning."}</mark>
+                  <mark className={"scan-highlight"}>{"connected task, timeline, and resource workflows."}</mark>
                 </p>
                 <p className={"project-role"}>
                   {"My role · "}
-                  <strong>{"Gantt & resource UX/UI"}</strong>
+                  <strong>{"End-to-end Gantt & resource UX/UI"}</strong>
                   {"; cross-tab contribution"}
                 </p>
                 <a className={"text-link case-link"} href={"/powertable.html"}>
@@ -196,7 +196,7 @@ export default function IndexPage() {
               </div>
               {"\n          "}
               <p className={"cover-statement"}>
-                {"Report authoring"}
+                {"Connected authoring"}
                 <br />
                 {"inside Power BI."}
               </p>
@@ -225,13 +225,13 @@ export default function IndexPage() {
               </div>
               <div className={"project-description"}>
                 <p>
-                  {"Lumel’s custom visual for "}
-                  <mark className={"scan-highlight"}>{"visual discovery, report authoring, and presentation."}</mark>
+                  {"Designing "}
+                  <mark className={"scan-highlight"}>{"consistent report authoring across five connected features."}</mark>
                 </p>
                 <p className={"project-role"}>
                   {"My role · "}
-                  <strong>{"Five feature experiences"}</strong>
-                  {", through handoff & implementation review"}
+                  <strong>{"Five-feature UX/UI"}</strong>
+                  {"; Chart Wizard and reusable KPI templates shipped"}
                 </p>
                 <a className={"text-link case-link"} href={"/analytics-plus.html"}>
                   {"Explore case study "}

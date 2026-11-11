@@ -41,8 +41,8 @@ for (const mode of ['focus', 'soundroom']) {
         }
         await expect(page.locator('.overview-moments, .feature-previews, .analytics-feature')).toHaveCount(0);
         if (path === '/powertable.html') {
-          await expect(page.locator('#crosstab-features figcaption')).toHaveText('Original concept diagram');
-          await expect(page.locator('#crosstab-features img')).toHaveCount(0);
+          await expect(page.locator('.workspace-preview figcaption')).toHaveText(['Official product example · Gantt', 'Official product example · Resources', 'Official product example · Cross-tab']);
+          await expect(page.locator('#crosstab-features img')).toHaveCount(1);
         } else {
           const boxes = await cards.evaluateAll(cards => cards.map(card => ({ x: card.getBoundingClientRect().x, y: card.getBoundingClientRect().y })));
           if (width > 700) {

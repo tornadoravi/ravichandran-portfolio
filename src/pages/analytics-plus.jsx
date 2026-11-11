@@ -30,11 +30,11 @@ export default function AnalyticsPlusPage() {
           <h1>
             {"Inforiver Analytics+."}
             <br />
-            <em>{"From data to a clear story."}</em>
+            <em>{"Connected authoring."}</em>
           </h1>
           {"\n      "}
           <p className={"case-summary"}>
-            {"End-to-end UX/UI across five Analytics+ features, including flexible report creation."}
+            {"End-to-end UX/UI across five connected features."}
           </p>
           {"\n      "}
           <dl className={"metadata"}>
@@ -106,13 +106,13 @@ export default function AnalyticsPlusPage() {
           <div>
             <h2>{"Design challenge"}</h2>
             <p>
-              <strong>{"Visual discovery, report authoring, and clear communication."}</strong>
+              <strong>{"Connect visual discovery, report building, and presentation."}</strong>
             </p>
           </div>
           <div>
             <h2>{"My contribution"}</h2>
             <p>
-              <strong>{"UX/UI across five features"}</strong>
+              <strong>{"Five connected feature experiences"}</strong>
               {", through handoff and implementation review."}
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function AnalyticsPlusPage() {
             <h2>{"Evidence"}</h2>
             <p>
               <strong>{"Chart Wizard shipped."}</strong>
-              {" Other feature statuses remain separate."}
+              {" Reusable KPI templates shipped; other feature statuses remain separate."}
             </p>
           </div>
         </section>
