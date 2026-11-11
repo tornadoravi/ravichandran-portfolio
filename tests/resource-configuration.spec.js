@@ -77,15 +77,17 @@ test('grouped parent and related formatting case connect the new case', async ({
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);
   await page.locator('#project-planning .case-link').click();
-  await page.locator('#resource-features #resource-configuration a').click();
+  await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);
   await page.locator('.back-link').click();
-  await expect(page).toHaveURL(/powertable\.html#resource-configuration$/);
-  await expect(page.locator('#resource-configuration')).toBeInViewport();
-  await page.locator('#resource-configuration a').click();
+  await expect(page).toHaveURL(/powertable\.html#resource-features$/);
+  await expect(page.locator('#resource-features')).toBeInViewport();
+  await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+  await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
-  await page.locator('a[href="/resource-configuration.html"]').click();
+  await page.locator('.workspace-feature-tabs a[href="/resource-configuration.html"]').click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);
 });
 
@@ -133,6 +135,6 @@ test('panel evidence, disclosure and parent links work without JavaScript', asyn
   await expect(page.locator('.inspect-button')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.locator('.back-link').click();
-  await expect(page.locator('#resource-configuration')).toBeInViewport();
+  await expect(page.locator('#resource-features')).toBeInViewport();
   await context.close();
 });

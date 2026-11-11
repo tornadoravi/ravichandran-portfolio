@@ -141,27 +141,10 @@ export default function PowertablePage() {
                 <figcaption>{"My resource conditional-formatting UX/UI"}</figcaption>
               </figure>
               {"\n          "}
-              <section id={"conditional-formatting"} className={"feature-case-link"} aria-labelledby={"conditional-formatting-title"}>
-                {"\n            "}
-                <h3 id={"conditional-formatting-title"}>
-                  <a href={"/gantt-conditional-formatting.html"}>
-                    {"Conditional Formatting "}
-                    <span aria-hidden={"true"}>{"↗"}</span>
-                  </a>
-                </h3>
-                {"\n          "}
-              </section>
-              {"\n          "}
-              <div id={"resource-configuration"} className={"workspace-contribution"}>
-                {"\n            "}
-                <p>{"Related configuration"}</p>
-                {"\n            "}
-                <a className={"text-link"} href={"/resource-configuration.html"}>
-                  {"Resource side panel "}
-                  <span aria-hidden={"true"}>{"→"}</span>
-                </a>
-                {"\n          "}
-              </div>
+              <a className={"text-link"} href={"/gantt-conditional-formatting.html"}>
+                {"Explore Gantt Resources "}
+                <span aria-hidden={"true"}>{"→"}</span>
+              </a>
               {"\n        "}
             </section>
             {"\n        "}
@@ -183,16 +166,10 @@ export default function PowertablePage() {
                 <figcaption>{"Original concept diagram"}</figcaption>
               </figure>
               {"\n          "}
-              <div className={"workspace-contribution"}>
-                {"\n            "}
-                <a className={"text-link"} href={"#crosstab"}>
-                  {"Rows, columns & measures "}
-                  <span aria-hidden={"true"}>{"→"}</span>
-                </a>
-                {"\n            "}
-                <p>{"Contribution overview"}</p>
-                {"\n          "}
-              </div>
+              <a className={"text-link"} href={"/crosstab.html"}>
+                {"Explore Cross-tab "}
+                <span aria-hidden={"true"}>{"→"}</span>
+              </a>
               {"\n        "}
             </section>
             {"\n      "}

@@ -8,7 +8,7 @@ const activePages = [
   '/', '/about.html', '/powertable.html', '/analytics-plus.html',
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
   '/gantt-conditional-formatting.html', '/gantt-configuration.html',
-  '/resource-configuration.html', '/storyboard.html', '/gantt.html',
+  '/resource-configuration.html', '/crosstab.html', '/storyboard.html', '/gantt.html',
   '/analytics.html', '/presentation.html', '/kpi.html'
 ];
 

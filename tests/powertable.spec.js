@@ -25,14 +25,14 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('#workspaces-title')).toHaveText('My feature work.');
     await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
     await expect(page.locator('#gantt-features .feature-case-link, #gantt-features .workspace-contribution')).toHaveCount(0);
-    await expect(page.locator('#resource-features .feature-case-link')).toHaveCount(1);
+    await expect(page.locator('.workspace-grid .feature-case-link, .workspace-grid .workspace-contribution')).toHaveCount(0);
     await expect(page.locator('#gantt-features a')).toHaveCount(1);
     await expect(page.getByRole('link', { name: 'Explore Gantt', exact: true })).toHaveAttribute('href', '/column-mapping.html');
-    expect(await page.locator('#resource-features .feature-case-link a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))))
-      .toEqual(['/gantt-conditional-formatting.html']);
+    await expect(page.locator('#resource-features a')).toHaveCount(1);
+    await expect(page.locator('#resource-features a')).toHaveAttribute('href', '/gantt-conditional-formatting.html');
     await expect(page.locator('#resource-features #backlog')).toHaveCount(0);
-    await expect(page.locator('#resource-configuration a')).toHaveAttribute('href', '/resource-configuration.html');
-    await expect(page.locator('#crosstab-features')).toContainText('Contribution overview');
+    await expect(page.locator('#crosstab-features a')).toHaveCount(1);
+    await expect(page.locator('#crosstab-features a')).toHaveAttribute('href', '/crosstab.html');
     const groups = await page.locator('.workspace-group').all();
     const boxes = await Promise.all(groups.map(group => group.boundingBox()));
     if (width > 900) {
@@ -48,8 +48,8 @@ for (const width of [320, 390, 768, 1440]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.locator('#crosstab-features a').focus();
     await page.keyboard.press('Enter');
-    await expect(page.locator('#study-details')).toHaveAttribute('open');
-    await expect(page.locator('#crosstab')).toBeInViewport();
+    await expect(page).toHaveURL(/crosstab\.html$/);
+    await expect(page.locator('h1')).toContainText('Cross-tab.');
   });
 }
 
@@ -70,7 +70,8 @@ test('workspace groups and feature links remain available without JavaScript', a
   await expect(page.locator('#gantt-features')).toBeInViewport();
   await page.locator('#study-details > summary').click();
   await page.locator('#crosstab-features a').click();
-  await expect(page.locator('#crosstab')).toBeInViewport();
+  await expect(page).toHaveURL(/crosstab\.html$/);
+  await expect(page.locator('#contribution')).toBeVisible();
   await context.close();
 });
 
@@ -160,9 +161,9 @@ test('Home uses the Fabric screen and leaves feature navigation inside the case 
   await expect(page.locator('.metadata')).toContainText('implementation review');
 });
 
-test('Home leads into keyboard-usable PowerTable feature links including the Cross-tab disclosure', async ({ page }) => {
+test('Home leads into keyboard-usable PowerTable workspace and feature links', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (const target of ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-conditional-formatting.html', '/powertable.html#crosstab']) {
+  for (const target of ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-conditional-formatting.html', '/crosstab.html']) {
     await page.goto('/');
     const productLink = page.locator('#project-planning .case-link');
     await productLink.focus();
@@ -173,14 +174,10 @@ test('Home leads into keyboard-usable PowerTable feature links including the Cro
       await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
     }
     const link = page.locator(ganttTargets.includes(target) ? '.gantt-feature-tabs' : '.workspace-grid')
-      .locator(`a[href="${target.endsWith('#crosstab') ? '#crosstab' : target}"]`);
+      .locator(`a[href="${target}"]`);
     await link.focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(new URL(target, page.url()).href);
-    if (target.endsWith('#crosstab')) {
-      await expect(page.locator('#study-details')).toHaveAttribute('open');
-      await expect(page.locator('#crosstab')).toBeInViewport();
-    }
   }
 });
 

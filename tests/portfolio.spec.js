@@ -4,7 +4,7 @@ const origin = `http://127.0.0.1:${process.env.PORT || 4173}`;
 const featurePages = ['/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html'];
 const productPages = ['/powertable.html', '/analytics-plus.html'];
 const casePages = [...featurePages, '/powertable.html'];
-const pages = ['/', '/about.html', '/analytics-plus.html', ...casePages];
+const pages = ['/', '/about.html', '/analytics-plus.html', ...casePages, '/crosstab.html'];
 for (const width of [320, 390, 768, 1440]) {
   for (const path of pages) {
     test(`${path} renders without overflow at ${width}px`, async ({ page }) => {
@@ -33,7 +33,7 @@ for (const width of [320, 390, 768, 1440]) {
       }
       expect(errors).toEqual([]);
       if (path !== '/about.html') {
-        await expect(page.locator('.product-screenshot img, [data-illustration] svg').first()).toBeVisible();
+        await expect(page.locator('.product-screenshot img, [data-illustration] svg, .structure-map').first()).toBeVisible();
       }
       for (const disclosure of await page.locator('.case-deep-dive, .feature-previews').all()) {
         if (await disclosure.getAttribute('open') === null) {

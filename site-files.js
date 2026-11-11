@@ -9,6 +9,7 @@ export const files = new Map([
   ['/gantt.html', ['gantt.html', 'text/html']],
   ['/kpi.html', ['kpi.html', 'text/html']],
   ['/powertable.html', ['powertable.html', 'text/html']],
+  ['/crosstab.html', ['crosstab.html', 'text/html']],
   ['/column-mapping.html', ['column-mapping.html', 'text/html']],
   ['/gantt-baselines.html', ['gantt-baselines.html', 'text/html']],
   ['/gantt-conditional-formatting.html', ['gantt-conditional-formatting.html', 'text/html']],

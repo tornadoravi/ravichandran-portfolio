@@ -60,7 +60,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
         await expect(figure.locator('figcaption')).toContainText('Official product screenshot');
         await expect(figure.locator('.product-overview-copy')).toContainText('No-code data apps');
         await expect(page.locator('.case-brief')).toContainText('remain explorations');
-        await expect(page.locator('#crosstab-features')).toContainText('Contribution overview');
+        await expect(page.getByRole('link', { name: 'Explore Cross-tab', exact: true })).toHaveAttribute('href', '/crosstab.html');
       } else {
         expect(action.y + action.height).toBeLessThanOrEqual(image.y);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');
@@ -94,7 +94,7 @@ test('public product sources and colleague feedback are not presented as persona
 test('artifact captions identify the work rather than the file handoff', async ({ page }) => {
   for (const route of ['/', '/powertable.html', '/analytics-plus.html', '/column-mapping.html',
     '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-conditional-formatting.html',
-    '/gantt-configuration.html', '/resource-configuration.html', '/storyboard.html',
+    '/gantt-configuration.html', '/resource-configuration.html', '/crosstab.html', '/storyboard.html',
     '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html']) {
     await openReady(page, route);
     const captions = await page.locator('figcaption, .figure-label, .visual-bottom, .album-footer').allTextContents();

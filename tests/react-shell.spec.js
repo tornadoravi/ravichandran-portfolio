@@ -34,7 +34,7 @@ test('all React pages hydrate without errors and preserve the Focus default', as
   });
   for (const path of ['/', '/about.html', '/powertable.html', '/analytics-plus.html',
     '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
-    '/gantt-conditional-formatting.html', '/gantt-configuration.html', '/resource-configuration.html',
+    '/gantt-conditional-formatting.html', '/gantt-configuration.html', '/resource-configuration.html', '/crosstab.html',
     '/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html']) {
     await page.goto(path);
     await expect(page.locator('#root > .site-header')).toBeVisible();

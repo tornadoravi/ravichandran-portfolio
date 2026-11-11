@@ -1,4 +1,5 @@
 import React from 'react';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 
 export default function GanttConditionalFormattingPage() {
   return (
@@ -10,12 +11,13 @@ export default function GanttConditionalFormattingPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#conditional-formatting"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={"/powertable.html#resource-features"}>{"← PowerTable case study"}</a>
           {"\n      "}
           <p className={"eyebrow platform-pill"}>
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt Resources / Microsoft Fabric"}
           </p>
+          <WorkspaceFeatureTabs workspace="resources" active="formatting" />
           {"\n      "}
           <p className={"eyebrow"}>{"Feature case study 03"}</p>
           {"\n      "}

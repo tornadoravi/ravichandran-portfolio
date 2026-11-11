@@ -91,12 +91,12 @@ test('Home, parent, and baseline sibling link the new feature without adding a p
   await page.locator('.workspace-grid a[href="/gantt-conditional-formatting.html"]').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
   await page.locator('.back-link').click();
-  await expect(page).toHaveURL(/powertable\.html#conditional-formatting$/);
+  await expect(page).toHaveURL(/powertable\.html#resource-features$/);
   const featureLinks = page.locator('.feature-case-link');
-  await expect(featureLinks).toHaveCount(1);
+  await expect(featureLinks).toHaveCount(0);
   await expect(page.locator('#resource-features')).toContainText('Gantt Resources');
-  await expect(page.locator('#resource-features #conditional-formatting')).toHaveCount(1);
-  await page.locator('#conditional-formatting a').click();
+  await expect(page.locator('#resource-features a')).toHaveCount(1);
+  await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
   await page.locator('a[href="/gantt-conditional-formatting.html"]').click();
@@ -139,6 +139,6 @@ test('formatting evidence and sources remain accessible without JavaScript', asy
   await expect(page.locator('.inspect-button')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.locator('.back-link').click();
-  await expect(page.locator('#conditional-formatting')).toBeInViewport();
+  await expect(page.locator('#resource-features')).toBeInViewport();
   await context.close();
 });

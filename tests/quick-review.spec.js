@@ -92,8 +92,10 @@ for (const [overview, paths] of [
       const ganttPaths = ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-configuration.html'];
       if (overview === '/powertable.html' && ganttPaths.includes(path)) {
         await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+      } else if (path === '/resource-configuration.html') {
+        await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
       }
-      const link = page.locator(`.gantt-feature-tabs a[href="${path}"], .workspace-grid a[href="${path}"], .feature-card-grid a[href="${path}"]`);
+      const link = page.locator(`.workspace-feature-tabs a[href="${path}"], .workspace-grid a[href="${path}"], .feature-card-grid a[href="${path}"]`);
       await link.focus();
       await expect(link).toBeFocused();
       await page.keyboard.press('Enter');
@@ -146,10 +148,14 @@ test('feature cards and their source labels work without JavaScript', async ({ b
   await context.close();
 });
 
-test('Cross-tab card reveals the supporting story and history reopens a collapsed destination', async ({ page }) => {
+test('Cross-tab card opens its workspace while old full-story bookmarks still reopen the disclosure', async ({ page }) => {
   await page.goto('/powertable.html');
   await expect(page.locator('#study-details')).not.toHaveAttribute('open');
-  await page.locator('#crosstab-features a[href="#crosstab"]').click();
+  await page.getByRole('link', { name: 'Explore Cross-tab', exact: true }).click();
+  await expect(page).toHaveURL(/crosstab\.html$/);
+  await page.locator('.back-link').click();
+  await expect(page.locator('#crosstab-features')).toBeInViewport();
+  await page.goto('/powertable.html#crosstab');
   await expect(page.locator('#study-details')).toHaveAttribute('open');
   await expect(page.locator('#crosstab')).toBeInViewport();
   await page.locator('.case-nav a[href="#resources"]').click();

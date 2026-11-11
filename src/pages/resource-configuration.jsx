@@ -1,4 +1,5 @@
 import React from 'react';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 
 export default function ResourceConfigurationPage() {
   return (
@@ -10,12 +11,13 @@ export default function ResourceConfigurationPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#resource-configuration"}>{"← PowerTable / Gantt Resources"}</a>
+          <a className={"back-link"} href={"/powertable.html#resource-features"}>{"← PowerTable / Gantt Resources"}</a>
           {"\n      "}
           <p className={"eyebrow platform-pill"}>
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt Resources / Microsoft Fabric"}
           </p>
+          <WorkspaceFeatureTabs workspace="resources" active="configuration" />
           {"\n      "}
           <h1>
             {"Resource Configuration."}

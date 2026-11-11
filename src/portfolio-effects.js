@@ -309,7 +309,7 @@ export function initializePortfolioEffects() {
   listen(backToTop, 'click', () => mainContent.focus({ preventScroll: true }));
   document.body.append(backToTop);
 
-  const sectionIndexes = [...document.querySelectorAll('.case-nav, .about-nav, .project-index, .feature-index')].map((nav) => ({
+  const sectionIndexes = [...document.querySelectorAll('.case-nav, .about-nav, .project-index, .feature-index, [data-section-tabs]')].map((nav) => ({
     nav,
     sections: [...nav.querySelectorAll('a')].map((link) => {
       const target = document.querySelector(link.hash);
@@ -339,9 +339,13 @@ export function initializePortfolioEffects() {
       const visibleSections = sections.filter(({ target }) => target.getClientRects().length);
       if (!visibleSections.length) return;
       let current = visibleSections[0];
-      visibleSections.forEach((section) => {
-        if (section.target.getBoundingClientRect().top <= 128) current = section;
-      });
+      if (nav.hasAttribute('data-section-tabs')) {
+        current = visibleSections.find(({ link }) => link.hash === location.hash) || current;
+      } else {
+        visibleSections.forEach((section) => {
+          if (section.target.getBoundingClientRect().top <= 128) current = section;
+        });
+      }
       const changed = current.link.getAttribute('aria-current') !== 'location';
       sections.forEach(({ link }) => {
         if (link === current.link) link.setAttribute('aria-current', 'location');

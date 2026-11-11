@@ -1,5 +1,5 @@
 import React from 'react';
-import GanttFeatureTabs from '../GanttFeatureTabs.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 
 export default function GanttBaselinesPage() {
   return (
@@ -17,7 +17,7 @@ export default function GanttBaselinesPage() {
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt / Microsoft Fabric"}
           </p>
-          <GanttFeatureTabs active="baselines" />
+          <WorkspaceFeatureTabs active="baselines" />
           {"\n      "}
           <h1>
             {"Gantt Baselines."}

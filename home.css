@@ -157,12 +157,16 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .powertable-product-overview .product-overview-copy { max-width: 74ch; margin: 8px 0 0; font-size: 16px; line-height: 1.65; }
 .recommended-case { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-size: 13px; font-weight: 500; line-height: 1.4; }
 .recommended-case:hover { text-decoration: underline; text-underline-offset: 4px; }
-.gantt-feature-tabs { display: flex; flex-wrap: wrap; gap: 4px 24px; margin: 0 0 24px; border-bottom: 1px solid var(--line); }
-.gantt-feature-tabs a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px; border-bottom: 2px solid transparent; color: var(--muted); font-size: 14px; line-height: 1.4; }
-.gantt-feature-tabs a:hover { color: var(--ink); background: var(--pill-bg); }
-.gantt-feature-tabs a[aria-current="page"] { border-bottom-color: var(--accent); color: var(--accent); font-weight: 600; }
+.workspace-feature-tabs { display: flex; flex-wrap: wrap; gap: 4px 24px; margin: 0 0 24px; border-bottom: 1px solid var(--line); }
+.workspace-feature-tabs a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px; border-bottom: 2px solid transparent; color: var(--muted); font-size: 14px; line-height: 1.4; }
+.workspace-feature-tabs a:hover { color: var(--ink); background: var(--pill-bg); }
+.workspace-feature-tabs a[aria-current] { border-bottom-color: var(--accent); color: var(--accent); font-weight: 600; }
+.crosstab-structure figcaption { color: var(--muted); }
+.crosstab-structure .structure-map { background: var(--surface); }
 @media (max-width: 700px) {
-  .gantt-feature-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; }
+  .workspace-feature-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; }
+  .workspace-feature-tabs a { padding-inline: 8px; }
+  .workspace-feature-tabs[data-section-tabs] { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
 }
 .editorial-case .analytics-brand-row { gap: 12px 24px; margin-bottom: 16px; }
 .editorial-case .analytics-logo-plate { gap: 12px; padding: 8px 12px; }

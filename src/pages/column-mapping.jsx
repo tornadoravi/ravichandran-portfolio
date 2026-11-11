@@ -1,5 +1,5 @@
 import React from 'react';
-import GanttFeatureTabs from '../GanttFeatureTabs.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 
 export default function ColumnMappingPage() {
   return (
@@ -17,7 +17,7 @@ export default function ColumnMappingPage() {
             <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
             {"PowerTable / Gantt / Microsoft Fabric"}
           </p>
-          <GanttFeatureTabs active="mapping" />
+          <WorkspaceFeatureTabs active="mapping" />
           {"\n      "}
           <h1>
             {"Column Mapping"}
