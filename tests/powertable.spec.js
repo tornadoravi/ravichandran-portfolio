@@ -211,6 +211,10 @@ for (const mode of ['focus', 'soundroom']) {
       await page.keyboard.press('Enter');
       await expect(story).toHaveAttribute('open');
       const nav = story.getByRole('navigation', { name: 'Case study sections' });
+      for (const element of [summary, nav]) {
+        await expect(element).toHaveCSS('border-top-width', '0px');
+        await expect(element).toHaveCSS('border-bottom-width', '0px');
+      }
       await expect(story.locator('.deep-dive-content > :first-child')).toHaveClass('case-nav wrap');
       await expect(nav.locator('a')).toHaveText(['Context & role', 'Design decisions', 'Feature scope', 'Delivery & sources']);
       expect(await nav.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
@@ -222,6 +226,7 @@ for (const mode of ['focus', 'soundroom']) {
         await page.keyboard.press('Enter');
         await expect(page.locator(target)).toBeInViewport();
         await expect(link).toHaveAttribute('aria-current', 'location');
+        await expect(link).toHaveCSS('border-bottom-width', '2px');
         expect(await page.locator(target).evaluate(element =>
           element.getBoundingClientRect().top >= document.querySelector('.case-nav').getBoundingClientRect().bottom)).toBe(true);
       }

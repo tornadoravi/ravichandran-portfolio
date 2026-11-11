@@ -183,10 +183,11 @@ html[data-listening-mode="soundroom"] .project-visual { box-shadow: 0 12px 0 -7p
 .editorial-case .case-nav a { padding: 8px 14px; border: 1px solid var(--line); border-radius: 24px; text-shadow: none; }
 .editorial-case .case-nav a::after { display: none; }
 .editorial-case .case-nav a:hover, .editorial-case .case-nav a[aria-current] { color: var(--bg); background: var(--ink); }
+.powertable-story > summary { border: 0; }
 .powertable-story > summary .story-toggle { display: grid; place-items: center; flex: 0 0 44px; min-height: 44px; color: var(--accent); font-size: 24px; }
 .powertable-story > summary .story-toggle::before { content: "+"; }
 .powertable-story[open] > summary .story-toggle::before { content: "-"; }
-.powertable-story .case-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 16px; overflow: visible; padding: 8px 0; border-top: 0; }
+.powertable-story .case-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 16px; overflow: visible; padding: 8px 0; border: 0; }
 .powertable-story .case-nav a { justify-content: center; padding: 10px 8px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; text-align: center; line-height: 1.4; }
 .powertable-story .case-nav a:hover { color: var(--ink); background: var(--pill-bg); }
 .powertable-story .case-nav a[aria-current] { color: var(--accent); background: transparent; border-bottom-color: var(--accent); }
