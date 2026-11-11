@@ -139,7 +139,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(dialog).toHaveCount(0);
     await expect(page.locator('.case-evidence .inspect-button')).toBeFocused();
     await page.locator('#study-details > summary').click();
-    await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Competitive analysis', exact: true }).click();
+    await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Design decisions', exact: true }).click();
     await expect(page.locator('#competitive-analysis')).toBeInViewport();
     const table = page.locator('.comparison-table-wrap');
     if (width < 700) {
@@ -189,9 +189,49 @@ test('Fabric screenshot and new case sections remain available without JavaScrip
   await expect(page.locator('.case-evidence img')).toHaveJSProperty('naturalWidth', 2944);
   await expect(page.locator('#process .concept-node')).toHaveCount(5);
   await page.locator('#study-details > summary').click();
-  await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Handoff & implementation', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Delivery & sources', exact: true }).click();
   await expect(page.locator('#delivery')).toBeInViewport();
   await expect(page.locator('.case-evidence .image-link').filter({ hasText: 'View full-size' })).toHaveAttribute('href', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('.case-evidence a[href^="https://docs.powertable.com/"]')).toBeVisible();
   await context.close();
 });
+
+for (const mode of ['focus', 'soundroom']) {
+  for (const width of [320, 390, 768, 1440]) {
+    test(`PowerTable supporting story has four clear navigation choices in ${mode} at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
+      await page.goto('/powertable.html');
+      const story = page.locator('#study-details');
+      const summary = story.locator(':scope > summary');
+      await expect(summary).toContainText('Behind the design');
+      await expect(story).not.toHaveAttribute('open');
+      await summary.focus();
+      await page.keyboard.press('Enter');
+      await expect(story).toHaveAttribute('open');
+      const nav = story.getByRole('navigation', { name: 'Case study sections' });
+      await expect(story.locator('.deep-dive-content > :first-child')).toHaveClass('case-nav wrap');
+      await expect(nav.locator('a')).toHaveText(['Context & role', 'Design decisions', 'Feature scope', 'Delivery & sources']);
+      expect(await nav.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+      expect(await story.locator('.story-toggle').evaluate(element => getComputedStyle(element, '::before').content)).toBe('"-"');
+      for (const link of await nav.locator('a').all()) {
+        expect((await link.boundingBox()).height).toBeGreaterThanOrEqual(44);
+        const target = await link.getAttribute('href');
+        await link.focus();
+        await page.keyboard.press('Enter');
+        await expect(page.locator(target)).toBeInViewport();
+        await expect(link).toHaveAttribute('aria-current', 'location');
+        expect(await page.locator(target).evaluate(element =>
+          element.getBoundingClientRect().top >= document.querySelector('.case-nav').getBoundingClientRect().bottom)).toBe(true);
+      }
+      await page.goto('/powertable.html#user-flow');
+      await expect(story).toHaveAttribute('open');
+      await expect(page.locator('#user-flow')).toHaveAttribute('open');
+      await expect(page.locator('#user-flow')).toBeInViewport();
+      expect(await page.locator('#overview').evaluate(element =>
+        Boolean(element.compareDocumentPosition(document.querySelector('#user-flow')) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    });
+  }
+}

@@ -177,81 +177,23 @@ export default function PowertablePage() {
           {"\n    "}
         </section>
         {"\n    "}
-        <details id={"study-details"} className={"case-deep-dive"}>
+        <details id={"study-details"} className={"case-deep-dive powertable-story"}>
           {"\n      "}
           <summary className={"wrap"}>
             <span>
-              <strong>{"Explore the full design story"}</strong>
-              <small>{"Product context, competitive analysis, process, feature detail & sources"}</small>
+              <strong>{"Behind the design"}</strong>
+              <small>{"Optional detail: context, design decisions, and delivery."}</small>
             </span>
-            <span className={"disclosure-symbol"} aria-hidden={"true"}>{"+"}</span>
+            <span className={"story-toggle"} aria-hidden={"true"} />
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
             {"\n    "}
-            <details id={"user-flow"} className={"flow-disclosure wrap"}>
-              {"\n      "}
-              <summary>{"Explore the connected planning user flow"}</summary>
-              {"\n      "}
-              <nav className={"flow-overview"} aria-label={"PowerTable planning user flow"}>
-                {"\n        "}
-                <a className={"flow-stage"} href={"#overview"}>
-                  <span className={"flow-number"}>{"01"}</span>
-                  <span>
-                    <strong>{"Understand the planning context"}</strong>
-                    <small>{"Work with task, timeline, resource, and structured-data needs."}</small>
-                  </span>
-                  <span aria-hidden={"true"}>{"↓"}</span>
-                </a>
-                {"\n        "}
-                <a className={"flow-stage"} href={"#gantt"}>
-                  <span className={"flow-number"}>{"02"}</span>
-                  <span>
-                    <strong>{"Create or review the plan"}</strong>
-                    <small>{"Connect task detail, timescale, and the Gantt canvas."}</small>
-                  </span>
-                  <span aria-hidden={"true"}>{"↓"}</span>
-                </a>
-                {"\n        "}
-                <a className={"flow-stage"} href={"#resources"}>
-                  <span className={"flow-number"}>{"03"}</span>
-                  <span>
-                    <strong>{"Consider resource capacity"}</strong>
-                    <small>{"Relate assignments, backlog, and workload within resource Gantt design scope."}</small>
-                  </span>
-                  <span aria-hidden={"true"}>{"↓"}</span>
-                </a>
-                {"\n        "}
-                <a className={"flow-stage"} href={"#crosstab"}>
-                  <span className={"flow-number"}>{"04"}</span>
-                  <span>
-                    <strong>{"Review the data perspective"}</strong>
-                    <small>{"Configure rows, columns, and measures for summary or detail."}</small>
-                  </span>
-                  <span aria-hidden={"true"}>{"↗"}</span>
-                </a>
-                {"\n        "}
-                <p className={"flow-caption"}>{"Illustrative planning journey based on confirmed design scope, not a tested task sequence or a claim that every feature shipped. Resource and cross-tab views are related perspectives, not mandatory steps. Resource earned-value and baseline-planning work remained exploratory."}</p>
-                {"\n      "}
-              </nav>
-              {"\n    "}
-            </details>
-            {"\n    "}
             <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
-              <a href={"#business-case"}>{"Business case"}</a>
-              <a href={"#platform-context"}>{"Fabric context"}</a>
-              <a href={"#role"}>{"My role"}</a>
-              <a href={"#competitive-analysis"}>{"Competitive analysis"}</a>
-              <a href={"#process"}>{"Design process"}</a>
-              <a href={"#solutions"}>{"Solutions"}</a>
-              <a href={"#concept"}>{"Concept"}</a>
-              <a href={"#overview"}>{"Overview"}</a>
-              <a href={"#gantt"}>{"Gantt"}</a>
-              <a href={"#resources"}>{"Resource planning"}</a>
-              <a href={"#crosstab"}>{"Cross-tab"}</a>
-              <a href={"#delivery"}>{"Handoff & implementation"}</a>
-              <a href={"#reflection"}>{"Reflection"}</a>
-              <a href={"#references"}>{"Sources"}</a>
+              <a href={"#business-case"}>{"Context & role"}</a>
+              <a href={"#competitive-analysis"}>{"Design decisions"}</a>
+              <a href={"#overview"}>{"Feature scope"}</a>
+              <a href={"#delivery"}>{"Delivery & sources"}</a>
             </nav>
             {"\n    "}
             <section id={"business-case"} className={"editorial-section wrap"} aria-label={"Business case"}>
@@ -597,6 +539,54 @@ export default function PowertablePage() {
                 <p>{"I designed Gantt and resource Gantt experiences end to end, and contributed to cross-tab layout and data configuration."}</p>
               </div>
             </section>
+            {"\n    "}
+            <details id={"user-flow"} className={"flow-disclosure wrap"}>
+              {"\n      "}
+              <summary>{"How the planning views connect"}</summary>
+              {"\n      "}
+              <nav className={"flow-overview"} aria-label={"PowerTable planning user flow"}>
+                {"\n        "}
+                <a className={"flow-stage"} href={"#overview"}>
+                  <span className={"flow-number"}>{"01"}</span>
+                  <span>
+                    <strong>{"Understand the planning context"}</strong>
+                    <small>{"Work with task, timeline, resource, and structured-data needs."}</small>
+                  </span>
+                  <span aria-hidden={"true"}>{"↓"}</span>
+                </a>
+                {"\n        "}
+                <a className={"flow-stage"} href={"#gantt"}>
+                  <span className={"flow-number"}>{"02"}</span>
+                  <span>
+                    <strong>{"Create or review the plan"}</strong>
+                    <small>{"Connect task detail, timescale, and the Gantt canvas."}</small>
+                  </span>
+                  <span aria-hidden={"true"}>{"↓"}</span>
+                </a>
+                {"\n        "}
+                <a className={"flow-stage"} href={"#resources"}>
+                  <span className={"flow-number"}>{"03"}</span>
+                  <span>
+                    <strong>{"Consider resource capacity"}</strong>
+                    <small>{"Relate assignments, backlog, and workload within resource Gantt design scope."}</small>
+                  </span>
+                  <span aria-hidden={"true"}>{"↓"}</span>
+                </a>
+                {"\n        "}
+                <a className={"flow-stage"} href={"#crosstab"}>
+                  <span className={"flow-number"}>{"04"}</span>
+                  <span>
+                    <strong>{"Review the data perspective"}</strong>
+                    <small>{"Configure rows, columns, and measures for summary or detail."}</small>
+                  </span>
+                  <span aria-hidden={"true"}>{"↗"}</span>
+                </a>
+                {"\n        "}
+                <p className={"flow-caption"}>{"Illustrative planning journey based on confirmed design scope, not a tested task sequence or a claim that every feature shipped. Resource and cross-tab views are related perspectives, not mandatory steps. Resource earned-value and baseline-planning work remained exploratory."}</p>
+                {"\n      "}
+              </nav>
+              {"\n    "}
+            </details>
             {"\n    "}
             <section id={"gantt"} className={"editorial-section wrap"}>
               <div className={"section-label"}>

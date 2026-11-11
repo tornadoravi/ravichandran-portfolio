@@ -661,17 +661,17 @@ test('mobile case navigation has full-size targets and reveals the current secti
       height: link.getBoundingClientRect().height,
       font: parseFloat(getComputedStyle(link).fontSize)
     })));
-    expect(new Set(bounds.map((link) => link.top)).size).toBe(1);
+    expect(new Set(bounds.map((link) => link.top)).size).toBe(path === '/powertable.html' ? 2 : 1);
     expect(bounds.every((link) => link.height >= 44 && link.font >= 13)).toBe(true);
     await page.locator('#reflection').scrollIntoViewIfNeeded();
-    const reflection = navigation.getByRole('link', { name: 'Reflection', exact: true });
+    const reflection = navigation.getByRole('link', { name: path === '/powertable.html' ? 'Delivery & sources' : 'Reflection', exact: true });
     await expect(reflection).toHaveAttribute('aria-current', 'location');
     expect(await reflection.evaluate((link) => {
       const parent = link.parentElement.getBoundingClientRect();
       const bounds = link.getBoundingClientRect();
       return bounds.left >= parent.left && bounds.right <= parent.right;
     })).toBe(true);
-    await navigation.getByRole('link', { name: 'Overview', exact: true }).click();
+    await navigation.getByRole('link', { name: path === '/powertable.html' ? 'Feature scope' : 'Overview', exact: true }).click();
     await expect(page.locator('#overview')).toBeInViewport();
     expect(await page.locator('#overview').evaluate((element) =>
       element.getBoundingClientRect().top >= document.querySelector('.case-nav').getBoundingClientRect().bottom)).toBe(true);
@@ -1052,7 +1052,10 @@ for (const path of casePages) {
         await expect(page.locator(target)).toBeInViewport();
       }
       const nav = page.getByRole('navigation', { name: 'Case study sections' });
-      for (const [label, target] of [['Business case', '#business-case'], ['Solutions', '#solutions'], ['Concept', '#concept']]) {
+      const sectionLinks = path === '/powertable.html'
+        ? [['Context & role', '#business-case'], ['Design decisions', '#competitive-analysis'], ['Feature scope', '#overview']]
+        : [['Business case', '#business-case'], ['Solutions', '#solutions'], ['Concept', '#concept']];
+      for (const [label, target] of sectionLinks) {
         await nav.getByRole('link', { name: label, exact: true }).click();
         await expect(page.locator(target)).toBeInViewport();
       }

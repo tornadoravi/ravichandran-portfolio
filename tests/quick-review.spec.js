@@ -158,8 +158,8 @@ test('Cross-tab card opens its workspace while old full-story bookmarks still re
   await page.goto('/powertable.html#crosstab');
   await expect(page.locator('#study-details')).toHaveAttribute('open');
   await expect(page.locator('#crosstab')).toBeInViewport();
-  await page.locator('.case-nav a[href="#resources"]').click();
-  await expect(page.locator('#resources')).toBeInViewport();
+  await page.locator('.case-nav a[href="#overview"]').click();
+  await expect(page.locator('#overview')).toBeInViewport();
   await page.locator('#study-details > summary').click();
   await expect(page.locator('#study-details')).not.toHaveAttribute('open');
   await page.goBack();
