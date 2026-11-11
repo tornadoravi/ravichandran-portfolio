@@ -815,7 +815,7 @@ test('homepage prioritizes selected work before the approach', async ({ page }) 
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await expect(page.locator('.home-about')).toHaveCount(1);
-    await expect(page.locator('#about-title')).toHaveText(/Design decisions\.\s*Through to delivery\./);
+    await expect(page.locator('#about-title')).toHaveText(/I’m Ravi\.\s*I make complex work feel clear\./);
     expect(await page.locator('main > section').evaluateAll((sections) => sections.map((section) => section.classList[0]))).toEqual([
       'portrait-hero', 'work-section', 'home-about'
     ]);

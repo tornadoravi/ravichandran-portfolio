@@ -59,27 +59,29 @@ test('supplied screenshot cases reflect confirmed publication permission without
 });
 
 for (const width of [390, 1440]) {
-  test(`experience positioning preserves ownership, delivery, and the Fabric foundation at ${width}px`, async ({ page }) => {
+  test(`personal introductions preserve experience, workflow focus, and the Fabric foundation at ${width}px`, async ({ page }) => {
     const statement = 'My design work on PowerTable was based entirely on the Microsoft Fabric design system.';
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await expect(page.locator('.hero-introduction')).toContainText('Four years');
-    const highlights = page.locator('.experience-highlights');
-    const homeCopy = await highlights.innerText();
-    await expect(highlights.locator('dt')).toHaveText(['End-to-end ownership', 'Shipped feature work', 'Design to delivery']);
-    await expect(highlights.locator('dd')).toHaveCount(3);
-    await expect(highlights).toContainText('Gantt and resource Gantt design for PowerTable.');
-    await expect(highlights).toContainText('Chart Wizard and reusable KPI templates in Analytics+.');
-    for (const detail of await highlights.locator('dd').all()) {
-      expect((await detail.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(20);
+    await expect(page.locator('.home-about')).toContainText('Product Designer II at Lumel, with four years');
+    await expect(page.locator('.home-about')).toContainText('I think in workflows, not isolated screens');
+    await expect(page.locator('.home-about dl')).toHaveCount(0);
+    for (const paragraph of await page.locator('.home-about > div > p').all()) {
+      expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
     }
     await expect(page.locator('.home-about')).toContainText(statement);
     await expect(page.locator('.home-about .scan-emphasis').last()).toHaveText('Microsoft Fabric design system');
     await expect(page.locator('.home-about')).not.toContainText('contributions to the Microsoft Fabric design system');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.locator('.home-about a[href="/about.html"]').click();
-    await expect(page.locator('.about-intro')).toContainText('Four years at Lumel Technologies');
-    await expect(highlights).toHaveText(homeCopy, { useInnerText: true });
+    await expect(page.locator('.about-intro')).toContainText('Product Designer II at Lumel, with four years');
+    await expect(page.locator('.about-intro')).toContainText('I think in workflows, not isolated screens');
+    await expect(page.locator('.about-intro')).toContainText('PowerTable for Microsoft Fabric and Inforiver Analytics+ for Power BI');
+    await expect(page.locator('.about-intro')).toContainText('product managers and developers');
+    for (const paragraph of await page.locator('.about-intro > div:last-child > p').all()) {
+      expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
+    }
     await expect(page.locator('.about-intro')).toContainText(statement);
     await expect(page.locator('.about-intro')).not.toContainText('contributions to the Microsoft Fabric design system');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

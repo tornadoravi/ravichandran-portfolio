@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import SoundroomControls from '../SoundroomControls.jsx';
-import ExperienceHighlights from '../ExperienceHighlights.jsx';
 
 const headlinePhrases = [
   'Considered experiences.',
@@ -255,15 +254,16 @@ export default function IndexPage() {
         {"\n    "}
         <section className={"home-about wrap"} aria-labelledby={"about-title"}>
           {"\n      "}
-          <p className={"eyebrow"}>{"4 years at Lumel"}</p>
+          <p className={"eyebrow"}>{"About me"}</p>
           {"\n      "}
           <div>
             <h2 id={"about-title"}>
-              {"Design decisions."}
+              {"I’m Ravi."}
               <br />
-              <em>{"Through to delivery."}</em>
+              <em>{"I make complex work feel clear."}</em>
             </h2>
-            <ExperienceHighlights />
+            <p>{"I’m a Product Designer II at Lumel, with four years in enterprise analytics and connected planning."}</p>
+            <p>{"I think in workflows, not isolated screens—connecting product requirements, interaction design, and implementation."}</p>
             <p>
               {"My design work on PowerTable was based entirely on the "}
               <strong className={"scan-emphasis"}>{"Microsoft Fabric design system"}</strong>
