@@ -1,9 +1,13 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
-test('Chart Wizard leads with supported decisions, trade-offs and delivery rather than a screen catalogue', async ({ page }) => {
+test('Chart Wizard summarizes decisions visually and retains full trade-offs and delivery on demand', async ({ page }) => {
   await page.goto('/analytics.html');
+  await expect(page.locator('.case-snapshot')).toContainText('Chart Wizard shipped');
+  await expect(page.locator('#case-details')).not.toHaveAttribute('open');
+  expect(await page.locator('main').evaluate(main => main.innerText.trim().split(/\s+/).length)).toBeLessThan(350);
+  await openCaseDetails(page);
   await expect(page.locator('#decisions .decision-ledger > li')).toHaveCount(3);
   await expect(page.locator('.decision-tradeoff')).toHaveCount(3);
   await expect(page.locator('.edge-state')).toContainText('Boxes disabled');
@@ -21,6 +25,7 @@ for (const width of [320, 390, 768, 1440]) {
   test(`decision evidence opens by keyboard at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/analytics.html');
+    await openCaseDetails(page);
     const link = page.locator('.edge-state a');
     await link.focus();
     await page.keyboard.press('Enter');
@@ -49,6 +54,7 @@ test('full case details remain natively accessible without JavaScript', async ({
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/analytics.html');
+  await openCaseDetails(page);
   await expect(page.locator('#decisions')).toBeVisible();
   await page.locator('#feature-walkthrough > summary').focus();
   await page.keyboard.press('Enter');

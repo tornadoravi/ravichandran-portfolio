@@ -1,4 +1,7 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function AnalyticsPage() {
   return (
@@ -12,7 +15,8 @@ export default function AnalyticsPage() {
           {"\n      "}
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <p className={"eyebrow"}>{"03 / Inforiver Analytics+ feature"}</p>
+          <ProjectIdentity product="analytics" />
+          <WorkspaceFeatureTabs workspace="analytics" active="wizard" />
           {"\n      "}
           <h1>
             {"Chart Wizard."}
@@ -85,7 +89,9 @@ export default function AnalyticsPage() {
           {"\n    "}
         </div>
         {"\n    "}
-        <section className={"case-brief wrap"} aria-label={"Case study at a glance"}>
+        <CaseSnapshot caseId="wizard" />
+        <CaseDetails>
+        <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           <div>
             <h2>{"Design challenge"}</h2>
             <p>{"A broad chart catalogue and inconsistent controls complicated selection and configuration."}</p>
@@ -734,6 +740,7 @@ export default function AnalyticsPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap"} href={"/presentation.html"}>
           <span className={"eyebrow"}>{"Next feature / Annotations"}</span>
           <span className={"next-title"}>

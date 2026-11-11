@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -15,6 +15,7 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/gantt-baselines.html')).status()).toBe(200);
+    await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Gantt Baselines.Configure & compare.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
@@ -67,6 +68,7 @@ test('baseline crops are allowlisted, native resolution, and privacy redacted', 
 
 test('baseline content distinguishes observed controls from unverified behavior', async ({ page }) => {
   await page.goto('/gantt-baselines.html');
+  await openCaseDetails(page);
   await expect(page.locator('.metadata')).toContainText('Two comparison design states');
   await expect(page.locator('#overview')).toContainText('two total selections, not two baselines plus current data');
   await expect(page.locator('#overview')).toContainText('configuration dialog is not supplied');
@@ -120,6 +122,7 @@ test('baseline evidence and source disclosure work without JavaScript', async ({
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/gantt-baselines.html');
+  await openCaseDetails(page);
   for (const [name, width] of crops) {
     const image = page.locator(`img[src="/assets/fabric-baseline-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();

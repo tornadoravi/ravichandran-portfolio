@@ -1,5 +1,6 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import ProjectIdentity from '../ProjectIdentity.jsx';
 
 export default function CrosstabPage() {
   return (
@@ -7,10 +8,7 @@ export default function CrosstabPage() {
       <main id="main">
         <section className="case-hero wrap">
           <a className="back-link" href="/powertable.html#crosstab-features">← PowerTable / Cross-tab</a>
-          <p className="eyebrow platform-pill">
-            <img src="/assets/microsoft-fabric.svg" width="24" height="24" alt="" />
-            PowerTable / Cross-tab / Microsoft Fabric
-          </p>
+          <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="crosstab" />
           <h1>Cross-tab.<br /><em>Summary & detail.</em></h1>
           <p className="case-summary">Contributions to layout and data configuration.<br className="desktop-break" /> Rows, columns, measures, and contextual settings.</p>

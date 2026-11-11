@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
 import SoundroomControls from '../SoundroomControls.jsx';
 
 const headlinePhrases = [
@@ -44,10 +45,13 @@ export default function IndexPage() {
           {"\n      "}
           <div className={"hero-copy"}>
             {"\n        "}
-            <p className={"hero-role"}>
-              <strong>{"Product Designer II at Lumel."}</strong>
-              <span>{"Enterprise analytics & connected planning."}</span>
-            </p>
+            <div className={"hero-context"}>
+              <p className={"hero-role"}>
+                <strong>{"Product Designer II at Lumel."}</strong>
+                <span>{"Enterprise analytics & connected planning."}</span>
+              </p>
+              <ProjectIdentity product="portfolio" />
+            </div>
             {"\n        "}
             <h1 id={"portrait-title"} className={"portrait-title"} aria-label="Complex products. Considered experiences.">
               {"Complex products."}
@@ -93,6 +97,7 @@ export default function IndexPage() {
           </div>
           {"\n      "}
           <div className={"work-browse"}>
+            <p className={"review-reading-note"}>{"A five-minute first look: choose a product, then explore a feature for design evidence."}</p>
             {"\n        "}
             <nav className={"project-index"} aria-label={"Selected work index"}>
               <a href={"#project-planning"}>

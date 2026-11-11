@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -15,6 +15,7 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/gantt-backlog.html')).status()).toBe(200);
+    await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Gantt Backlog.Keep unscheduled work in view.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
@@ -46,7 +47,7 @@ for (const width of [320, 390, 768, 1440]) {
     } else {
       expect(listBox.y).toBeGreaterThan(emptyBox.y + emptyBox.height);
     }
-    expect(await page.locator('.case-hero > .eyebrow').evaluate(node => parseFloat(getComputedStyle(node).fontSize)))
+    expect(await page.locator('.identity-label').evaluate(node => parseFloat(getComputedStyle(node).fontSize)))
       .toBeGreaterThanOrEqual(12);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     expect(errors).toEqual([]);
@@ -68,6 +69,7 @@ test('only the three native backlog crops are served', async ({ request }) => {
 
 test('backlog states, pending changes, and resource-layout documentation remain distinct', async ({ page }) => {
   await page.goto('/gantt-backlog.html');
+  await openCaseDetails(page);
   await expect(page.locator('.metadata')).toContainText('Two backlog design states');
   await expect(page.locator('#empty-state')).toContainText('No Task Available');
   await expect(page.locator('#empty-state')).toContainText('+ Add Task');
@@ -101,6 +103,7 @@ test('Home, parent, and formatting sibling expose backlog without adding another
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
+  await openCaseDetails(page);
   await page.locator('a[href="/gantt-backlog.html"]').click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
 });
@@ -108,6 +111,7 @@ test('Home, parent, and formatting sibling expose backlog without adding another
 test('keyboard section links and screenshot inspection support focus return and native panning', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/gantt-backlog.html');
+  await openCaseDetails(page);
   await page.locator('.case-nav a[href="#backlog-list"]').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#backlog-list')).toBeInViewport();
@@ -133,6 +137,7 @@ test('backlog images, source disclosure, and parent navigation work without Java
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/gantt-backlog.html');
+  await openCaseDetails(page);
   for (const [name, width] of crops) {
     const image = page.locator(`img[src="/assets/fabric-backlog-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();

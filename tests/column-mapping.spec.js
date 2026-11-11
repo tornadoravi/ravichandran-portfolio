@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -17,12 +17,13 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/column-mapping.html')).status()).toBe(200);
+    await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Column Mapping& Configuration.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('#mapping-walkthrough')).not.toHaveAttribute('open');
     await expect(page.locator('.mapping-preview img')).toHaveJSProperty('naturalWidth', 780);
     await expect(page.locator('.mapping-preview .inspect-button')).toHaveCSS('color', 'rgb(41, 45, 41)');
-    expect(await page.locator('.case-hero > .eyebrow').evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(12);
+    expect(await page.locator('.identity-label').evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(12);
     await page.locator('#mapping-walkthrough > summary').click();
     const images = page.locator('#mapping-walkthrough img');
     expect(await images.evaluateAll(nodes => nodes.map(node => node.getAttribute('src')))).toEqual(
@@ -82,6 +83,7 @@ test('section shortcuts open the walkthrough and screenshot inspection returns f
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/column-mapping.html');
   const costLink = page.locator('.case-nav a[href="#cost-mapping"]');
+  await openCaseDetails(page);
   await costLink.focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#mapping-walkthrough')).toHaveAttribute('open');
@@ -109,6 +111,7 @@ test('mapping screens and full-size links remain available without JavaScript', 
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/column-mapping.html');
+  await openCaseDetails(page);
   await expect(page.locator('.mapping-preview img')).toHaveJSProperty('naturalWidth', 780);
   await page.locator('#mapping-walkthrough > summary').focus();
   await page.keyboard.press('Enter');

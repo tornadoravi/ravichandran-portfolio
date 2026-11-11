@@ -1,5 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function ResourceConfigurationPage() {
   return (
@@ -13,10 +15,7 @@ export default function ResourceConfigurationPage() {
           {"\n      "}
           <a className={"back-link"} href={"/powertable.html#resource-features"}>{"← PowerTable / Gantt Resources"}</a>
           {"\n      "}
-          <p className={"eyebrow platform-pill"}>
-            <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
-            {"PowerTable / Gantt Resources / Microsoft Fabric"}
-          </p>
+          <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="resources" active="configuration" />
           {"\n      "}
           <h1>
@@ -102,6 +101,8 @@ export default function ResourceConfigurationPage() {
           {"\n    "}
         </section>
         {"\n\n    "}
+        <CaseSnapshot caseId="resourcePanel" />
+        <CaseDetails>
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#timeline"}>{"Timeline"}</a>
           <a href={"#milestone"}>{"Milestone"}</a>
@@ -339,6 +340,7 @@ export default function ResourceConfigurationPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/gantt-conditional-formatting.html"}>
           <span className={"eyebrow"}>{"Related resource feature / Condition-based highlighting"}</span>
           <span className={"next-title"}>

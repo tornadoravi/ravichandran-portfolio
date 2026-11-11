@@ -1,4 +1,7 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function PresentationPage() {
   return (
@@ -12,7 +15,8 @@ export default function PresentationPage() {
           {"\n      "}
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <p className={"eyebrow"}>{"04 / Inforiver Analytics+ feature"}</p>
+          <ProjectIdentity product="analytics" />
+          <WorkspaceFeatureTabs workspace="analytics" active="presentation" />
           {"\n      "}
           <h1>
             {"Annotations, Comments"}
@@ -117,7 +121,9 @@ export default function PresentationPage() {
           {"\n    "}
         </section>
         {"\n\n    "}
-        <section className={"case-brief wrap"} aria-label={"Case study at a glance"}>
+        <CaseSnapshot caseId="presentation" />
+        <CaseDetails>
+        <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           {"\n      "}
           <div>
             <h2>{"Design challenge"}</h2>
@@ -670,6 +676,7 @@ export default function PresentationPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap"} href={"/kpi.html"}>
           <span className={"eyebrow"}>{"Next feature / KPI Presets"}</span>
           <span className={"next-title"}>

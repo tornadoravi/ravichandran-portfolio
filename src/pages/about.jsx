@@ -1,4 +1,6 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseDetails } from '../CaseReview.jsx';
 
 export default function AboutPage() {
   return (
@@ -70,6 +72,7 @@ export default function AboutPage() {
               <p>{"My focus is on making powerful functionality understandable: a clear entry point, a coherent workflow, and the right level of detail at each step."}</p>
               {"\n          "}
               <p className={"profile-current"}>{"Currently Product Designer II at Lumel, since January 2025."}</p>
+              <ProjectIdentity product="portfolio" />
               {"\n        "}
             </div>
             {"\n      "}
@@ -77,6 +80,7 @@ export default function AboutPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        <CaseDetails id="experience-details" title="Experience & design approach">
         <section id={"approach"} className={"editorial-section wrap"}>
           {"\n      "}
           <div className={"section-label"}>
@@ -301,6 +305,7 @@ export default function AboutPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <section id={"recommendations"} className={"editorial-section wrap"} aria-labelledby={"recommendations-title"}>
           {"\n      "}
           <div className={"section-label"}>

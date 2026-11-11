@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -11,6 +11,7 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/resource-configuration.html')).status()).toBe(200);
+    await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Resource Configuration.One panel. Four contexts.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
@@ -54,6 +55,7 @@ test('only panel crops are served at their unchanged dimensions', async ({ reque
 
 test('source boundaries and all four configuration states remain explicit', async ({ page }) => {
   await page.goto('/resource-configuration.html');
+  await openCaseDetails(page);
   await expect(page.locator('.metadata')).toContainText('Four configuration tab states');
   await expect(page.locator('#timeline')).toContainText('Daily Capacity: 8 hrs');
   await expect(page.locator('#timeline')).toContainText('Configuration, not a conditional rule');
@@ -94,6 +96,7 @@ test('grouped parent and related formatting case connect the new case', async ({
 test('keyboard shortcuts, bookmarks and screenshot inspection reveal the correct panel', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/resource-configuration.html');
+  await openCaseDetails(page);
   await page.locator('.case-nav a[href="#label"]').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#panel-walkthrough')).toHaveAttribute('open');
@@ -121,6 +124,7 @@ test('panel evidence, disclosure and parent links work without JavaScript', asyn
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/resource-configuration.html');
+  await openCaseDetails(page);
   await page.locator('#panel-walkthrough > summary').focus();
   await page.keyboard.press('Enter');
   for (const name of states) {

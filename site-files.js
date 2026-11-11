@@ -38,6 +38,8 @@ export const files = new Map([
   ['/assets/analytics-plus-official-dashboard.webp', ['assets/analytics-plus-official-dashboard.webp', 'image/webp']],
   ['/assets/analytics-kpi-official-presets.webp', ['assets/analytics-kpi-official-presets.webp', 'image/webp']],
   ['/assets/microsoft-power-bi.svg', ['assets/microsoft-power-bi.svg', 'image/svg+xml']],
+  ['/assets/microsoft-logo.png', ['assets/microsoft-logo.png', 'image/png']],
+  ['/assets/lumel-logo.svg', ['assets/lumel-logo.svg', 'image/svg+xml']],
   ['/assets/microsoft-fabric.svg', ['assets/microsoft-fabric.svg', 'image/svg+xml']],
   ['/assets/fabric-gantt-configuration.png', ['assets/fabric-gantt-configuration.png', 'image/png']],
   ['/assets/powertable-official-gantt.webp', ['assets/powertable-official-gantt.webp', 'image/webp']],

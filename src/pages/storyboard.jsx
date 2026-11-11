@@ -1,4 +1,7 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function StoryboardPage() {
   return (
@@ -10,7 +13,8 @@ export default function StoryboardPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
-          <p className={"eyebrow"}>{"01 / Inforiver Analytics+ feature"}</p>
+          <ProjectIdentity product="analytics" />
+          <WorkspaceFeatureTabs workspace="analytics" active="storyboard" />
           <h1>
             {"Storyboard"}
             <br />
@@ -58,7 +62,9 @@ export default function StoryboardPage() {
           </figcaption>
         </figure>
         {"\n    "}
-        <section className={"case-brief wrap"} aria-label={"Case study at a glance"}>
+        <CaseSnapshot caseId="storyboard" />
+        <CaseDetails>
+        <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           <div>
             <h2>{"Design challenge"}</h2>
             <p>{"Connect the starting point, report structure, and editing context without losing the story."}</p>
@@ -509,6 +515,7 @@ export default function StoryboardPage() {
           </div>
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap"} href={"/gantt.html"}>
           <span className={"eyebrow"}>{"Next feature / Gantt for Power BI"}</span>
           <span className={"next-title"}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
 
 export default function PowertablePage() {
   return (
@@ -10,19 +11,16 @@ export default function PowertablePage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={"/#work"}>{"← Selected work"}</a>
-          <p className={"eyebrow platform-pill"}>
-            <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
-            {"01 / PowerTable · Microsoft Fabric"}
-          </p>
+          <ProjectIdentity product="powertable" />
           <h1>
             {"Complex planning."}
             <br />
             <em>{"Connected workflows."}</em>
           </h1>
           <p className={"case-summary"}>
-            {"End-to-end Gantt and resource UX/UI."}
+            {"End-to-end Gantt & resource UX/UI."}
             <br className={"desktop-break"} />
-            {" Built on the Microsoft Fabric design system."}
+            {" Microsoft Fabric design system."}
           </p>
           <dl className={"metadata"}>
             <div>
@@ -53,7 +51,7 @@ export default function PowertablePage() {
             <span className={"eyebrow"}>{"Product overview / Microsoft Fabric"}</span>
             <h2>{"PowerTable in action."}</h2>
           </div>
-          <p className={"product-overview-copy"}>{"No-code data apps for managing data, approvals, and project plans in Microsoft Fabric."}</p>
+          <p className={"product-overview-copy"}>{"No-code data apps and planning in Microsoft Fabric."}</p>
           {"\n      "}
           <a className={"product-screenshot"} href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official PowerTable Gantt workspace full-size (opens in a new tab)"}>
             <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} fetchPriority={"high"} alt={"Official PowerTable workspace in Microsoft Fabric, with a task table beside a Gantt timeline showing progress bars, milestones, and dependency connectors."} />

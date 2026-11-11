@@ -1,6 +1,16 @@
 import React from 'react';
 
 const workspaces = {
+  analytics: {
+    label: 'Analytics+ features',
+    links: [
+      ['storyboard', '/storyboard.html', 'Storyboard'],
+      ['gantt', '/gantt.html', 'Gantt'],
+      ['wizard', '/analytics.html', 'Chart Wizard'],
+      ['presentation', '/presentation.html', 'Annotations'],
+      ['kpi', '/kpi.html', 'KPI Presets']
+    ]
+  },
   gantt: {
     label: 'PowerTable Gantt features',
     links: [

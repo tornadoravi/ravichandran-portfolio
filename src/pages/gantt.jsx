@@ -1,4 +1,7 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function GanttPage() {
   return (
@@ -12,7 +15,8 @@ export default function GanttPage() {
           {"\n      "}
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <p className={"eyebrow"}>{"02 / Inforiver Analytics+ feature"}</p>
+          <ProjectIdentity product="analytics" />
+          <WorkspaceFeatureTabs workspace="analytics" active="gantt" />
           {"\n      "}
           <h1>
             {"Gantt for Power BI."}
@@ -98,7 +102,9 @@ export default function GanttPage() {
           {"\n    "}
         </div>
         {"\n\n    "}
-        <section className={"case-brief wrap"} aria-label={"Case study at a glance"}>
+        <CaseSnapshot caseId="gantt" />
+        <CaseDetails>
+        <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           {"\n      "}
           <div>
             <h2>{"Design challenge"}</h2>
@@ -479,6 +485,7 @@ export default function GanttPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap"} href={"/analytics.html"}>
           <span className={"eyebrow"}>{"Next feature / Chart Wizard"}</span>
           <span className={"next-title"}>

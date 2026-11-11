@@ -1,5 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function GanttBaselinesPage() {
   return (
@@ -13,10 +15,7 @@ export default function GanttBaselinesPage() {
           {"\n      "}
           <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
           {"\n      "}
-          <p className={"eyebrow platform-pill"}>
-            <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
-            {"PowerTable / Gantt / Microsoft Fabric"}
-          </p>
+          <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="baselines" />
           {"\n      "}
           <h1>
@@ -98,6 +97,8 @@ export default function GanttBaselinesPage() {
           {"\n    "}
         </section>
         {"\n\n    "}
+        <CaseSnapshot caseId="baselines" />
+        <CaseDetails>
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#overview"}>{"Selection"}</a>
           <a href={"#comparison"}>{"Timeline comparison"}</a>
@@ -271,6 +272,7 @@ export default function GanttBaselinesPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/column-mapping.html"}>
           <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
           <span className={"next-title"}>

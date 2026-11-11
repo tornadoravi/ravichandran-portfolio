@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -11,6 +11,7 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/gantt-configuration.html')).status()).toBe(200);
+    await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Gantt Configuration.From calendar to connector.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
@@ -54,6 +55,7 @@ test('only the five panel crops are served at their unchanged dimensions', async
 
 test('Gantt settings remain distinct from Resource settings and demonstrated outcomes', async ({ page }) => {
   await page.goto('/gantt-configuration.html');
+  await openCaseDetails(page);
   await expect(page.locator('.metadata')).toContainText('Five configuration tab states');
   await expect(page.locator('#timeline')).toContainText('Daily Capacity: 8 hrs');
   await expect(page.locator('#decisions')).toContainText('not its scheduling relationship');
@@ -96,6 +98,7 @@ test('Home, grouped parent, baseline and resource siblings reach the correct cas
   await page.locator('.gantt-feature-tabs a[href="/gantt-configuration.html"]').click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);
+  await openCaseDetails(page);
   await page.locator('a[href="/gantt-configuration.html"]').click();
   await expect(page).toHaveURL(/gantt-configuration\.html$/);
 });
@@ -103,6 +106,7 @@ test('Home, grouped parent, baseline and resource siblings reach the correct cas
 test('keyboard shortcuts, bookmarks and mobile inspection reveal the correct Gantt panel', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/gantt-configuration.html');
+  await openCaseDetails(page);
   await page.locator('.case-nav a[href="#dependency"]').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#panel-walkthrough')).toHaveAttribute('open');
@@ -130,6 +134,7 @@ test('Gantt evidence, disclosure and parent links work without JavaScript', asyn
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/gantt-configuration.html');
+  await openCaseDetails(page);
   await page.locator('#panel-walkthrough > summary').focus();
   await page.keyboard.press('Enter');
   for (const name of states) {

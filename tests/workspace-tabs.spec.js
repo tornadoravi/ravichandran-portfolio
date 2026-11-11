@@ -48,7 +48,8 @@ for (const mode of ['focus', 'soundroom']) {
       await expect(page.locator('#evidence')).toContainText('not end-to-end ownership');
       await expect(page.locator('#evidence')).toContainText('No dedicated Cross-tab design screens');
       await expect(page.locator('figcaption')).toContainText('Not a product screenshot');
-      await expect(page.locator('main img')).toHaveCount(1);
+      await expect(page.locator('.project-identity img')).toHaveCount(3);
+      await expect(page.locator('main img:not(.brand-image)')).toHaveCount(0);
       for (const [id, label] of [['contribution', 'Overview'], ['configuration', 'Structure'], ['evidence', 'Evidence']]) {
         const tab = tabs.getByRole('link', { name: label, exact: true });
         expect((await tab.boundingBox()).height).toBeGreaterThanOrEqual(44);

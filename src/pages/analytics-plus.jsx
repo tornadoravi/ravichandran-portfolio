@@ -1,4 +1,5 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -12,20 +13,7 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <a className={"back-link"} href={"/#work"}>{"← Selected work"}</a>
           {"\n      "}
-          <p className={"eyebrow"}>{"02 / Inforiver Analytics+ · Power BI"}</p>
-          {"\n      "}
-          <div className={"analytics-brand-row"}>
-            <div className={"analytics-logo-plate"}>
-              <img src={"/assets/inforiver-analytics-logo.svg"} width={"173"} height={"36"} alt={"Official Inforiver Analytics+ logo"} />
-            </div>
-            <div className={"analytics-host"}>
-              <img src={"/assets/microsoft-power-bi.svg"} width={"40"} height={"40"} alt={""} />
-              <span>
-                <small>{"Runs inside"}</small>
-                {" Microsoft Power BI"}
-              </span>
-            </div>
-          </div>
+          <ProjectIdentity product="analytics" />
           {"\n      "}
           <h1>
             {"Inforiver Analytics+."}
@@ -51,7 +39,9 @@ export default function AnalyticsPlusPage() {
             </div>
             <div>
               <dt>{"Product"}</dt>
-              <dd>{"Analytics+ · Microsoft Power BI"}</dd>
+              <dd className={"analytics-logo-plate"}>
+                <img src={"/assets/inforiver-analytics-logo.svg"} width={"130"} height={"27"} alt={"Official Inforiver Analytics+ logo"} />
+              </dd>
             </div>
             <div>
               <dt>{"Work context"}</dt>

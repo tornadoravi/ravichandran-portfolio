@@ -1,4 +1,7 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function KpiPage() {
   return (
@@ -12,7 +15,8 @@ export default function KpiPage() {
           {"\n      "}
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <p className={"eyebrow"}>{"05 / Inforiver Analytics+ feature"}</p>
+          <ProjectIdentity product="analytics" />
+          <WorkspaceFeatureTabs workspace="analytics" active="kpi" />
           {"\n      "}
           <h1>
             {"KPI Presets."}
@@ -73,7 +77,9 @@ export default function KpiPage() {
           {"\n    "}
         </figure>
         {"\n\n    "}
-        <section className={"case-brief wrap"} aria-label={"Case study at a glance"}>
+        <CaseSnapshot caseId="kpi" />
+        <CaseDetails>
+        <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           {"\n      "}
           <div>
             <h2>{"Design challenge"}</h2>
@@ -516,6 +522,7 @@ export default function KpiPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap"} href={"/analytics-plus.html#features"}>
           <span className={"eyebrow"}>{"Back to the product / Inforiver Analytics+"}</span>
           <span className={"next-title"}>

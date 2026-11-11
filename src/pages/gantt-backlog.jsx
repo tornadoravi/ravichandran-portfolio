@@ -1,5 +1,7 @@
 import React from 'react';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
+import ProjectIdentity from '../ProjectIdentity.jsx';
+import { CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 
 export default function GanttBacklogPage() {
   return (
@@ -13,10 +15,7 @@ export default function GanttBacklogPage() {
           {"\n      "}
           <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
           {"\n      "}
-          <p className={"eyebrow platform-pill"}>
-            <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
-            {"PowerTable / Gantt / Microsoft Fabric"}
-          </p>
+          <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="backlog" />
           {"\n      "}
           <h1>
@@ -57,13 +56,6 @@ export default function GanttBacklogPage() {
           {"\n    "}
         </section>
         {"\n\n    "}
-        <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
-          <a href={"#empty-state"}>{"Empty state"}</a>
-          <a href={"#backlog-list"}>{"Task list"}</a>
-          <a href={"#pending-changes"}>{"Pending changes"}</a>
-          <a href={"#decisions"}>{"Design decisions"}</a>
-          <a href={"#evidence"}>{"Evidence & sources"}</a>
-        </nav>
         {"\n\n    "}
         <section className={"mapping-evidence wrap"} aria-labelledby={"backlog-states-title"}>
           {"\n      "}
@@ -148,6 +140,15 @@ export default function GanttBacklogPage() {
           {"\n    "}
         </section>
         {"\n\n    "}
+        <CaseSnapshot caseId="backlog" />
+        <CaseDetails>
+        <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
+          <a href={"#empty-state"}>{"Empty state"}</a>
+          <a href={"#backlog-list"}>{"Task list"}</a>
+          <a href={"#pending-changes"}>{"Pending changes"}</a>
+          <a href={"#decisions"}>{"Design decisions"}</a>
+          <a href={"#evidence"}>{"Evidence & sources"}</a>
+        </nav>
         <section id={"pending-changes"} className={"mapping-step backlog-pending wrap"} aria-labelledby={"pending-title"}>
           {"\n      "}
           <div className={"mapping-step-copy"}>
@@ -281,6 +282,7 @@ export default function GanttBacklogPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/gantt-conditional-formatting.html"}>
           <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
           <span className={"next-title"}>

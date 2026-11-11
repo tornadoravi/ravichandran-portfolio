@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -15,6 +15,7 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width, height: 900 });
     expect((await page.goto('/gantt-conditional-formatting.html')).status()).toBe(200);
+    await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Gantt Resources.Conditional Formatting.');
     await expect(page).toHaveTitle('Gantt Resources — Conditional Formatting — Ravichandran V');
     await expect(page.locator('.case-hero')).toContainText('Feature case study 03');
@@ -62,6 +63,7 @@ test('only approved formatting crops are served at native resolution', async ({ 
 
 test('formatting case distinguishes the configured rule from an applied result', async ({ page }) => {
   await page.goto('/gantt-conditional-formatting.html');
+  await openCaseDetails(page);
   await expect(page.locator('.metadata')).toContainText('One rule-editing design state');
   await expect(page.locator('#overview')).toContainText('Schedule Hours > 0');
   await expect(page.locator('#overview')).toContainText('Hidden selections are not inferred');
@@ -99,6 +101,7 @@ test('Home, parent, and baseline sibling link the new feature without adding a p
   await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
+  await openCaseDetails(page);
   await page.locator('a[href="/gantt-conditional-formatting.html"]').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
 });
@@ -106,6 +109,7 @@ test('Home, parent, and baseline sibling link the new feature without adding a p
 test('keyboard section navigation and mobile actual-size inspection return focus', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/gantt-conditional-formatting.html');
+  await openCaseDetails(page);
   await page.locator('.case-nav a[href="#timeline"]').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#timeline')).toBeInViewport();
@@ -127,6 +131,7 @@ test('formatting evidence and sources remain accessible without JavaScript', asy
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/gantt-conditional-formatting.html');
+  await openCaseDetails(page);
   for (const [name, width] of crops) {
     const image = page.locator(`img[src="/assets/fabric-conditional-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();
