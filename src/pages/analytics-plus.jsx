@@ -61,27 +61,44 @@ export default function AnalyticsPlusPage() {
           {"\n    "}
         </section>
         {"\n    "}
-        <figure className={"detail-figure wrap screenshot-scene case-evidence analytics-lead-screen"}>
+        <figure className={"detail-figure wrap screenshot-scene case-evidence analytics-lead-screen product-overview"}>
           {"\n      "}
           <div className={"figure-label"}>
-            <a className={"recommended-case"} href={"/storyboard.html"} aria-label={"Recommended first read: Storyboard authoring"}>
-              <span>{"Start here · Storyboard"}</span>
-              <span aria-hidden={"true"}>{"→"}</span>
-            </a>
-            <h2>{"Choose a starting path."}</h2>
+            <span className={"eyebrow"}>{"Product overview / Power BI"}</span>
+            <h2>{"Analytics+ in action."}</h2>
           </div>
+          <p className={"product-overview-copy"}>{"Charts, KPI cards, tables, and storytelling in Power BI."}</p>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/storyboard-start.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Analytics+ report creation options full-size (opens in a new tab)"}>
-            <img src={"/assets/storyboard-start.png"} width={"1400"} height={"790"} fetchPriority={"high"} alt={"Storyboard report creation screen offering Auto create report, Custom layout, Choose template, and Blank report."} />
+          <a className={"product-screenshot"} href={"/assets/analytics-plus-official-dashboard.webp"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official Analytics+ planning dashboard full-size (opens in a new tab)"}>
+            <img src={"/assets/analytics-plus-official-dashboard.webp"} width={"1920"} height={"1080"} fetchPriority={"high"} alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
           </a>
           {"\n      "}
           <figcaption>
-            {"Storyboard report creation · My feature work. Four starting options support different authoring intentions. The linked case shows alternative starting routes, not mandatory setup steps. "}
-            <a className={"image-link"} href={"/assets/storyboard-start.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            {"Official template preview · Planning Report | IBCS Theme by Lumel Inc. Product example, not my design deliverable. "}
+            <a className={"image-link"} href={"https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab"} target={"_blank"} rel={"noopener noreferrer"}>
+              {"Source: Analytics+ Marketplace ↗"}
+              <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+            </a>
+            {" "}
+            <a className={"image-link"} href={"/assets/analytics-plus-official-dashboard.webp"} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
           </figcaption>
+          <div className={"product-marketplace"}>
+            <h3>{"Analytics+ Marketplace."}</h3>
+            <p>{"Ready-to-use dashboard and standalone templates, visual components, bundles, and data apps give report authors reusable starting points."}</p>
+            <div className={"product-overview-links"}>
+              <a className={"recommended-case"} href={"https://store-ap.inforiver.com/"} target={"_blank"} rel={"noopener noreferrer"}>
+                {"Explore the Marketplace ↗"}
+                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+              </a>
+              <a className={"recommended-case"} href={"/storyboard.html"} aria-label={"Recommended first read: Storyboard authoring"}>
+                <span>{"My feature work · Storyboard"}</span>
+                <span aria-hidden={"true"}>{"→"}</span>
+              </a>
+            </div>
+          </div>
           {"\n    "}
         </figure>
         {"\n    "}
@@ -606,6 +623,19 @@ export default function AnalyticsPlusPage() {
                   </a>
                 </p>
                 <p>{"The official logo and product-consolidation illustration are sourced from this page and belong to Inforiver / Lumel. They are used for product identification and context, not presented as assets I designed."}</p>
+                <p>
+                  {"The lead dashboard is the "}
+                  <a href={"https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab"} target={"_blank"} rel={"noopener noreferrer"}>
+                    {"Planning Report | IBCS Theme template by Lumel Inc. ↗"}
+                    <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                  </a>
+                  {" from the "}
+                  <a href={"https://store-ap.inforiver.com/"} target={"_blank"} rel={"noopener noreferrer"}>
+                    {"Analytics+ Marketplace ↗"}
+                    <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                  </a>
+                  {". The preview and catalogue categories illustrate current product capabilities, not my authorship of the template, ownership of the Marketplace, or measured project outcomes."}
+                </p>
                 <p>
                   {"The unchanged Microsoft Power BI and Fabric icons come from "}
                   <a href={"https://learn.microsoft.com/en-us/fabric/fundamentals/icons"} target={"_blank"} rel={"noopener noreferrer"}>

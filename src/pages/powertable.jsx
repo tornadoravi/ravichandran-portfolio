@@ -47,7 +47,7 @@ export default function PowertablePage() {
           </dl>
         </section>
         {"\n    "}
-        <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview wrap"}>
+        <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>
           {"\n      "}
           <div className={"figure-label"}>
             <span className={"eyebrow"}>{"Product overview / Microsoft Fabric"}</span>

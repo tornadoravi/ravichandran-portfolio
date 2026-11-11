@@ -34,6 +34,12 @@ Home keeps "Complex products." fixed while the italic line cycles through "Consi
 
 The user confirmed permission to publish the supplied product screenshots before this hosting setup. Netlify account authorization, the GitHub repository connection, and the first live deployment still need to be completed in Netlify; committing these settings alone does not create a live site.
 
+## Analytics+ product overview
+
+The Analytics+ lead shows a populated **Planning Report | IBCS Theme** dashboard preview by Lumel Inc. from the [official Marketplace](https://store-ap.inforiver.com/), rather than the empty Storyboard entry screen. Its [template listing](https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab) and the [official product page](https://inforiver.com/analytics-plus/) were reviewed on 11 November 2026. `assets/analytics-plus-official-dashboard.webp` is re-encoded at quality 92 from the listing's public image, `https://storyboard-blob.inforiver.com/ap-asset-dashboard/-9b519c.default`, at its original 1920×1080 dimensions with no cropping or added callouts. It illustrates an Analytics+ report, not a PowerTable implementation, personal template authorship, or a portfolio outcome.
+
+The short product introduction covers charts, KPI cards, tables, and storytelling inside Power BI. A separate Marketplace description covers its publicly listed dashboard/standalone templates, visual components, bundles, and data apps, with a direct store link. The Storyboard first-read link remains visible below this context and leads to the unchanged supplied feature evidence, including the original entry screen. The product preview, template creator, and personal contribution are explicitly distinguished; no Marketplace ownership, template-specific adoption, or user outcomes are inferred.
+
 ## Illustrated portrait and standalone export
 
 The current Home uses `home.css` and the gallery described under **Editorial Home and professional links** below. Its enlarged, unframed portrait reuses `assets/portrait-3d.webp` with oversized **PRODUCT DESIGNER** background lettering and no circle or circular wash. Home, About, and all case studies use the same aligned 1600px maximum content width and responsive gutters.

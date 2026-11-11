@@ -31,7 +31,7 @@ for (const mode of ['focus', 'soundroom']) {
               .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
             return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722;
           };
-          return [...document.querySelectorAll('.eyebrow, figcaption, .structure-map > *, .metadata dt, .metadata dd, .case-nav a, .workspace-feature-tabs a, .project-description p, .fine-print, .project-features a, .project-feature-group h4, .soundroom-status, .inspect-button')]
+          return [...document.querySelectorAll('.eyebrow, figcaption, .structure-map > *, .metadata dt, .metadata dd, .case-nav a, .workspace-feature-tabs a, .product-overview-copy, .product-marketplace p, .product-marketplace .recommended-case, .project-description p, .fine-print, .project-features a, .project-feature-group h4, .soundroom-status, .inspect-button')]
             .filter(element => element.getClientRects().length && !element.classList.contains('sr-only'))
             .flatMap(element => {
               const style = getComputedStyle(element);

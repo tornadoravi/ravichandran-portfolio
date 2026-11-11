@@ -42,7 +42,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const [path, destination, focus] of [
       ['/powertable.html', '/column-mapping.html', 'PowerTable in action.'],
-      ['/analytics-plus.html', '/storyboard.html', 'Choose a starting path.']
+      ['/analytics-plus.html', '/storyboard.html', 'Analytics+ in action.']
     ]) {
       await openReady(page, path);
       const figure = page.locator('main > .case-evidence');
@@ -62,11 +62,11 @@ for (const width of [320, 390, 768, 1440, 1920]) {
         await expect(page.locator('.case-brief')).toContainText('remain explorations');
         await expect(page.getByRole('link', { name: 'Explore Cross-tab', exact: true })).toHaveAttribute('href', '/crosstab.html');
       } else {
-        expect(action.y + action.height).toBeLessThanOrEqual(image.y);
+        expect(action.y).toBeGreaterThanOrEqual(image.y + image.height);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');
-        await expect(figure.locator('figcaption')).toContainText('alternative starting routes');
-        await expect(figure.locator('.product-screenshot')).toHaveAttribute('href', '/assets/storyboard-start.png');
-        await expect(figure.locator('img')).toHaveAttribute('src', '/assets/storyboard-start.png');
+        await expect(figure.locator('figcaption')).toContainText('not my design deliverable');
+        await expect(figure.locator('.product-screenshot')).toHaveAttribute('href', '/assets/analytics-plus-official-dashboard.webp');
+        await expect(figure.locator('img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
       }
       await recommendation.focus();
       await page.keyboard.press('Enter');

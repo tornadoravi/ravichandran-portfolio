@@ -18,6 +18,16 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(page.locator('.analytics-logo-plate img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
   expect(await page.locator('.feature-card-grid > a').evaluateAll((items) => items.map((item) => item.id))).toEqual(features.map(([id]) => id));
   await expect(page.locator('.metadata')).toContainText('Competitive analysis, developer handoff & implementation review');
+  const overview = page.locator('.analytics-lead-screen');
+  await expect(overview.locator('h2')).toHaveText('Analytics+ in action.');
+  await expect(overview.locator('.product-overview-copy')).toHaveText('Charts, KPI cards, tables, and storytelling in Power BI.');
+  await expect(overview.locator('.product-screenshot img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
+  await expect(overview.locator('figcaption')).toContainText('Planning Report | IBCS Theme by Lumel Inc.');
+  await expect(overview.locator('figcaption')).toContainText('not my design deliverable');
+  await expect(overview.locator('figcaption a').first()).toHaveAttribute('href', 'https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab');
+  await expect(overview.locator('.product-marketplace')).toContainText('dashboard and standalone templates, visual components, bundles, and data apps');
+  await expect(overview.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('href', 'https://store-ap.inforiver.com/');
+  await expect(overview.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('rel', 'noopener noreferrer');
   await expect(page.locator('#role')).toContainText('end-to-end UX/UI');
   await expect(page.locator('#business-case h2')).toContainText('More visual power');
   await expect(page.locator('.analytics-official-figure figcaption')).toContainText('not my design deliverable');
@@ -44,6 +54,9 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/analytics-plus.html');
+    const overviewImage = page.locator('.analytics-lead-screen .product-screenshot img');
+    await expect(overviewImage).toHaveJSProperty('complete', true);
+    await expect(overviewImage).toHaveJSProperty('naturalWidth', 1920);
     await page.locator('#design-details > summary').click();
     await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Platform context', exact: true }).click();
     await expect(page.locator('#platform-context')).toBeInViewport();
@@ -79,6 +92,8 @@ test('product overview, supplied feature evidence, and full cases work without J
   await page.goto(baseURL + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study', exact: true }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
+  await expect(page.locator('.analytics-lead-screen .product-screenshot img')).toBeVisible();
+  await expect(page.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('href', 'https://store-ap.inforiver.com/');
   await page.getByRole('link', { name: 'Read Power BI Gantt case study' }).click();
   await expect(page).toHaveURL(/gantt\.html$/);
   await page.locator('.back-link').click();
