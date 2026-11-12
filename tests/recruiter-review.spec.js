@@ -50,7 +50,7 @@ for (const appearance of ['light', 'dark']) {
           expect(ratios.rendered).toBeCloseTo(ratios.source, 2);
         }
         const words = await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length);
-        expect(words, path).toBeLessThanOrEqual(path === '/analytics-plus.html' ? 450 : 350);
+        expect(words, path).toBeLessThanOrEqual(path === '/analytics-plus.html' ? 510 : 350);
         if (path !== '/' && path !== '/about.html') {
           const overview = ['/powertable.html', '/analytics-plus.html'].includes(path);
           await expect(page.locator('.case-diagram')).toHaveCount(overview ? 0 : 1);

@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseSnapshot, CaseFlow } from '../CaseReview.jsx';
+import ContributionMap from '../ContributionMap.jsx';
 
 export default function PowertablePage() {
   return (
@@ -143,6 +144,7 @@ export default function PowertablePage() {
           {"\n    "}
         </section>
         {"\n    "}
+        <ContributionMap product="powertable" />
         <details id={"study-details"} className={"case-deep-dive powertable-story"}>
           {"\n      "}
           <summary className={"wrap"}>
