@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
@@ -6,7 +7,7 @@ export default function AnalyticsSpatialPage() {
   return <>
     <main id="main" className="design-review">
       <section className="case-hero wrap">
-        <a className="back-link" href="/analytics-plus.html#spatial-exploration">← Analytics+ product case</a>
+        <a className="back-link" href={sitePath("/analytics-plus.html#spatial-exploration")}>← Analytics+ product case</a>
         <ProjectIdentity product="analytics" />
         <p className="eyebrow">Concept exploration · Apple Vision Pro-inspired</p>
         <h1>Analytics+, beyond the screen.</h1>
@@ -27,8 +28,8 @@ export default function AnalyticsSpatialPage() {
             ['report', 276, '03 / Explore a report', 'Concept frame showing an Analytics+ report with charts and a table in a floating window.']
           ].map(([name, width, caption, alt]) => (
             <figure id={`spatial-${name}`} className="detail-figure spatial-step" key={name}>
-              <a className="product-screenshot" href={`/assets/analytics-spatial-${name}.png`} target="_blank" rel="noopener noreferrer" aria-label={`${caption}: view concept frame full-size (opens in a new tab)`}>
-                <img src={`/assets/analytics-spatial-${name}.png`} width={width} height="156" loading="lazy" alt={alt} />
+              <a className="product-screenshot" href={sitePath(`/assets/analytics-spatial-${name}.png`)} target="_blank" rel="noopener noreferrer" aria-label={`${caption}: view concept frame full-size (opens in a new tab)`}>
+                <img src={sitePath(`/assets/analytics-spatial-${name}.png`)} width={width} height="156" loading="lazy" alt={alt} />
               </a>
               <figcaption>{caption}</figcaption>
             </figure>
@@ -36,13 +37,13 @@ export default function AnalyticsSpatialPage() {
         </div>
         <div className="spatial-scope">
           <p>Visual concept screens—not validated spatial interactions.</p>
-          <a className="text-link" href="/assets/analytics-spatial-sequence.png" target="_blank" rel="noopener noreferrer" aria-label="View original concept sequence (opens in a new tab)">View original sequence ↗</a>
+          <a className="text-link" href={sitePath("/assets/analytics-spatial-sequence.png")} target="_blank" rel="noopener noreferrer" aria-label="View original concept sequence (opens in a new tab)">View original sequence ↗</a>
         </div>
       </section>
       </CaseStoryLayout>
     </main>
     <footer className="site-footer wrap">
-      <a className="wordmark" href="/">Ravichandran V<span className="accent">.</span></a>
+      <a className="wordmark" href={sitePath("/")}>Ravichandran V<span className="accent">.</span></a>
       <p>Product Designer · Thoughtfully, from complexity to clarity.</p>
       <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
     </footer>

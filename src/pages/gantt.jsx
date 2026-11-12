@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
@@ -14,7 +15,7 @@ export default function GanttPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
+          <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="gantt" />
@@ -62,13 +63,13 @@ export default function GanttPage() {
               <h3>{"Choose Gantt."}</h3>
             </div>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/gantt-entry.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt entry screenshot full-size (opens in a new tab)"}>
-              <img src={"/assets/gantt-entry.png"} width={"440"} height={"355"} fetchPriority={"high"} alt={"Analytics+ landing screen with Gantt selected alongside Charts, Cards, Tables, and Storyboard, plus the instruction to add data fields before building a chart."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/gantt-entry.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt entry screenshot full-size (opens in a new tab)"}>
+              <img src={sitePath("/assets/gantt-entry.png")} width={"440"} height={"355"} fetchPriority={"high"} alt={"Analytics+ landing screen with Gantt selected alongside Charts, Cards, Tables, and Storyboard, plus the instruction to add data fields before building a chart."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Product screenshot · Analytics+ Gantt. "}
-              <a className={"image-link"} href={"/assets/gantt-entry.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/gantt-entry.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -83,13 +84,13 @@ export default function GanttPage() {
               <h3>{"Map the fields."}</h3>
             </div>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/gantt-data-mapping.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt data-mapping guidance full-size (opens in a new tab)"}>
-              <img src={"/assets/gantt-data-mapping.png"} width={"455"} height={"310"} alt={"Data-mapping help dialog illustrating date and actual-start and actual-end fields being added to Gantt/Network fields in Power BI."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/gantt-data-mapping.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt data-mapping guidance full-size (opens in a new tab)"}>
+              <img src={sitePath("/assets/gantt-data-mapping.png")} width={"455"} height={"310"} alt={"Data-mapping help dialog illustrating date and actual-start and actual-end fields being added to Gantt/Network fields in Power BI."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Product screenshot · Power BI field mapping. "}
-              <a className={"image-link"} href={"/assets/gantt-data-mapping.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/gantt-data-mapping.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -278,7 +279,7 @@ export default function GanttPage() {
               <li>{"Two setup layers: add data in Power BI’s field well; assign meaning in Pivot data."}</li>
               <li>
               {"This case follows Gantt selection, the data-mapping help state, and the populated workspace. It is separate from my "}
-              <a className={"text-link"} href={"/powertable.html"}>
+              <a className={"text-link"} href={sitePath("/powertable.html")}>
                 {"PowerTable work in Microsoft Fabric "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -382,13 +383,13 @@ export default function GanttPage() {
             <h3>{"Field roles beside the task-and-timeline view"}</h3>
           </div>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/gantt-timeline.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Power BI Gantt timeline full-size (opens in a new tab)"}>
-            <img src={"/assets/gantt-timeline.png"} width={"1406"} height={"786"} loading={"lazy"} alt={"Analytics+ Gantt workspace with Pivot data and start, end, and progress mappings on the left, task names in a grid, and blue task bars across a year, quarter, and month timeline."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/gantt-timeline.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Power BI Gantt timeline full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/gantt-timeline.png")} width={"1406"} height={"786"} loading={"lazy"} alt={"Analytics+ Gantt workspace with Pivot data and start, end, and progress mappings on the left, task names in a grid, and blue task bars across a year, quarter, and month timeline."} />
           </a>
           {"\n      "}
           <figcaption>
             {"Product screenshot · Analytics+ Gantt visual, cropped without browser, account, or surrounding Power BI workspace chrome. Use inspection to read the field settings at original resolution. "}
-            <a className={"image-link"} href={"/assets/gantt-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/gantt-timeline.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -474,7 +475,7 @@ export default function GanttPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

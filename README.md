@@ -36,6 +36,14 @@ Home keeps "Complex products." fixed while the italic line cycles through "Consi
 
 The user confirmed permission to publish the supplied product screenshots before this hosting setup. Netlify account authorization, the GitHub repository connection, and the first live deployment still need to be completed in Netlify; committing these settings alone does not create a live site.
 
+## Automatic publishing with GitHub Pages
+
+In the repository's **Settings → Pages**, select **GitHub Actions** as the source. `.github/workflows/deploy-pages.yml` installs the locked dependencies with Node.js 22, runs the production build, and deploys **only `dist/`** on pushes to `main` or a manual workflow run. Do not publish the repository root: its HTML files are Vite source entries, not runnable production pages.
+
+The workflow obtains the base path from GitHub Pages configuration. Vite's `SITE_BASE_PATH` configures compiled assets, and `src/site-path.js` applies that same base to native links, images, downloads, audio, and bookmark redirects in both prerendered and hydrated markup. Client navigation recognizes only routes within that base. Root-hosted local previews and Netlify keep `/` by default; build a project-site version with `SITE_BASE_PATH=/ravichandran-portfolio/ npm run build`. `npm run test:pages` builds and serves that subpath in an isolated test server, checking every route with and without JavaScript, local asset loading, bookmarks, and navigation without restarting audio. It leaves a subpath build in `dist/`; run `npm run build` again before using the root-hosted local preview.
+
+GitHub Pages does not apply Netlify's `_headers`. Prerendered React documents therefore also include the existing content-security policy as a meta tag. The HTTP-only `frame-ancestors` directive is omitted from that meta policy; the local server and Netlify retain their full HTTP headers.
+
 ## Analytics+ product overview
 
 The Analytics+ lead shows a populated **Planning Report | IBCS Theme** dashboard preview by Lumel Inc. from the [official Marketplace](https://store-ap.inforiver.com/), rather than the empty Storyboard entry screen. Its [template listing](https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab) and the [official product page](https://inforiver.com/analytics-plus/) were reviewed on 11 November 2026. `assets/analytics-plus-official-dashboard.webp` is re-encoded at quality 92 from the listing's public image, `https://storyboard-blob.inforiver.com/ap-asset-dashboard/-9b519c.default`, at its original 1920×1080 dimensions with no cropping or added callouts. It illustrates an Analytics+ report, not a PowerTable implementation, personal template authorship, or a portfolio outcome.

@@ -1,3 +1,4 @@
+import { sitePath } from './site-path.js';
 import React from 'react';
 import IllustrationSurface, { PaperSheet } from './IllustrationSurface.jsx';
 
@@ -13,7 +14,7 @@ const stories = {
     ownership: 'End-to-end Gantt and resource UX/UI; Microsoft Fabric design system.',
     decision: 'Separate task, time, resource, and cost roles; expose shared IDs.',
     evidence: 'Design screens and implementation review. Baseline planning and resource earned-value remain explorations.',
-    link: ['/column-mapping.html', 'Inspect my mapping design']
+    link: [sitePath('/column-mapping.html'), 'Inspect my mapping design']
   },
   wizard: {
     title: 'Start with the question, not a chart name.',

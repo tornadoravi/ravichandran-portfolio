@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function GanttBacklogPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="backlog" />
@@ -83,13 +84,13 @@ export default function GanttBacklogPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-backlog-empty.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View empty backlog panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-backlog-empty.png"} width={"350"} height={"550"} fetchPriority={"high"} alt={"Backlog Tasks panel with an empty-state illustration, No Task Available message, instruction to create a backlog task, and + Add Task button."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-backlog-empty.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View empty backlog panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-backlog-empty.png")} width={"350"} height={"550"} fetchPriority={"high"} alt={"Backlog Tasks panel with an empty-state illustration, No Task Available message, instruction to create a backlog task, and + Add Task button."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen · Empty panel crop. "}
-                  <a className={"image-link"} href={"/assets/fabric-backlog-empty.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-backlog-empty.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -119,13 +120,13 @@ export default function GanttBacklogPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-backlog-list.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View populated backlog panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-backlog-list.png"} width={"350"} height={"550"} fetchPriority={"high"} alt={"Backlog Tasks panel with Search, Backlog List (1), + New Task, and a T0011 row with edit and delete icons."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-backlog-list.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View populated backlog panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-backlog-list.png")} width={"350"} height={"550"} fetchPriority={"high"} alt={"Backlog Tasks panel with Search, Backlog List (1), + New Task, and a T0011 row with edit and delete icons."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen · Populated panel crop. "}
-                  <a className={"image-link"} href={"/assets/fabric-backlog-list.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-backlog-list.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -170,13 +171,13 @@ export default function GanttBacklogPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-screen"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-backlog-pending.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View pending-change controls at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-backlog-pending.png"} width={"500"} height={"40"} loading={"lazy"} alt={"Toolbar detail showing Save to Database, Preview Changes (1), and Discard Changes in the populated backlog screen."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-backlog-pending.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View pending-change controls at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-backlog-pending.png")} width={"500"} height={"40"} loading={"lazy"} alt={"Toolbar detail showing Save to Database, Preview Changes (1), and Discard Changes in the populated backlog screen."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Toolbar detail from the second screen, not a third state. "}
-              <a className={"image-link"} href={"/assets/fabric-backlog-pending.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-backlog-pending.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -289,7 +290,7 @@ export default function GanttBacklogPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

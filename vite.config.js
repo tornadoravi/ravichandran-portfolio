@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import { reactPages } from './site-files.js';
 
 export default defineConfig({
+  base: process.env.SITE_BASE_PATH || '/',
   publicDir: false,
   esbuild: { jsx: 'automatic' },
   build: {

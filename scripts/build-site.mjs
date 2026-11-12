@@ -23,7 +23,11 @@ try {
   const { renderPage } = await renderer.ssrLoadModule('/src/entry-server.jsx');
   for (const file of reactPages) {
     const destination = new URL(file, output);
-    const html = await readFile(destination, 'utf8');
+    let html = await readFile(destination, 'utf8');
+    const policy = securityHeaders(`/${file}`)['Content-Security-Policy']
+      .replace(/; frame-ancestors[^;]*/, '');
+    html = html.replace(/(<meta charset="utf-8">)/,
+      `$1\n  <meta http-equiv="Content-Security-Policy" content="${policy}">`);
     const placeholder = /<div\s+id=["']root["']\s*>\s*<\/div>/;
     if (!placeholder.test(html)) throw new Error(`Missing empty React root in ${file}`);
     const markup = await renderPage(file.slice(0, -5));

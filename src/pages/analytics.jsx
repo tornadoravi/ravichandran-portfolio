@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
@@ -15,7 +16,7 @@ export default function AnalyticsPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
+          <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="wizard" />
@@ -57,12 +58,12 @@ export default function AnalyticsPage() {
               <span className={"eyebrow"}>{"Screenshot / 01"}</span>
               <h3>{"Browse a chart family"}</h3>
             </div>
-            <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-chart-family.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard chart-family screenshot full-size (opens in a new tab)"}>
-              <img src={"/assets/wizard-chart-family.png"} width={"540"} height={"370"} fetchPriority={"high"} alt={"Chart Wizard Chart route with Bar/Column selected, recommended chart thumbnails, Favorites, and Proceed."} />
+            <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-chart-family.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard chart-family screenshot full-size (opens in a new tab)"}>
+              <img src={sitePath("/assets/wizard-chart-family.png")} width={"540"} height={"370"} fetchPriority={"high"} alt={"Chart Wizard Chart route with Bar/Column selected, recommended chart thumbnails, Favorites, and Proceed."} />
             </a>
             <figcaption>
               {"Product screenshot · Chart-family route. "}
-              <a className={"image-link"} href={"/assets/wizard-chart-family.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/wizard-chart-family.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -74,12 +75,12 @@ export default function AnalyticsPage() {
               <span className={"eyebrow"}>{"Screenshot / 02"}</span>
               <h3>{"Filter by function"}</h3>
             </div>
-            <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-function.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard function screenshot full-size (opens in a new tab)"}>
-              <img src={"/assets/wizard-function.png"} width={"540"} height={"370"} alt={"Chart Wizard Function route with categorical data, Use case and Visualize filters, Single, 2–4, and 5+ measure choices, and recommended charts."} />
+            <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-function.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard function screenshot full-size (opens in a new tab)"}>
+              <img src={sitePath("/assets/wizard-function.png")} width={"540"} height={"370"} alt={"Chart Wizard Function route with categorical data, Use case and Visualize filters, Single, 2–4, and 5+ measure choices, and recommended charts."} />
             </a>
             <figcaption>
               {"Product screenshot · Alternative Function route. "}
-              <a className={"image-link"} href={"/assets/wizard-function.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/wizard-function.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -381,12 +382,12 @@ export default function AnalyticsPage() {
               <li>{"My scope: requirements, flows, prototypes, UX/UI, developer handoff, and implementation checks."}</li>
               <li>
                   {"This case follows chart selection and configuration. Explore the separate cases for "}
-                  <a className={"text-link"} href={"/storyboard.html"}>
+                  <a className={"text-link"} href={sitePath("/storyboard.html")}>
                     {"Storyboard authoring "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
                   {" and "}
-                  <a className={"text-link"} href={"/presentation.html"}>
+                  <a className={"text-link"} href={sitePath("/presentation.html")}>
                     {"Annotations, Comments & Presentation "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
@@ -477,12 +478,12 @@ export default function AnalyticsPage() {
                   <span className={"eyebrow"}>{"Screenshot / 03"}</span>
                   <h3>{"Choose the use case"}</h3>
                 </div>
-                <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-use-case.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard use-case screenshot full-size (opens in a new tab)"}>
-                  <img src={"/assets/wizard-use-case.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard with the Use case menu open, showing Comparison, Part to Whole, Ranking, Distribution, and Time series."} />
+                <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-use-case.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard use-case screenshot full-size (opens in a new tab)"}>
+                  <img src={sitePath("/assets/wizard-use-case.png")} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard with the Use case menu open, showing Comparison, Part to Whole, Ranking, Distribution, and Time series."} />
                 </a>
                 <figcaption>
                   {"Product screenshot · Analytical-purpose options. "}
-                  <a className={"image-link"} href={"/assets/wizard-use-case.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/wizard-use-case.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -494,12 +495,12 @@ export default function AnalyticsPage() {
                   <span className={"eyebrow"}>{"Screenshot / 04"}</span>
                   <h3>{"Choose the visual form"}</h3>
                 </div>
-                <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-visual-style.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard visual-style screenshot full-size (opens in a new tab)"}>
-                  <img src={"/assets/wizard-visual-style.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard with the Visualize menu open, showing All, Lines, Points, Bar, and a disabled Boxes option."} />
+                <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-visual-style.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard visual-style screenshot full-size (opens in a new tab)"}>
+                  <img src={sitePath("/assets/wizard-visual-style.png")} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard with the Visualize menu open, showing All, Lines, Points, Bar, and a disabled Boxes option."} />
                 </a>
                 <figcaption>
                   {"Product screenshot · Visual-form options, including the disabled Boxes state. "}
-                  <a className={"image-link"} href={"/assets/wizard-visual-style.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/wizard-visual-style.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -533,12 +534,12 @@ export default function AnalyticsPage() {
                 <span className={"eyebrow"}>{"Screenshot / 05"}</span>
                 <h3>{"A saved chart in Favorites"}</h3>
               </div>
-              <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-favorites.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard favorites screenshot full-size (opens in a new tab)"}>
-                <img src={"/assets/wizard-favorites.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Favorites tab showing a starred Overlapped column chart and the Function filter controls."} />
+              <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-favorites.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard favorites screenshot full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/wizard-favorites.png")} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Favorites tab showing a starred Overlapped column chart and the Function filter controls."} />
               </a>
               <figcaption>
                 {"Product screenshot · A saved chart choice, not an additional required step. "}
-                <a className={"image-link"} href={"/assets/wizard-favorites.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/wizard-favorites.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -573,12 +574,12 @@ export default function AnalyticsPage() {
                   <span className={"eyebrow"}>{"Screenshot / 06 · Stage 02"}</span>
                   <h3>{"Customize the chart"}</h3>
                 </div>
-                <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-customize.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard customization screenshot full-size (opens in a new tab)"}>
-                  <img src={"/assets/wizard-customize.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Customize stage with theme, font, category fill settings, chart-element toggles, Back, and Proceed."} />
+                <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-customize.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard customization screenshot full-size (opens in a new tab)"}>
+                  <img src={sitePath("/assets/wizard-customize.png")} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Customize stage with theme, font, category fill settings, chart-element toggles, Back, and Proceed."} />
                 </a>
                 <figcaption>
                   {"Product screenshot · Appearance and chart-element controls. "}
-                  <a className={"image-link"} href={"/assets/wizard-customize.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/wizard-customize.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -590,12 +591,12 @@ export default function AnalyticsPage() {
                   <span className={"eyebrow"}>{"Screenshot / 07 · Stage 03"}</span>
                   <h3>{"Set analytics and sorting"}</h3>
                 </div>
-                <a className={"product-screenshot wizard-shot"} href={"/assets/wizard-advanced.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard advanced screenshot full-size (opens in a new tab)"}>
-                  <img src={"/assets/wizard-advanced.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Advanced stage with Reference line enabled, other analytics toggles, Descending sort by AC, a TopN tab, Back, and Finish."} />
+                <a className={"product-screenshot wizard-shot"} href={sitePath("/assets/wizard-advanced.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard advanced screenshot full-size (opens in a new tab)"}>
+                  <img src={sitePath("/assets/wizard-advanced.png")} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard Advanced stage with Reference line enabled, other analytics toggles, Descending sort by AC, a TopN tab, Back, and Finish."} />
                 </a>
                 <figcaption>
                   {"Product screenshot · Advanced settings; TopN contents are not shown. "}
-                  <a className={"image-link"} href={"/assets/wizard-advanced.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/wizard-advanced.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"View full-size ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -628,12 +629,12 @@ export default function AnalyticsPage() {
                 <span className={"eyebrow"}>{"Screenshot / 08"}</span>
                 <h3>{"The chart in its report context"}</h3>
               </div>
-              <a className={"product-screenshot"} href={"/assets/wizard-result.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard report-result screenshot full-size (opens in a new tab)"}>
-                <img src={"/assets/wizard-result.png"} width={"1420"} height={"805"} loading={"lazy"} alt={"Analytics+ report canvas with a multi-measure column chart by Weekday, labels, annotation markers, an average reference line, and the chart ribbon."} />
+              <a className={"product-screenshot"} href={sitePath("/assets/wizard-result.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Chart Wizard report-result screenshot full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/wizard-result.png")} width={"1420"} height={"805"} loading={"lazy"} alt={"Analytics+ report canvas with a multi-measure column chart by Weekday, labels, annotation markers, an average reference line, and the chart ribbon."} />
               </a>
               <figcaption>
                 {"Product screenshot · Report-canvas example, cropped without browser, account, or surrounding Power BI panels. "}
-                <a className={"image-link"} href={"/assets/wizard-result.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/wizard-result.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -670,7 +671,7 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
                 <p className={"fine-print"}>{"These counts describe design deliverables, not adoption or business-impact metrics."}</p>
-                <a className={"text-link"} href={"/kpi.html"}>
+                <a className={"text-link"} href={sitePath("/kpi.html")}>
                   {"Explore the KPI Presets case "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
@@ -742,7 +743,7 @@ export default function AnalyticsPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

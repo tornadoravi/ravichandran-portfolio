@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
@@ -13,7 +14,7 @@ export default function PowertablePage() {
       <main id={"main"} className="design-review planning-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
-          <a className={"back-link"} href={"/#work"}>{"← Selected work"}</a>
+          <a className={"back-link"} href={sitePath("/#work")}>{"← Selected work"}</a>
           <ProjectIdentity product="powertable" />
           <h1>{"PowerTable."}</h1>
           <p className="case-summary">{"Complex planning. Connected workflows."}</p>
@@ -51,8 +52,8 @@ export default function PowertablePage() {
           </div>
           <p className={"product-overview-copy"}>{"No-code data apps and planning in Microsoft Fabric."}</p>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official PowerTable Gantt workspace full-size (opens in a new tab)"}>
-            <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} fetchPriority={"high"} alt={"Official PowerTable workspace in Microsoft Fabric, with a task table beside a Gantt timeline showing progress bars, milestones, and dependency connectors."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/powertable-official-gantt.webp")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official PowerTable Gantt workspace full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/powertable-official-gantt.webp")} width={"2944"} height={"1570"} fetchPriority={"high"} alt={"Official PowerTable workspace in Microsoft Fabric, with a task table beside a Gantt timeline showing progress bars, milestones, and dependency connectors."} />
           </a>
           {"\n      "}
           <figcaption>
@@ -62,7 +63,7 @@ export default function PowertablePage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
             {" "}
-            <a className={"image-link"} href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/powertable-official-gantt.webp")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -90,11 +91,11 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Map the data. Configure the plan. Track the work."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} loading={"lazy"} alt={"Official PowerTable Gantt implementation with task rows, timeline bars, milestones, and dependency connectors."} />
+                <img src={sitePath("/assets/powertable-official-gantt.webp")} width={"2944"} height={"1570"} loading={"lazy"} alt={"Official PowerTable Gantt implementation with task rows, timeline bars, milestones, and dependency connectors."} />
                 <figcaption>{"Official product example · Gantt"}</figcaption>
               </figure>
               {"\n          "}
-              <a className={"text-link"} href={"/column-mapping.html"}>
+              <a className={"text-link"} href={sitePath("/column-mapping.html")}>
                 {"Explore Gantt "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -110,11 +111,11 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Make workload and formatting rules easier to read."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/powertable-official-resource.webp"} width={"2304"} height={"1118"} loading={"lazy"} alt={"Official PowerTable Resource layout showing assignees and their assigned tasks across a quarterly timeline."} />
+                <img src={sitePath("/assets/powertable-official-resource.webp")} width={"2304"} height={"1118"} loading={"lazy"} alt={"Official PowerTable Resource layout showing assignees and their assigned tasks across a quarterly timeline."} />
                 <figcaption>{"Official product example · Resources"}</figcaption>
               </figure>
               {"\n          "}
-              <a className={"text-link"} href={"/gantt-conditional-formatting.html"}>
+              <a className={"text-link"} href={sitePath("/gantt-conditional-formatting.html")}>
                 {"Explore Gantt Resources "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -130,11 +131,11 @@ export default function PowertablePage() {
               <p className={"album-description"}>{"Shape the same data into summary and detail."}</p>
               {"\n          "}
               <figure className={"workspace-preview"}>
-                <img src={"/assets/powertable-official-crosstab.webp"} width={"2304"} height={"892"} loading={"lazy"} alt={"Official PowerTable Cross-tab implementation with product categories, year-quarter-month column hierarchies, profit and units sold, and totals."} />
+                <img src={sitePath("/assets/powertable-official-crosstab.webp")} width={"2304"} height={"892"} loading={"lazy"} alt={"Official PowerTable Cross-tab implementation with product categories, year-quarter-month column hierarchies, profit and units sold, and totals."} />
                 <figcaption>{"Official product example · Cross-tab"}</figcaption>
               </figure>
               {"\n          "}
-              <a className={"text-link"} href={"/crosstab.html"}>
+              <a className={"text-link"} href={sitePath("/crosstab.html")}>
                 {"Explore Cross-tab "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -217,7 +218,7 @@ export default function PowertablePage() {
               <ol className={"platform-stack"} aria-label={"Fabric planning product context"}>
                 {"\n        "}
                 <li>
-                  <img src={"/assets/microsoft-fabric.svg"} width={"48"} height={"48"} alt={""} />
+                  <img src={sitePath("/assets/microsoft-fabric.svg")} width={"48"} height={"48"} alt={""} />
                   <span className={"eyebrow"}>{"The platform"}</span>
                   <h3>{"Microsoft Fabric"}</h3>
                   <p>{"The data and analytics environment in which the planning experience lives."}</p>
@@ -624,7 +625,7 @@ export default function PowertablePage() {
                 <ul className="case-key-points">
               <li>{"The banner describes four related layouts; it does not verify cross-view synchronization or completed saves."}</li>
             </ul>
-                <a className={"text-link"} href={"/column-mapping.html"}>
+                <a className={"text-link"} href={sitePath("/column-mapping.html")}>
                   {"Explore Column Mapping & Configuration "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
@@ -637,8 +638,8 @@ export default function PowertablePage() {
                 <span className={"eyebrow"}>{"My design evidence / Gantt configuration"}</span>
                 <h3>{"Mapping data to the plan."}</h3>
               </div>
-              <a className={"product-screenshot"} href={"/assets/fabric-gantt-configuration.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View my Gantt Layout Configuration design screen full-size (opens in a new tab)"}>
-                <img src={"/assets/fabric-gantt-configuration.png"} width={"1912"} height={"1038"} loading={"lazy"} alt={"My supplied PowerTable Layout Configuration design screen with required task-field mappings and additional mapping options."} />
+              <a className={"product-screenshot"} href={sitePath("/assets/fabric-gantt-configuration.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View my Gantt Layout Configuration design screen full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/fabric-gantt-configuration.png")} width={"1912"} height={"1038"} loading={"lazy"} alt={"My supplied PowerTable Layout Configuration design screen with required task-field mappings and additional mapping options."} />
               </a>
               <figcaption>{"Layout Configuration design screen · Personal feature evidence, separate from the official product previews above."}</figcaption>
             </figure>
@@ -709,12 +710,12 @@ export default function PowertablePage() {
                     <span>{"01"}</span>
                     <strong>{"Rows"}</strong>
                   </div>
-                  <span aria-hidden={"true"}>{"/"}</span>
+                  <span aria-hidden={"true"}>{sitePath("/")}</span>
                   <div>
                     <span>{"02"}</span>
                     <strong>{"Columns"}</strong>
                   </div>
-                  <span aria-hidden={"true"}>{"/"}</span>
+                  <span aria-hidden={"true"}>{sitePath("/")}</span>
                   <div>
                     <span>{"03"}</span>
                     <strong>{"Measures"}</strong>
@@ -750,7 +751,7 @@ export default function PowertablePage() {
                   </div>
                 </div>
                 <p className={"fine-print"}>{"No handoff files, QA logs, release records, or performance comparisons are supplied."}</p>
-                <a className={"text-link"} href={"/about.html#recommendations"}>
+                <a className={"text-link"} href={sitePath("/about.html#recommendations")}>
                   {"Read colleague feedback on collaboration "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
@@ -828,17 +829,17 @@ export default function PowertablePage() {
                   <p>
                     <a href={"https://docs.powertable.com/explore-powertable/layout-views/gantt-chart-view"} target={"_blank"} rel={"noopener noreferrer"}>{"Gantt · PowerTable documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                     {" · "}
-                    <a href={"/assets/powertable-official-gantt.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Gantt full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    <a href={sitePath("/assets/powertable-official-gantt.webp")} target={"_blank"} rel={"noopener noreferrer"}>{"View Gantt full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                   </p>
                   <p>
                     <a href={"https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-configure-resource-overview"} target={"_blank"} rel={"noopener noreferrer"}>{"Resource layout · Microsoft Learn ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                     {" · "}
-                    <a href={"/assets/powertable-official-resource.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Resources full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    <a href={sitePath("/assets/powertable-official-resource.webp")} target={"_blank"} rel={"noopener noreferrer"}>{"View Resources full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                   </p>
                   <p>
                     <a href={"https://learn.microsoft.com/en-us/fabric/iq/plan/powertable-layouts/how-to-configure-crosstab-layout"} target={"_blank"} rel={"noopener noreferrer"}>{"Cross-tab layout · Microsoft Learn ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                     {" · "}
-                    <a href={"/assets/powertable-official-crosstab.webp"} target={"_blank"} rel={"noopener noreferrer"}>{"View Cross-tab full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
+                    <a href={sitePath("/assets/powertable-official-crosstab.webp")} target={"_blank"} rel={"noopener noreferrer"}>{"View Cross-tab full-size ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                   </p>
                   <p>{"Original dimensions and UI retained; WebP compression only. Supplied design evidence stays separate. Cross-tab remains contribution-level work."}</p>
                 </div>
@@ -888,7 +889,7 @@ export default function PowertablePage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

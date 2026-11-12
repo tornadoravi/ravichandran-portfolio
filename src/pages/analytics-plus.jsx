@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseRationale, CaseFlow } from '../CaseReview.jsx';
@@ -14,7 +15,7 @@ export default function AnalyticsPlusPage() {
         {"\n    "}
         <section className={"case-hero wrap analytics-product-hero"}>
           {"\n      "}
-          <a className={"back-link"} href={"/#work"}>{"← Selected work"}</a>
+          <a className={"back-link"} href={sitePath("/#work")}>{"← Selected work"}</a>
           {"\n      "}
           <ProjectIdentity product="analytics" />
           {"\n      "}
@@ -38,7 +39,7 @@ export default function AnalyticsPlusPage() {
               <div>
                 <dt>{"Product"}</dt>
                 <dd className={"analytics-logo-plate"}>
-                  <img src={"/assets/inforiver-analytics-logo.svg"} width={"130"} height={"27"} alt={"Official Inforiver Analytics+ logo"} />
+                  <img src={sitePath("/assets/inforiver-analytics-logo.svg")} width={"130"} height={"27"} alt={"Official Inforiver Analytics+ logo"} />
                 </dd>
               </div>
               <div>
@@ -59,8 +60,8 @@ export default function AnalyticsPlusPage() {
           </div>
           <p className={"product-overview-copy"}>{"Charts, KPI cards, tables, and storytelling in Power BI."}</p>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/analytics-plus-official-dashboard.webp"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official Analytics+ planning dashboard full-size (opens in a new tab)"}>
-            <img src={"/assets/analytics-plus-official-dashboard.webp"} width={"1920"} height={"1080"} fetchPriority={"high"} alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/analytics-plus-official-dashboard.webp")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official Analytics+ planning dashboard full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/analytics-plus-official-dashboard.webp")} width={"1920"} height={"1080"} fetchPriority={"high"} alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
           </a>
           {"\n      "}
           <figcaption>
@@ -70,13 +71,13 @@ export default function AnalyticsPlusPage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
             {" "}
-            <a className={"image-link"} href={"/assets/analytics-plus-official-dashboard.webp"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/analytics-plus-official-dashboard.webp")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
           </figcaption>
           <div className="product-overview-links">
-            <a className={"recommended-case"} href={"/analytics.html"} aria-label={"Recommended first read: Chart Wizard"}>
+            <a className={"recommended-case"} href={sitePath("/analytics.html")} aria-label={"Recommended first read: Chart Wizard"}>
               <span>{"Start with Chart Wizard · Shipped"}</span>
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
@@ -147,21 +148,21 @@ export default function AnalyticsPlusPage() {
               <ol className={"platform-stack"} aria-label={"Platform, reporting experience, and custom visual"}>
                 {"\n        "}
                 <li>
-                  <img src={"/assets/microsoft-fabric.svg"} width={"48"} height={"48"} alt={""} />
+                  <img src={sitePath("/assets/microsoft-fabric.svg")} width={"48"} height={"48"} alt={""} />
                   <span className={"eyebrow"}>{"01 / The platform"}</span>
                   <h3>{"Microsoft Fabric"}</h3>
                   <p>{"Brings data and analytics workloads together, including Power BI."}</p>
                 </li>
                 {"\n        "}
                 <li>
-                  <img src={"/assets/microsoft-power-bi.svg"} width={"48"} height={"48"} alt={""} />
+                  <img src={sitePath("/assets/microsoft-power-bi.svg")} width={"48"} height={"48"} alt={""} />
                   <span className={"eyebrow"}>{"02 / The report environment"}</span>
                   <h3>{"Microsoft Power BI"}</h3>
                   <p>{"Where people build, publish, and explore interactive reports."}</p>
                 </li>
                 {"\n        "}
                 <li>
-                  <img className={"platform-inforiver-logo"} src={"/assets/inforiver-analytics-logo.svg"} width={"173"} height={"36"} alt={""} />
+                  <img className={"platform-inforiver-logo"} src={sitePath("/assets/inforiver-analytics-logo.svg")} width={"173"} height={"36"} alt={""} />
                   <span className={"eyebrow"}>{"03 / The custom visual"}</span>
                   <h3>{"Inforiver Analytics+"}</h3>
                   <p>{"Added inside the report for advanced charts, layouts, KPI cards, and storytelling."}</p>
@@ -210,7 +211,7 @@ export default function AnalyticsPlusPage() {
             {"\n    "}
             <figure className={"analytics-official-figure wrap"}>
               {"\n      "}
-              <img src={"/assets/inforiver-analytics-official.png"} width={"1500"} height={"654"} loading={"lazy"} alt={"Official Analytics+ marketing illustration connecting chart families and KPI cards to a unified reporting visual."} />
+              <img src={sitePath("/assets/inforiver-analytics-official.png")} width={"1500"} height={"654"} loading={"lazy"} alt={"Official Analytics+ marketing illustration connecting chart families and KPI cards to a unified reporting visual."} />
               {"\n      "}
               <figcaption>
                 {"Official product illustration · Inforiver Analytics+ website. This explains the product proposition; it is not my design deliverable or a supplied feature screenshot. "}
@@ -489,7 +490,7 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <nav className={"feature-card-grid feature-review-index"} aria-label={"Analytics+ feature index"}>
             {"\n        "}
-            <a id={"feature-storyboard"} className={"album-card"} href={"/storyboard.html"} aria-label={"Read Storyboard authoring case study"}>
+            <a id={"feature-storyboard"} className={"album-card"} href={sitePath("/storyboard.html")} aria-label={"Read Storyboard authoring case study"}>
               <span className={"album-kicker"}>{"01 / Report authoring"}</span>
               <h3>{"Storyboard"}</h3>
               <p className={"album-description"}>{"Multiple starting routes, one authoring canvas."}</p>
@@ -502,7 +503,7 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-gantt"} className={"album-card"} href={"/gantt.html"} aria-label={"Read Power BI Gantt case study"}>
+            <a id={"feature-gantt"} className={"album-card"} href={sitePath("/gantt.html")} aria-label={"Read Power BI Gantt case study"}>
               <span className={"album-kicker"}>{"02 / Task planning"}</span>
               <h3>{"Gantt for Power BI"}</h3>
               <p className={"album-description"}>{"Map source fields before building the timeline."}</p>
@@ -515,7 +516,7 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-wizard"} className={"album-card"} href={"/analytics.html"} aria-label={"Read Chart Wizard case study"}>
+            <a id={"feature-wizard"} className={"album-card"} href={sitePath("/analytics.html")} aria-label={"Read Chart Wizard case study"}>
               <span className={"album-kicker"}>{"03 / Visual discovery"}</span>
               <h3>{"Chart Wizard"}</h3>
               <p className={"album-description"}>{"Two discovery routes. One configuration flow."}</p>
@@ -528,7 +529,7 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-annotations"} className={"album-card"} href={"/presentation.html"} aria-label={"Read Annotations, Comments and Presentation case study"}>
+            <a id={"feature-annotations"} className={"album-card"} href={sitePath("/presentation.html")} aria-label={"Read Annotations, Comments and Presentation case study"}>
               <span className={"album-kicker"}>{"04 / Data storytelling"}</span>
               <h3>{"Annotations & Presentation"}</h3>
               <p className={"album-description"}>{"Explain an observation without leaving the report."}</p>
@@ -541,7 +542,7 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-kpi"} className={"album-card"} href={"/kpi.html"} aria-label={"Read KPI Presets case study"}>
+            <a id={"feature-kpi"} className={"album-card"} href={sitePath("/kpi.html")} aria-label={"Read KPI Presets case study"}>
               <span className={"album-kicker"}>{"05 / Reusable patterns"}</span>
               <h3>{"KPI Presets"}</h3>
               <p className={"album-description"}>{"Reusable layouts instead of repeated blank-card setup."}</p>
@@ -572,7 +573,7 @@ export default function AnalyticsPlusPage() {
               <h2 id="spatial-title">Spatial exploration.</h2>
               <p>Apple Vision Pro-inspired exploration. Prototype only—not a shipped Vision Pro product.</p>
             </div>
-            <a className="text-link" href="/analytics-spatial.html">Explore spatial concept <span aria-hidden="true">→</span></a>
+            <a className="text-link" href={sitePath("/analytics-spatial.html")}>Explore spatial concept <span aria-hidden="true">→</span></a>
           </section>
         </details>
         <details id={"evidence-notes"} className={"case-deep-dive"}>
@@ -695,7 +696,7 @@ export default function AnalyticsPlusPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

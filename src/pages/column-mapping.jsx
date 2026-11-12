@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function ColumnMappingPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="mapping" />
@@ -84,13 +85,13 @@ export default function ColumnMappingPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-mapping-time-entries.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View time-entry configuration crop at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-mapping-time-entries.png"} width={"780"} height={"588"} fetchPriority={"high"} alt={"Gantt Time Entries configuration with Direct Time Entry selected, Time Entries table, Task_Id, Hours_Logged, and enabled Save."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-mapping-time-entries.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View time-entry configuration crop at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-mapping-time-entries.png")} width={"780"} height={"588"} fetchPriority={"high"} alt={"Gantt Time Entries configuration with Direct Time Entry selected, Time Entries table, Task_Id, Hours_Logged, and enabled Save."} />
             </a>
             {"\n        "}
             <figcaption>
               {"My mapping UX/UI / Time Entries. Design screen, dialog-only crop. "}
-              <a className={"image-link"} href={"/assets/fabric-mapping-time-entries.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-mapping-time-entries.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -176,12 +177,12 @@ export default function ColumnMappingPage() {
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen mapping-screen--small"}>
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-mapping-task.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View task mapping crop at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-mapping-task.png"} width={"312"} height={"235"} loading={"lazy"} alt={"Gantt Task configuration showing start and end dates, Task_Id, Parent ID hierarchy, Parent_Id, Task_Name, Milestone, Progress, Reset, and Save."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-mapping-task.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View task mapping crop at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-mapping-task.png")} width={"312"} height={"235"} loading={"lazy"} alt={"Gantt Task configuration showing start and end dates, Task_Id, Parent ID hierarchy, Parent_Id, Task_Name, Milestone, Progress, Reset, and Save."} />
                 </a>
                 <figcaption>
                   {"Design screen / Task. Native 312 × 235 dialog crop. "}
-                  <a className={"image-link"} href={"/assets/fabric-mapping-task.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-mapping-task.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -202,12 +203,12 @@ export default function ColumnMappingPage() {
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-mapping-time-entries.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View time-entry mapping crop at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-mapping-time-entries.png"} width={"780"} height={"588"} loading={"lazy"} alt={"Time Entries tab with Direct Time Entry selected and required Time Entry, Task ID column, and Actual Effort mappings filled."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-mapping-time-entries.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View time-entry mapping crop at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-mapping-time-entries.png")} width={"780"} height={"588"} loading={"lazy"} alt={"Time Entries tab with Direct Time Entry selected and required Time Entry, Task ID column, and Actual Effort mappings filled."} />
                 </a>
                 <figcaption>
                   {"Design screen / Time Entries. "}
-                  <a className={"image-link"} href={"/assets/fabric-mapping-time-entries.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-mapping-time-entries.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -228,12 +229,12 @@ export default function ColumnMappingPage() {
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-mapping-resource.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View resource mapping crop at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-mapping-resource.png"} width={"780"} height={"588"} loading={"lazy"} alt={"Gantt Resource tab with Employees selected, Assigned To mapped from the current table, unfilled resource-table ID and display column, and disabled Save."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-mapping-resource.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View resource mapping crop at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-mapping-resource.png")} width={"780"} height={"588"} loading={"lazy"} alt={"Gantt Resource tab with Employees selected, Assigned To mapped from the current table, unfilled resource-table ID and display column, and disabled Save."} />
                 </a>
                 <figcaption>
                   {"Design screen / Resource relationship, incomplete state. "}
-                  <a className={"image-link"} href={"/assets/fabric-mapping-resource.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-mapping-resource.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -254,12 +255,12 @@ export default function ColumnMappingPage() {
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-mapping-cost.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View cost mapping crop at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-mapping-cost.png"} width={"778"} height={"586"} loading={"lazy"} alt={"Cost tab with a Resource mapping prerequisite banner, disabled Standard Cost and Usage Cost selectors, a separate Fixed Cost selector, and disabled Save."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-mapping-cost.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View cost mapping crop at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-mapping-cost.png")} width={"778"} height={"586"} loading={"lazy"} alt={"Cost tab with a Resource mapping prerequisite banner, disabled Standard Cost and Usage Cost selectors, a separate Fixed Cost selector, and disabled Save."} />
                 </a>
                 <figcaption>
                   {"Design screen / Cost prerequisite state. "}
-                  <a className={"image-link"} href={"/assets/fabric-mapping-cost.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-mapping-cost.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -280,12 +281,12 @@ export default function ColumnMappingPage() {
               </div>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-mapping-resource-layout.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Resource layout mapping crop at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-mapping-resource-layout.png"} width={"779"} height={"586"} loading={"lazy"} alt={"Resource layout selected with Task tab active, Assigned To resource, start and end dates, Estimated_hours, filter columns, and collapsed Additional Mapping Options."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-mapping-resource-layout.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Resource layout mapping crop at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-mapping-resource-layout.png")} width={"779"} height={"586"} loading={"lazy"} alt={"Resource layout selected with Task tab active, Assigned To resource, start and end dates, Estimated_hours, filter columns, and collapsed Additional Mapping Options."} />
                 </a>
                 <figcaption>
                   {"Design screen / Resource layout, Task tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-mapping-resource-layout.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-mapping-resource-layout.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -356,7 +357,7 @@ export default function ColumnMappingPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

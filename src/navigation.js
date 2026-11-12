@@ -1,7 +1,11 @@
+import { basePath } from './site-path.js';
+
 const pages = import.meta.glob('./pages/*.jsx');
 
 function pageName(url) {
-  const name = url.pathname === '/' ? 'index' : url.pathname.replace(/^\//, '').replace(/\.html$/, '');
+  if (!url.pathname.startsWith(basePath)) return null;
+  const path = url.pathname.slice(basePath.length);
+  const name = path === '' ? 'index' : path.replace(/\.html$/, '');
   return pages[`./pages/${name}.jsx`] ? name : null;
 }
 

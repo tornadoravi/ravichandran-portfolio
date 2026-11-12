@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
@@ -14,7 +15,7 @@ export default function KpiPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
+          <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="kpi" />
@@ -60,13 +61,13 @@ export default function KpiPage() {
             <h3>{"Choose a starting point for the metric"}</h3>
           </div>
           {"\n      "}
-          <a className={"product-screenshot native-shot"} href={"/assets/kpi-simple.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Simple KPI presets full-size (opens in a new tab)"}>
-            <img src={"/assets/kpi-simple.png"} width={"2000"} height={"1063"} fetchPriority={"high"} alt={"Analytics+ Card ribbon in Power BI with the KPI Preset panel open on Simple, several metric layout previews, and a small AC card on the report canvas."} />
+          <a className={"product-screenshot native-shot"} href={sitePath("/assets/kpi-simple.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Simple KPI presets full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/kpi-simple.png")} width={"2000"} height={"1063"} fetchPriority={"high"} alt={"Analytics+ Card ribbon in Power BI with the KPI Preset panel open on Simple, several metric layout previews, and a small AC card on the report canvas."} />
           </a>
           {"\n      "}
           <figcaption>
             {"Design screen · The Simple tab shows alternative arrangements of labels, values, accents, and image placeholders. "}
-            <a className={"image-link"} href={"/assets/kpi-simple.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/kpi-simple.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -336,13 +337,13 @@ export default function KpiPage() {
             <h3>{"Make comparisons visible in the preset browser"}</h3>
           </div>
           {"\n      "}
-          <a className={"product-screenshot native-shot"} href={"/assets/kpi-variance.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Variance KPI presets full-size (opens in a new tab)"}>
-            <img src={"/assets/kpi-variance.png"} width={"2000"} height={"1046"} loading={"lazy"} alt={"Analytics+ KPI Preset pane on the Variance tab with metric, percentage, arrow, and colored-block previews beside a report canvas and populated Power BI field well."} />
+          <a className={"product-screenshot native-shot"} href={sitePath("/assets/kpi-variance.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Variance KPI presets full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/kpi-variance.png")} width={"2000"} height={"1046"} loading={"lazy"} alt={"Analytics+ KPI Preset pane on the Variance tab with metric, percentage, arrow, and colored-block previews beside a report canvas and populated Power BI field well."} />
           </a>
           {"\n      "}
           <figcaption>
             {"Design screen · Variance-family browsing. Tile sample values and report values differ; this is not a matched before-and-after result. "}
-            <a className={"image-link"} href={"/assets/kpi-variance.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/kpi-variance.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -396,13 +397,13 @@ export default function KpiPage() {
             <h3>{"The reusable KPI layout library"}</h3>
           </div>
           {"\n      "}
-          <a className={"product-screenshot native-shot"} href={"/assets/kpi-preset-library.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View KPI preset design library full-size (opens in a new tab)"}>
-            <img src={"/assets/kpi-preset-library.png"} width={"1996"} height={"211"} loading={"lazy"} alt={"KPI design sheet with simple metric cards, icon arrangements, variance indicators, colored comparison blocks, and compact sparkline and area-chart examples."} />
+          <a className={"product-screenshot native-shot"} href={sitePath("/assets/kpi-preset-library.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View KPI preset design library full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/kpi-preset-library.png")} width={"1996"} height={"211"} loading={"lazy"} alt={"KPI design sheet with simple metric cards, icon arrangements, variance indicators, colored comparison blocks, and compact sparkline and area-chart examples."} />
           </a>
           {"\n      "}
           <figcaption>
             {"Design sheet · Preserved at its original 1996 × 211 resolution. Use Actual size in the inspector to read the small cards; no missing detail has been redrawn. "}
-            <a className={"image-link"} href={"/assets/kpi-preset-library.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/kpi-preset-library.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -507,7 +508,7 @@ export default function KpiPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

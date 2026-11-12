@@ -1,3 +1,4 @@
+import { sitePath } from './site-path.js';
 export function initializePortfolioEffects() {
   const events = new AbortController();
   const cleanups = [];
@@ -9,8 +10,8 @@ export function initializePortfolioEffects() {
   if (location.hash) document.documentElement.classList.add('bookmark-entry');
 
   const movedSections = { '#templates': '#templates', '#storytelling': '#overview' };
-  if (location.pathname === '/analytics.html' && movedSections[location.hash]) {
-    location.replace(`/storyboard.html${movedSections[location.hash]}`);
+  if (location.pathname === sitePath('/analytics.html') && movedSections[location.hash]) {
+    location.replace(sitePath(`/storyboard.html${movedSections[location.hash]}`));
   }
 
   function openLinkedDetails(hash) {

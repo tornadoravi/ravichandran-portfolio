@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails } from '../CaseReview.jsx';
@@ -33,7 +34,7 @@ export default function AboutPage() {
             {"\n        "}
             <div className={"name-block"}>
               {"\n          "}
-              <img className={"profile-photo"} src={"/assets/ravichandran-profile.png"} width={"800"} height={"800"} alt={"Portrait of Ravichandran V"} />
+              <img className={"profile-photo"} src={sitePath("/assets/ravichandran-profile.png")} width={"800"} height={"800"} alt={"Portrait of Ravichandran V"} />
               {"\n          "}
               <h2>{"Ravichandran V"}</h2>
               {"\n          "}
@@ -49,7 +50,7 @@ export default function AboutPage() {
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
               {"\n          "}
-              <a className={"text-link"} href={"/assets/ravichandran-resume.pdf"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"text-link"} href={sitePath("/assets/ravichandran-resume.pdf")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Resume "}
                 <span aria-hidden={"true"}>{"↗"}</span>
                 <span className={"sr-only"}>{" (PDF, opens in a new tab)"}</span>
@@ -265,7 +266,7 @@ export default function AboutPage() {
                   <span className={"timeline-duration"}>{"1.5 years"}</span>
                 </div>
                 <p>{"End-to-end Gantt and resource Gantt design, with contributions to cross-tab layout and data configuration for Microsoft Fabric."}</p>
-                <a className={"text-link"} href={"/powertable.html"}>
+                <a className={"text-link"} href={sitePath("/powertable.html")}>
                   {"PowerTable case study "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
@@ -277,28 +278,28 @@ export default function AboutPage() {
                   <span className={"timeline-duration"}>{"2.5 years"}</span>
                 </div>
                 <p>{"End-to-end UX/UI for enterprise analytics in Microsoft Power BI, including competitive analysis, developer handoff, and implementation review. My feature work spans Storyboard, Gantt for Power BI, Chart Wizard, annotations, and reusable KPI templates."}</p>
-                <a className={"text-link"} href={"/analytics-plus.html"}>
+                <a className={"text-link"} href={sitePath("/analytics-plus.html")}>
                   {"Inforiver Analytics+ product case study "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
                 <div className={"profile-links"}>
-                  <a className={"text-link"} href={"/storyboard.html"}>
+                  <a className={"text-link"} href={sitePath("/storyboard.html")}>
                     {"Storyboard authoring "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                  <a className={"text-link"} href={"/gantt.html"}>
+                  <a className={"text-link"} href={sitePath("/gantt.html")}>
                     {"Gantt for Power BI "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                  <a className={"text-link"} href={"/analytics.html"}>
+                  <a className={"text-link"} href={sitePath("/analytics.html")}>
                     {"Chart Wizard "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                  <a className={"text-link"} href={"/presentation.html"}>
+                  <a className={"text-link"} href={sitePath("/presentation.html")}>
                     {"Annotations, Comments & Presentation "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                  <a className={"text-link"} href={"/kpi.html"}>
+                  <a className={"text-link"} href={sitePath("/kpi.html")}>
                     {"KPI Presets "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
@@ -421,7 +422,7 @@ export default function AboutPage() {
         {"\n    "}
         <section className={"closing wrap"}>
           <p className={"eyebrow"}>{"See the thinking in practice"}</p>
-          <a href={"/#work"}>
+          <a href={sitePath("/#work")}>
             {"Explore selected work "}
             <span aria-hidden={"true"}>{"↗"}</span>
           </a>
@@ -430,7 +431,7 @@ export default function AboutPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran"}
           <span className={"accent"}>{" V."}</span>
         </a>

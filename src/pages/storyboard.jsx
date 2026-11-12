@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
@@ -13,7 +14,7 @@ export default function StoryboardPage() {
       <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
-          <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
+          <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="storyboard" />
           <h1>{"Storyboard."}</h1>
@@ -47,12 +48,12 @@ export default function StoryboardPage() {
             <span className={"eyebrow"}>{"Screenshot / 01"}</span>
             <h3>{"Report creation options"}</h3>
           </div>
-          <a className={"product-screenshot"} href={"/assets/storyboard-start.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View report creation options full-size (opens in a new tab)"}>
-            <img src={"/assets/storyboard-start.png"} width={"1400"} height={"790"} fetchPriority={"high"} alt={"Storyboard starting screen with Auto create report, Custom layout, Choose template, and Blank report options."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/storyboard-start.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View report creation options full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/storyboard-start.png")} width={"1400"} height={"790"} fetchPriority={"high"} alt={"Storyboard starting screen with Auto create report, Custom layout, Choose template, and Blank report options."} />
           </a>
           <figcaption>
             {"Product screenshot · Four entry points into report authoring. "}
-            <a className={"image-link"} href={"/assets/storyboard-start.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/storyboard-start.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -259,7 +260,7 @@ export default function StoryboardPage() {
               <li>{"My work included storyboard enhancements, presentation mode, annotations, slideshow interactions, Text-to-Visual, and PowerPoint visualization templates, within Analytics+ at Lumel Technologies."}</li>
               <li>
               {"The walkthrough follows report creation, layout, template entry points, and the canvas. Chart Wizard has a "}
-              <a className={"text-link"} href={"/analytics.html"}>
+              <a className={"text-link"} href={sitePath("/analytics.html")}>
                 {"separate case study "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -313,12 +314,12 @@ export default function StoryboardPage() {
             <span className={"eyebrow"}>{"Screenshot / 02"}</span>
             <h3>{"Configuration, preview, and data context"}</h3>
           </div>
-          <a className={"product-screenshot"} href={"/assets/custom-layout.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View custom layout screenshot full-size (opens in a new tab)"}>
-            <img src={"/assets/custom-layout.png"} width={"1350"} height={"759"} loading={"lazy"} alt={"Custom layout workspace with element counts and toggles, a report preview with a selected KPI, and category and measure fields."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/custom-layout.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View custom layout screenshot full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/custom-layout.png")} width={"1350"} height={"759"} loading={"lazy"} alt={"Custom layout workspace with element counts and toggles, a report preview with a selected KPI, and category and measure fields."} />
           </a>
           <figcaption>
             {"Product screenshot · The custom-layout workspace, cropped without browser chrome. "}
-            <a className={"image-link"} href={"/assets/custom-layout.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/custom-layout.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -348,12 +349,12 @@ export default function StoryboardPage() {
             <span className={"eyebrow"}>{"Screenshot / 03"}</span>
             <h3>{"Template discovery and import"}</h3>
           </div>
-          <a className={"product-screenshot"} href={"/assets/template-selection.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View template entry screenshot full-size (opens in a new tab)"}>
-            <img src={"/assets/template-selection.png"} width={"1350"} height={"760"} loading={"lazy"} alt={"Choose template screen with Explore template store, Import templates, and a drag-and-drop import instruction."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/template-selection.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View template entry screenshot full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/template-selection.png")} width={"1350"} height={"760"} loading={"lazy"} alt={"Choose template screen with Explore template store, Import templates, and a drag-and-drop import instruction."} />
           </a>
           <figcaption>
             {"Product screenshot · Template browsing and import entry points. "}
-            <a className={"image-link"} href={"/assets/template-selection.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/template-selection.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -365,12 +366,12 @@ export default function StoryboardPage() {
             <span className={"eyebrow"}>{"Screenshot / 04"}</span>
             <h3>{"The Analytics+ template ecosystem"}</h3>
           </div>
-          <a className={"product-screenshot"} href={"/assets/template-store.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View template store screenshot full-size (opens in a new tab)"}>
-            <img src={"/assets/template-store.png"} width={"2000"} height={"1020"} loading={"lazy"} alt={"Analytics+ template store showing navigation categories, search, filters, dashboard previews, and standalone visual templates."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/template-store.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View template store screenshot full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/template-store.png")} width={"2000"} height={"1020"} loading={"lazy"} alt={"Analytics+ template store showing navigation categories, search, filters, dashboard previews, and standalone visual templates."} />
           </a>
           <figcaption>
             {"Store screenshot · Product context, not a claim of ownership of the catalogue. "}
-            <a className={"image-link"} href={"/assets/template-store.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/template-store.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -404,12 +405,12 @@ export default function StoryboardPage() {
             <span className={"eyebrow"}>{"Screenshot / 05"}</span>
             <h3>{"An empty canvas with an explicit next action"}</h3>
           </div>
-          <a className={"product-screenshot"} href={"/assets/blank-canvas.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View blank canvas screenshot full-size (opens in a new tab)"}>
-            <img src={"/assets/blank-canvas.png"} width={"1350"} height={"759"} loading={"lazy"} alt={"Empty storyboard canvas with an instruction to insert new elements, authoring controls, a left tool rail, and board tabs."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/blank-canvas.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View blank canvas screenshot full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/blank-canvas.png")} width={"1350"} height={"759"} loading={"lazy"} alt={"Empty storyboard canvas with an instruction to insert new elements, authoring controls, a left tool rail, and board tabs."} />
           </a>
           <figcaption>
             {"Product screenshot · Blank report state and authoring controls. "}
-            <a className={"image-link"} href={"/assets/blank-canvas.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/blank-canvas.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -438,12 +439,12 @@ export default function StoryboardPage() {
             <span className={"eyebrow"}>{"Screenshot / 06"}</span>
             <h3>{"The populated storyboard workspace"}</h3>
           </div>
-          <a className={"product-screenshot"} href={"/assets/storyboard-editor.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View storyboard editor screenshot full-size (opens in a new tab)"}>
-            <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Inforiver storyboard editor with a layer hierarchy on the left and a report containing KPI cards, bar charts, and a table."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/storyboard-editor.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View storyboard editor screenshot full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/storyboard-editor.png")} width={"1390"} height={"782"} loading={"lazy"} alt={"Inforiver storyboard editor with a layer hierarchy on the left and a report containing KPI cards, bar charts, and a table."} />
           </a>
           <figcaption>
             {"Product screenshot · Cropped to the authoring workspace; browser and account chrome removed. "}
-            <a className={"image-link"} href={"/assets/storyboard-editor.png"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/storyboard-editor.png")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -464,7 +465,7 @@ export default function StoryboardPage() {
             <ul className="case-key-points">
               <li>
               {"My contributions extended to presentation mode, annotations, and slideshow interactions. That communication layer now has a "}
-              <a className={"text-link"} href={"/presentation.html"}>
+              <a className={"text-link"} href={sitePath("/presentation.html")}>
                 {"dedicated Annotations, Comments & Presentation case "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -515,7 +516,7 @@ export default function StoryboardPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

@@ -8,6 +8,7 @@
     "start": "node server.js",
     "build": "node scripts/build-site.mjs",
     "test:build": "node --test tests/build-site.test.mjs",
+    "test:pages": "node --test tests/pages-deployment.test.mjs",
     "build:hero": "node scripts/build-hero.mjs",
     "test": "playwright test"
   },

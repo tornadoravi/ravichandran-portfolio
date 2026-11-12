@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function GanttConfigurationPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable / Gantt"}</a>
+          <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable / Gantt"}</a>
           {"\n      "}
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="configuration" />
@@ -87,13 +88,13 @@ export default function GanttConfigurationPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-gantt-config-timeline.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Timeline panel at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-gantt-config-timeline.png"} width={"602"} height={"823"} fetchPriority={"high"} alt={"Edit Gantt, Timeline tab: Sunday and +6 in Work Week, Daily Capacity 8 hrs, no selected exception dates, Backward-Diagonal pattern, mouse-wheel zoom Off, and Reset to Default Styling."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-gantt-config-timeline.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Timeline panel at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-gantt-config-timeline.png")} width={"602"} height={"823"} fetchPriority={"high"} alt={"Edit Gantt, Timeline tab: Sunday and +6 in Work Week, Daily Capacity 8 hrs, no selected exception dates, Backward-Diagonal pattern, mouse-wheel zoom Off, and Reset to Default Styling."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Timeline panel crop. Task data and workspace chrome excluded. "}
-              <a className={"image-link"} href={"/assets/fabric-gantt-config-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-gantt-config-timeline.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -183,13 +184,13 @@ export default function GanttConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-gantt-config-milestone.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Milestone panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-gantt-config-milestone.png"} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Milestone tab selected: Default group, Shape with a flag icon, purple Fill, and Reset to Default Styling at the footer."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-gantt-config-milestone.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Milestone panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-gantt-config-milestone.png")} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Milestone tab selected: Default group, Shape with a flag icon, purple Fill, and Reset to Default Styling at the footer."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Milestone tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-gantt-config-milestone.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-gantt-config-milestone.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -228,13 +229,13 @@ export default function GanttConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-gantt-config-dependency.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Dependency panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-gantt-config-dependency.png"} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Dependency tab: Connector dark Color, Type solid, Stroke 2; Auto Scheduling On and Successor Off in separate groups; Reset to Default Styling visible."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-gantt-config-dependency.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Dependency panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-gantt-config-dependency.png")} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Dependency tab: Connector dark Color, Type solid, Stroke 2; Auto Scheduling On and Successor Off in separate groups; Reset to Default Styling visible."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Dependency tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-gantt-config-dependency.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-gantt-config-dependency.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -266,13 +267,13 @@ export default function GanttConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-gantt-config-data-color.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Data Color panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-gantt-config-data-color.png"} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Data Color tab selected: Bars group with Color by All and blue Fill, and Reset to Default Styling at the footer."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-gantt-config-data-color.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Data Color panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-gantt-config-data-color.png")} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Data Color tab selected: Bars group with Color by All and blue Fill, and Reset to Default Styling at the footer."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Data Color tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-gantt-config-data-color.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-gantt-config-data-color.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -309,13 +310,13 @@ export default function GanttConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-gantt-config-label.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Label panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-gantt-config-label.png"} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Label tab: Enable Data Label On, Based On Auto, Font Size 12, dark Text Color swatch, separate Background Color, and Reset to Default Styling."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-gantt-config-label.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt Label panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-gantt-config-label.png")} width={"602"} height={"823"} loading={"lazy"} alt={"Edit Gantt, Label tab: Enable Data Label On, Based On Auto, Font Size 12, dark Text Color swatch, separate Background Color, and Reset to Default Styling."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Label tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-gantt-config-label.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-gantt-config-label.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -395,7 +396,7 @@ export default function GanttConfigurationPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

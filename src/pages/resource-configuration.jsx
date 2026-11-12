@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function ResourceConfigurationPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#resource-features"}>{"← PowerTable / Gantt Resources"}</a>
+          <a className={"back-link"} href={sitePath("/powertable.html#resource-features")}>{"← PowerTable / Gantt Resources"}</a>
           {"\n      "}
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="resources" active="configuration" />
@@ -87,13 +88,13 @@ export default function ResourceConfigurationPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-resource-config-timeline.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Timeline panel at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-resource-config-timeline.png"} width={"604"} height={"825"} fetchPriority={"high"} alt={"Edit Resource, Timeline tab: Work Week shows Sunday and +6, Daily Capacity is 8 hrs, Holidays and Exceptions has no selected dates, Pattern is Backward-Diagonal, mouse-wheel zoom is Off, and Reset to Default Styling is visible."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-resource-config-timeline.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Timeline panel at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-resource-config-timeline.png")} width={"604"} height={"825"} fetchPriority={"high"} alt={"Edit Resource, Timeline tab: Work Week shows Sunday and +6, Daily Capacity is 8 hrs, Holidays and Exceptions has no selected dates, Pattern is Backward-Diagonal, mouse-wheel zoom is Off, and Reset to Default Styling is visible."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Timeline panel crop. Resource names and workspace chrome excluded. "}
-              <a className={"image-link"} href={"/assets/fabric-resource-config-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-resource-config-timeline.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -182,13 +183,13 @@ export default function ResourceConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-resource-config-milestone.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Milestone panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-resource-config-milestone.png"} width={"604"} height={"825"} loading={"lazy"} alt={"Edit Resource, Milestone tab selected: Shape shows a flag icon, Fill shows a purple swatch, and Reset to Default Styling remains at the panel footer."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-resource-config-milestone.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Milestone panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-resource-config-milestone.png")} width={"604"} height={"825"} loading={"lazy"} alt={"Edit Resource, Milestone tab selected: Shape shows a flag icon, Fill shows a purple swatch, and Reset to Default Styling remains at the panel footer."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Milestone tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-resource-config-milestone.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-resource-config-milestone.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -221,13 +222,13 @@ export default function ResourceConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-resource-config-data-color.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Data Color panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-resource-config-data-color.png"} width={"604"} height={"825"} loading={"lazy"} alt={"Edit Resource, Data Color tab: Bars group with Color by set to All and blue Fill; separate Summary Bar group with brown Color; Reset to Default Styling at the footer."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-resource-config-data-color.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Data Color panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-resource-config-data-color.png")} width={"604"} height={"825"} loading={"lazy"} alt={"Edit Resource, Data Color tab: Bars group with Color by set to All and blue Fill; separate Summary Bar group with brown Color; Reset to Default Styling at the footer."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Data Color tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-resource-config-data-color.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-resource-config-data-color.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -261,13 +262,13 @@ export default function ResourceConfigurationPage() {
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
-                <a className={"product-screenshot native-shot"} href={"/assets/fabric-resource-config-label.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Label panel at original resolution (opens in a new tab)"}>
-                  <img src={"/assets/fabric-resource-config-label.png"} width={"604"} height={"825"} loading={"lazy"} alt={"Edit Resource, Label tab: data labels On, Based On Auto, font size 12, text and background color controls, Adaptive label On; Summary Bar font size 12 with black text color."} />
+                <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-resource-config-label.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Label panel at original resolution (opens in a new tab)"}>
+                  <img src={sitePath("/assets/fabric-resource-config-label.png")} width={"604"} height={"825"} loading={"lazy"} alt={"Edit Resource, Label tab: data labels On, Based On Auto, font size 12, text and background color controls, Adaptive label On; Summary Bar font size 12 with black text color."} />
                 </a>
                 {"\n            "}
                 <figcaption>
                   {"Design screen / Label tab. "}
-                  <a className={"image-link"} href={"/assets/fabric-resource-config-label.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                  <a className={"image-link"} href={sitePath("/assets/fabric-resource-config-label.png")} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                   </a>
@@ -303,7 +304,7 @@ export default function ResourceConfigurationPage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
             {"\n        "}
-            <a className={"text-link"} href={"/gantt-configuration.html"}>
+            <a className={"text-link"} href={sitePath("/gantt-configuration.html")}>
               {"Related workspace / Gantt Configuration "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
@@ -352,7 +353,7 @@ export default function ResourceConfigurationPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function GanttConditionalFormattingPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#resource-features"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={sitePath("/powertable.html#resource-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="resources" active="formatting" />
@@ -90,13 +91,13 @@ export default function GanttConditionalFormattingPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-conditional-rule.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View conditional formatting editor at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-conditional-rule.png"} width={"612"} height={"823"} fetchPriority={"high"} alt={"Create Formatting Rule panel: Rule 1, Rules (If Conditions), target selectors, Schedule Hours greater than 0, Add Condition, Milestone Icon, Fill, Bar Fill, Data Label, Discard, and Apply."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-conditional-rule.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View conditional formatting editor at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-conditional-rule.png")} width={"612"} height={"823"} fetchPriority={"high"} alt={"Create Formatting Rule panel: Rule 1, Rules (If Conditions), target selectors, Schedule Hours greater than 0, Add Condition, Milestone Icon, Fill, Bar Fill, Data Label, Discard, and Apply."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Rule editor crop. Product controls and values are unchanged. "}
-              <a className={"image-link"} href={"/assets/fabric-conditional-rule.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-conditional-rule.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -133,13 +134,13 @@ export default function GanttConditionalFormattingPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-screen formatting-context"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-conditional-summary.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View resource summary metric at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-conditional-summary.png"} width={"445"} height={"39"} loading={"lazy"} alt={"Resource layout toolbar showing Summary Bar - Scheduled Hours and the Quarter timescale."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-conditional-summary.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View resource summary metric at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-conditional-summary.png")} width={"445"} height={"39"} loading={"lazy"} alt={"Resource layout toolbar showing Summary Bar - Scheduled Hours and the Quarter timescale."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Metric and timescale detail from the same editing state. "}
-              <a className={"image-link"} href={"/assets/fabric-conditional-summary.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-conditional-summary.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -149,13 +150,13 @@ export default function GanttConditionalFormattingPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-screen"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-conditional-timeline.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt timeline context at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-conditional-timeline.png"} width={"1076"} height={"732"} loading={"lazy"} alt={"Timeline detail from the same editing state, with a December-to-March time scale, blue task bars with IDs, and brown summary bars with numeric labels; resource names are excluded."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-conditional-timeline.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt timeline context at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-conditional-timeline.png")} width={"1076"} height={"732"} loading={"lazy"} alt={"Timeline detail from the same editing state, with a December-to-March time scale, blue task bars with IDs, and brown summary bars with numeric labels; resource names are excluded."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Timeline-only crop from the same screenshot, not a second state. Resource names and workspace chrome are excluded. "}
-              <a className={"image-link"} href={"/assets/fabric-conditional-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-conditional-timeline.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -229,12 +230,12 @@ export default function GanttConditionalFormattingPage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
             {"\n        "}
-            <a className={"text-link"} href={"/gantt-backlog.html"}>
+            <a className={"text-link"} href={sitePath("/gantt-backlog.html")}>
               {"Related case / Gantt Backlog "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
             {"\n        "}
-            <a className={"text-link"} href={"/resource-configuration.html"}>
+            <a className={"text-link"} href={sitePath("/resource-configuration.html")}>
               {"Related case / Resource Configuration — Side Panel "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
@@ -283,7 +284,7 @@ export default function GanttConditionalFormattingPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

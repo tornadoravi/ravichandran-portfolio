@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function GanttBaselinesPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/powertable.html#gantt-features"}>{"← PowerTable case study"}</a>
+          <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs active="baselines" />
@@ -84,13 +85,13 @@ export default function GanttBaselinesPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-preview"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-baseline-compare-menu.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View baseline comparison menu at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-baseline-compare-menu.png"} width={"452"} height={"281"} fetchPriority={"high"} alt={"Set Baseline menu with Create New, Manage, and Compare; submenu states up to two options, with Current Data and Baseline 1 checked and Baseline 2 and 3 unchecked."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-baseline-compare-menu.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View baseline comparison menu at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-baseline-compare-menu.png")} width={"452"} height={"281"} fetchPriority={"high"} alt={"Set Baseline menu with Create New, Manage, and Compare; submenu states up to two options, with Current Data and Baseline 1 checked and Baseline 2 and 3 unchecked."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Comparison menu detail, cropped from the first screen. "}
-              <a className={"image-link"} href={"/assets/fabric-baseline-compare-menu.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-baseline-compare-menu.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -121,13 +122,13 @@ export default function GanttBaselinesPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-screen"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-baseline-timeline.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt comparison timeline at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-baseline-timeline.png"} width={"918"} height={"692"} loading={"lazy"} alt={"Gantt timeline detail with blue task bars, light-grey comparison bars, progress percentages, dependency connectors, and a shared January-to-March time scale."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-baseline-timeline.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt comparison timeline at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-baseline-timeline.png")} width={"918"} height={"692"} loading={"lazy"} alt={"Gantt timeline detail with blue task bars, light-grey comparison bars, progress percentages, dependency connectors, and a shared January-to-March time scale."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Timeline detail from the same comparison screen. Task names and workspace chrome are excluded. "}
-              <a className={"image-link"} href={"/assets/fabric-baseline-timeline.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-baseline-timeline.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -156,13 +157,13 @@ export default function GanttBaselinesPage() {
           {"\n      "}
           <figure className={"detail-figure mapping-screen"}>
             {"\n        "}
-            <a className={"product-screenshot native-shot"} href={"/assets/fabric-baseline-manager.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View privacy-redacted baseline manager at original resolution (opens in a new tab)"}>
-              <img src={"/assets/fabric-baseline-manager.png"} width={"350"} height={"360"} loading={"lazy"} alt={"Manage Baselines panel with Baseline 1, Baseline 2, and Baseline 3, each with action icons; author metadata rows are redacted for privacy."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/fabric-baseline-manager.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View privacy-redacted baseline manager at original resolution (opens in a new tab)"}>
+              <img src={sitePath("/assets/fabric-baseline-manager.png")} width={"350"} height={"360"} loading={"lazy"} alt={"Manage Baselines panel with Baseline 1, Baseline 2, and Baseline 3, each with action icons; author metadata rows are redacted for privacy."} />
             </a>
             {"\n        "}
             <figcaption>
               {"Design screen / Manager panel crop. Author metadata redacted; control labels unchanged. "}
-              <a className={"image-link"} href={"/assets/fabric-baseline-manager.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/fabric-baseline-manager.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Original resolution ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -232,12 +233,12 @@ export default function GanttBaselinesPage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
             {"\n        "}
-            <a className={"text-link"} href={"/gantt-conditional-formatting.html"}>
+            <a className={"text-link"} href={sitePath("/gantt-conditional-formatting.html")}>
               {"Related case / Gantt Resources — Conditional Formatting "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
             {"\n        "}
-            <a className={"text-link"} href={"/gantt-configuration.html"}>
+            <a className={"text-link"} href={sitePath("/gantt-configuration.html")}>
               {"Related case / Gantt Configuration — Side Panel "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
@@ -282,7 +283,7 @@ export default function GanttBaselinesPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

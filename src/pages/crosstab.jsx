@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -9,7 +10,7 @@ export default function CrosstabPage() {
     <>
       <main id="main" className="design-review">
         <section className="case-hero wrap">
-          <a className="back-link" href="/powertable.html#crosstab-features">← PowerTable / Cross-tab</a>
+          <a className="back-link" href={sitePath("/powertable.html#crosstab-features")}>← PowerTable / Cross-tab</a>
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="crosstab" />
           <h1>{"Cross-tab."}</h1>
@@ -62,14 +63,14 @@ export default function CrosstabPage() {
               <li>Cross-tab contribution—not end-to-end ownership. My Gantt and resource work is documented separately.</li>
               <li>Concept diagram only. No dedicated Cross-tab design screens, historical iterations, measured outcomes, or proof of a shipped interface.</li>
             </ul>
-            <a className="text-link" href="/powertable.html#role">View the full PowerTable role & scope <span aria-hidden="true">→</span></a>
+            <a className="text-link" href={sitePath("/powertable.html#role")}>View the full PowerTable role & scope <span aria-hidden="true">→</span></a>
           </div>
         </section>
         </CaseDetails>
         </CaseStoryLayout>
       </main>
       <footer className="site-footer wrap">
-        <a className="wordmark" href="/">Ravichandran<span className="accent"> V.</span></a>
+        <a className="wordmark" href={sitePath("/")}>Ravichandran<span className="accent"> V.</span></a>
         <a className="text-link" href="#main">Back to top <span aria-hidden="true">↑</span></a>
         <span>Product design, with care.</span>
       </footer>

@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
@@ -14,7 +15,7 @@ export default function PresentationPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
-          <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
+          <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
           <ProjectIdentity product="analytics" />
           <WorkspaceFeatureTabs workspace="analytics" active="presentation" />
@@ -77,12 +78,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 01"}</span>
                 <h3>{"Presentation disabled"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-01.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 01 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-01.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Analytics+ Advanced panel with Enable Present switched off, numbered annotation markers, and a report-level comments region."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-01.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 01 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-01.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Analytics+ Advanced panel with Enable Present switched off, numbered annotation markers, and a report-level comments region."} />
               </a>
               <figcaption>
                 {"Design screen · Enable Present is off; an instructional callout identifies the setting. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-01.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-01.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -94,12 +95,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 02"}</span>
                 <h3>{"Enable presentation"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-02.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 02 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-02.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Enable Present switched on in the Advanced panel, with a blue Present button above the numbered comments."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-02.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 02 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-02.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Enable Present switched on in the Advanced panel, with a blue Present button above the numbered comments."} />
               </a>
               <figcaption>
                 {"Design screen · The enabled state shows a Present action within the comments region. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-02.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-02.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -111,12 +112,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 03"}</span>
                 <h3>{"Format the presentation"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-03.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 03 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-03.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Expanded Enable Present settings showing text formatting and a Template Style selector alongside the report."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-03.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 03 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-03.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Expanded Enable Present settings showing text formatting and a Template Style selector alongside the report."} />
               </a>
               <figcaption>
                 {"Design screen · Expanded presentation settings expose text formatting and the template-style selector. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-03.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-03.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -314,7 +315,7 @@ export default function PresentationPage() {
               <li>{"My scope: annotations, presentation mode, slideshow interactions. Connect explanations to visuals and guide audience attention."}</li>
               <li>
               {"Report creation, layout, and templates are covered in the separate "}
-              <a className={"text-link"} href={"/storyboard.html"}>
+              <a className={"text-link"} href={sitePath("/storyboard.html")}>
                 {"Storyboard authoring case "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -370,13 +371,13 @@ export default function PresentationPage() {
             <h3>{"Connect the observation to its explanation"}</h3>
           </div>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/annotation-context.svg"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View conceptual annotation illustration full-size (opens in a new tab)"}>
-            <img src={"/assets/annotation-context.svg"} data-visual-kind={"illustration"} width={"1040"} height={"580"} loading={"lazy"} alt={"Conceptual illustration, not a product screenshot: markers on a fictional regional chart connect individual data points to explanatory notes and wider report context."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/annotation-context.svg")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View conceptual annotation illustration full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/annotation-context.svg")} data-visual-kind={"illustration"} width={"1040"} height={"580"} loading={"lazy"} alt={"Conceptual illustration, not a product screenshot: markers on a fictional regional chart connect individual data points to explanatory notes and wider report context."} />
           </a>
           {"\n      "}
           <figcaption>
             {"Original conceptual illustration · Fictional content, not a product screenshot or Figma capture. "}
-            <a className={"image-link"} href={"/assets/annotation-context.svg"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/annotation-context.svg")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View illustration full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -424,12 +425,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 04"}</span>
                 <h3>{"Choose a callout style"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-04.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 04 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-04.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Presentation settings with four blue callout-style previews open and a Present button above the report comments."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-04.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 04 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-04.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Presentation settings with four blue callout-style previews open and a Present button above the report comments."} />
               </a>
               <figcaption>
                 {"Design screen · Callout-style choices are shown alongside guidance for starting presentation. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-04.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-04.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -441,12 +442,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 05"}</span>
                 <h3>{"Focus on the monthly chart"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-05.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 05 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-05.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Enlarged Actuals and Plan by Month chart with monthly columns and a deviation strip, surrounded by the Power BI interface."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-05.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 05 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-05.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Enlarged Actuals and Plan by Month chart with monthly columns and a deviation strip, surrounded by the Power BI interface."} />
               </a>
               <figcaption>
                 {"Design screen · A single monthly chart fills the report canvas while Power BI panels remain visible. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-05.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-05.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -458,12 +459,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 06"}</span>
                 <h3>{"Playback and return controls"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-06.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 06 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-06.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Monthly chart with Back to storyboard, a playback toolbar, and yellow guidance callouts describing cursor and toolbar visibility."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-06.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 06 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-06.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Monthly chart with Back to storyboard, a playback toolbar, and yellow guidance callouts describing cursor and toolbar visibility."} />
               </a>
               <figcaption>
                 {"Design screen · Playback controls and Back to storyboard appear with instructional hover guidance; this static screen does not demonstrate playback behavior. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-06.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-06.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -475,12 +476,12 @@ export default function PresentationPage() {
                 <span className={"eyebrow"}>{"Screen / 07"}</span>
                 <h3>{"Keep the explanation with the data"}</h3>
               </div>
-              <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-07.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 07 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-07.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Monthly Actuals and Plan chart with a blue annotation callout pointing to the February column."} />
+              <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-07.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 07 full-size (opens in a new tab)"}>
+                <img src={sitePath("/assets/presentation-screen-07.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Monthly Actuals and Plan chart with a blue annotation callout pointing to the February column."} />
               </a>
               <figcaption>
                 {"Design screen · A blue callout connects the explanation to the February column. "}
-                <a className={"image-link"} href={"/assets/presentation-screen-07.png"} target={"_blank"} rel={"noopener noreferrer"}>
+                <a className={"image-link"} href={sitePath("/assets/presentation-screen-07.png")} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View full-size ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
                 </a>
@@ -523,12 +524,12 @@ export default function PresentationPage() {
               <span className={"eyebrow"}>{"Screen / 08"}</span>
               <h3>{"Compare quarterly performance"}</h3>
             </div>
-            <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-08.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 08 full-size (opens in a new tab)"}>
-              <img src={"/assets/presentation-screen-08.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Actuals and Plan by Quarter small-multiple waterfall charts for Enterprise, Business, SuperMarket, and Mid size."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-08.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 08 full-size (opens in a new tab)"}>
+              <img src={sitePath("/assets/presentation-screen-08.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Actuals and Plan by Quarter small-multiple waterfall charts for Enterprise, Business, SuperMarket, and Mid size."} />
             </a>
             <figcaption>
               {"Design screen · Four quarterly waterfall charts provide a small-multiple comparison. "}
-              <a className={"image-link"} href={"/assets/presentation-screen-08.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/presentation-screen-08.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -540,12 +541,12 @@ export default function PresentationPage() {
               <span className={"eyebrow"}>{"Screen / 09"}</span>
               <h3>{"Callout within small multiples"}</h3>
             </div>
-            <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-09.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 09 full-size (opens in a new tab)"}>
-              <img src={"/assets/presentation-screen-09.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Quarterly small-multiple waterfall charts with a blue annotation callout pointing into the Enterprise chart."} />
+            <a className={"product-screenshot native-shot"} href={sitePath("/assets/presentation-screen-09.png")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 09 full-size (opens in a new tab)"}>
+              <img src={sitePath("/assets/presentation-screen-09.png")} width={"1707"} height={"830"} loading={"lazy"} alt={"Quarterly small-multiple waterfall charts with a blue annotation callout pointing into the Enterprise chart."} />
             </a>
             <figcaption>
               {"Design screen · A blue annotation callout is positioned within the Enterprise chart. "}
-              <a className={"image-link"} href={"/assets/presentation-screen-09.png"} target={"_blank"} rel={"noopener noreferrer"}>
+              <a className={"image-link"} href={sitePath("/assets/presentation-screen-09.png")} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
@@ -561,13 +562,13 @@ export default function PresentationPage() {
             <h3>{"Focus the audience without losing the wider story"}</h3>
           </div>
           {"\n      "}
-          <a className={"product-screenshot"} href={"/assets/presentation-focus.svg"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View conceptual presentation illustration full-size (opens in a new tab)"}>
-            <img src={"/assets/presentation-focus.svg"} data-visual-kind={"illustration"} width={"1040"} height={"580"} loading={"lazy"} alt={"Conceptual presentation illustration, not a product screenshot: a report overview connects to an enlarged fictional chart region with one explanatory note."} />
+          <a className={"product-screenshot"} href={sitePath("/assets/presentation-focus.svg")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View conceptual presentation illustration full-size (opens in a new tab)"}>
+            <img src={sitePath("/assets/presentation-focus.svg")} data-visual-kind={"illustration"} width={"1040"} height={"580"} loading={"lazy"} alt={"Conceptual presentation illustration, not a product screenshot: a report overview connects to an enlarged fictional chart region with one explanatory note."} />
           </a>
           {"\n      "}
           <figcaption>
             {"Original conceptual illustration · A design principle, not demonstrated product playback or a Figma capture. "}
-            <a className={"image-link"} href={"/assets/presentation-focus.svg"} target={"_blank"} rel={"noopener noreferrer"}>
+            <a className={"image-link"} href={sitePath("/assets/presentation-focus.svg")} target={"_blank"} rel={"noopener noreferrer"}>
               {"View illustration full-size ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
@@ -673,7 +674,7 @@ export default function PresentationPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran V"}
           <span className={"accent"}>{"."}</span>
         </a>

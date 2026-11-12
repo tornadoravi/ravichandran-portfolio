@@ -1,3 +1,4 @@
+import { sitePath } from '../site-path.js';
 import React, { useEffect, useState } from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import SoundroomControls from '../SoundroomControls.jsx';
@@ -78,7 +79,7 @@ export default function IndexPage() {
               {"DESIGNER"}
             </span>
             {"\n        "}
-            <img className={"portrait-art"} src={"/assets/portrait-3d.webp?v=3"} width={"1254"} height={"1254"} fetchPriority={"high"} alt={"3D-style illustrated portrait of Ravichandran V, smiling with swept-up dark hair and a mint-green collared shirt."} />
+            <img className={"portrait-art"} src={sitePath("/assets/portrait-3d.webp?v=3")} width={"1254"} height={"1254"} fetchPriority={"high"} alt={"3D-style illustrated portrait of Ravichandran V, smiling with swept-up dark hair and a mint-green collared shirt."} />
             {"\n      "}
           </figure>
           {"\n    "}
@@ -115,7 +116,7 @@ export default function IndexPage() {
           {"\n      "}
           <article id={"project-planning"} className={"project"}>
             {"\n        "}
-            <a className={"project-visual planning-scene"} href={"/powertable.html"} aria-label={"Read PowerTable case study"}>
+            <a className={"project-visual planning-scene"} href={sitePath("/powertable.html")} aria-label={"Read PowerTable case study"}>
               {"\n          "}
               <div className={"visual-heading"}>
                 <span>
@@ -123,7 +124,7 @@ export default function IndexPage() {
                   <small>{"Task and timeline planning"}</small>
                 </span>
                 <span className={"visual-pill platform-pill"}>
-                  <img className="brand-image microsoft-wordmark" src="/assets/microsoft-logo.png" width="216" height="46" alt="Microsoft" />
+                  <img className="brand-image microsoft-wordmark" src={sitePath("/assets/microsoft-logo.png")} width="216" height="46" alt="Microsoft" />
                   <span>Fabric</span>
                 </span>
               </div>
@@ -135,13 +136,13 @@ export default function IndexPage() {
               </p>
               {"\n          "}
               <div className="product-brand-preview">
-                <img className="product-brand-mark" src="/assets/lumel-powertable-icon.svg" width="80" height="80" alt="PowerTable" />
+                <img className="product-brand-mark" src={sitePath("/assets/lumel-powertable-icon.svg")} width="80" height="80" alt="PowerTable" />
                 <span className="product-brand-name" aria-hidden="true">PowerTable</span>
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
                 <span className="cover-maker">
-                  <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel" />
+                  <img className="brand-image" src={sitePath("/assets/lumel-logo.svg")} width="787" height="360" alt="Lumel" />
                   <span>{"Official PowerTable icon · Lumel"}</span>
                 </span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
@@ -153,7 +154,7 @@ export default function IndexPage() {
               <div>
                 <p className={"eyebrow"}>{"01 / Microsoft Fabric"}</p>
                 <h3>
-                  <a href={"/powertable.html"}>{"PowerTable"}</a>
+                  <a href={sitePath("/powertable.html")}>{"PowerTable"}</a>
                 </h3>
                 <ul className={"project-categories"} aria-label={"PowerTable categories"}>
                   <li>{"Connected planning"}</li>
@@ -170,7 +171,7 @@ export default function IndexPage() {
                   <strong>{"End-to-end Gantt & resource UX/UI"}</strong>
                   {"; cross-tab contribution"}
                 </p>
-                <a className={"text-link case-link"} href={"/powertable.html"}>
+                <a className={"text-link case-link"} href={sitePath("/powertable.html")}>
                   {"Explore case study "}
                   <span aria-hidden={"true"}>{"→"}</span>
                 </a>
@@ -192,7 +193,7 @@ export default function IndexPage() {
             {"\n        "}
             <span id={"project-kpi"} className={"project-bookmark"} aria-hidden={"true"}>{""}</span>
             {"\n        "}
-            <a className={"project-visual analytics-scene"} href={"/analytics-plus.html"} aria-label={"Read Inforiver Analytics+ case study"}>
+            <a className={"project-visual analytics-scene"} href={sitePath("/analytics-plus.html")} aria-label={"Read Inforiver Analytics+ case study"}>
               {"\n          "}
               <div className={"visual-heading"}>
                 <span>
@@ -200,7 +201,7 @@ export default function IndexPage() {
                   <small>{"One product. Five connected feature experiences."}</small>
                 </span>
                 <span className={"visual-pill platform-pill"}>
-                  <img className="brand-image microsoft-wordmark" src="/assets/microsoft-logo.png" width="216" height="46" alt="Microsoft" />
+                  <img className="brand-image microsoft-wordmark" src={sitePath("/assets/microsoft-logo.png")} width="216" height="46" alt="Microsoft" />
                   <span>Power BI</span>
                 </span>
               </div>
@@ -212,12 +213,12 @@ export default function IndexPage() {
               </p>
               {"\n          "}
               <div className="product-brand-preview">
-                <img className="product-brand-wordmark" src="/assets/inforiver-analytics-logo.svg" width="173" height="36" alt="Inforiver Analytics+" />
+                <img className="product-brand-wordmark" src={sitePath("/assets/inforiver-analytics-logo.svg")} width="173" height="36" alt="Inforiver Analytics+" />
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
                 <span className="cover-maker">
-                  <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel" />
+                  <img className="brand-image" src={sitePath("/assets/lumel-logo.svg")} width="787" height="360" alt="Lumel" />
                   <span>{"Official Analytics+ logo · Lumel"}</span>
                 </span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
@@ -229,7 +230,7 @@ export default function IndexPage() {
               <div>
                 <p className={"eyebrow"}>{"02 / Microsoft Power BI"}</p>
                 <h3>
-                  <a href={"/analytics-plus.html"}>{"Inforiver Analytics+"}</a>
+                  <a href={sitePath("/analytics-plus.html")}>{"Inforiver Analytics+"}</a>
                 </h3>
                 <ul className={"project-categories"} aria-label={"Analytics+ categories"}>
                   <li>{"Data visualization"}</li>
@@ -247,11 +248,11 @@ export default function IndexPage() {
                   {"; Chart Wizard and reusable KPI templates shipped"}
                 </p>
                 <div className="project-case-links">
-                  <a className={"text-link case-link"} href={"/analytics-plus.html"}>
+                  <a className={"text-link case-link"} href={sitePath("/analytics-plus.html")}>
                     {"Explore case study "}
                     <span aria-hidden={"true"}>{"→"}</span>
                   </a>
-                  <a className="text-link concept-case-link" href="/analytics-spatial.html">
+                  <a className="text-link concept-case-link" href={sitePath("/analytics-spatial.html")}>
                     Spatial Analytics+ · Concept study <span aria-hidden="true">→</span>
                   </a>
                 </div>
@@ -274,7 +275,7 @@ export default function IndexPage() {
             </h2>
             <DesignApproach />
             <div className={"profile-links"}>
-              <a className={"text-link"} href={"/about.html"}>
+              <a className={"text-link"} href={sitePath("/about.html")}>
                 {"More about me "}
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
@@ -286,7 +287,7 @@ export default function IndexPage() {
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={"/"}>
+        <a className={"wordmark"} href={sitePath("/")}>
           {"Ravichandran"}
           <span className={"accent"}>{" V."}</span>
         </a>
