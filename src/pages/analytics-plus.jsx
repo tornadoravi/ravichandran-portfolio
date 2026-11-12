@@ -1,7 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseSnapshot, CaseFlow } from '../CaseReview.jsx';
-import ContributionMap from '../ContributionMap.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -548,7 +547,6 @@ export default function AnalyticsPlusPage() {
           {"\n    "}
         </section>
         {"\n    "}
-        <ContributionMap product="analytics" />
         <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
           <div className="case-section-heading">
             <p className="eyebrow">Separate concept case study</p>

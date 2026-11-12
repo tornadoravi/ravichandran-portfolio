@@ -250,12 +250,6 @@ export default function IndexPage() {
             {"\n      "}
           </article>
           {"\n    "}
-          <dl className="portfolio-scope" aria-label="Four-year design contribution scope">
-            <div><dt>Experience</dt><dd><a href="/about.html#experience" aria-label="4 years of experience">4 years</a></dd></div>
-            <div><dt>Icons</dt><dd><a href="/analytics-plus.html#contribution-templates" aria-label="70+ icons: explore contribution">70+</a></dd></div>
-            <div><dt>KPI layouts</dt><dd><a href="/analytics-plus.html#contribution-templates" aria-label="30+ KPI layouts: explore contribution">30+</a></dd></div>
-            <div><dt>KPI presets</dt><dd><a href="/analytics-plus.html#contribution-templates" aria-label="20+ KPI presets: explore contribution">20+</a></dd></div>
-          </dl>
         </section>
         {"\n    "}
         <section className={"home-about wrap"} aria-labelledby={"about-title"}>
