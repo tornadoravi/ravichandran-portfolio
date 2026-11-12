@@ -262,8 +262,8 @@ export default function IndexPage() {
               <br />
               <em>{"the whole workflow."}</em>
             </h2>
-            <p>{"I start with the task, not the screen: what someone needs to do, which decisions matter, and where complexity gets in the way."}</p>
-            <p>{"Then I connect the details—flows, controls, and visual hierarchy—and work with developers to carry those decisions into the product."}</p>
+            <p>{"I start with "}<strong className="scan-emphasis">business goals and user needs</strong>{", mapping use cases and realistic scenarios before deciding what belongs on the screen."}</p>
+            <p>{"I design for "}<strong className="scan-emphasis">everyday tasks and edge cases</strong>{", connecting flows, controls, and visual hierarchy—and work with developers to carry those decisions into the product."}</p>
             <div className={"profile-links"}>
               <a className={"text-link"} href={"/about.html"}>
                 {"More about me "}

@@ -65,7 +65,9 @@ for (const width of [390, 1440]) {
     await page.goto('/');
     await expect(page.locator('.hero-introduction')).toContainText('Four years');
     await expect(page.locator('.home-about > .eyebrow')).toHaveText('Behind the work');
-    await expect(page.locator('.home-about')).toContainText('I start with the task, not the screen');
+    await expect(page.locator('.home-about')).toContainText('business goals and user needs');
+    await expect(page.locator('.home-about')).toContainText('use cases and realistic scenarios');
+    await expect(page.locator('.home-about')).toContainText('everyday tasks and edge cases');
     await expect(page.locator('.home-about > div > p')).toHaveCount(2);
     await expect(page.locator('.home-about .profile-links a')).toHaveCount(1);
     await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute('href', '/about.html');
