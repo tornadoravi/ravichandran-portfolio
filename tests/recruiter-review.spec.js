@@ -70,7 +70,7 @@ for (const appearance of ['light', 'dark']) {
             await expect(page.locator('.decision-illustration figcaption')).toHaveText('Illustrative problem & design flow · Not a product screenshot.');
           }
           await expect(page.locator('.decision-flow > li')).toHaveCount(focused || compact ? 0 : 3);
-          await expect(page.locator('.case-topic-art')).toHaveCount(focused || compact ? 0 : 3);
+          await expect(page.locator('.decision-flow .case-topic-art')).toHaveCount(focused || compact ? 0 : 3);
           if (compact) {
             await expect(page.locator('.presentation-key-points dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
             await expect(page.locator('#design-screens')).toBeHidden();
@@ -82,7 +82,7 @@ for (const appearance of ['light', 'dark']) {
             await expect(page.locator('.focus-explanation dt')).toHaveText(['My ownership', 'Key design decision', 'Delivery & evidence']);
             await expect(page.locator('.focus-illustration figcaption')).toContainText('Not product UI or an observed session');
           }
-          for (const illustration of await page.locator('.case-topic-art').all()) {
+          for (const illustration of await page.locator('.decision-flow .case-topic-art').all()) {
             await expect(illustration).toBeHidden();
             const signature = await illustration.locator('.case-topic-scene').evaluate(scene => scene.innerHTML);
             expect(sceneSignatures.has(signature), `Repeated illustration on ${path}`).toBe(false);

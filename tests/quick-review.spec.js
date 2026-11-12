@@ -13,7 +13,7 @@ const analyticsFeatures = [
 
 for (const mode of ['focus', 'soundroom']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`feature cards keep their screenshots and hierarchy clear in ${mode} at ${width}px`, async ({ page }) => {
+    test(`feature cards keep illustrations, evidence, and hierarchy clear in ${mode} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       for (const path of ['/powertable.html', '/analytics-plus.html']) {
@@ -44,9 +44,16 @@ for (const mode of ['focus', 'soundroom']) {
           await expect(page.locator('.workspace-preview figcaption')).toHaveText(['Official product example · Gantt', 'Official product example · Resources', 'Official product example · Cross-tab']);
           await expect(page.locator('#crosstab-features img')).toHaveCount(1);
         } else {
+          await expect(cards.locator('img')).toHaveCount(0);
+          await expect(cards.locator('svg.case-topic-art')).toHaveCount(5);
           const boxes = await cards.evaluateAll(cards => cards.map(card => ({ x: card.getBoundingClientRect().x, y: card.getBoundingClientRect().y })));
-          expect(boxes[1].y).toBeGreaterThan(boxes[0].y);
-          expect(boxes[1].x).toBe(boxes[0].x);
+          if (width > 700) {
+            expect(boxes[1].y).toBe(boxes[0].y);
+            expect(boxes[1].x).toBeGreaterThan(boxes[0].x);
+          } else {
+            expect(boxes[1].y).toBeGreaterThan(boxes[0].y);
+            expect(boxes[1].x).toBe(boxes[0].x);
+          }
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       }
@@ -137,7 +144,7 @@ test('feature cards and their source labels work without JavaScript', async ({ b
         expect(await image.evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
       }
       await expect(card.locator('figcaption, .album-footer')).toBeVisible();
-      await expect(card.locator('figcaption, .album-footer')).toHaveText(/My .* UX\/UI|product (workspace|screen)|design screen|Original concept diagram|Official product example/i);
+      await expect(card.locator('figcaption, .album-footer')).toHaveText(/My .* UX\/UI|product (workspace|screen)|design screen|Original concept (diagram|illustration)|Official product example/i);
     }
   }
   for (const [id, path] of analyticsFeatures) {
@@ -186,7 +193,9 @@ test('all five Analytics+ cards link directly to full cases in the original orde
   const index = page.getByRole('navigation', { name: 'Analytics+ feature index' });
   expect(await index.locator('a').evaluateAll(links => links.map(link => [link.id, link.getAttribute('href')]))).toEqual(analyticsFeatures);
   await expect(page.locator('.feature-previews, .analytics-feature')).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'Experience & recommendations' })).toHaveAttribute('href', '/about.html#experience');
+  await expect(page.getByRole('region', { name: 'Continue the portfolio review' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Experience & recommendations' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Colleague feedback on collaboration' })).toHaveCount(0);
 });
 
 for (const [id, path] of analyticsFeatures) {

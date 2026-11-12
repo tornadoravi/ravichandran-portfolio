@@ -511,16 +511,15 @@ test('Chart Wizard flow preserves alternative routes and reaches configuration a
   await expect(nav.getByRole('link', { name: 'Report view' })).toHaveAttribute('aria-current', 'location');
 });
 
-test('Wizard screenshots use native-size crops and the product overview shows real evidence', async ({ page }) => {
+test('Wizard screenshots use native-size crops while the feature gallery uses illustrations', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#project-analytics .product-screenshot img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
   await expect(page.locator('#project-analytics .visual-bottom')).toContainText('Official Analytics+ template · Lumel Inc.');
   await page.goto('/analytics-plus.html');
   const wizard = page.locator('#feature-wizard');
-  await expect(wizard.locator('img')).toHaveAttribute('src', '/assets/wizard-chart-family.png');
-  await expect(wizard).toContainText('Chart Wizard product screen');
-  await expect(wizard.locator('[data-illustration]')).toHaveCount(0);
-  expect(await wizard.locator('img').evaluate((element) => element.clientWidth)).toBeLessThanOrEqual(540);
+  await expect(wizard.locator('img')).toHaveCount(0);
+  await expect(wizard).toContainText('Original concept illustration');
+  await expect(wizard.locator('[data-case-scene="wizard-design"]')).toBeVisible();
   await page.goto('/analytics.html');
   await openCaseDetails(page);
   await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(2);
@@ -1240,8 +1239,8 @@ test('KPI is reachable from Home and About with original evidence without JavaSc
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
-  await expect(page.locator('#feature-kpi img')).toHaveAttribute('src', '/assets/analytics-kpi-official-presets.webp');
-  await expect(page.locator('#feature-kpi')).toContainText('Official product example');
+  await expect(page.locator('#feature-kpi [data-case-scene="kpi-design"]')).toBeVisible();
+  await expect(page.locator('#feature-kpi')).toContainText('Original concept illustration');
   await page.getByRole('link', { name: 'Read KPI Presets case study', exact: true }).click();
   await expect(page).toHaveURL(/kpi\.html$/);
   await expect(page.locator('.inspect-button')).toHaveCount(0);

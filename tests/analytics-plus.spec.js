@@ -11,7 +11,7 @@ const features = [
 test('Analytics+ is one product with five ordered feature stories and official brand context', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);
-  await expect(page.locator('#project-analytics .platform-pill img')).toHaveAttribute('src', '/assets/microsoft-power-bi.svg');
+  await expect(page.locator('#project-analytics .platform-pill img')).toHaveAttribute('src', '/assets/microsoft-logo.png');
   await expect(page.locator('#project-analytics .project-features')).toHaveCount(0);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
   await expect(page.locator('h1')).toContainText('Inforiver Analytics+');
@@ -23,8 +23,11 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(page.locator('#feature-wizard .album-description')).toContainText('Two discovery routes');
   await expect(page.locator('#feature-annotations .album-description')).toContainText('without leaving the report');
   await expect(page.locator('#feature-kpi .album-description')).toContainText('Reusable layouts');
-  await expect(page.locator('#feature-kpi img')).toHaveAttribute('src', '/assets/analytics-kpi-official-presets.webp');
-  await expect(page.locator('#feature-kpi .album-footer')).toContainText('Official product example');
+  await expect(page.locator('.feature-review-index img')).toHaveCount(0);
+  expect(await page.locator('.feature-review-index svg').evaluateAll(items => items.map(item => item.dataset.caseScene))).toEqual([
+    'storyboard-design', 'gantt-design', 'wizard-design', 'presentation-design', 'kpi-design'
+  ]);
+  await expect(page.locator('.feature-review-index .album-footer')).toHaveText(Array(5).fill('Original concept illustration ↗'));
   await expect(page.locator('.metadata')).toContainText('Competitive analysis, developer handoff & implementation review');
   const overview = page.locator('.analytics-lead-screen');
   await expect(overview.locator('h2')).toHaveText('Analytics+ in action.');
@@ -122,7 +125,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.goto('/analytics-plus.html#feature-wizard');
     await expect(page.locator('#feature-wizard')).toBeInViewport();
     await expect(page.locator('#feature-wizard h3')).toHaveText('Chart Wizard');
-    expect(await page.locator('#feature-wizard img').evaluate((image) => image.clientWidth)).toBeLessThanOrEqual(540);
+    await expect(page.locator('#feature-wizard [data-case-scene="wizard-design"]')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.getByRole('navigation', { name: 'Analytics+ feature index' }).getByRole('link', { name: 'Read Chart Wizard case study', exact: true }).click();
     await expect(page).toHaveURL(/analytics\.html$/);

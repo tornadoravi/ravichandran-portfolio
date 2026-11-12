@@ -2,6 +2,7 @@ import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseRationale, CaseFlow } from '../CaseReview.jsx';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
+import CaseIllustration from '../CaseIllustration.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -493,10 +494,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Storyboard"}</h3>
               <p className={"album-description"}>{"Multiple starting routes, one authoring canvas."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Storyboard workspace with report layers, charts, KPI cards, and a table."} />
+                <CaseIllustration caseId="storyboard" stage="design" />
               </div>
               <span className={"album-footer"}>
-                {"Storyboard product workspace "}
+                {"Original concept illustration "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -506,10 +507,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Gantt for Power BI"}</h3>
               <p className={"album-description"}>{"Map source fields before building the timeline."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/gantt-timeline.png"} width={"1406"} height={"786"} loading={"lazy"} alt={"Analytics+ Gantt workspace showing task details beside blue timeline bars."} />
+                <CaseIllustration caseId="gantt" stage="design" />
               </div>
               <span className={"album-footer"}>
-                {"Gantt product workspace "}
+                {"Original concept illustration "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -519,10 +520,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Chart Wizard"}</h3>
               <p className={"album-description"}>{"Two discovery routes. One configuration flow."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/wizard-chart-family.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard dialog with chart-family choices and visual recommendations."} />
+                <CaseIllustration caseId="wizard" stage="design" />
               </div>
               <span className={"album-footer"}>
-                {"Chart Wizard product screen "}
+                {"Original concept illustration "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -532,10 +533,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"Annotations & Presentation"}</h3>
               <p className={"album-description"}>{"Explain an observation without leaving the report."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/annotation-detail.png"} width={"700"} height={"420"} loading={"lazy"} alt={"Chart detail with an explanatory annotation connected to a data point."} />
+                <CaseIllustration caseId="presentation" stage="design" />
               </div>
               <span className={"album-footer"}>
-                {"Design screen · Annotation detail "}
+                {"Original concept illustration "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -545,10 +546,10 @@ export default function AnalyticsPlusPage() {
               <h3>{"KPI Presets"}</h3>
               <p className={"album-description"}>{"Reusable layouts instead of repeated blank-card setup."}</p>
               <div className={"album-media"}>
-                <img src={"/assets/analytics-kpi-official-presets.webp"} width={"520"} height={"300"} loading={"lazy"} alt={"Official Analytics+ variance preset example with an actual-value KPI and prior-year, plan, and forecast comparisons. Demo values, not project outcomes."} />
+                <CaseIllustration caseId="kpi" stage="design" />
               </div>
               <span className={"album-footer"}>
-                {"Official product example · Variance preset "}
+                {"Original concept illustration "}
                 <span aria-hidden={"true"}>{"↗"}</span>
               </span>
             </a>
@@ -667,9 +668,9 @@ export default function AnalyticsPlusPage() {
                   </p>
                   <p>
                     <a href={"https://docs.inforiver.com/analytics+/working-with-analytics+/4.-cards/4.2.-quick-options-cards/kpi-customizations"} target={"_blank"} rel={"noopener noreferrer"}>{"KPI preset documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
-                    {" — Simple and Variance presets. The card preview is cropped from "}
+                    {" — Simple and Variance presets. See "}
                     <a href={"https://inforiver.com/blog/inforiver-analytics-plus/inforiver-analytics-flexible-kpi-containers/#KPI-templates"} target={"_blank"} rel={"noopener noreferrer"}>{"Inforiver’s official KPI examples ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
-                    {", not my design deliverable. The linked KPI case retains my original supplied design screens and confirmed contribution."}
+                    {", not my design deliverable. The gallery uses original concept illustrations, not product screenshots. The linked KPI case retains my original supplied design screens and confirmed contribution."}
                   </p>
                 </div>
                 <ul className="case-key-points">
@@ -688,19 +689,6 @@ export default function AnalyticsPlusPage() {
           </div>
           {"\n    "}
         </details>
-        {"\n    "}
-        <section className={"review-contact wrap"} aria-label={"Continue the portfolio review"}>
-          <div className={"profile-links"}>
-            <a className={"text-link"} href={"/about.html#experience"}>
-              {"Experience & recommendations "}
-              <span aria-hidden={"true"}>{"→"}</span>
-            </a>
-            <a className={"text-link"} href={"/about.html#recommendations"}>
-              {"Colleague feedback on collaboration "}
-              <span aria-hidden={"true"}>{"→"}</span>
-            </a>
-          </div>
-        </section>
         {"\n    "}
         {"\n  "}
         </CaseStoryLayout>

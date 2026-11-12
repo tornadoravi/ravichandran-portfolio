@@ -29,24 +29,21 @@ for (const appearance of ['light', 'dark']) {
           await expect(page.locator('#spatial-exploration')).toBeHidden();
           const rows = page.locator('.feature-review-index > a');
           await expect(rows).toHaveCount(5);
-          await rows.locator('img').evaluateAll(images => Promise.all(images.map(image => {
-            image.loading = 'eager';
-            return image.decode();
-          })));
+          await expect(rows.locator('img')).toHaveCount(0);
+          await expect(rows.locator('svg.case-topic-art')).toHaveCount(5);
           const boxes = [];
           for (const row of await rows.all()) {
             await expect(row).toHaveCSS('border-top-width', '1px');
             await expect(row).toHaveCSS('border-radius', '8px');
             await expect(row).toHaveCSS('box-shadow', 'none');
-            await expect(row.locator('img')).toBeVisible();
-            await expect(row.locator('.album-footer')).not.toBeEmpty();
-            const image = await row.locator('img').evaluate(element => ({
-              width: element.clientWidth,
-              height: element.clientHeight,
-              ratio: element.naturalWidth / element.naturalHeight
-            }));
-            expect(image.width / image.height).toBeCloseTo(image.ratio, 1);
-            if (width === 1440) expect(image.width).toBeGreaterThan(200);
+            const illustration = row.locator('svg.case-topic-art');
+            await expect(illustration).toBeVisible();
+            await expect(illustration).toHaveAttribute('viewBox', '0 0 360 236');
+            await expect(row.locator('.album-footer')).toContainText('Original concept illustration');
+            const frame = await row.locator('.album-media').boundingBox();
+            const art = await illustration.boundingBox();
+            expect(art.height).toBeCloseTo(frame.height, 1);
+            expect(art.width).toBeCloseTo(frame.width, 1);
             boxes.push(await row.boundingBox());
           }
           if (width > 700) {
