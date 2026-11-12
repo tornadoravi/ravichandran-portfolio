@@ -9,7 +9,7 @@ export default function GanttBaselinesPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -277,11 +277,7 @@ export default function GanttBaselinesPage() {
         </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/column-mapping.html"}>
           <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
-          <span className={"next-title"}>
-            {"Column Mapping"}
-            <br />
-            <em>{"& Configuration."}</em>
-          </span>
+          <span className={"next-title"}>{"Column Mapping & Configuration."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

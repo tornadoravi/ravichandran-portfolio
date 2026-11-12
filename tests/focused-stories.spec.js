@@ -43,7 +43,7 @@ for (const appearance of ['light', 'dark']) {
         expect(layout.overflow).toBe(false);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
         await expect(page.locator('.decision-flow')).toHaveCount(0);
-        const evidenceLink = focus.getByRole('link');
+        const evidenceLink = focus.locator('.focus-explanation').getByRole('link');
         await evidenceLink.focus();
         await page.keyboard.press('Enter');
         if (story === 'planning') await expect(page).toHaveURL(/column-mapping\.html$/);

@@ -9,7 +9,7 @@ export default function GanttBacklogPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -67,9 +67,7 @@ export default function GanttBacklogPage() {
               <p className={"eyebrow"}>{"01 / Empty backlog"}</p>
               {"\n          "}
               <h3 id={"empty-state-title"}>
-                {"Explain the absence."}
-                <br />
-                {"Offer the next step."}
+                {"Offer a starting point."}
               </h3>
               {"\n          "}
               <details className="interface-notes">
@@ -88,7 +86,7 @@ export default function GanttBacklogPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Design screen / Empty panel crop from the first screen. "}
+                  {"Design screen · Empty panel crop. "}
                   <a className={"image-link"} href={"/assets/fabric-backlog-empty.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -104,8 +102,6 @@ export default function GanttBacklogPage() {
               <p className={"eyebrow"}>{"02 / Populated backlog"}</p>
               {"\n          "}
               <h3 id={"backlog-list-title"}>
-                {"Keep the list compact."}
-                <br />
                 {"Keep actions nearby."}
               </h3>
               {"\n          "}
@@ -126,7 +122,7 @@ export default function GanttBacklogPage() {
                 </a>
                 {"\n            "}
                 <figcaption>
-                  {"Design screen / One-item panel crop from the second screen. "}
+                  {"Design screen · Populated panel crop. "}
                   <a className={"image-link"} href={"/assets/fabric-backlog-list.png"} target={"_blank"} rel={"noopener noreferrer"}>
                     {"Original resolution ↗"}
                     <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -288,11 +284,7 @@ export default function GanttBacklogPage() {
         </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/gantt-conditional-formatting.html"}>
           <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
-          <span className={"next-title"}>
-            {"Gantt Resources"}
-            <br />
-            <em>{"Conditional Formatting."}</em>
-          </span>
+          <span className={"next-title"}>{"Conditional Formatting."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

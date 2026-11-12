@@ -9,7 +9,7 @@ export default function GanttConfigurationPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -389,12 +389,8 @@ export default function GanttConfigurationPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/resource-configuration.html"}>
-          <span className={"eyebrow"}>{"Related workspace / Gantt Resources"}</span>
-          <span className={"next-title"}>
-            {"Resource Configuration."}
-            <br />
-            <em>{"Side Panel."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Related resource feature"}</span>
+          <span className={"next-title"}>{"Resource Configuration."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

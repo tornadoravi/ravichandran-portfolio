@@ -65,14 +65,15 @@ for (const width of [390, 1440]) {
     await page.goto('/');
     await expect(page.locator('.hero-introduction')).toContainText('Four years');
     await expect(page.locator('.home-about > .eyebrow')).toHaveText('Behind the work');
-    await expect(page.locator('.home-about')).toContainText('business goals and user needs');
-    await expect(page.locator('.home-about')).toContainText('use cases and realistic scenarios');
-    await expect(page.locator('.home-about')).toContainText('everyday tasks and edge cases');
-    await expect(page.locator('.home-about > div > p')).toHaveCount(2);
+    await expect(page.locator('.home-about')).toContainText('Business goals, user needs & realistic use cases');
+    await expect(page.locator('.home-about')).toContainText('Everyday tasks, edge cases & reusable patterns');
+    await expect(page.locator('.home-about > div > p')).toHaveCount(0);
+    await expect(page.locator('.home-about .design-approach h3')).toHaveText(['Understand', 'Structure', 'Refine']);
+    await expect(page.locator('.home-about .design-approach svg')).toHaveCount(3);
     await expect(page.locator('.home-about .profile-links a')).toHaveCount(1);
     await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute('href', '/about.html');
     await expect(page.locator('.home-about dl')).toHaveCount(0);
-    for (const paragraph of await page.locator('.home-about > div > p').all()) {
+    for (const paragraph of await page.locator('.home-about .design-approach p').all()) {
       expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
     }
     await expect(page.locator('.home-about')).not.toContainText('Microsoft Fabric design system');
@@ -81,13 +82,15 @@ for (const width of [390, 1440]) {
     await page.locator('.home-about a[href="/about.html"]').click();
     await expect(page.locator('.about-intro')).toContainText('Product Designer II at Lumel, with four years');
     await expect(page.locator('.about-intro')).toContainText('I think in workflows, not isolated screens');
-    await expect(page.locator('.about-intro')).toContainText('Across PowerTable and Inforiver Analytics+');
-    await expect(page.locator('.about-intro')).toContainText('product iconography');
+    await expect(page.locator('.about-intro .profile-highlights dt')).toHaveText(['PowerTable', 'Analytics+']);
+    await expect(page.locator('.about-intro .profile-highlights')).toContainText('Chart Wizard & reusable KPI templates shipped');
     await expect(page.locator('.about-intro')).toContainText('product managers and developers');
     for (const paragraph of await page.locator('.about-intro > div:last-child > p').all()) {
       expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
     }
-    await expect(page.locator('.about-intro')).toContainText(statement);
+    await expect(page.locator('#experience-details')).toContainText(statement);
+    await expect(page.locator('#experience-details')).toContainText('Across PowerTable and Inforiver Analytics+');
+    await expect(page.locator('#experience-details')).toContainText('product iconography');
     await expect(page.locator('.about-intro')).not.toContainText('contributions to the Microsoft Fabric design system');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });

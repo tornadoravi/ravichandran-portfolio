@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails } from '../CaseReview.jsx';
+import DesignApproach from '../DesignApproach.jsx';
 
 export default function AboutPage() {
   return (
@@ -66,15 +67,16 @@ export default function AboutPage() {
               {"\n          "}
               <p className={"large-copy"}>{"I think in workflows, not isolated screens."}</p>
               {"\n          "}
-              <p>{"I’m a Product Designer II at Lumel, with four years designing enterprise B2B SaaS products for "}<strong className="scan-emphasis">Power BI and Microsoft Fabric.</strong></p>
+              <p>{"Product Designer II at Lumel, with four years designing for "}<strong className="scan-emphasis">Power BI and Microsoft Fabric.</strong></p>
               {"\n          "}
-              <p>{"Across PowerTable and Inforiver Analytics+, I turn complex requirements into "}<strong className="scan-emphasis">clear workflows, consistent interfaces, and reusable visual patterns</strong>{"—including product iconography."}</p>
+              <dl className="profile-highlights">
+                <div><dt>PowerTable</dt><dd>Gantt & resource UX/UI; Microsoft Fabric design system.</dd></div>
+                <div><dt>Analytics+</dt><dd>Chart Wizard & reusable KPI templates shipped.</dd></div>
+              </dl>
               {"\n          "}
-              <p>{"I collaborate with product managers and developers, refining designs through feedback, prototyping, and implementation review."}</p>
+              <p>{"I work with product managers and developers through implementation review."}</p>
               {"\n          "}
-              <p>{"My design work on PowerTable was based entirely on the Microsoft Fabric design system."}</p>
-              {"\n          "}
-              <p className={"profile-current"}>{"Currently Product Designer II at Lumel, since January 2025."}</p>
+              <DesignApproach />
               {"\n        "}
             </div>
             {"\n      "}
@@ -99,6 +101,8 @@ export default function AboutPage() {
             <p className={"large-copy"}>{"Designing an enterprise product means understanding both the system and the workflow it supports."}</p>
             {"\n        "}
             <p>{"I work with product managers, developers, and stakeholders to connect requirements with interaction decisions and implementation detail. That includes reviewing the existing experience, mapping flows, developing prototypes, and checking the implemented product against the design."}</p>
+            <p>{"Across PowerTable and Inforiver Analytics+, I turn complex requirements into clear workflows, consistent interfaces, and reusable visual patterns—including product iconography."}</p>
+            <p>{"My design work on PowerTable was based entirely on the Microsoft Fabric design system."}</p>
             {"\n        "}
             <div className={"principles"}>
               {"\n          "}

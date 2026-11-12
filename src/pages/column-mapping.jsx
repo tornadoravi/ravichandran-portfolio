@@ -9,7 +9,7 @@ export default function ColumnMappingPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -351,11 +351,7 @@ export default function ColumnMappingPage() {
         </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/gantt-baselines.html"}>
           <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
-          <span className={"next-title"}>
-            {"Gantt Baselines"}
-            <br />
-            <em>{"Configure & compare."}</em>
-          </span>
+          <span className={"next-title"}>{"Gantt Baselines."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

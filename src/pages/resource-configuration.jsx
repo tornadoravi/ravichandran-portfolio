@@ -9,7 +9,7 @@ export default function ResourceConfigurationPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -346,12 +346,8 @@ export default function ResourceConfigurationPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap review-next"} href={"/gantt-conditional-formatting.html"}>
-          <span className={"eyebrow"}>{"Related resource feature / Condition-based highlighting"}</span>
-          <span className={"next-title"}>
-            {"Conditional"}
-            <br />
-            <em>{"Formatting."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Related resource feature"}</span>
+          <span className={"next-title"}>{"Conditional Formatting."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

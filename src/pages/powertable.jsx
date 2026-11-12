@@ -9,7 +9,7 @@ export default function PowertablePage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review planning-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={"/#work"}>{"← Selected work"}</a>
@@ -39,11 +39,6 @@ export default function PowertablePage() {
               </div>
             </dl>
           </CaseContext>
-          <nav className="case-entry-links" aria-label="PowerTable quick navigation">
-            <a href="#design-focus">My role & decisions</a>
-            <a href="#workspaces">Browse features</a>
-            <a href="#study-details">Full evidence</a>
-          </nav>
         </section>
         {"\n    "}
         <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>
@@ -887,12 +882,8 @@ export default function PowertablePage() {
         </details>
         {"\n    "}
         <a className={"next-project wrap review-next"} href={"/analytics-plus.html"}>
-          <span className={"eyebrow"}>{"Next / About 1 minute · Inforiver Analytics+"}</span>
-          <span className={"next-title"}>
-            {"From data"}
-            <br />
-            <em>{"to a clear story."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Next case study"}</span>
+          <span className={"next-title"}>{"Inforiver Analytics+."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseRationale, CaseFlow } from '../CaseReview.jsx';
+import CaseStoryNav from '../CaseStoryNav.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -45,11 +46,6 @@ export default function AnalyticsPlusPage() {
               </div>
             </dl>
           </CaseContext>
-          <nav className="case-entry-links" aria-label="Analytics+ quick navigation">
-            <a href="#features">Browse features</a>
-            <a href="#design-details">Design thinking</a>
-            <a href="#evidence-notes">Full evidence</a>
-          </nav>
           {"\n    "}
         </section>
         {"\n    "}
@@ -85,7 +81,8 @@ export default function AnalyticsPlusPage() {
           </div>
           {"\n    "}
         </figure>
-        <section className="case-review-brief wrap" aria-label="Design contribution at a glance">
+        <div className="wrap"><CaseStoryNav caseId="analyticsSuite" /></div>
+        <section id="review-brief" className="case-review-brief wrap" aria-label="Design contribution at a glance">
           <dl>
             <div><dt>Design challenge</dt><dd>Help authors choose visuals, build reports, and explain insights.</dd></div>
             <div><dt>My scope</dt><dd>Five feature experiences, from UX/UI through implementation review.</dd></div>

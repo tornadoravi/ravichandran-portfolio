@@ -41,9 +41,13 @@ for (const appearance of ['light', 'dark']) {
             expect(boxes[index].y).toBeGreaterThanOrEqual(boxes[index - 1].y + boxes[index - 1].height);
           }
         } else {
-          for (const illustration of await page.locator('.decision-illustration, .focus-illustration').all()) {
-            await expect(illustration).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+          for (const illustration of await page.locator('.decision-illustration').all()) {
+            await expect(illustration).toHaveCSS('border-top-width', '1px');
+            await expect(illustration).toHaveCSS('box-shadow', 'none');
+          }
+          for (const illustration of await page.locator('.focus-illustration').all()) {
             await expect(illustration).toHaveCSS('border-top-width', '0px');
+            await expect(illustration.locator('.focus-steps > li')).toHaveCount(3);
           }
           expect((await page.locator('.next-project').boundingBox()).height).toBeLessThanOrEqual(180);
           await expect(page.locator('#case-details')).not.toHaveAttribute('open');

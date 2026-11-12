@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryNav from './CaseStoryNav.jsx';
 
 const stories = {
   planning: {
@@ -9,9 +10,9 @@ const stories = {
       ['Schedule the work', 'Tasks and dependencies on a timeline.'],
       ['Connect the people', 'Assignments in the resource view.']
     ],
-    ownership: 'End-to-end Gantt and resource UX/UI, using the existing Microsoft Fabric design system.',
-    decision: 'Separate task, time-entry, resource, and cost mapping while making shared identifiers explicit.',
-    evidence: 'Configuration screens and implementation review. Baseline planning and resource earned-value remain explorations.',
+    ownership: 'End-to-end Gantt and resource UX/UI; Microsoft Fabric design system.',
+    decision: 'Separate task, time, resource, and cost roles; expose shared IDs.',
+    evidence: 'Design screens and implementation review. Baseline planning and resource earned-value remain explorations.',
     link: ['/column-mapping.html', 'Inspect my mapping design']
   },
   wizard: {
@@ -22,9 +23,9 @@ const stories = {
       ['Choose a suitable chart', 'Review the available chart options.'],
       ['Shape the result', 'Customize appearance; configure analysis.']
     ],
-    ownership: 'End-to-end UX/UI, from requirements through handoff and implementation review.',
-    decision: 'Offer Function for analytical needs and Chart for familiar families; both share Customize and Advanced.',
-    evidence: 'Chart Wizard shipped. Original discovery and configuration screens remain available below.',
+    ownership: 'End-to-end UX/UI through handoff and implementation review.',
+    decision: 'Chart and Function share Customize and Advanced.',
+    evidence: 'Chart Wizard shipped. Original screens below.',
     link: ['#browse-function', 'Compare the two entry routes']
   }
 };
@@ -92,24 +93,25 @@ export default function CaseFocus({ story }) {
   const content = stories[story];
   if (!content) throw new Error(`Unknown focused story: ${story}`);
   return <section id="design-focus" className="case-snapshot case-focus wrap" aria-labelledby="design-focus-title" data-focus-story={story}>
+    <CaseStoryNav caseId={story === 'planning' ? 'planning' : 'wizard'} />
     <p className="eyebrow">{story === 'planning' ? 'Ownership story' : 'Scenario-based design'}</p>
     <h2 id="design-focus-title" className="visual-story-title">{content.title}</h2>
-    <p className="focus-task">{content.scenario}</p>
+    <p id="story-problem" className="focus-task">{content.scenario}</p>
     <div className="focus-story">
-      <figure className="focus-illustration">
+      <figure id="story-flow" className="focus-illustration">
         <ol className="focus-steps" aria-label={story === 'planning' ? 'Illustrative planning scenario' : 'Illustrative chart-selection scenario'}>
           {content.steps.map(([title, detail], step) => <li key={title}>
             <svg viewBox="0 0 200 140" aria-hidden="true" focusable="false"><ScenarioScene story={story} step={step} /></svg>
-            <div><h3>{title}</h3><p>{detail}</p></div>
+            <div><span className="story-step-number" aria-hidden="true">{String(step + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{detail}</p></div>
           </li>)}
         </ol>
         <figcaption>Original scenario illustration · Not product UI or an observed session.</figcaption>
       </figure>
       <div className="focus-explanation">
         <dl>
-          <div><dt>My ownership</dt><dd>{content.ownership}</dd></div>
-          <div><dt>Key design decision</dt><dd>{content.decision}</dd></div>
-          <div><dt>Delivery & evidence</dt><dd>{content.evidence}</dd></div>
+          <div className="story-highlight"><dt>My ownership</dt><dd>{content.ownership}</dd></div>
+          <div id="story-decision" className="story-highlight"><dt>Key design decision</dt><dd>{content.decision}</dd></div>
+          <div id="story-evidence" className="story-highlight"><dt>Delivery & evidence</dt><dd>{content.evidence}</dd></div>
         </dl>
         <a className="text-link" href={content.link[0]}>{content.link[1]} <span aria-hidden="true">→</span></a>
       </div>

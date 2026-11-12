@@ -1,9 +1,10 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
+import CaseStoryNav from '../CaseStoryNav.jsx';
 
 export default function AnalyticsSpatialPage() {
   return <>
-    <main id="main">
+    <main id="main" className="design-review">
       <section className="case-hero wrap">
         <a className="back-link" href="/analytics-plus.html#spatial-exploration">← Analytics+ product case</a>
         <ProjectIdentity product="analytics" />
@@ -13,6 +14,7 @@ export default function AnalyticsSpatialPage() {
         <p className="fine-print">Prototype only—not a shipped Vision Pro product.</p>
       </section>
       <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
+        <CaseStoryNav caseId="spatial" />
         <div className="case-section-heading">
           <p className="eyebrow">The visual journey</p>
           <h2 id="spatial-title">Launch. Enter. Explore.</h2>
@@ -24,7 +26,7 @@ export default function AnalyticsSpatialPage() {
             ['entry', 280, '02 / Enter Analytics+', 'Concept frame showing the Analytics+ entry experience in a floating window.'],
             ['report', 276, '03 / Explore a report', 'Concept frame showing an Analytics+ report with charts and a table in a floating window.']
           ].map(([name, width, caption, alt]) => (
-            <figure className="detail-figure spatial-step" key={name}>
+            <figure id={`spatial-${name}`} className="detail-figure spatial-step" key={name}>
               <a className="product-screenshot" href={`/assets/analytics-spatial-${name}.png`} target="_blank" rel="noopener noreferrer" aria-label={`${caption}: view concept frame full-size (opens in a new tab)`}>
                 <img src={`/assets/analytics-spatial-${name}.png`} width={width} height="156" loading="lazy" alt={alt} />
               </a>

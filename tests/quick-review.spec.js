@@ -85,11 +85,16 @@ for (const [overview, paths] of [
   test(`feature cards on ${overview} open full cases directly with the keyboard`, async ({ page, baseURL }) => {
     for (const path of paths) {
       await page.goto(overview);
+      await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
       const ganttPaths = ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-configuration.html'];
       if (overview === '/powertable.html' && ganttPaths.includes(path)) {
         await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+        await expect(page).toHaveURL(new URL('/column-mapping.html', baseURL).href);
+        await expect(page.locator('#main')).toBeFocused();
       } else if (path === '/resource-configuration.html') {
         await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+        await expect(page).toHaveURL(new URL('/gantt-conditional-formatting.html', baseURL).href);
+        await expect(page.locator('#main')).toBeFocused();
       }
       const link = page.locator(`.workspace-feature-tabs a[href="${path}"], .workspace-grid a[href="${path}"], .feature-card-grid a[href="${path}"]`);
       await link.focus();

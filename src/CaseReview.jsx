@@ -1,6 +1,7 @@
 import React from 'react';
 import CaseDiagram from './CaseDiagram.jsx';
 import CaseIllustration from './CaseIllustration.jsx';
+import CaseStoryNav from './CaseStoryNav.jsx';
 
 const summaries = {
   mapping: [
@@ -233,16 +234,17 @@ export function CaseFlow({ steps }) {
 export function CaseSnapshot({ caseId, id }) {
   return (
     <section id={id} className="case-snapshot case-quick-read wrap" aria-label="Case study at a glance">
-      <p className="eyebrow">The design, in one view</p>
+      <CaseStoryNav caseId={caseId} />
+      <p className="eyebrow">Design highlights</p>
       <h2 className="visual-story-title">{headlines[caseId]}</h2>
       <div className="case-at-a-glance">
-        <figure className="decision-illustration">
+        <figure id="story-flow" className="decision-illustration">
           <CaseDiagram caseId={caseId} />
           <figcaption>Concept diagram · Not a product screenshot.</figcaption>
         </figure>
         <dl className="case-key-facts">
           {summaries[caseId].map(([, description], index) => (
-            <div key={index}>
+            <div key={index} id={['story-problem', 'story-decision', 'story-evidence'][index]} className="story-highlight">
               <dt>{['Problem', 'My decision', 'Evidence'][index]}</dt>
               <dd>{description}</dd>
             </div>

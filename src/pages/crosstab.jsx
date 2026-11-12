@@ -6,7 +6,7 @@ import { CaseContext, CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
 export default function CrosstabPage() {
   return (
     <>
-      <main id="main">
+      <main id="main" className="design-review">
         <section className="case-hero wrap">
           <a className="back-link" href="/powertable.html#crosstab-features">← PowerTable / Cross-tab</a>
           <ProjectIdentity product="powertable" />
