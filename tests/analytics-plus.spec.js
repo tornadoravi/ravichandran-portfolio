@@ -34,6 +34,8 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(overview.locator('figcaption')).toContainText('not my design deliverable');
   await expect(overview.locator('figcaption a').first()).toHaveAttribute('href', 'https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab');
   await expect(overview.locator('.product-marketplace')).toContainText('dashboard and standalone templates, visual components, bundles, and data apps');
+  await expect(overview.locator('.product-marketplace')).not.toHaveAttribute('open');
+  await overview.locator('.product-marketplace > summary').click();
   await expect(overview.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('href', 'https://store-ap.inforiver.com/');
   await expect(overview.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('rel', 'noopener noreferrer');
   await expect(page.locator('#role')).toContainText('end-to-end UX/UI');
@@ -131,6 +133,7 @@ test('product overview, supplied feature evidence, and full cases work without J
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study', exact: true }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
   await expect(page.locator('.analytics-lead-screen .product-screenshot img')).toBeVisible();
+  await page.locator('.product-marketplace > summary').click();
   await expect(page.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('href', 'https://store-ap.inforiver.com/');
   await page.locator('#evidence-notes > summary').click();
   await page.getByRole('link', { name: 'Official feature references →', exact: true }).click();

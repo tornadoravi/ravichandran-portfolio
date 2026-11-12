@@ -99,7 +99,7 @@ export default function ColumnMappingPage() {
         </section>
         {"\n\n    "}
         <CaseSnapshot caseId="mapping" />
-        <CaseDetails>
+        <CaseDetails caseId="mapping">
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#overview"}>{"Overview"}</a>
           <a href={"#decisions"}>{"Design decisions"}</a>

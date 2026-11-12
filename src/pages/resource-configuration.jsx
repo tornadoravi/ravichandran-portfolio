@@ -102,7 +102,7 @@ export default function ResourceConfigurationPage() {
         </section>
         {"\n\n    "}
         <CaseSnapshot caseId="resourcePanel" />
-        <CaseDetails>
+        <CaseDetails caseId="resourcePanel">
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#timeline"}>{"Timeline"}</a>
           <a href={"#milestone"}>{"Milestone"}</a>

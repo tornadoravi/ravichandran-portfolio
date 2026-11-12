@@ -72,11 +72,14 @@ export default function GanttBacklogPage() {
                 {"Offer the next step."}
               </h3>
               {"\n          "}
+              <details className="interface-notes">
+                <summary>Screen notes</summary>
               <p>
                 {"“No Task Available” is paired with an instruction and "}
                 <strong>{"+ Add Task"}</strong>
                 {". The panel gives an explicit starting point instead of leaving the empty area unexplained."}
               </p>
+              </details>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
@@ -106,12 +109,15 @@ export default function GanttBacklogPage() {
                 {"Keep actions nearby."}
               </h3>
               {"\n          "}
+              <details className="interface-notes">
+                <summary>Screen notes</summary>
               <p>
                 <strong>{"Backlog List (1)"}</strong>
                 {" contains T0011, with edit and delete icons. Search and "}
                 <strong>{"+ New Task"}</strong>
                 {" remain above the list; the task form itself is not supplied."}
               </p>
+              </details>
               {"\n          "}
               <figure className={"detail-figure mapping-screen"}>
                 {"\n            "}
@@ -136,7 +142,7 @@ export default function GanttBacklogPage() {
         </section>
         {"\n\n    "}
         <CaseSnapshot caseId="backlog" />
-        <CaseDetails>
+        <CaseDetails caseId="backlog">
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#empty-state"}>{"Empty state"}</a>
           <a href={"#backlog-list"}>{"Task list"}</a>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseContext, CaseSnapshot, CaseFlow } from '../CaseReview.jsx';
+import { CaseContext, CaseRationale, CaseFlow } from '../CaseReview.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -45,6 +45,11 @@ export default function AnalyticsPlusPage() {
               </div>
             </dl>
           </CaseContext>
+          <nav className="case-entry-links" aria-label="Analytics+ quick navigation">
+            <a href="#features">Browse features</a>
+            <a href="#design-details">Design thinking</a>
+            <a href="#evidence-notes">Full evidence</a>
+          </nav>
           {"\n    "}
         </section>
         {"\n    "}
@@ -72,19 +77,21 @@ export default function AnalyticsPlusPage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
           </figcaption>
-          <div className={"product-marketplace"}>
-            <h3>{"Analytics+ Marketplace."}</h3>
+          <details className={"product-marketplace"}>
+            <summary>Marketplace templates & components</summary>
             <p>{"Ready-to-use dashboard and standalone templates, visual components, bundles, and data apps give report authors reusable starting points."}</p>
             <div className={"product-overview-links"}>
               <a className={"recommended-case"} href={"https://store-ap.inforiver.com/"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"Explore the Marketplace ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
-              <a className={"recommended-case"} href={"/analytics.html"} aria-label={"Recommended first read: Chart Wizard"}>
-                <span>{"Start with Chart Wizard · Shipped"}</span>
-                <span aria-hidden={"true"}>{"→"}</span>
-              </a>
             </div>
+          </details>
+          <div className="product-overview-links">
+            <a className={"recommended-case"} href={"/analytics.html"} aria-label={"Recommended first read: Chart Wizard"}>
+              <span>{"Start with Chart Wizard · Shipped"}</span>
+              <span aria-hidden={"true"}>{"→"}</span>
+            </a>
           </div>
           {"\n    "}
         </figure>
@@ -100,7 +107,7 @@ export default function AnalyticsPlusPage() {
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
-            <CaseSnapshot caseId="analyticsSuite" />
+            <CaseRationale caseId="analyticsSuite" />
             <section className={"case-brief case-brief--compact wrap"} aria-label={"Detailed contribution summary"}>
               <div>
                 <h2>{"Design challenge"}</h2>

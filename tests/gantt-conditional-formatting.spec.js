@@ -18,7 +18,7 @@ for (const width of [320, 390, 768, 1440]) {
     await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Conditional Formatting.');
     await expect(page).toHaveTitle('Gantt Resources — Conditional Formatting — Ravichandran V');
-    await expect(page.locator('.case-hero')).toContainText('Feature case study 03');
+    await expect(page.locator('.workspace-switcher [aria-current]')).toHaveText('Resources');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     const images = page.locator('main .product-screenshot img');
@@ -102,7 +102,7 @@ test('Home, parent, and baseline sibling link the new feature without adding a p
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
   await openCaseDetails(page);
-  await page.locator('a[href="/gantt-conditional-formatting.html"]').click();
+  await page.getByRole('link', { name: 'Related case / Gantt Resources — Conditional Formatting', exact: true }).click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
 });
 

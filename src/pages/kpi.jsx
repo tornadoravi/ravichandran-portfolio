@@ -73,7 +73,7 @@ export default function KpiPage() {
         </figure>
         {"\n\n    "}
         <CaseSnapshot caseId="kpi" />
-        <CaseDetails>
+        <CaseDetails caseId="kpi">
         <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           {"\n      "}
           <div>

@@ -99,7 +99,7 @@ export default function GanttBaselinesPage() {
         </section>
         {"\n\n    "}
         <CaseSnapshot caseId="baselines" />
-        <CaseDetails>
+        <CaseDetails caseId="baselines">
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#overview"}>{"Selection"}</a>
           <a href={"#comparison"}>{"Timeline comparison"}</a>

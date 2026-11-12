@@ -1,10 +1,12 @@
 import React from 'react';
+import ProjectIdentity from '../ProjectIdentity.jsx';
 
 export default function AnalyticsSpatialPage() {
   return <>
     <main id="main">
       <section className="case-hero wrap">
         <a className="back-link" href="/analytics-plus.html#spatial-exploration">← Analytics+ product case</a>
+        <ProjectIdentity product="analytics" />
         <p className="eyebrow">Concept exploration · Apple Vision Pro-inspired</p>
         <h1>Analytics+, beyond the screen.</h1>
         <p className="case-summary">A familiar report workflow, explored in a spatial environment.</p>

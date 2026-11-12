@@ -68,7 +68,7 @@ test('Home and Analytics+ prioritize Chart Wizard while breadth stays optional',
   await expect(page.getByRole('link', { name: 'Recommended first read: Chart Wizard' })).toHaveAttribute('href', '/analytics.html');
   await expect(page.locator('.feature-card-grid > a')).toHaveCount(5);
   await expect(page.locator('#design-details')).not.toHaveAttribute('open');
-  await expect(page.locator('#design-details .case-snapshot')).toBeHidden();
+  await expect(page.locator('#design-details .case-rationale')).toBeHidden();
   await expect(page.locator('#supporting-work')).not.toHaveAttribute('open');
   await page.locator('#supporting-work > summary').focus();
   await page.keyboard.press('Enter');

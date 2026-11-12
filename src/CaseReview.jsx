@@ -231,11 +231,33 @@ export function CaseFlow({ steps }) {
 }
 
 export function CaseSnapshot({ caseId, id }) {
-  const story = stories[caseId];
   return (
-    <section id={id} className="case-snapshot wrap" aria-label="Case study at a glance">
+    <section id={id} className="case-snapshot case-quick-read wrap" aria-label="Case study at a glance">
       <p className="eyebrow">The design, in one view</p>
       <h2 className="visual-story-title">{headlines[caseId]}</h2>
+      <div className="case-at-a-glance">
+        <figure className="decision-illustration">
+          <CaseDiagram caseId={caseId} />
+          <figcaption>Concept diagram · Not a product screenshot.</figcaption>
+        </figure>
+        <dl className="case-key-facts">
+          {summaries[caseId].map(([, description], index) => (
+            <div key={index}>
+              <dt>{['Problem', 'My decision', 'Evidence'][index]}</dt>
+              <dd>{description}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+export function CaseRationale({ caseId }) {
+  const story = stories[caseId];
+  return (
+    <section className="case-rationale wrap" aria-label="Detailed design rationale">
+      <h2 className="visual-story-title">Scenario & design decisions</h2>
       <div className={`visual-storyboard${story ? '' : ' visual-storyboard--overview'}`}>
         <ol className="decision-flow">
           {summaries[caseId].map(([title, description], index) => (
@@ -248,10 +270,6 @@ export function CaseSnapshot({ caseId, id }) {
           ))}
         </ol>
         <p className="story-art-note">Original illustrations · Not research participants or measured outcomes.</p>
-        {story && <figure className="decision-illustration">
-          <CaseDiagram caseId={caseId} />
-          <figcaption>Concept diagram · Not a product screenshot.</figcaption>
-        </figure>}
         {story && <div className="case-narrative">
           <section className="case-scenario" aria-label="Illustrative task">
             <p className="eyebrow">Illustrative use case</p>
@@ -272,14 +290,17 @@ export function CaseSnapshot({ caseId, id }) {
   );
 }
 
-export function CaseDetails({ children, id = 'case-details', title = 'Design details & evidence' }) {
+export function CaseDetails({ children, caseId, id = 'case-details', title = 'Design details & evidence' }) {
   return (
     <details id={id} className="case-deep-dive recruiter-details">
       <summary className="wrap">
         <span><strong>{title}</strong><small>Optional · Full walkthrough, decisions, and sources</small></span>
         <span className="story-toggle" aria-hidden="true" />
       </summary>
-      <div className="deep-dive-content">{children}</div>
+      <div className="deep-dive-content">
+        {caseId && <CaseRationale caseId={caseId} />}
+        {children}
+      </div>
     </details>
   );
 }

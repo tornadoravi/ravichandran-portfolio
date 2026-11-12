@@ -98,7 +98,7 @@ export default function GanttPage() {
         </div>
         {"\n\n    "}
         <CaseSnapshot caseId="gantt" />
-        <CaseDetails>
+        <CaseDetails caseId="gantt">
         <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           {"\n      "}
           <div>

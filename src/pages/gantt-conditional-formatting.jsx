@@ -18,8 +18,6 @@ export default function GanttConditionalFormattingPage() {
           <ProjectIdentity product="powertable" />
           <WorkspaceFeatureTabs workspace="resources" active="formatting" />
           {"\n      "}
-          <p className={"eyebrow"}>{"Feature case study 03"}</p>
-          {"\n      "}
           <h1>{"Conditional Formatting."}</h1>
           {"\n      "}
           <p className="case-summary">{"Define the condition, target, and style separately."}</p>
@@ -107,7 +105,7 @@ export default function GanttConditionalFormattingPage() {
         </section>
         {"\n\n    "}
         <CaseSnapshot caseId="formatting" />
-        <CaseDetails>
+        <CaseDetails caseId="formatting">
         <nav className={"case-nav wrap"} aria-label={"Case study sections"}>
           <a href={"#overview"}>{"Rule editor"}</a>
           <a href={"#timeline"}>{"Resource context"}</a>

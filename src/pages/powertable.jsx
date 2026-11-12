@@ -39,6 +39,11 @@ export default function PowertablePage() {
               </div>
             </dl>
           </CaseContext>
+          <nav className="case-entry-links" aria-label="PowerTable quick navigation">
+            <a href="#design-focus">My role & decisions</a>
+            <a href="#workspaces">Browse features</a>
+            <a href="#study-details">Full evidence</a>
+          </nav>
         </section>
         {"\n    "}
         <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>

@@ -41,13 +41,24 @@ const workspaces = {
 export default function WorkspaceFeatureTabs({ workspace = 'gantt', active }) {
   const { label, links, sections } = workspaces[workspace];
   return (
-    <nav className={`workspace-feature-tabs${workspace === 'gantt' ? ' gantt-feature-tabs' : ''}`}
-      aria-label={label} data-section-tabs={sections ? '' : undefined}>
-      {links.map(([id, href, label]) => (
-        <a key={id} href={href} aria-current={active === id ? 'page' : undefined}>
-          {label}
-        </a>
-      ))}
-    </nav>
+    <div className="workspace-navigation">
+      {workspace !== 'analytics' && <nav className="workspace-switcher" aria-label="PowerTable workspaces">
+        {[
+          ['gantt', '/column-mapping.html', 'Gantt'],
+          ['resources', '/gantt-conditional-formatting.html', 'Resources'],
+          ['crosstab', '/crosstab.html', 'Cross-tab']
+        ].map(([id, href, name]) => (
+          <a key={id} href={href} aria-current={workspace === id ? 'true' : undefined}>{name}</a>
+        ))}
+      </nav>}
+      <nav className={`workspace-feature-tabs${workspace === 'gantt' ? ' gantt-feature-tabs' : ''}`}
+        aria-label={label} data-section-tabs={sections ? '' : undefined}>
+        {links.map(([id, href, label]) => (
+          <a key={id} href={href} aria-current={active === id ? 'page' : undefined}>
+            {label}
+          </a>
+        ))}
+      </nav>
+    </div>
   );
 }

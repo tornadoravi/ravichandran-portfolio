@@ -138,7 +138,10 @@ export default function IndexPage() {
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
-                <span>{"Official PowerTable implementation · Product preview"}</span>
+                <span className="cover-maker">
+                  <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel" />
+                  <span>{"Official PowerTable implementation · Product preview"}</span>
+                </span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
               {"\n        "}
@@ -211,7 +214,10 @@ export default function IndexPage() {
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
-                <span>{"Official Analytics+ template · Lumel Inc."}</span>
+                <span className="cover-maker">
+                  <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel" />
+                  <span>{"Official Analytics+ template · Lumel Inc."}</span>
+                </span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
               {"\n        "}

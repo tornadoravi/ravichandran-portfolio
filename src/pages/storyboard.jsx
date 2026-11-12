@@ -58,7 +58,7 @@ export default function StoryboardPage() {
         </figure>
         {"\n    "}
         <CaseSnapshot caseId="storyboard" />
-        <CaseDetails>
+        <CaseDetails caseId="storyboard">
         <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           <div>
             <h2>{"Design challenge"}</h2>

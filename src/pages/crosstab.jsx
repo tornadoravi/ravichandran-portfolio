@@ -23,7 +23,7 @@ export default function CrosstabPage() {
           </CaseContext>
         </section>
         <CaseSnapshot caseId="crosstab" id="contribution" />
-        <CaseDetails>
+        <CaseDetails caseId="crosstab">
         <section id="contribution-notes" className="editorial-section wrap" aria-labelledby="contribution-title">
           <div className="section-label">
             <span className="eyebrow">01 / Contribution overview</span>

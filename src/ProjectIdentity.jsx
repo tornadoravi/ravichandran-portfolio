@@ -10,6 +10,7 @@ export default function ProjectIdentity({ product }) {
         <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel Technologies" />
       </div>
       <div className="identity-platform">
+        <span className="identity-platform-label">Built for</span>
         <img className="brand-image microsoft-wordmark" src="/assets/microsoft-logo.png" width="216" height="46" alt="Microsoft" />
         <span className="identity-product">
           <img className="brand-image" src={analytics ? '/assets/microsoft-power-bi.svg' : '/assets/microsoft-fabric.svg'} width="24" height="24" alt="" />
