@@ -38,12 +38,12 @@ for (const appearance of ['light', 'dark']) {
             await expect(row).toHaveCSS('box-shadow', 'none');
             const illustration = row.locator('svg.case-topic-art');
             await expect(illustration).toBeVisible();
-            await expect(illustration).toHaveAttribute('viewBox', '0 0 360 236');
+            await expect(illustration).toHaveAttribute('viewBox', '0 0 480 236');
             await expect(row.locator('.album-footer')).toContainText('Original concept illustration');
             const frame = await row.locator('.album-media').boundingBox();
             const art = await illustration.boundingBox();
-            expect(art.height).toBeCloseTo(frame.height, 1);
-            expect(art.width).toBeCloseTo(frame.width, 1);
+            expect(art.height).toBeCloseTo(frame.height - 2, 1);
+            expect(art.width).toBeCloseTo(frame.width - 2, 1);
             boxes.push(await row.boundingBox());
           }
           if (width > 700) {

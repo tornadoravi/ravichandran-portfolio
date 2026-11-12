@@ -8,6 +8,45 @@ const features = [
   ['feature-kpi', '/kpi.html', '05']
 ];
 
+for (const javaScriptEnabled of [true, false]) {
+  test(`dimensional feature illustrations retain complete, local SVG scenes with JavaScript ${javaScriptEnabled}`, async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ javaScriptEnabled, viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+    try {
+      const page = await context.newPage();
+      await page.goto(baseURL + '/analytics-plus.html#features');
+      if (javaScriptEnabled) await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+      await page.evaluate(() => document.fonts.ready);
+      const illustrations = page.locator('.feature-review-index .feature-illustration');
+      await expect(illustrations).toHaveCount(5);
+      const ids = await illustrations.locator('[id]').evaluateAll(elements => elements.map(element => element.id));
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const illustration of await illustrations.all()) {
+        await expect(illustration).toHaveAttribute('role', 'img');
+        await expect(illustration).toHaveAttribute('aria-label', /^Concept illustration: .+/);
+        await expect(illustration).toHaveAttribute('preserveAspectRatio', 'xMidYMid meet');
+        await expect(illustration.locator('feDropShadow')).toHaveCount(1);
+        const scene = await illustration.evaluate(svg => {
+          const { x, y, width, height } = svg.querySelector('.case-topic-scene').getBBox();
+          const references = [...svg.querySelectorAll('[fill], [filter]')]
+            .flatMap(element => ['fill', 'filter'].map(name => element.getAttribute(name)))
+            .filter(value => value?.startsWith('url(#'));
+          return {
+            x, y, width, height,
+            localReferences: references.every(value => svg.contains(document.getElementById(value.slice(5, -1))))
+          };
+        });
+        expect(scene.localReferences).toBe(true);
+        expect(scene.x).toBeGreaterThanOrEqual(0);
+        expect(scene.y).toBeGreaterThanOrEqual(0);
+        expect(scene.x + scene.width).toBeLessThanOrEqual(480);
+        expect(scene.y + scene.height).toBeLessThanOrEqual(236);
+      }
+    } finally {
+      await context.close();
+    }
+  });
+}
+
 test('Analytics+ is one product with five ordered feature stories and official brand context', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);

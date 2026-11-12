@@ -2,7 +2,7 @@ import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseRationale, CaseFlow } from '../CaseReview.jsx';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
-import CaseIllustration from '../CaseIllustration.jsx';
+import FeatureIllustration from '../FeatureIllustration.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -489,12 +489,12 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <nav className={"feature-card-grid feature-review-index"} aria-label={"Analytics+ feature index"}>
             {"\n        "}
-            <a id={"feature-storyboard"} className={"album-card album-card--lilac"} href={"/storyboard.html"} aria-label={"Read Storyboard authoring case study"}>
+            <a id={"feature-storyboard"} className={"album-card"} href={"/storyboard.html"} aria-label={"Read Storyboard authoring case study"}>
               <span className={"album-kicker"}>{"01 / Report authoring"}</span>
               <h3>{"Storyboard"}</h3>
               <p className={"album-description"}>{"Multiple starting routes, one authoring canvas."}</p>
               <div className={"album-media"}>
-                <CaseIllustration caseId="storyboard" stage="design" />
+                <FeatureIllustration caseId="storyboard" />
               </div>
               <span className={"album-footer"}>
                 {"Original concept illustration "}
@@ -507,7 +507,7 @@ export default function AnalyticsPlusPage() {
               <h3>{"Gantt for Power BI"}</h3>
               <p className={"album-description"}>{"Map source fields before building the timeline."}</p>
               <div className={"album-media"}>
-                <CaseIllustration caseId="gantt" stage="design" />
+                <FeatureIllustration caseId="gantt" />
               </div>
               <span className={"album-footer"}>
                 {"Original concept illustration "}
@@ -515,12 +515,12 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-wizard"} className={"album-card album-card--peach"} href={"/analytics.html"} aria-label={"Read Chart Wizard case study"}>
+            <a id={"feature-wizard"} className={"album-card"} href={"/analytics.html"} aria-label={"Read Chart Wizard case study"}>
               <span className={"album-kicker"}>{"03 / Visual discovery"}</span>
               <h3>{"Chart Wizard"}</h3>
               <p className={"album-description"}>{"Two discovery routes. One configuration flow."}</p>
               <div className={"album-media"}>
-                <CaseIllustration caseId="wizard" stage="design" />
+                <FeatureIllustration caseId="wizard" />
               </div>
               <span className={"album-footer"}>
                 {"Original concept illustration "}
@@ -528,12 +528,12 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-annotations"} className={"album-card album-card--lilac"} href={"/presentation.html"} aria-label={"Read Annotations, Comments and Presentation case study"}>
+            <a id={"feature-annotations"} className={"album-card"} href={"/presentation.html"} aria-label={"Read Annotations, Comments and Presentation case study"}>
               <span className={"album-kicker"}>{"04 / Data storytelling"}</span>
               <h3>{"Annotations & Presentation"}</h3>
               <p className={"album-description"}>{"Explain an observation without leaving the report."}</p>
               <div className={"album-media"}>
-                <CaseIllustration caseId="presentation" stage="design" />
+                <FeatureIllustration caseId="presentation" />
               </div>
               <span className={"album-footer"}>
                 {"Original concept illustration "}
@@ -546,7 +546,7 @@ export default function AnalyticsPlusPage() {
               <h3>{"KPI Presets"}</h3>
               <p className={"album-description"}>{"Reusable layouts instead of repeated blank-card setup."}</p>
               <div className={"album-media"}>
-                <CaseIllustration caseId="kpi" stage="design" />
+                <FeatureIllustration caseId="kpi" />
               </div>
               <span className={"album-footer"}>
                 {"Original concept illustration "}
