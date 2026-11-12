@@ -39,7 +39,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     const contactTop = await page.locator('.home-contact').evaluate(element => element.getBoundingClientRect().top + scrollY);
     const workBottom = await page.locator('#work').evaluate(element => element.getBoundingClientRect().bottom + scrollY);
     expect(contactTop).toBeGreaterThan(workBottom);
-    await expect(page.locator('.home-about')).toContainText('Microsoft Fabric design system');
+    await expect(page.locator('.home-about')).toContainText('Behind the work');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 

@@ -254,40 +254,20 @@ export default function IndexPage() {
         {"\n    "}
         <section className={"home-about wrap"} aria-labelledby={"about-title"}>
           {"\n      "}
-          <p className={"eyebrow"}>{"About me"}</p>
+          <p className={"eyebrow"}>{"Behind the work"}</p>
           {"\n      "}
           <div>
             <h2 id={"about-title"}>
-              {"I’m Ravi."}
+              {"Good design connects"}
               <br />
-              <em>{"I make complex work feel clear."}</em>
+              <em>{"the whole workflow."}</em>
             </h2>
-            <p>{"I’m a Product Designer II at Lumel, with four years in enterprise analytics and connected planning."}</p>
-            <p>{"I think in workflows, not isolated screens—connecting product requirements, interaction design, and implementation."}</p>
-            <p>
-              {"My design work on PowerTable was based entirely on the "}
-              <strong className={"scan-emphasis"}>{"Microsoft Fabric design system"}</strong>
-              {"."}
-            </p>
+            <p>{"I start with the task, not the screen: what someone needs to do, which decisions matter, and where complexity gets in the way."}</p>
+            <p>{"Then I connect the details—flows, controls, and visual hierarchy—and work with developers to carry those decisions into the product."}</p>
             <div className={"profile-links"}>
               <a className={"text-link"} href={"/about.html"}>
-                {"Experience & recommendations "}
+                {"More about me "}
                 <span aria-hidden={"true"}>{"→"}</span>
-              </a>
-              <a className={"text-link"} href={"/assets/ravichandran-resume.pdf"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"Resume "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (PDF, opens in a new tab)"}</span>
-              </a>
-              <a className={"text-link"} href={"https://www.linkedin.com/in/ravichandran-uxui/"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"Connect on LinkedIn "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
-              </a>
-              <a className={"text-link"} href={"https://github.com/tornadoravi"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"View GitHub "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
             </div>
             <div className={"home-contact"} aria-labelledby={"home-contact-title"}>
