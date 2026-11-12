@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -11,7 +11,7 @@ const features = [
 
 for (const mode of ['focus', 'soundroom']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`Gantt has one entry and top-level feature tabs in ${mode} at ${width}px`, async ({ page }) => {
+    test(`Gantt has one entry and an on-demand feature directory in ${mode} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       await page.goto('/powertable.html');
@@ -19,14 +19,16 @@ for (const mode of ['focus', 'soundroom']) {
       await expect(page.locator('#gantt-features .feature-case-link, #gantt-features .workspace-contribution')).toHaveCount(0);
       await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
       for (const [path, name] of features) {
+        await openWorkspaceNavigation(page);
         const nav = page.getByRole('navigation', { name: 'PowerTable Gantt features' });
         await nav.getByRole('link', { name, exact: true }).focus();
         await page.keyboard.press('Enter');
         await expect(page).toHaveURL(new RegExp(path.replace('.', '\\.') + '$'));
+        await openWorkspaceNavigation(page);
         await expect(nav.getByRole('link')).toHaveText(features.map(([, label]) => label));
         await expect(nav.locator('[aria-current="page"]')).toHaveCount(1);
         await expect(nav.locator('[aria-current="page"]')).toHaveText(name);
-        expect(await nav.evaluate(element => element.closest('details') === null)).toBe(true);
+        expect(await nav.evaluate(element => element.closest('details').open)).toBe(true);
         const heading = await page.locator('h1').boundingBox();
         for (const link of await nav.getByRole('link').all()) {
           const box = await link.boundingBox();
@@ -53,6 +55,7 @@ test('Gantt feature tabs and return navigation work without JavaScript', async (
     await page.goto(baseURL + '/powertable.html');
     await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
     for (const [path, name] of features) {
+      await openWorkspaceNavigation(page);
       await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name, exact: true }).click();
       await expect(page).toHaveURL(baseURL + path);
       await expect(page.locator('.gantt-feature-tabs [aria-current]')).toHaveText(name);

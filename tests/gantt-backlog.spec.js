@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -95,11 +95,13 @@ test('Home, parent, and formatting sibling expose backlog without adding another
   await expect(page.locator('.case-link')).toHaveCount(2);
   await page.locator('#project-planning .case-link').click();
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.locator('.back-link').click();
   await expect(page).toHaveURL(/powertable\.html#gantt-features$/);
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);

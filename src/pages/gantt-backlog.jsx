@@ -55,9 +55,9 @@ export default function GanttBacklogPage() {
         <section className={"mapping-evidence wrap"} aria-labelledby={"backlog-states-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>
-            <p className={"eyebrow"}>{"Design evidence / Two panel states"}</p>
-            <h2 id={"backlog-states-title"}>{"A clear start. A manageable list."}</h2>
-            <p>{"Empty and populated states, not a recorded creation sequence."}</p>
+            <p className={"eyebrow"}>{"Design evidence / Two states"}</p>
+            <h2 id={"backlog-states-title"}>{"From empty to populated."}</h2>
+            <p>{"Design states, not a task-creation sequence."}</p>
           </div>
           {"\n      "}
           <div className={"backlog-state-grid"}>

@@ -4,17 +4,18 @@ test.use({ reducedMotion: 'reduce' });
 
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`Presentation has one clear visual and three short points in ${appearance} at ${width}px`, async ({ page }) => {
+    test(`Presentation explains the problem and design visually in ${appearance} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       await page.goto('/presentation.html');
       await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
       await page.evaluate(() => document.fonts.ready);
       const summary = page.locator('.presentation-summary');
-      await expect(summary.locator('svg')).toHaveCount(1);
+      await expect(summary.locator('svg')).toHaveCount(2);
+      await expect(summary.locator('.case-problem-scene')).toBeVisible();
       await expect(summary.locator('.case-diagram')).toBeVisible();
       await expect(summary.locator('dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
-      for (const point of await summary.locator('dd').all()) {
+      for (const point of await summary.locator('dd > p').all()) {
         expect((await point.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(15);
       }
       expect((await page.locator('main').innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(130);

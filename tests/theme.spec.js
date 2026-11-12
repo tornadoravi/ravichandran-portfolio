@@ -19,7 +19,7 @@ for (const appearance of ['light', 'dark']) {
       page.on('pageerror', error => failures.push(error.message));
       for (const path of pages) {
         await page.goto(path);
-        const background = appearance === 'dark' ? 'rgb(32, 32, 36)' : 'rgb(250, 249, 246)';
+        const background = appearance === 'dark' ? 'rgb(16, 28, 33)' : 'rgb(247, 248, 243)';
         await expect(page.locator('body')).toHaveCSS('background-color', background);
         await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
         await expect(page.locator('h1')).toBeVisible();

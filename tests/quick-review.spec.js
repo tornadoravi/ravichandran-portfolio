@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -96,6 +96,7 @@ for (const [overview, paths] of [
         await expect(page).toHaveURL(new URL('/gantt-conditional-formatting.html', baseURL).href);
         await expect(page.locator('#main')).toBeFocused();
       }
+      if (await page.locator('.workspace-navigation').count()) await openWorkspaceNavigation(page);
       const link = page.locator(`.workspace-feature-tabs a[href="${path}"], .workspace-grid a[href="${path}"], .feature-card-grid a[href="${path}"]`);
       await link.focus();
       await expect(link).toBeFocused();

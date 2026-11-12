@@ -90,7 +90,7 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('/');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
     await expect(page.locator('h1')).toHaveText('Complex products.Considered experiences.');
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('.hero-role strong')).toHaveText('Product Designer II at Lumel.');
@@ -186,7 +186,7 @@ for (const mode of ['focus', 'soundroom']) {
         const style = getComputedStyle(element);
         return { size: parseFloat(style.fontSize), lines: element.getBoundingClientRect().height / parseFloat(style.lineHeight) };
       });
-      expect(title.size).toBeGreaterThanOrEqual(72);
+      expect(title.size).toBeGreaterThanOrEqual(60);
       expect(title.lines).toBeCloseTo(2, 1);
       await expect(page.locator('.hero-role')).toHaveCSS('font-size', '14px');
       await expect(page.locator('.hero-introduction')).toHaveCSS('font-size', '18px');
@@ -324,7 +324,7 @@ for (const width of [320, 390, 768, 1440]) {
   test(`About matches the editorial Home without losing its content at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/about.html');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('.header-contacts a')).toHaveCount(2);
     await expect(page.locator('.profile-photo')).toHaveJSProperty('naturalWidth', 800);

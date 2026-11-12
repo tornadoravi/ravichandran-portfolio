@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 import { readFile } from 'node:fs/promises';
 
 const features = [
@@ -67,7 +67,7 @@ for (const appearance of ['light', 'dark']) {
           if (!overview && !focused) {
             await expect(page.locator('.case-diagram')).toBeVisible();
             await expect(page.locator('.case-diagram')).toHaveAttribute('aria-label', /.+/);
-            await expect(page.locator('.decision-illustration figcaption')).toHaveText('Concept diagram · Not a product screenshot.');
+            await expect(page.locator('.decision-illustration figcaption')).toHaveText('Illustrative problem & design flow · Not a product screenshot.');
           }
           await expect(page.locator('.decision-flow > li')).toHaveCount(focused || compact ? 0 : 3);
           await expect(page.locator('.case-topic-art')).toHaveCount(focused || compact ? 0 : 3);
@@ -91,7 +91,7 @@ for (const appearance of ['light', 'dark']) {
           if (!focused && !compact) await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
           if (!overview && !focused && !compact) {
             await expect(page.locator('.case-key-facts dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
-            for (const point of await page.locator('.case-key-facts dd').all()) {
+            for (const point of await page.locator('.case-key-facts dd > p').all()) {
               expect((await point.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(22);
             }
             await expect(page.locator('.case-scenario')).toBeHidden();
@@ -189,10 +189,12 @@ test('Analytics+ feature tabs provide consistent keyboard navigation and a direc
   await page.setViewportSize({ width: 390, height: 900 });
   await page.goto('/storyboard.html');
   for (const [path, label] of analytics) {
+    await openWorkspaceNavigation(page);
     const tabs = page.getByRole('navigation', { name: 'Analytics+ features', exact: true });
     await tabs.getByRole('link', { name: label, exact: true }).focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(new RegExp(path.replace('.', '\\.') + '$'));
+    await openWorkspaceNavigation(page);
     await expect(tabs.locator('[aria-current="page"]')).toHaveText(label);
     for (const link of await tabs.getByRole('link').all()) {
       expect((await link.boundingBox()).height).toBeGreaterThanOrEqual(44);
@@ -226,6 +228,7 @@ test('recruiter summaries, branding, evidence disclosures and feature navigation
       await expect(page.getByAltText('Lumel Technologies', { exact: true })).toBeVisible();
     }
     await page.goto(baseURL + '/storyboard.html');
+    await openWorkspaceNavigation(page);
     await page.getByRole('navigation', { name: 'Analytics+ features' }).getByRole('link', { name: 'KPI Presets', exact: true }).click();
     await expect(page).toHaveURL(baseURL + '/kpi.html');
   } finally {

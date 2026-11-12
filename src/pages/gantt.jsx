@@ -57,7 +57,7 @@ export default function GanttPage() {
             {"\n        "}
             <div className={"figure-label"}>
               <span className={"eyebrow"}>{"Screenshot / 01"}</span>
-              <h3>{"A dedicated Gantt starting point"}</h3>
+              <h3>{"Choose Gantt."}</h3>
             </div>
             {"\n        "}
             <a className={"product-screenshot native-shot"} href={"/assets/gantt-entry.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt entry screenshot full-size (opens in a new tab)"}>
@@ -65,7 +65,7 @@ export default function GanttPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Product screenshot · Gantt selected within Analytics+. "}
+              {"Product screenshot · Analytics+ Gantt. "}
               <a className={"image-link"} href={"/assets/gantt-entry.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -78,7 +78,7 @@ export default function GanttPage() {
             {"\n        "}
             <div className={"figure-label"}>
               <span className={"eyebrow"}>{"Screenshot / 02"}</span>
-              <h3>{"Explain where the fields belong"}</h3>
+              <h3>{"Map the fields."}</h3>
             </div>
             {"\n        "}
             <a className={"product-screenshot native-shot"} href={"/assets/gantt-data-mapping.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View Gantt data-mapping guidance full-size (opens in a new tab)"}>
@@ -86,7 +86,7 @@ export default function GanttPage() {
             </a>
             {"\n        "}
             <figcaption>
-              {"Product screenshot · Guidance for the Power BI field well. "}
+              {"Product screenshot · Power BI field mapping. "}
               <a className={"image-link"} href={"/assets/gantt-data-mapping.png"} target={"_blank"} rel={"noopener noreferrer"}>
                 {"View full-size ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>

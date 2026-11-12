@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -35,11 +35,13 @@ for (const javaScriptEnabled of [true, false]) {
           ['Cross-tab', '/crosstab.html', 'PowerTable Cross-tab sections'],
           ['Gantt', '/column-mapping.html', 'PowerTable Gantt features']
         ]) {
+          await openWorkspaceNavigation(page);
           const navigation = page.getByRole('navigation', { name: 'PowerTable workspaces', exact: true });
           await expect(navigation.getByRole('link')).toHaveText(['Gantt', 'Resources', 'Cross-tab']);
           await navigation.getByRole('link', { name: label, exact: true }).focus();
           await page.keyboard.press('Enter');
           await expect(page).toHaveURL(baseURL + path);
+          await openWorkspaceNavigation(page);
           await expect(navigation.locator('[aria-current]')).toHaveText(label);
           await expect(page.getByRole('navigation', { name: workspace, exact: true })).toBeVisible();
           for (const link of await navigation.getByRole('link').all()) {

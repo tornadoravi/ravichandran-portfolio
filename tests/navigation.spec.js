@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -16,6 +16,7 @@ test('one audio element continues through every case family with matching contro
   });
   await page.getByRole('slider', { name: 'Volume', exact: true }).fill('27');
   async function follow(href, name) {
+    if (await page.locator(`.workspace-navigation a[href="${href}"]`).count()) await openWorkspaceNavigation(page);
     await page.locator(`a[href="${href}"]:visible`).first().click();
     await expect(page.locator('body')).toHaveAttribute('data-page', name);
     await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeVisible();

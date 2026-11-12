@@ -41,10 +41,10 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('[data-soundroom]')).not.toContainText(/Pudhu|Instrumental|Roja/);
     await expect.poll(() => page.locator('audio').evaluate(audio => !audio.paused && audio.currentTime > 0)).toBe(true);
     expect(audioRequests).toHaveLength(1);
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
     await expect(page.locator('html')).toHaveAttribute('data-appearance', 'system');
-    await expect(soundroom).toHaveCSS('background-color', 'rgb(239, 238, 233)');
-    await expect(soundroom).toHaveCSS('color', 'rgb(41, 45, 41)');
+    await expect(soundroom).toHaveCSS('background-color', 'rgb(230, 238, 220)');
+    await expect(soundroom).toHaveCSS('color', 'rgb(29, 48, 50)');
     for (const control of await page.locator('.listening-modes button, .ambience-play, .soundroom-volume input').all()) {
       expect((await control.boundingBox()).height).toBeGreaterThanOrEqual(44);
     }
@@ -169,11 +169,11 @@ test('music keeps playing through case pages and About without changing appearan
     window.originalPlaybackTime = window.originalAudio.currentTime;
   });
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
   await page.locator('#gantt-features a[href="/column-mapping.html"]').click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
   await page.locator('#main-nav').getByRole('link', { name: 'About', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
   await page.locator('#main-nav').getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Soundroom Mode', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused &&
@@ -185,5 +185,5 @@ test('music keeps playing through case pages and About without changing appearan
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Focus Mode', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
 });

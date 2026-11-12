@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -86,6 +86,7 @@ test('Home, grouped parent, baseline and resource siblings reach the correct cas
     return ids.length === new Set(ids).size;
   })).toBe(true);
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
   await expect(page).toHaveURL(/gantt-configuration\.html$/);
   await page.locator('.back-link').click();
@@ -95,6 +96,7 @@ test('Home, grouped parent, baseline and resource siblings reach the correct cas
   await expect(page.locator('#study-details')).toHaveAttribute('open');
   await expect(page.locator('#gantt-configuration')).toBeInViewport();
   await page.goto('/gantt-baselines.html');
+  await openWorkspaceNavigation(page);
   await page.locator('.gantt-feature-tabs a[href="/gantt-configuration.html"]').click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);

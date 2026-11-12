@@ -1,8 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseContext, CaseFlow } from '../CaseReview.jsx';
-import CaseDiagram from '../CaseDiagram.jsx';
+import { CaseDetails, CaseContext, CaseFlow, CaseHighlights } from '../CaseReview.jsx';
 import CaseStoryNav from '../CaseStoryNav.jsx';
 
 export default function PresentationPage() {
@@ -56,19 +55,11 @@ export default function PresentationPage() {
         <section className="presentation-summary case-snapshot wrap" aria-labelledby="presentation-summary-title">
           <CaseStoryNav caseId="presentation" />
           <h2 id="presentation-summary-title" className="visual-story-title">Put the explanation beside the data.</h2>
-          <div className="presentation-at-a-glance">
-            <figure id="story-flow" className="decision-illustration">
-              <CaseDiagram caseId="presentation" />
-              <figcaption>Concept diagram · Not a product screenshot.</figcaption>
-            </figure>
-            <div>
-              <dl className="presentation-key-points">
-                <div id="story-problem" className="story-highlight"><dt>Problem</dt><dd>A chart can show the change without explaining it.</dd></div>
-                <div id="story-decision" className="story-highlight"><dt>My decision</dt><dd>Attach explanations to data points and keep presentation controls in the report.</dd></div>
-                <div id="story-evidence" className="story-highlight"><dt>Evidence</dt><dd>Nine design screens; release status is not verified here.</dd></div>
-              </dl>
-            </div>
-          </div>
+          <CaseHighlights caseId="presentation" facts={[
+            'A chart can show the change without explaining it.',
+            'Keep explanations and presentation controls beside the data.',
+            'Nine design screens; release status is not verified here.'
+          ]} />
         </section>
         <CaseDetails title="View design screens & walkthrough">
         <section id="design-screens" className={"case-evidence wrap"} aria-labelledby={"screens-title"}>

@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -21,10 +21,12 @@ for (const mode of ['focus', 'soundroom']) {
       }
       await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
       for (const [path, name] of resourceFeatures) {
+        await openWorkspaceNavigation(page);
         const nav = page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' });
         await nav.getByRole('link', { name, exact: true }).focus();
         await page.keyboard.press('Enter');
         await expect(page).toHaveURL(new RegExp(path.replace('.', '\\.') + '$'));
+        await openWorkspaceNavigation(page);
         await expect(nav.getByRole('link')).toHaveText(resourceFeatures.map(([, label]) => label));
         await expect(nav.locator('[aria-current]')).toHaveCount(1);
         await expect(nav.locator('[aria-current]')).toHaveText(name);
@@ -41,6 +43,7 @@ for (const mode of ['focus', 'soundroom']) {
       await expect(page.locator('#resource-features')).toBeInViewport();
       await page.getByRole('link', { name: 'Explore Cross-tab', exact: true }).click();
       await expect(page).toHaveURL(/crosstab\.html$/);
+      await openWorkspaceNavigation(page);
       const tabs = page.getByRole('navigation', { name: 'PowerTable Cross-tab sections' });
       await expect(tabs.getByRole('link')).toHaveText(['Overview', 'Structure', 'Evidence']);
       await expect(page.locator('h1')).toContainText('Cross-tab.');
@@ -63,6 +66,7 @@ for (const mode of ['focus', 'soundroom']) {
       await page.goBack();
       await expect(tabs.locator('[aria-current]')).toHaveText('Structure');
       await page.reload();
+      await openWorkspaceNavigation(page);
       await expect(tabs.locator('[aria-current]')).toHaveText('Structure');
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await page.locator('.back-link').click();
@@ -78,11 +82,13 @@ test('Resources and Cross-tab keep their entry, tabs and return paths without Ja
     const page = await context.newPage();
     await page.goto(baseURL + '/powertable.html');
     await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+    await openWorkspaceNavigation(page);
     await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
     await expect(page).toHaveURL(baseURL + '/resource-configuration.html');
     await page.locator('.back-link').click();
     await expect(page.locator('#resource-features')).toBeInViewport();
     await page.getByRole('link', { name: 'Explore Cross-tab', exact: true }).click();
+    await openWorkspaceNavigation(page);
     const tabs = page.getByRole('navigation', { name: 'PowerTable Cross-tab sections' });
     for (const id of ['contribution', 'configuration', 'evidence']) {
       await tabs.locator(`a[href="#${id}"]`).click();

@@ -22,7 +22,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
     await expect(page.locator('#mapping-walkthrough')).not.toHaveAttribute('open');
     await expect(page.locator('.mapping-preview img')).toHaveJSProperty('naturalWidth', 780);
-    await expect(page.locator('.mapping-preview .inspect-button')).toHaveCSS('color', 'rgb(41, 45, 41)');
+    await expect(page.locator('.mapping-preview .inspect-button')).toHaveCSS('color', 'rgb(29, 48, 50)');
     expect(await page.locator('.identity-label').evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(12);
     await page.locator('#mapping-walkthrough > summary').click();
     const images = page.locator('#mapping-walkthrough img');

@@ -2,6 +2,7 @@ import React from 'react';
 import CaseDiagram from './CaseDiagram.jsx';
 import CaseIllustration from './CaseIllustration.jsx';
 import CaseStoryNav from './CaseStoryNav.jsx';
+import CaseProblemScene from './CaseProblemScene.jsx';
 
 const summaries = {
   mapping: [
@@ -237,22 +238,29 @@ export function CaseSnapshot({ caseId, id }) {
       <CaseStoryNav caseId={caseId} />
       <p className="eyebrow">Design highlights</p>
       <h2 className="visual-story-title">{headlines[caseId]}</h2>
-      <div className="case-at-a-glance">
-        <figure id="story-flow" className="decision-illustration">
-          <CaseDiagram caseId={caseId} />
-          <figcaption>Concept diagram · Not a product screenshot.</figcaption>
-        </figure>
-        <dl className="case-key-facts">
-          {summaries[caseId].map(([, description], index) => (
-            <div key={index} id={['story-problem', 'story-decision', 'story-evidence'][index]} className="story-highlight">
-              <dt>{['Problem', 'My decision', 'Evidence'][index]}</dt>
-              <dd>{description}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      <CaseHighlights caseId={caseId} />
     </section>
   );
+}
+
+export function CaseHighlights({ caseId, facts = summaries[caseId].map(([, description]) => description) }) {
+  return <div className="case-at-a-glance">
+    <dl className={`case-key-facts${caseId === 'presentation' ? ' presentation-key-points' : ''}`}>
+      {facts.map((description, index) => <div key={index} id={['story-problem', 'story-decision', 'story-evidence'][index]} className="story-highlight">
+        <dt>{['Problem', 'My decision', 'Evidence'][index]}</dt>
+        <dd>
+          {index === 0 && <figure className="problem-illustration">
+            <CaseProblemScene caseId={caseId} />
+          </figure>}
+          {index === 1 && <figure id="story-flow" className="decision-illustration">
+            <CaseDiagram caseId={caseId} />
+            <figcaption>Illustrative problem & design flow · Not a product screenshot.</figcaption>
+          </figure>}
+          <p>{description}</p>
+        </dd>
+      </div>)}
+    </dl>
+  </div>;
 }
 
 export function CaseRationale({ caseId }) {

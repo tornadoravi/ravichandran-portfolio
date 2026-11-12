@@ -2,7 +2,7 @@ import { test, expect } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
-const backgrounds = { light: 'rgb(250, 249, 246)', dark: 'rgb(32, 32, 36)' };
+const backgrounds = { light: 'rgb(247, 248, 243)', dark: 'rgb(16, 28, 33)' };
 
 async function choose(page, label) {
   await page.getByRole('button', { name: /^Appearance:/ }).click();
@@ -44,7 +44,7 @@ test('explicit appearance persists across routes, reloads, and visits independen
   await choose(page, 'Light');
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.light);
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#faf9f6');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f7f8f3');
 });
 
 test('System follows live device changes while explicit Dark remains pinned', async ({ page }) => {
@@ -58,7 +58,7 @@ test('System follows live device changes while explicit Dark remains pinned', as
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.light);
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.dark);
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#202024');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#101c21');
   expect(await page.evaluate(() => localStorage.getItem('portfolio-appearance'))).toBe('system');
 });
 
@@ -102,7 +102,7 @@ for (const width of [320, 390, 701, 768, 900, 1440]) {
     await expect(menu).toBeHidden();
     await trigger.click();
     await expect(page.getByRole('menuitemradio', { name: 'Dark', exact: true })).toHaveAttribute('aria-checked', 'true');
-    await expect(page.getByRole('menuitemradio', { name: 'Dark', exact: true })).toHaveCSS('color', 'rgb(199, 184, 255)');
+    await expect(page.getByRole('menuitemradio', { name: 'Dark', exact: true })).toHaveCSS('color', 'rgb(214, 239, 160)');
     const box = await menu.boundingBox();
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(width);
@@ -143,7 +143,7 @@ test('stored appearance is applied before React hydrates', async ({ page }) => {
   await page.goto('/analytics-plus.html');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.dark);
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#202024');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#101c21');
   await expect(page.getByRole('button', { name: /^Appearance:/ })).toBeDisabled();
 });
 

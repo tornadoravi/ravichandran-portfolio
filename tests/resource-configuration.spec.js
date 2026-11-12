@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -80,15 +80,18 @@ test('grouped parent and related formatting case connect the new case', async ({
   await expect(page.locator('.project')).toHaveCount(2);
   await page.locator('#project-planning .case-link').click();
   await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);
   await page.locator('.back-link').click();
   await expect(page).toHaveURL(/powertable\.html#resource-features$/);
   await expect(page.locator('#resource-features')).toBeInViewport();
   await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
   await page.locator('.next-project').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
+  await openWorkspaceNavigation(page);
   await page.locator('.workspace-feature-tabs a[href="/resource-configuration.html"]').click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);
 });

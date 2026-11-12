@@ -41,7 +41,7 @@ test('all React pages hydrate without errors and preserve the Focus default', as
     await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('html')).toHaveAttribute('data-listening-mode', 'focus');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
     await expect(page.locator('script[src="/app.js"], script[src="/soundroom.js"]')).toHaveCount(0);
   }
   expect(errors).toEqual([]);

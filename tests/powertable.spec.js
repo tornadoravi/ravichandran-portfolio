@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 import sharp from 'sharp';
 import { fileURLToPath } from 'node:url';
 
@@ -60,11 +60,13 @@ test('workspace groups and feature links remain available without JavaScript', a
   await page.goto(baseURL + '/');
   await page.locator('#project-planning .case-link').click();
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.goto(baseURL + '/powertable.html');
   await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.locator('.back-link').click();
@@ -205,6 +207,8 @@ test('Home leads into keyboard-usable PowerTable workspace and feature links', a
     const ganttTargets = ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html'];
     if (ganttTargets.includes(target)) {
       await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+      await expect(page).toHaveURL(/column-mapping\.html$/);
+      await openWorkspaceNavigation(page);
     }
     const link = page.locator(ganttTargets.includes(target) ? '.gantt-feature-tabs' : '.workspace-grid')
       .locator(`a[href="${target}"]`);

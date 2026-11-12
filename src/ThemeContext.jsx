@@ -140,7 +140,7 @@ export function ThemeProvider({ children }) {
       const resolved = appearance === 'system' ? (system.matches ? 'dark' : 'light') : appearance;
       document.documentElement.dataset.appearance = appearance;
       document.documentElement.dataset.theme = resolved;
-      document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#202024' : '#faf9f6';
+      document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#101c21' : '#f7f8f3';
     }
     applyAppearance();
     if (appearance !== 'system') return;

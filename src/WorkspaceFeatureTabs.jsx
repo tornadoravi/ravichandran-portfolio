@@ -40,8 +40,14 @@ const workspaces = {
 
 export default function WorkspaceFeatureTabs({ workspace = 'gantt', active }) {
   const { label, links, sections } = workspaces[workspace];
+  const current = sections ? 'Cross-tab' : links.find(([id]) => id === active)?.[2];
   return (
-    <div className="workspace-navigation">
+    <details className="workspace-navigation">
+      <summary>
+        <span className="workspace-current">{workspace === 'analytics' ? 'Analytics+' : 'PowerTable'}{current && ` / ${current}`}</span>
+        <span className="workspace-browse-label">Browse features <span aria-hidden="true" /></span>
+      </summary>
+      <div className="workspace-navigation-panel">
       {workspace !== 'analytics' && <nav className="workspace-switcher" aria-label="PowerTable workspaces">
         {[
           ['gantt', '/column-mapping.html', 'Gantt'],
@@ -59,6 +65,7 @@ export default function WorkspaceFeatureTabs({ workspace = 'gantt', active }) {
           </a>
         ))}
       </nav>
-    </div>
+      </div>
+    </details>
   );
 }

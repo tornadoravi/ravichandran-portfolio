@@ -42,7 +42,7 @@ for (const appearance of ['light', 'dark']) {
           }
         } else {
           for (const illustration of await page.locator('.decision-illustration').all()) {
-            await expect(illustration).toHaveCSS('border-top-width', '1px');
+            await expect(illustration).toHaveCSS('border-top-width', '0px');
             await expect(illustration).toHaveCSS('box-shadow', 'none');
           }
           for (const illustration of await page.locator('.focus-illustration').all()) {
