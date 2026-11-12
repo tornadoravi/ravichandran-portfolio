@@ -270,14 +270,6 @@ export default function IndexPage() {
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </div>
-            <div className={"home-contact"} aria-labelledby={"home-contact-title"}>
-              <h3 id={"home-contact-title"}>{"Let’s talk product design."}</h3>
-              <a className={"text-link contact-link"} href={"https://www.linkedin.com/in/ravichandran-uxui/"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"Discuss a product design role "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
-              </a>
-            </div>
           </div>
           {"\n    "}
         </section>

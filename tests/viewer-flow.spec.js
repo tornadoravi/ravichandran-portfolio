@@ -9,7 +9,7 @@ async function openReady(page, path) {
 }
 
 for (const width of [320, 390, 768, 1440, 1920]) {
-  test(`Home prioritizes work and contact without oversized secondary controls at ${width}px`, async ({ page }) => {
+  test(`Home prioritizes work and a concise About link without a contact pitch at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await openReady(page, '/');
     await expect(page.locator('.hero-introduction')).toContainText('from UX/UI to implementation review');
@@ -31,14 +31,9 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       expect((await control.boundingBox()).height).toBeGreaterThanOrEqual(44);
       await expect(control).toHaveCSS('font-size', '13px');
     }
-    const contact = page.getByRole('link', { name: /Discuss a product design role/ });
-    await expect(contact).toHaveAttribute('href', 'https://www.linkedin.com/in/ravichandran-uxui/');
-    await expect(contact).toHaveAttribute('rel', 'noopener noreferrer');
-    await expect(page.locator('.home-about .home-contact')).toHaveCount(1);
-    await expect(page.locator('.project .home-contact')).toHaveCount(0);
-    const contactTop = await page.locator('.home-contact').evaluate(element => element.getBoundingClientRect().top + scrollY);
-    const workBottom = await page.locator('#work').evaluate(element => element.getBoundingClientRect().bottom + scrollY);
-    expect(contactTop).toBeGreaterThan(workBottom);
+    await expect(page.getByRole('link', { name: /Discuss a product design role/ })).toHaveCount(0);
+    await expect(page.locator('.home-contact')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute('href', '/about.html');
     await expect(page.locator('.home-about')).toContainText('Behind the work');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
