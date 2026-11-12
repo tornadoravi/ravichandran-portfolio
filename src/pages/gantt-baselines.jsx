@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
@@ -49,6 +50,7 @@ export default function GanttBaselinesPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="baselines">
 
         {"\n\n    "}
         <section id={"overview"} className={"mapping-lead wrap"} aria-labelledby={"baseline-overview-title"}>
@@ -276,6 +278,7 @@ export default function GanttBaselinesPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

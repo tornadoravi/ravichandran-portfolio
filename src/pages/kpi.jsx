@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
@@ -49,6 +50,7 @@ export default function KpiPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="kpi">
 
         {"\n\n    "}
         <figure id={"simple-screen"} className={"detail-figure case-evidence wrap screenshot-scene"}>
@@ -501,6 +503,7 @@ export default function KpiPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

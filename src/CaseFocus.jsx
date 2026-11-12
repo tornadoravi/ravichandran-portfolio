@@ -1,5 +1,4 @@
 import React from 'react';
-import CaseStoryNav from './CaseStoryNav.jsx';
 
 const stories = {
   planning: {
@@ -93,7 +92,6 @@ export default function CaseFocus({ story }) {
   const content = stories[story];
   if (!content) throw new Error(`Unknown focused story: ${story}`);
   return <section id="design-focus" className="case-snapshot case-focus wrap" aria-labelledby="design-focus-title" data-focus-story={story}>
-    <CaseStoryNav caseId={story === 'planning' ? 'planning' : 'wizard'} />
     <p className="eyebrow">{story === 'planning' ? 'Ownership story' : 'Scenario-based design'}</p>
     <h2 id="design-focus-title" className="visual-story-title">{content.title}</h2>
     <p id="story-problem" className="focus-task">{content.scenario}</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseRationale, CaseFlow } from '../CaseReview.jsx';
-import CaseStoryNav from '../CaseStoryNav.jsx';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 
 export default function AnalyticsPlusPage() {
   return (
@@ -48,6 +48,7 @@ export default function AnalyticsPlusPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="analyticsSuite">
         {"\n    "}
         <figure className={"detail-figure wrap screenshot-scene case-evidence analytics-lead-screen product-overview"}>
           {"\n      "}
@@ -81,7 +82,6 @@ export default function AnalyticsPlusPage() {
           </div>
           {"\n    "}
         </figure>
-        <div className="wrap"><CaseStoryNav caseId="analyticsSuite" /></div>
         <section id="review-brief" className="case-review-brief wrap" aria-label="Design contribution at a glance">
           <dl>
             <div><dt>Design challenge</dt><dd>Help authors choose visuals, build reports, and explain insights.</dd></div>
@@ -483,7 +483,7 @@ export default function AnalyticsPlusPage() {
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"My feature work / Five experiences"}</p>
             <h2 id={"features-title"}>{"Selected design decisions."}</h2>
-            <p>{"My design work, with product examples labeled separately. "}<a className={"text-link"} href={"#feature-references"}>{"Official feature references →"}</a></p>
+            <a className={"text-link feature-reference-link"} href={"#feature-references"}>{"Official feature references →"}</a>
           </div>
           {"\n      "}
           <nav className={"feature-card-grid feature-review-index"} aria-label={"Analytics+ feature index"}>
@@ -703,6 +703,7 @@ export default function AnalyticsPlusPage() {
         </section>
         {"\n    "}
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

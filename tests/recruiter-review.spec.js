@@ -109,7 +109,7 @@ for (const appearance of ['light', 'dark']) {
               return box.x < 0 || box.x + box.width > svg.viewBox.baseVal.width;
             }).map(text => text.textContent)));
           expect(outsideLabels, path).toEqual([]);
-          for (const image of await page.locator('main > .mapping-lead img, main > .case-evidence img, main > .mapping-evidence img').all()) {
+          for (const image of await page.locator('.case-story-content > .mapping-lead img, .case-story-content > .case-evidence img, .case-story-content > .mapping-evidence img').all()) {
             if (!await image.isVisible()) continue;
             await expect(image).toHaveJSProperty('complete', true);
             const size = await image.evaluate(image => {
@@ -130,7 +130,7 @@ for (const appearance of ['light', 'dark']) {
           await expect(page.locator('.decision-flow > li')).toHaveCount(path === '/analytics.html' || compact ? 0 : 3);
           if (path !== '/analytics.html' && !compact) await expect(page.locator('.decision-flow .small-index')).toHaveText(['01 / Challenge', '02 / Design', '03 / Evidence']);
           if (compact) await expect(page.locator('.presentation-summary .case-diagram')).toBeVisible();
-          else await expect(page.locator('main > .mapping-lead img, main > .case-evidence img, main > .mapping-evidence img').first()).toBeVisible();
+          else await expect(page.locator('.case-story-content > .mapping-lead img, .case-story-content > .case-evidence img, .case-story-content > .mapping-evidence img').first()).toBeVisible();
           for (const item of await page.locator('.case-key-facts > div').all()) {
             const box = await item.boundingBox();
             expect(box.x).toBeGreaterThanOrEqual(0);

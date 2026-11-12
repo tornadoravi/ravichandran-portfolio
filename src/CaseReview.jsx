@@ -1,7 +1,6 @@
 import React from 'react';
 import CaseDiagram from './CaseDiagram.jsx';
 import CaseIllustration from './CaseIllustration.jsx';
-import CaseStoryNav from './CaseStoryNav.jsx';
 import CaseProblemScene from './CaseProblemScene.jsx';
 
 const summaries = {
@@ -235,7 +234,6 @@ export function CaseFlow({ steps }) {
 export function CaseSnapshot({ caseId, id }) {
   return (
     <section id={id} className="case-snapshot case-quick-read wrap" aria-label="Case study at a glance">
-      <CaseStoryNav caseId={caseId} />
       <p className="eyebrow">Design highlights</p>
       <h2 className="visual-story-title">{headlines[caseId]}</h2>
       <CaseHighlights caseId={caseId} />

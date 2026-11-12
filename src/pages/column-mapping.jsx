@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
@@ -49,6 +50,7 @@ export default function ColumnMappingPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="mapping">
 
         {"\n\n    "}
         <section id={"overview"} className={"mapping-lead wrap"} aria-labelledby={"mapping-overview-title"}>
@@ -350,6 +352,7 @@ export default function ColumnMappingPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

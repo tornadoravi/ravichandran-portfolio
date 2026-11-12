@@ -86,7 +86,11 @@ for (const width of [320, 390, 701, 768, 900, 1440]) {
     const trigger = page.getByRole('button', { name: /^Appearance:/ });
     const menu = page.getByRole('menu', { name: 'Appearance', exact: true });
     await expect(trigger).toBeEnabled();
+    await expect(trigger).toHaveAttribute('title', 'Appearance');
     expect((await trigger.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    const icon = await trigger.locator('svg:not(.appearance-chevron)').boundingBox();
+    const chevron = await trigger.locator('.appearance-chevron').boundingBox();
+    expect(icon.y + icon.height / 2).toBeCloseTo(chevron.y + chevron.height / 2, 1);
     await trigger.focus();
     await page.keyboard.press('ArrowDown');
     await expect(page.getByRole('menuitemradio', { name: 'Light', exact: true })).toBeFocused();

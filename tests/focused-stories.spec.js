@@ -31,9 +31,9 @@ for (const appearance of ['light', 'dark']) {
         }
         const layout = await focus.evaluate(section => ({
           position: section.dataset.focusStory === 'planning'
-            ? section.getBoundingClientRect().top >= document.querySelector('main > .case-evidence').getBoundingClientRect().bottom &&
+            ? section.getBoundingClientRect().top >= document.querySelector('.case-story-content > .case-evidence').getBoundingClientRect().bottom &&
               section.getBoundingClientRect().bottom <= document.querySelector('#workspaces').getBoundingClientRect().top
-            : section.getBoundingClientRect().bottom <= document.querySelector('main > .case-evidence').getBoundingClientRect().top,
+            : section.getBoundingClientRect().bottom <= document.querySelector('.case-story-content > .case-evidence').getBoundingClientRect().top,
           overflow: [...section.querySelectorAll('li, svg, h3, dd')].some(element => {
             const rect = element.getBoundingClientRect();
             return rect.left < 0 || rect.right > innerWidth;

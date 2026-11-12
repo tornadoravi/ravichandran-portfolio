@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails, CaseSnapshot, CaseContext } from '../CaseReview.jsx';
@@ -49,6 +50,7 @@ export default function GanttConfigurationPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="ganttPanel">
 
         {"\n\n    "}
         <section id={"timeline"} className={"mapping-lead wrap"} aria-labelledby={"timeline-title"}>
@@ -389,6 +391,7 @@ export default function GanttConfigurationPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

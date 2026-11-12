@@ -86,7 +86,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       ['/analytics-plus.html', '/analytics.html', 'Analytics+ in action.']
     ]) {
       await openReady(page, path);
-      const figure = page.locator('main > .case-evidence');
+      const figure = page.locator('.case-story-content > .case-evidence');
       const recommendation = path === '/powertable.html'
         ? page.getByRole('link', { name: 'Explore Gantt', exact: true })
         : figure.getByRole('link', { name: /Recommended first read/ });

@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseFlow } from '../CaseReview.jsx';
 import CaseFocus from '../CaseFocus.jsx';
@@ -40,6 +41,7 @@ export default function PowertablePage() {
             </dl>
           </CaseContext>
         </section>
+        <CaseStoryLayout caseId="planning">
         {"\n    "}
         <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>
           {"\n      "}
@@ -882,6 +884,7 @@ export default function PowertablePage() {
         </details>
         {"\n    "}
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

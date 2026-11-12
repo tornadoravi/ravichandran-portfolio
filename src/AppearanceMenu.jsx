@@ -61,13 +61,13 @@ export default function AppearanceMenu({ open, onOpenChange, onOpen }) {
   }
 
   return <div className="appearance-control" ref={control}>
-    <button className="appearance-trigger" type="button" ref={trigger} disabled={!ready} aria-label={`Appearance: ${labels[appearance]}`} title={`Change appearance (${labels[appearance]})`} aria-haspopup="menu" aria-expanded={open} aria-controls="appearance-menu" onClick={() => open ? close() : show(choices.indexOf(appearance))} onKeyDown={event => {
+    <button className="appearance-trigger" type="button" ref={trigger} disabled={!ready} aria-label={`Appearance: ${labels[appearance]}`} title="Appearance" aria-haspopup="menu" aria-expanded={open} aria-controls="appearance-menu" onClick={() => open ? close() : show(choices.indexOf(appearance))} onKeyDown={event => {
       if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
       event.preventDefault();
       show(event.key === 'ArrowDown' ? 0 : choices.length - 1);
     }}>
       <ThemeIcon value={appearance} />
-      <span className="appearance-chevron" aria-hidden="true">⌄</span>
+      <svg className="appearance-chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg>
     </button>
     <div id="appearance-menu" className="appearance-menu" role="menu" aria-label="Appearance" hidden={!open} onKeyDown={navigate}>
       {choices.map((value, index) => <button key={value} type="button" role="menuitemradio" aria-checked={appearance === value} tabIndex={-1} ref={element => { items.current[index] = element; }} onClick={() => { selectAppearance(value); close(); }}>

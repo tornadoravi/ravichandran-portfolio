@@ -2,7 +2,7 @@ import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import { CaseDetails, CaseContext, CaseFlow, CaseHighlights } from '../CaseReview.jsx';
-import CaseStoryNav from '../CaseStoryNav.jsx';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 
 export default function PresentationPage() {
   return (
@@ -50,10 +50,10 @@ export default function PresentationPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="presentation">
 
         {"\n\n    "}
         <section className="presentation-summary case-snapshot wrap" aria-labelledby="presentation-summary-title">
-          <CaseStoryNav caseId="presentation" />
           <h2 id="presentation-summary-title" className="visual-story-title">Put the explanation beside the data.</h2>
           <CaseHighlights caseId="presentation" facts={[
             'A chart can show the change without explaining it.',
@@ -669,6 +669,7 @@ export default function PresentationPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

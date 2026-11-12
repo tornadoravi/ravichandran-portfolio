@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import CaseStoryNav from '../CaseStoryNav.jsx';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 
 export default function AnalyticsSpatialPage() {
   return <>
@@ -13,8 +13,8 @@ export default function AnalyticsSpatialPage() {
         <p className="case-summary">A familiar report workflow, explored in a spatial environment.</p>
         <p className="fine-print">Prototype only—not a shipped Vision Pro product.</p>
       </section>
+      <CaseStoryLayout caseId="spatial">
       <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
-        <CaseStoryNav caseId="spatial" />
         <div className="case-section-heading">
           <p className="eyebrow">The visual journey</p>
           <h2 id="spatial-title">Launch. Enter. Explore.</h2>
@@ -39,6 +39,7 @@ export default function AnalyticsSpatialPage() {
           <a className="text-link" href="/assets/analytics-spatial-sequence.png" target="_blank" rel="noopener noreferrer" aria-label="View original concept sequence (opens in a new tab)">View original sequence ↗</a>
         </div>
       </section>
+      </CaseStoryLayout>
     </main>
     <footer className="site-footer wrap">
       <a className="wordmark" href="/">Ravichandran V<span className="accent">.</span></a>

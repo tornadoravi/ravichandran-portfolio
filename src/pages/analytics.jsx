@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import { CaseDetails, CaseContext, CaseFlow } from '../CaseReview.jsx';
@@ -45,6 +46,7 @@ export default function AnalyticsPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="wizard">
 
         {"\n    "}
         <CaseFocus story="wizard" />
@@ -736,6 +738,7 @@ export default function AnalyticsPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

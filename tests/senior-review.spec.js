@@ -29,16 +29,39 @@ for (const appearance of ['light', 'dark']) {
           await expect(page.locator('#spatial-exploration')).toBeHidden();
           const rows = page.locator('.feature-review-index > a');
           await expect(rows).toHaveCount(5);
+          await rows.locator('img').evaluateAll(images => Promise.all(images.map(image => {
+            image.loading = 'eager';
+            return image.decode();
+          })));
           const boxes = [];
           for (const row of await rows.all()) {
-            await expect(row).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+            await expect(row).toHaveCSS('border-top-width', '1px');
+            await expect(row).toHaveCSS('border-radius', '8px');
             await expect(row).toHaveCSS('box-shadow', 'none');
             await expect(row.locator('img')).toBeVisible();
             await expect(row.locator('.album-footer')).not.toBeEmpty();
+            const image = await row.locator('img').evaluate(element => ({
+              width: element.clientWidth,
+              height: element.clientHeight,
+              ratio: element.naturalWidth / element.naturalHeight
+            }));
+            expect(image.width / image.height).toBeCloseTo(image.ratio, 1);
+            if (width === 1440) expect(image.width).toBeGreaterThan(200);
             boxes.push(await row.boundingBox());
           }
-          for (let index = 1; index < boxes.length; index++) {
-            expect(boxes[index].y).toBeGreaterThanOrEqual(boxes[index - 1].y + boxes[index - 1].height);
+          if (width > 700) {
+            for (const [left, right] of [[boxes[0], boxes[1]], [boxes[2], boxes[3]]]) {
+              expect(left.y).toBeCloseTo(right.y, 1);
+              expect(left.height).toBeCloseTo(right.height, 1);
+              expect(right.x).toBeGreaterThan(left.x + left.width);
+            }
+            expect(boxes[2].y).toBeGreaterThan(boxes[0].y + boxes[0].height);
+            expect(boxes[4].y).toBeGreaterThan(boxes[2].y + boxes[2].height);
+            expect(boxes[4].width).toBeCloseTo(boxes[1].x + boxes[1].width - boxes[0].x, 1);
+          } else {
+            for (let index = 1; index < boxes.length; index++) {
+              expect(boxes[index].y).toBeGreaterThanOrEqual(boxes[index - 1].y + boxes[index - 1].height);
+            }
           }
         } else {
           for (const illustration of await page.locator('.decision-illustration').all()) {

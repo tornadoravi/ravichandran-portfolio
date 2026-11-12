@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseContext, CaseDetails, CaseSnapshot } from '../CaseReview.jsx';
@@ -22,6 +23,7 @@ export default function CrosstabPage() {
             </dl>
           </CaseContext>
         </section>
+        <CaseStoryLayout caseId="crosstab">
         <CaseSnapshot caseId="crosstab" id="contribution" />
         <CaseDetails caseId="crosstab">
         <section id="contribution-notes" className="editorial-section wrap" aria-labelledby="contribution-title">
@@ -64,6 +66,7 @@ export default function CrosstabPage() {
           </div>
         </section>
         </CaseDetails>
+        </CaseStoryLayout>
       </main>
       <footer className="site-footer wrap">
         <a className="wordmark" href="/">Ravichandran<span className="accent"> V.</span></a>

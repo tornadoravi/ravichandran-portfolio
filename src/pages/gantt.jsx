@@ -1,4 +1,5 @@
 import React from 'react';
+import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
 import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
@@ -49,6 +50,7 @@ export default function GanttPage() {
           </CaseContext>
           {"\n    "}
         </section>
+        <CaseStoryLayout caseId="gantt">
 
         {"\n\n    "}
         <div className={"wizard-gallery case-evidence wrap"}>
@@ -468,6 +470,7 @@ export default function GanttPage() {
         {"\n    "}
         </CaseDetails>
         {"\n  "}
+        </CaseStoryLayout>
       </main>
       {"\n  "}
       <footer className={"site-footer wrap"}>

@@ -214,6 +214,16 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     }
     await expect(page.locator('#project-planning h3')).toHaveText('PowerTable');
     await expect(page.locator('#project-analytics h3')).toHaveText('Inforiver Analytics+');
+    if (width > 700) {
+      for (const selector of ['.project-visual', '.visual-heading', '.cover-statement', '.product-screenshot', '.visual-bottom']) {
+        const [planning, analytics] = await page.locator(`#work > .project ${selector}`).evaluateAll(elements => elements.map(element => {
+          const { y, height } = element.getBoundingClientRect();
+          return { y, height };
+        }));
+        expect(analytics.y, `${selector} top`).toBeCloseTo(planning.y, 0);
+        expect(analytics.height, `${selector} height`).toBeCloseTo(planning.height, 0);
+      }
+    }
     for (const label of await page.locator('.platform-pill, .project-categories li, .visual-bottom').all()) {
       expect(await label.evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(12);
     }
