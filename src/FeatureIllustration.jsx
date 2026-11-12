@@ -1,4 +1,5 @@
-import React, { useId } from 'react';
+import React from 'react';
+import IllustrationSurface from './IllustrationSurface.jsx';
 
 const descriptions = {
   storyboard: 'Template, custom, and blank starting points connect to one report-authoring canvas.',
@@ -177,25 +178,9 @@ function Kpi({ paint }) {
 const scenes = { storyboard: Storyboard, gantt: Gantt, wizard: Wizard, presentation: Presentation, kpi: Kpi };
 
 export default function FeatureIllustration({ caseId }) {
-  const id = useId();
   const Scene = scenes[caseId];
   if (!Scene) throw new Error(`Unknown feature illustration: ${caseId}`);
-  const paint = { paper: `${id}-paper`, green: `${id}-green`, sand: `${id}-sand`, shadow: `${id}-shadow` };
-  return <svg className="case-topic-art feature-illustration" data-case-scene={`${caseId}-design`} viewBox="0 0 480 236" preserveAspectRatio="xMidYMid meet" role="img" aria-label={`Concept illustration: ${descriptions[caseId]}`}>
-    <defs>
-      <linearGradient id={paint.paper} x1="0" y1="0" x2="0" y2="1">
-        <stop stopColor="#ffffff" /><stop offset="1" stopColor="#f9fbfa" />
-      </linearGradient>
-      <linearGradient id={paint.green} x1="0" y1="0" x2="0" y2="1">
-        <stop stopColor="#91a89b" /><stop offset="1" stopColor="#668577" />
-      </linearGradient>
-      <linearGradient id={paint.sand} x1="0" y1="0" x2="1" y2="1">
-        <stop stopColor="#e0d8c6" /><stop offset="1" stopColor="#b5a88b" />
-      </linearGradient>
-      <filter id={paint.shadow} x="-20%" y="-20%" width="150%" height="155%">
-        <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#334e43" floodOpacity=".12" />
-      </filter>
-    </defs>
-    <g className="case-topic-scene"><Scene paint={paint} /></g>
+  return <svg className="case-topic-art feature-illustration portfolio-illustration" data-case-scene={`${caseId}-design`} viewBox="0 0 480 236" preserveAspectRatio="xMidYMid meet" role="img" aria-label={`Concept illustration: ${descriptions[caseId]}`}>
+    <IllustrationSurface>{paint => <g className="case-topic-scene"><Scene paint={paint} /></g>}</IllustrationSurface>
   </svg>;
 }

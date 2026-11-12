@@ -1,4 +1,5 @@
 import React from 'react';
+import IllustrationSurface, { PaperSheet } from './IllustrationSurface.jsx';
 
 const stories = {
   planning: {
@@ -32,8 +33,8 @@ const stories = {
 function ScenarioScene({ story, step }) {
   if (story === 'planning') {
     if (step === 0) return <>
-      <rect x="8" y="16" width="72" height="110" rx="9" />
-      <rect x="122" y="16" width="70" height="110" rx="9" />
+      <PaperSheet x="8" y="16" width="72" height="110" rx="9" />
+      <PaperSheet x="122" y="16" width="70" height="110" rx="9" />
       {[0, 1, 2].map(row => <g key={row}>
         <rect className="focus-fill" x="19" y={34 + row * 28} width="49" height="16" rx="4" />
         <path className="focus-connector" d={`M84 ${42 + row * 28}h30m-5-5 5 5-5 5`} />
@@ -42,7 +43,7 @@ function ScenarioScene({ story, step }) {
       </g>)}
     </>;
     if (step === 1) return <>
-      <rect x="6" y="14" width="188" height="112" rx="9" />
+      <PaperSheet x="6" y="14" width="188" height="112" rx="9" />
       {[55, 94, 133, 172].map(x => <path className="focus-gridline" key={x} d={`M${x} 26v88`} />)}
       {[0, 1, 2].map(row => <g key={row}>
         <circle cx="21" cy={43 + row * 29} r="4" />
@@ -51,7 +52,7 @@ function ScenarioScene({ story, step }) {
       <path className="focus-connector" d="M108 43h10v29m-4-5 4 5 4-5" />
     </>;
     return <>
-      <rect x="6" y="14" width="188" height="112" rx="9" />
+      <PaperSheet x="6" y="14" width="188" height="112" rx="9" />
       {[0, 1, 2].map(row => <g key={row}>
         <circle className="focus-fill" cx="26" cy={40 + row * 31} r="12" />
         <circle cx="26" cy={36 + row * 31} r="3" />
@@ -62,23 +63,23 @@ function ScenarioScene({ story, step }) {
     </>;
   }
   if (step === 0) return <>
-    <rect className="focus-fill" x="9" y="18" width="92" height="107" rx="10" />
+    <PaperSheet x="9" y="18" width="92" height="107" rx="10" />
     {[29, 55, 76].map((height, index) => <rect className="focus-solid" key={height} x={24 + index * 23} y={108 - height} width="13" height={height} rx="3" />)}
-    <rect x="115" y="18" width="76" height="47" rx="8" />
+    <PaperSheet x="115" y="18" width="76" height="47" rx="8" />
     <path d="m126 53 15-17 13 6 24-14" />
-    <rect x="115" y="78" width="76" height="47" rx="8" />
+    <PaperSheet x="115" y="78" width="76" height="47" rx="8" />
     {[[130, 110], [144, 96], [153, 113], [165, 92], [176, 103]].map(([x, y]) => <circle className="focus-dot" key={x} cx={x} cy={y} r="3" />)}
   </>;
   if (step === 1) return <>
-    <rect className="focus-fill" x="8" y="18" width="88" height="107" rx="9" />
+    <PaperSheet x="8" y="18" width="88" height="107" rx="9" />
     {[28, 50, 70].map((height, index) => <rect className="focus-solid" key={height} x={23 + index * 23} y={107 - height} width="13" height={height} rx="3" />)}
-    <rect x="110" y="18" width="82" height="107" rx="9" />
+    <PaperSheet x="110" y="18" width="82" height="107" rx="9" />
     {[35, 57, 78].map((width, row) => <rect className="focus-secondary" key={width} x="122" y={39 + row * 25} width={width * .7} height="12" rx="3" />)}
     <circle className="focus-solid" cx="87" cy="27" r="13" />
     <path className="focus-check" d="m81 27 4 4 8-8" />
   </>;
   return <>
-    <rect x="8" y="18" width="184" height="107" rx="9" />
+    <PaperSheet x="8" y="18" width="184" height="107" rx="9" />
     {[30, 55, 73].map((height, index) => <rect className="focus-solid" key={height} x={24 + index * 24} y={109 - height} width="14" height={height} rx="3" />)}
     <path className="focus-gridline" d="M111 19v105" />
     {[38, 65, 92].map((y, index) => <g key={y}>
@@ -99,7 +100,7 @@ export default function CaseFocus({ story }) {
       <figure id="story-flow" className="focus-illustration">
         <ol className="focus-steps" aria-label={story === 'planning' ? 'Illustrative planning scenario' : 'Illustrative chart-selection scenario'}>
           {content.steps.map(([title, detail], step) => <li key={title}>
-            <svg viewBox="0 0 200 140" aria-hidden="true" focusable="false"><ScenarioScene story={story} step={step} /></svg>
+            <svg className="portfolio-illustration" viewBox="0 0 200 140" aria-hidden="true" focusable="false"><IllustrationSurface><ScenarioScene story={story} step={step} /></IllustrationSurface></svg>
             <div><span className="story-step-number" aria-hidden="true">{String(step + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{detail}</p></div>
           </li>)}
         </ol>

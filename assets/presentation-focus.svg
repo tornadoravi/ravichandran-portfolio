@@ -1,34 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1040" height="580" viewBox="0 0 1040 580" role="img" aria-labelledby="title description">
   <title id="title">Conceptual illustration: move from a report overview to a focused explanation</title>
   <desc id="description">Original presentation concept, not a Figma capture or a demonstrated product sequence. A small report overview sits beside an enlarged chart region and a single explanatory note. A three-part strip describes overview, focus, and explanation as a design intent.</desc>
-  <rect width="1040" height="580" fill="#f6f7f8"/>
-  <g font-family="Helvetica, Arial, sans-serif" fill="#30363c">
-    <path d="M32 70H1008" stroke="#d5d9dd"/>
+  <defs>
+    <linearGradient id="paper" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f9fbfa"/></linearGradient>
+    <linearGradient id="sage" x2="0" y2="1"><stop stop-color="#91a89b"/><stop offset="1" stop-color="#668577"/></linearGradient>
+    <radialGradient id="ground"><stop stop-color="#f9fbfa"/><stop offset="1" stop-color="#eef3ef"/></radialGradient>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#d5dfd8" stroke-opacity=".25"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="155%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#334e43" flood-opacity=".12"/></filter>
+  </defs>
+  <rect width="1040" height="580" fill="url(#ground)"/>
+  <rect width="1040" height="580" fill="url(#grid)"/>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#526960">
+    <path d="M32 70H1008" stroke="#cbd8d2"/>
     <text x="32" y="42" font-size="16" letter-spacing="1.5">ILLUSTRATIVE WORKFLOW / DIRECT ATTENTION</text>
     <text x="32" y="112" font-size="25">One point in focus. The wider story still in view.</text>
-    <rect x="32" y="142" width="260" height="316" fill="#edf0f3" stroke="#d5d9dd"/>
+    <rect class="back" x="37" y="147" width="260" height="316" rx="12" fill="#e5ede8" stroke="#cbd8d2"/>
+    <rect class="paper" x="32" y="142" width="260" height="316" rx="12" fill="url(#paper)" stroke="#cbd8d2" filter="url(#shadow)"/>
     <text x="52" y="177" font-size="16">Report overview</text>
-    <rect x="52" y="200" width="220" height="52" fill="#fff" stroke="#d5d9dd"/>
-    <path d="M70 219H155M70 233H124M175 219H253M175 233H224" stroke="#a2afbb" stroke-width="4"/>
-    <rect x="52" y="268" width="102" height="107" fill="#fff" stroke="#496780" stroke-width="2"/>
-    <rect x="170" y="268" width="102" height="107" fill="#fff" stroke="#d5d9dd"/>
-    <g fill="#9bafbf"><rect x="67" y="323" width="16" height="32"/><rect x="93" y="302" width="16" height="53"/><rect x="119" y="314" width="16" height="41"/></g>
-    <path d="M185 340L207 317L228 326L254 293" fill="none" stroke="#9bafbf" stroke-width="3"/>
-    <rect x="52" y="391" width="220" height="43" fill="#fff" stroke="#d5d9dd"/>
-    <path d="M66 405H258M66 419H258" stroke="#d5d9dd"/>
-    <path d="M307 299H338L329 290M338 299L329 308" fill="none" stroke="#496780" stroke-width="2"/>
-    <rect x="354" y="142" width="654" height="316" fill="#fff" stroke="#d5d9dd"/>
+    <rect x="52" y="200" width="220" height="52" fill="#fff" stroke="#cbd8d2"/>
+    <path d="M70 219H155M70 233H124M175 219H253M175 233H224" stroke="#b5c5bb" stroke-width="4"/>
+    <rect x="52" y="268" width="102" height="107" fill="#fff" stroke="#526960" stroke-width="2"/>
+    <rect x="170" y="268" width="102" height="107" fill="#fff" stroke="#cbd8d2"/>
+    <g fill="#b7c8bc"><rect x="67" y="323" width="16" height="32"/><rect x="93" y="302" width="16" height="53"/><rect x="119" y="314" width="16" height="41"/></g>
+    <path d="M185 340L207 317L228 326L254 293" fill="none" stroke="#b7c8bc" stroke-width="3"/>
+    <rect x="52" y="391" width="220" height="43" fill="#fff" stroke="#cbd8d2"/>
+    <path d="M66 405H258M66 419H258" stroke="#cbd8d2"/>
+    <path d="M307 299H338L329 290M338 299L329 308" fill="none" stroke="#526960" stroke-width="2"/>
+    <rect class="back" x="359" y="147" width="654" height="316" rx="12" fill="#e5ede8" stroke="#cbd8d2"/>
+    <rect class="paper" x="354" y="142" width="654" height="316" rx="12" fill="url(#paper)" stroke="#cbd8d2" filter="url(#shadow)"/>
     <text x="378" y="177" font-size="18">Focus on a specific observation</text>
-    <path d="M394 231H692M394 285H692M394 339H692M394 393H692" stroke="#e4e8ec"/>
-    <g fill="#acbac7"><rect x="416" y="325" width="42" height="68"/><rect x="481" y="278" width="42" height="115"/><rect x="611" y="308" width="42" height="85"/></g>
-    <rect x="546" y="232" width="42" height="161" fill="#496780"/>
-    <path d="M567 231V215H735V259" fill="none" stroke="#496780" stroke-width="2"/>
-    <rect x="720" y="259" width="264" height="134" fill="#e9eef2"/>
+    <path d="M394 231H692M394 285H692M394 339H692M394 393H692" stroke="#d7e1da"/>
+    <g fill="#b7c8bc"><rect x="416" y="325" width="42" height="68"/><rect x="481" y="278" width="42" height="115"/><rect x="611" y="308" width="42" height="85"/></g>
+    <rect x="546" y="232" width="42" height="161" rx="4" fill="url(#sage)"/>
+    <path d="M567 231V215H735V259" fill="none" stroke="#526960" stroke-width="2"/>
+    <rect x="720" y="259" width="264" height="134" rx="8" fill="#e9f0eb"/>
     <text x="740" y="291" font-size="16">Explain what matters</text>
-    <text x="740" y="320" font-size="14" fill="#58616a">Keep the explanation beside</text>
-    <text x="740" y="343" font-size="14" fill="#58616a">the chart being discussed.</text>
-    <text x="378" y="432" font-size="14" fill="#58616a">Fictional content / concept of visual emphasis, not playback controls</text>
-    <rect x="32" y="486" width="976" height="60" fill="#e9eef2"/>
+    <text x="740" y="320" font-size="14" fill="#5d7065">Keep the explanation beside</text>
+    <text x="740" y="343" font-size="14" fill="#5d7065">the chart being discussed.</text>
+    <text x="378" y="432" font-size="14" fill="#5d7065">Fictional content / concept of visual emphasis, not playback controls</text>
+    <rect x="32" y="486" width="976" height="60" fill="#e9f0eb"/>
     <g font-size="16">
       <text x="56" y="522">01 / Establish the overview</text>
       <text x="382" y="522">02 / Focus the audience</text>

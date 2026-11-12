@@ -1,8 +1,10 @@
 import React from 'react';
+import IllustrationSurface, { PaperSheet } from './IllustrationSurface.jsx';
 
 function Tile({ x, y, width = 126, height = 50, label, accent = false }) {
   return <g className={accent ? 'diagram-tile diagram-tile--accent' : 'diagram-tile'}>
-    <rect x={x} y={y} width={width} height={height} rx="10" />
+    <rect className="illustration-paper-back" x={x + 3} y={y + 3} width={width} height={height} rx="10" />
+    <PaperSheet x={x} y={y} width={width} height={height} rx="10" />
     <text x={x + width / 2} y={y + height / 2 + 5} textAnchor="middle">{label}</text>
   </g>;
 }
@@ -13,7 +15,8 @@ function Arrow({ x = 172, y = 110, length = 50 }) {
 
 function Timeline({ x = 255, y = 54, baseline = false }) {
   return <g className="diagram-timeline">
-    <rect x={x} y={y} width="190" height="124" rx="12" />
+    <rect className="illustration-paper-back" x={x + 4} y={y + 4} width="190" height="124" rx="12" />
+    <PaperSheet x={x} y={y} width="190" height="124" rx="12" />
     {[45, 85, 125, 165].map(offset => <path key={offset} className="diagram-gridline" d={`M${x + offset} ${y + 22}v82`} />)}
     <text x={x + 16} y={y + 22}>{baseline ? 'Current + baseline' : 'Connected plan'}</text>
     {[0, 1, 2].map(row => <g key={row}>
@@ -28,7 +31,8 @@ function Panel({ resource = false }) {
     <Timeline x={20} y={52} />
     <Arrow x={220} length={24} />
     <g className="diagram-panel">
-      <rect x="260" y="24" width="200" height="184" rx="12" />
+      <rect className="illustration-paper-back" x="264" y="28" width="200" height="184" rx="12" />
+      <PaperSheet x="260" y="24" width="200" height="184" rx="12" />
       <text x="278" y="51">{resource ? 'Resource settings' : 'Gantt settings'}</text>
       {(resource ? ['Timeline', 'Milestone', 'Color', 'Label'] : ['Timeline', 'Milestone', 'Dependency', 'Color', 'Label']).map((label, index) => <g key={label}>
         <circle cx="283" cy={75 + index * 25} r="4" />
@@ -102,7 +106,7 @@ function Scene({ caseId }) {
         {['Template', 'Custom layout', 'Blank report'].map((label, index) => <Tile key={label} x={15} y={18 + index * 64} width={143} label={label} accent={index === 1} />)}
         <path className="diagram-arrow" d="M170 44h30v128h-30m30-64h40m-7-6 7 6-7 6" />
         <g className="diagram-canvas">
-          <rect x="255" y="35" width="205" height="160" rx="12" />
+          <PaperSheet x="255" y="35" width="205" height="160" rx="12" />
           <rect x="270" y="50" width="175" height="28" rx="5" />
           <rect x="270" y="89" width="80" height="87" rx="5" />
           <rect x="362" y="89" width="83" height="87" rx="5" />
@@ -127,7 +131,7 @@ function Scene({ caseId }) {
     case 'presentation':
       return <>
         <g className="diagram-canvas">
-          <rect x="20" y="40" width="220" height="160" rx="12" />
+          <PaperSheet x="20" y="40" width="220" height="160" rx="12" />
           {[65, 98, 50, 80].map((height, index) => <rect className="diagram-bar" key={index} x={45 + index * 43} y={180 - height} width="26" height={height} rx="4" />)}
           <circle className="diagram-pin" cx="101" cy="72" r="13" />
           <text className="diagram-pin-label" x="101" y="77" textAnchor="middle">1</text>
@@ -140,10 +144,10 @@ function Scene({ caseId }) {
     case 'kpi':
       return <>
         <g className="diagram-canvas">
-          <rect x="20" y="55" width="137" height="120" rx="12" />
+          <PaperSheet x="20" y="55" width="137" height="120" rx="12" />
           <text className="diagram-note" x="88" y="85" textAnchor="middle">Simple</text>
           <text className="diagram-value" x="88" y="133" textAnchor="middle">Value</text>
-          <rect x="178" y="55" width="137" height="120" rx="12" />
+          <PaperSheet x="178" y="55" width="137" height="120" rx="12" />
           <text className="diagram-note" x="246" y="85" textAnchor="middle">Variance</text>
           <text className="diagram-value" x="246" y="128" textAnchor="middle">Δ</text>
           <path className="diagram-bar" d="M197 149h98" strokeWidth="5" />
@@ -158,6 +162,7 @@ function Scene({ caseId }) {
         <Tile x={15} y={171} width={107} height={38} label="Measures" accent />
         <Arrow x={133} length={32} />
         <g className="diagram-matrix">
+          <PaperSheet x="183" y="45" width="272" height="132" rx="2" />
           {[0, 1, 2].flatMap(row => [0, 1, 2, 3].map(col => <rect className={row === 0 || col === 0 ? 'diagram-matrix-header' : undefined} key={`${row}-${col}`} x={183 + col * 68} y={45 + row * 44} width="68" height="44" />))}
           <text x="319" y="202" textAnchor="middle">Summary + detail</text>
         </g>
@@ -183,7 +188,7 @@ function Scene({ caseId }) {
 }
 
 export default function CaseDiagram({ caseId }) {
-  return <svg className="case-diagram" viewBox="0 0 480 236" role="img" aria-label={descriptions[caseId]}>
-    <Scene caseId={caseId} />
+  return <svg className="case-diagram portfolio-illustration" viewBox="0 0 480 236" role="img" aria-label={descriptions[caseId]}>
+    <IllustrationSurface><Scene caseId={caseId} /></IllustrationSurface>
   </svg>;
 }

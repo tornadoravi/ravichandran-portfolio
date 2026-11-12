@@ -1,4 +1,5 @@
-import React, { useId } from 'react';
+import React from 'react';
+import IllustrationSurface, { PaperSheet } from './IllustrationSurface.jsx';
 
 const descriptions = {
   mapping: 'Source fields need clear task, time, resource, and cost roles.',
@@ -18,7 +19,7 @@ const descriptions = {
 function Window({ x, y, width, height, title, children }) {
   return <g transform={`translate(${x} ${y})`}>
     <path className="scene-depth" d={`M0 0l8-6h${width}v${height}l-8 6Z`} />
-    <rect className="scene-paper" width={width} height={height} rx="8" />
+    <PaperSheet className="scene-paper" width={width} height={height} rx="8" />
     <path className="scene-line" d={`M0 32h${width}`} />
     <circle className="scene-dot" cx="15" cy="16" r="3" />
     <text x="27" y="21">{title}</text>
@@ -122,11 +123,9 @@ function Problem({ caseId }) {
 }
 
 export default function CaseProblemScene({ caseId }) {
-  const grid = useId();
-  return <svg className="case-problem-scene" viewBox="0 0 480 236" role="img" aria-label={`Illustrative problem: ${descriptions[caseId]} Not a historical product screen.`}>
-    <defs><pattern id={grid} width="24" height="24" patternUnits="userSpaceOnUse"><path className="scene-grid" d="M24 0H0v24" /></pattern></defs>
-    <rect className="scene-ground" width="480" height="236" rx="10" />
-    <rect width="480" height="236" fill={`url(#${grid})`} rx="10" />
-    <Problem caseId={caseId} />
+  return <svg className="case-problem-scene portfolio-illustration" viewBox="0 0 480 236" role="img" aria-label={`Illustrative problem: ${descriptions[caseId]} Not a historical product screen.`}>
+    <IllustrationSurface>
+      <Problem caseId={caseId} />
+    </IllustrationSurface>
   </svg>;
 }

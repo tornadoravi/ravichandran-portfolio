@@ -49,14 +49,14 @@ export function initializePortfolioEffects() {
   listen(window, 'hashchange', () => openLinkedDetails(location.hash));
   listen(window, 'pageshow', () => openLinkedDetails(location.hash));
 
-  const text = (x, y, content, size = 12, color = '#71716c', weight = 400) =>
+  const text = (x, y, content, size = 12, color = '#5d7065', weight = 400) =>
     `<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}">${content}</text>`;
   const rect = (x, y, width, height, fill, radius = 0, stroke = 'none') =>
-    `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="${radius}" fill="${fill}" stroke="${stroke}"/>`;
-  const line = (x1, y1, x2, y2, color = '#eeeee9') =>
+    `<rect${fill === '#fff' ? ' class="workspace-paper"' : ''} x="${x}" y="${y}" width="${width}" height="${height}" rx="${radius}" fill="${fill}" stroke="${stroke}"/>`;
+  const line = (x1, y1, x2, y2, color = '#d7e1da') =>
     `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}"/>`;
   const shell = (content, label, height = 460) =>
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 ${height}" role="img" aria-label="${label}" font-family="Arial, Helvetica, sans-serif">${rect(0, 0, 1000, height, '#fafaf7', 10)}${content}</svg>`;
+    `<svg xmlns="http://www.w3.org/2000/svg" class="portfolio-illustration" viewBox="0 0 1000 ${height}" role="img" aria-label="${label}" font-family="Arial, Helvetica, sans-serif">${content}</svg>`;
 
   function topbar(name, subtitle) {
     return `${rect(0, 0, 1000, 49, '#fff', 10)}${rect(0, 30, 1000, 19, '#fff')}${rect(20, 17, 17, 17, '#253f36', 4)}${text(25, 30, '+', 16, '#fff')}${text(48, 31, name, 14, '#292d29', 600)}${text(228, 31, subtitle, 10)}${text(843, 31, 'Illustrative workspace', 10)}${line(0, 49, 1000, 49)}`;
@@ -114,16 +114,16 @@ export function initializePortfolioEffects() {
 
   function planning() {
     const rows = [
-      ['Project workspace', 'Summary', 0, 8, '#718566'],
-      ['Discover the requirements', 'Planning', 0, 2, '#a3b894'],
-      ['Map the connected flow', 'Design', 1.5, 2.5, '#809974'],
-      ['Shape the experience', 'Design', 3, 3, '#91aa82'],
-      ['Review the implementation', 'Review', 5.5, 2, '#c8b08d'],
-      ['Bring the details together', 'Review', 7, 1.5, '#afbd9f']
+      ['Project workspace', 'Summary', 0, 8, '#668577'],
+      ['Discover the requirements', 'Planning', 0, 2, '#b7c8bc'],
+      ['Map the connected flow', 'Design', 1.5, 2.5, '#91a89b'],
+      ['Shape the experience', 'Design', 3, 3, '#a4b9ab'],
+      ['Review the implementation', 'Review', 5.5, 2, '#d3c7b1'],
+      ['Bring the details together', 'Review', 7, 1.5, '#c4d2c7']
     ];
     const rowMarkup = rows.map(([name, category, start, duration, color], i) => {
       const y = 177 + i * 41;
-      return `${i % 2 === 0 ? rect(21, y - 20, 958, 41, '#f2f4ed') : ''}${line(21, y + 21, 979, y + 21)}${text(34, y + 5, i === 0 ? '▾' : '·', 12)}${text(57, y + 5, name, 11, '#40483b', i === 0 ? 600 : 400)}${text(299, y + 5, category, 10)}${rect(431 + start * 56, y - 8, duration * 56, i === 0 ? 9 : 18, color, 3)}${i > 0 ? rect(431 + start * 56, y - 8, duration * 30, 18, '#3d583a', 3) : ''}`;
+      return `${i % 2 === 0 ? rect(21, y - 20, 958, 41, '#e9f0eb') : ''}${line(21, y + 21, 979, y + 21)}${text(34, y + 5, i === 0 ? '▾' : '·', 12)}${text(57, y + 5, name, 11, '#526960', i === 0 ? 600 : 400)}${text(299, y + 5, category, 10)}${rect(431 + start * 56, y - 8, duration * 56, i === 0 ? 9 : 18, color, 3)}${i > 0 ? rect(431 + start * 56, y - 8, duration * 30, 18, '#668577', 3) : ''}`;
     }).join('');
     const grid = Array.from({ length: 10 }, (_, i) => `${line(423 + i * 56, 138, 423 + i * 56, 424, '#e4e8dd')}${text(440 + i * 56, 142, String(i * 3 + 1).padStart(2, '0'), 10)}`).join('');
     return shell(`${topbar('PowerTable', 'Sample workspace / Connected planning')}
@@ -151,9 +151,9 @@ export function initializePortfolioEffects() {
 
   function resources() {
     const teams = [
-      ['Design team', 'Sample capacity', 70, '#90a67e'],
-      ['Planning team', 'Sample capacity', 88, '#b79671'],
-      ['Review team', 'Sample capacity', 55, '#90a67e']
+      ['Design team', 'Sample capacity', 70, '#91a89b'],
+      ['Planning team', 'Sample capacity', 88, '#b5a88b'],
+      ['Review team', 'Sample capacity', 55, '#91a89b']
     ].map(([name, caption, width, fill], i) => {
       const y = 184 + i * 69;
       return `${rect(29, y - 28, 624, 60, '#fff', 5, '#e4e8dc')}${text(45, y - 3, name, 12, '#354431', 600)}${text(45, y + 16, caption, 9)}${rect(206, y - 8, 276, 16, '#e8eddf', 4)}${rect(206, y - 8, width * 2.76, 16, fill, 4)}${text(502, y + 4, `${width}%`, 12, '#354431', 600)}${text(555, y + 4, 'Illustrative', 9)}`;
