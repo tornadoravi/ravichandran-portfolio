@@ -779,7 +779,6 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 .editorial-home .project-visual .platform-pill .microsoft-wordmark { flex: 0 0 94px; width: 94px; height: auto; }
 .editorial-home .project-visual .analytics-brand { padding: 6px; border-radius: 4px; background: #fff; }
 .editorial-home .project-description > p { padding: 12px 14px; border-left: 2px solid var(--line); background: var(--surface); }
-.editorial-home .project-description > .project-role { border-color: var(--accent); }
 .editorial-home .project-index a, .about-nav a { border-bottom: 1px solid var(--line); }
 @media (max-width: 1000px) {
   .design-approach { grid-template-columns: minmax(0, 1fr); gap: 12px; }
@@ -806,7 +805,7 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 .editorial-home .cover-statement { font-weight: 500; line-height: 1.18; letter-spacing: -.035em; }
 .editorial-home .project-visual { background: var(--card); border-radius: 6px; }
 .editorial-home .project-description > p { padding: 0; border: 0; background: transparent; }
-.editorial-home .project-description > .project-role { padding-top: 12px; border-top: 1px solid var(--line); }
+.editorial-home .project-description > .project-role { padding-top: 12px; }
 .editorial-home .project-open { background: var(--pill-bg); color: var(--accent); border-color: var(--line); }
 .design-approach > li, .profile-highlights > div, .focus-explanation dl > .story-highlight, .case-review-brief dl > div { background: var(--card); border-radius: 6px; }
 .design-approach svg { padding: 8px; border-radius: 4px; background: var(--surface); }

@@ -42,6 +42,9 @@ for (const appearance of ['light', 'dark']) {
       const badges = page.locator('.project-visual .platform-pill');
       await expect(badges).toHaveCount(2);
       await expect(badges.locator(':scope > span')).toHaveText(['Fabric', 'Power BI']);
+      const roles = page.locator('.project-description > .project-role');
+      await expect(roles).toHaveCount(2);
+      for (const role of await roles.all()) await expect(role).toHaveCSS('border-top-width', '0px');
       for (const badge of await badges.all()) {
         await badge.scrollIntoViewIfNeeded();
         await expect(badge).toHaveCSS('background-color', 'rgb(255, 255, 255)');
