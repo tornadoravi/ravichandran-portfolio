@@ -8,7 +8,7 @@ export default function AnalyticsPlusPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review analytics-review">
         {"\n    "}
         <section className={"case-hero wrap analytics-product-hero"}>
           {"\n      "}
@@ -18,9 +18,9 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <h1>{"Inforiver Analytics+."}</h1>
           {"\n      "}
-          <p className="case-summary">{"Connected authoring across five feature experiences."}</p>
+          <p className="case-summary">{"A connected workflow for report authors."}</p>
           {"\n      "}
-          <CaseContext role="Five-feature UX/UI · Chart Wizard & KPI templates shipped">
+          <CaseContext role="Product Designer · 2.5 years on Analytics+">
             <dl className={"metadata"}>
               <div>
                 <dt>{"My role"}</dt>
@@ -66,9 +66,9 @@ export default function AnalyticsPlusPage() {
           </a>
           {"\n      "}
           <figcaption>
-            {"Official template preview · Planning Report | IBCS Theme by Lumel Inc. Product example, not my design deliverable. "}
+            {"Official template preview · Lumel Inc., not my design deliverable. "}
             <a className={"image-link"} href={"https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab"} target={"_blank"} rel={"noopener noreferrer"}>
-              {"Source: Analytics+ Marketplace ↗"}
+              {"Source ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
             {" "}
@@ -77,16 +77,6 @@ export default function AnalyticsPlusPage() {
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
             </a>
           </figcaption>
-          <details className={"product-marketplace"}>
-            <summary>Marketplace templates & components</summary>
-            <p>{"Ready-to-use dashboard and standalone templates, visual components, bundles, and data apps give report authors reusable starting points."}</p>
-            <div className={"product-overview-links"}>
-              <a className={"recommended-case"} href={"https://store-ap.inforiver.com/"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"Explore the Marketplace ↗"}
-                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
-              </a>
-            </div>
-          </details>
           <div className="product-overview-links">
             <a className={"recommended-case"} href={"/analytics.html"} aria-label={"Recommended first read: Chart Wizard"}>
               <span>{"Start with Chart Wizard · Shipped"}</span>
@@ -95,6 +85,13 @@ export default function AnalyticsPlusPage() {
           </div>
           {"\n    "}
         </figure>
+        <section className="case-review-brief wrap" aria-label="Design contribution at a glance">
+          <dl>
+            <div><dt>Design challenge</dt><dd>Help authors choose visuals, build reports, and explain insights.</dd></div>
+            <div><dt>My scope</dt><dd>Five feature experiences, from UX/UI through implementation review.</dd></div>
+            <div><dt>Confirmed delivery</dt><dd>Chart Wizard and reusable KPI templates shipped.</dd></div>
+          </dl>
+        </section>
         {"\n    "}
         <details id={"design-details"} className={"case-deep-dive"}>
           {"\n      "}
@@ -107,6 +104,16 @@ export default function AnalyticsPlusPage() {
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
+            <details className={"product-marketplace wrap"}>
+              <summary>Marketplace templates & components</summary>
+              <p>{"Ready-to-use dashboard and standalone templates, visual components, bundles, and data apps give report authors reusable starting points."}</p>
+              <div className={"product-overview-links"}>
+                <a className={"recommended-case"} href={"https://store-ap.inforiver.com/"} target={"_blank"} rel={"noopener noreferrer"}>
+                  {"Explore the Marketplace ↗"}
+                  <span className={"sr-only"}>{" (opens in a new tab)"}</span>
+                </a>
+              </div>
+            </details>
             <CaseRationale caseId="analyticsSuite" />
             <section className={"case-brief case-brief--compact wrap"} aria-label={"Detailed contribution summary"}>
               <div>
@@ -478,16 +485,16 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"My feature work / Five experiences"}</p>
-            <h2 id={"features-title"}>{"Five feature stories."}</h2>
+            <h2 id={"features-title"}>{"Selected design decisions."}</h2>
             <p>{"My design work, with product examples labeled separately. "}<a className={"text-link"} href={"#feature-references"}>{"Official feature references →"}</a></p>
           </div>
           {"\n      "}
-          <nav className={"feature-card-grid"} aria-label={"Analytics+ feature index"}>
+          <nav className={"feature-card-grid feature-review-index"} aria-label={"Analytics+ feature index"}>
             {"\n        "}
             <a id={"feature-storyboard"} className={"album-card album-card--lilac"} href={"/storyboard.html"} aria-label={"Read Storyboard authoring case study"}>
               <span className={"album-kicker"}>{"01 / Report authoring"}</span>
               <h3>{"Storyboard"}</h3>
-              <p className={"album-description"}>{"Build reports from templates, custom layouts, or auto-create."}</p>
+              <p className={"album-description"}>{"Multiple starting routes, one authoring canvas."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/storyboard-editor.png"} width={"1390"} height={"782"} loading={"lazy"} alt={"Storyboard workspace with report layers, charts, KPI cards, and a table."} />
               </div>
@@ -500,7 +507,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-gantt"} className={"album-card"} href={"/gantt.html"} aria-label={"Read Power BI Gantt case study"}>
               <span className={"album-kicker"}>{"02 / Task planning"}</span>
               <h3>{"Gantt for Power BI"}</h3>
-              <p className={"album-description"}>{"Map tasks and dates; visualize progress, milestones, and dependencies."}</p>
+              <p className={"album-description"}>{"Map source fields before building the timeline."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/gantt-timeline.png"} width={"1406"} height={"786"} loading={"lazy"} alt={"Analytics+ Gantt workspace showing task details beside blue timeline bars."} />
               </div>
@@ -513,7 +520,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-wizard"} className={"album-card album-card--peach"} href={"/analytics.html"} aria-label={"Read Chart Wizard case study"}>
               <span className={"album-kicker"}>{"03 / Visual discovery"}</span>
               <h3>{"Chart Wizard"}</h3>
-              <p className={"album-description"}>{"Choose by chart or function, then customize and configure."}</p>
+              <p className={"album-description"}>{"Two discovery routes. One configuration flow."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/wizard-chart-family.png"} width={"540"} height={"370"} loading={"lazy"} alt={"Chart Wizard dialog with chart-family choices and visual recommendations."} />
               </div>
@@ -526,7 +533,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-annotations"} className={"album-card album-card--lilac"} href={"/presentation.html"} aria-label={"Read Annotations, Comments and Presentation case study"}>
               <span className={"album-kicker"}>{"04 / Data storytelling"}</span>
               <h3>{"Annotations & Presentation"}</h3>
-              <p className={"album-description"}>{"Add contextual comments and present them in reading mode."}</p>
+              <p className={"album-description"}>{"Explain an observation without leaving the report."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/annotation-detail.png"} width={"700"} height={"420"} loading={"lazy"} alt={"Chart detail with an explanatory annotation connected to a data point."} />
               </div>
@@ -539,7 +546,7 @@ export default function AnalyticsPlusPage() {
             <a id={"feature-kpi"} className={"album-card"} href={"/kpi.html"} aria-label={"Read KPI Presets case study"}>
               <span className={"album-kicker"}>{"05 / Reusable patterns"}</span>
               <h3>{"KPI Presets"}</h3>
-              <p className={"album-description"}>{"Choose Simple or Variance layouts for reusable metric cards."}</p>
+              <p className={"album-description"}>{"Reusable layouts instead of repeated blank-card setup."}</p>
               <div className={"album-media"}>
                 <img src={"/assets/analytics-kpi-official-presets.webp"} width={"520"} height={"300"} loading={"lazy"} alt={"Official Analytics+ variance preset example with an actual-value KPI and prior-year, plan, and forecast comparisons. Demo values, not project outcomes."} />
               </div>
@@ -554,7 +561,7 @@ export default function AnalyticsPlusPage() {
         </section>
         {"\n    "}
         <details id="supporting-work" className="analytics-supporting-work wrap">
-          <summary>More contributions · KPI, icons, systems & integrations</summary>
+          <summary>More contributions & explorations</summary>
           <dl>
             <div><dt>KPI & iconography</dt><dd>30+ KPI layouts, 20+ chart/matrix KPI presets, and 70+ unique chart/matrix icons.</dd></div>
             <div><dt>Design foundations</dt><dd>Implemented side-panel revamp; toolbar designs, color picker, and theme palette.</dd></div>
@@ -562,15 +569,14 @@ export default function AnalyticsPlusPage() {
             <div><dt>Research</dt><dd>Super App research and wireframes.</dd></div>
           </dl>
           <p>Design-scope highlights, not a claim that every variation shipped. Detailed feature cases retain their own delivery status.</p>
+          <section id="spatial-exploration" className="spatial-concept review-related" aria-labelledby="spatial-title">
+            <div className="case-section-heading">
+              <h2 id="spatial-title">Spatial exploration.</h2>
+              <p>Apple Vision Pro-inspired exploration. Prototype only—not a shipped Vision Pro product.</p>
+            </div>
+            <a className="text-link" href="/analytics-spatial.html">Explore spatial concept <span aria-hidden="true">→</span></a>
+          </section>
         </details>
-        <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
-          <div className="case-section-heading">
-            <p className="eyebrow">Separate concept case study</p>
-            <h2 id="spatial-title">Analytics+, beyond the screen.</h2>
-            <p>Apple Vision Pro-inspired exploration. Prototype only—not a shipped Vision Pro product.</p>
-          </div>
-          <a className="text-link" href="/analytics-spatial.html">Explore spatial concept <span aria-hidden="true">→</span></a>
-        </section>
         <details id={"evidence-notes"} className={"case-deep-dive"}>
           {"\n      "}
           <summary className={"wrap"}>
@@ -687,12 +693,6 @@ export default function AnalyticsPlusPage() {
         </details>
         {"\n    "}
         <section className={"review-contact wrap"} aria-label={"Continue the portfolio review"}>
-          <p className={"eyebrow"}>{"The person behind the work"}</p>
-          <h2>
-            {"Experience, recommendations,"}
-            <br />
-            {"and a conversation."}
-          </h2>
           <div className={"profile-links"}>
             <a className={"text-link"} href={"/about.html#experience"}>
               {"Experience & recommendations "}
@@ -702,20 +702,13 @@ export default function AnalyticsPlusPage() {
               {"Colleague feedback on collaboration "}
               <span aria-hidden={"true"}>{"→"}</span>
             </a>
-            <a className={"text-link"} href={"https://www.linkedin.com/in/ravichandran-uxui/"} target={"_blank"} rel={"noopener noreferrer"}>
-              {"Connect on LinkedIn "}
-              <span aria-hidden={"true"}>{"↗"}</span>
-              <span className={"sr-only"}>{" (opens in a new tab)"}</span>
-            </a>
           </div>
         </section>
         {"\n    "}
         <a className={"next-project wrap review-next"} href={"/powertable.html"}>
-          <span className={"eyebrow"}>{"Other product / PowerTable"}</span>
+          <span className={"eyebrow"}>{"Next case study"}</span>
           <span className={"next-title"}>
-            {"Connected planning."}
-            <br />
-            <em>{"Tasks, timelines, and resource context."}</em>
+            {"PowerTable · Connected planning."}
           </span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>

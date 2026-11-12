@@ -66,7 +66,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
         await expect(page.getByRole('link', { name: 'Explore Cross-tab', exact: true })).toHaveAttribute('href', '/crosstab.html');
       } else {
         await expect(page.locator('h1')).toHaveText('Inforiver Analytics+.');
-        await expect(page.locator('.case-summary')).toContainText('five feature experiences');
+        await expect(page.locator('.case-summary')).toContainText('report authors');
         await expect(page.locator('.case-brief')).toContainText('Reusable KPI templates shipped');
         expect(action.y).toBeGreaterThanOrEqual(image.y + image.height);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');

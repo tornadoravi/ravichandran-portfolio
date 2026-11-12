@@ -10,7 +10,7 @@ export default function AnalyticsPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -736,12 +736,8 @@ export default function AnalyticsPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap"} href={"/presentation.html"}>
-          <span className={"eyebrow"}>{"Next feature / Annotations"}</span>
-          <span className={"next-title"}>
-            {"Keep the context."}
-            <br />
-            <em>{"Communicate the insight."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Next feature"}</span>
+          <span className={"next-title"}>{"Presentation & annotations."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

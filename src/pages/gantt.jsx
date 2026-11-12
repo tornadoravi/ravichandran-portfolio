@@ -9,7 +9,7 @@ export default function GanttPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -468,12 +468,8 @@ export default function GanttPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap"} href={"/analytics.html"}>
-          <span className={"eyebrow"}>{"Next feature / Chart Wizard"}</span>
-          <span className={"next-title"}>
-            {"Start with the question."}
-            <br />
-            <em>{"Find the right visual."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Next feature"}</span>
+          <span className={"next-title"}>{"Chart Wizard."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

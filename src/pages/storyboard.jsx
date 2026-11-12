@@ -9,7 +9,7 @@ export default function StoryboardPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={"/analytics-plus.html#features"}>{"← Inforiver Analytics+ features"}</a>
@@ -509,12 +509,8 @@ export default function StoryboardPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap"} href={"/gantt.html"}>
-          <span className={"eyebrow"}>{"Next feature / Gantt for Power BI"}</span>
-          <span className={"next-title"}>
-            {"From fields"}
-            <br />
-            <em>{"to a readable timeline."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Next feature"}</span>
+          <span className={"next-title"}>{"Gantt for Power BI."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

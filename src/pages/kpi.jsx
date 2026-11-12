@@ -9,7 +9,7 @@ export default function KpiPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -501,12 +501,8 @@ export default function KpiPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap"} href={"/analytics-plus.html#features"}>
-          <span className={"eyebrow"}>{"Back to the product / Inforiver Analytics+"}</span>
-          <span className={"next-title"}>
-            {"Five feature stories."}
-            <br />
-            <em>{"One connected product."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Back to the product"}</span>
+          <span className={"next-title"}>{"Analytics+ overview."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}

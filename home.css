@@ -625,6 +625,53 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
   .editorial-about .section-label h2 { font-size: 34px; }
   .editorial-about .large-copy { font-size: 25px; }
 }
+.case-review-brief { padding-block: 4px 28px; }
+.case-review-brief dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: 0; padding-block: 20px; border-top: 1px solid var(--line); }
+.case-review-brief dt { margin-bottom: 8px; color: var(--muted); font-size: 12px; font-weight: 500; }
+.case-review-brief dd { max-width: 35ch; margin: 0; color: var(--ink); font-size: 15px; line-height: 1.6; }
+.editorial-case .design-review .decision-illustration, .editorial-case .design-review .focus-illustration { padding: 0; border: 0; border-radius: 0; background: transparent; }
+.design-review .case-diagram { max-width: 480px; margin-inline: auto; }
+.design-review .case-at-a-glance, .design-review .presentation-at-a-glance { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; }
+.editorial-case .design-review > figure.case-evidence, .design-review > .wizard-gallery .screenshot-scene { padding: 16px 0; border: 0; background: transparent; color: var(--ink); }
+.editorial-case .design-review > figure.case-evidence .product-screenshot img, .editorial-case .design-review > .wizard-gallery .product-screenshot img { max-height: 280px; }
+.design-review figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.design-review > .case-evidence figcaption, .design-review > .wizard-gallery figcaption { color: var(--muted); }
+.design-review .product-overview .recommended-case { color: var(--accent); }
+.editorial-home .design-review .detail-figure .inspect-button { margin: 0; }
+.editorial-home .design-review > .case-evidence .inspect-button, .editorial-home .design-review > .wizard-gallery .inspect-button { color: var(--accent); }
+.design-review .case-deep-dive > summary { padding-block: 18px; }
+.design-review .case-deep-dive > summary strong { font-size: 16px; }
+.design-review .next-project { display: grid; grid-template-columns: minmax(0, 1fr) 32px; gap: 6px 20px; align-items: center; padding-block: 24px; }
+.design-review .next-project .eyebrow { grid-column: 1; margin: 0; }
+.design-review .next-project .next-title { grid-column: 1; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.3; }
+.design-review .next-project .next-arrow { position: static; grid-column: 2; grid-row: 1 / 3; font-size: 28px; }
+.analytics-review .review-features { padding-top: 24px; }
+.analytics-review .review-related { padding-block: 20px; }
+.analytics-review .review-related h2 { font-size: 20px; margin-bottom: 8px; }
+.analytics-review .review-related p { font-size: 13px; }
+.analytics-review .review-contact { padding-block: 12px; }
+.analytics-review .product-marketplace { margin-block: 0 24px; }
+.analytics-review .product-marketplace > summary, .analytics-review .product-marketplace .recommended-case { color: var(--accent); }
+.editorial-case .analytics-review .feature-review-index { grid-template-columns: minmax(0, 1fr); gap: 0; margin-block: 24px; }
+.editorial-case .feature-review-index > .album-card { --ink: inherit; --muted: inherit; --accent: inherit; --line: inherit; --pill-bg: inherit; --pill-border: inherit; color-scheme: inherit; display: grid; grid-template-columns: minmax(0, 1fr) 160px; grid-template-areas: "kicker media" "title media" "description media" "source media"; gap: 4px 32px; align-content: center; min-height: 148px; padding: 20px 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; box-shadow: none; background: transparent; color: var(--ink); transform: none; }
+.editorial-case .feature-review-index > .album-card::before, .editorial-case .feature-review-index > .album-card::after { display: none; }
+.editorial-case .feature-review-index > .album-card:is(:hover, :focus-visible, [aria-current]) { background: transparent; transform: none; }
+.feature-review-index .album-kicker { grid-area: kicker; margin: 0; }
+.editorial-case .feature-review-index .album-card > h3 { grid-area: title; margin: 0; font: 400 clamp(22px, 2.1vw, 28px)/1.3 var(--serif); letter-spacing: -.4px; }
+.feature-review-index .album-description { grid-area: description; color: var(--muted); }
+.feature-review-index .album-media { grid-area: media; min-height: 0; padding: 0; align-self: center; }
+.feature-review-index .album-media img { max-height: 100px; }
+.feature-review-index .album-footer { grid-area: source; justify-content: start; gap: 10px; min-height: 24px; }
+.feature-review-index .album-footer > span { width: auto; height: auto; border: 0; border-radius: 0; font-size: 16px; }
+.feature-review-index .album-card:is(:hover, :focus-visible) h3 { text-decoration: underline; text-underline-offset: 5px; }
+@media (max-width: 700px) {
+  .case-review-brief { padding-block: 4px 16px; }
+  .case-review-brief dl { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 16px; }
+  .case-review-brief dt { margin-bottom: 4px; }
+  .design-review .case-at-a-glance, .design-review .presentation-at-a-glance { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .editorial-case .feature-review-index > .album-card { grid-template-columns: minmax(0, 1fr) 80px; gap: 6px 16px; padding-block: 20px; }
+  .feature-review-index .album-description { font-size: 13px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .headline-phrase { animation: none; }
   .editorial-home .companion-button[aria-expanded="true"] .soundroom-companion { animation: none; transform: none; }

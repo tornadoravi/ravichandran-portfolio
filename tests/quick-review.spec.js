@@ -45,12 +45,8 @@ for (const mode of ['focus', 'soundroom']) {
           await expect(page.locator('#crosstab-features img')).toHaveCount(1);
         } else {
           const boxes = await cards.evaluateAll(cards => cards.map(card => ({ x: card.getBoundingClientRect().x, y: card.getBoundingClientRect().y })));
-          if (width > 700) {
-            expect(boxes[1].y).toBe(boxes[0].y);
-            expect(boxes[1].x).toBeGreaterThan(boxes[0].x);
-          } else {
-            expect(boxes[1].y).toBeGreaterThan(boxes[0].y);
-          }
+          expect(boxes[1].y).toBeGreaterThan(boxes[0].y);
+          expect(boxes[1].x).toBe(boxes[0].x);
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       }

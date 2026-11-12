@@ -10,7 +10,7 @@ export default function PresentationPage() {
       {"\n  "}
       {"\n  "}
       {"\n  "}
-      <main id={"main"}>
+      <main id={"main"} className="design-review">
         {"\n    "}
         <section className={"case-hero wrap"}>
           {"\n      "}
@@ -676,12 +676,8 @@ export default function PresentationPage() {
         {"\n    "}
         </CaseDetails>
         <a className={"next-project wrap"} href={"/kpi.html"}>
-          <span className={"eyebrow"}>{"Next feature / KPI Presets"}</span>
-          <span className={"next-title"}>
-            {"Reusable layouts."}
-            <br />
-            <em>{"Readable metrics."}</em>
-          </span>
+          <span className={"eyebrow"}>{"Next feature"}</span>
+          <span className={"next-title"}>{"KPI Presets."}</span>
           <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
         </a>
         {"\n  "}
