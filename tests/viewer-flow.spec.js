@@ -15,7 +15,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await expect(page.locator('.hero-introduction')).toContainText('from UX/UI to implementation review');
     await expect(page.locator('#project-planning .scan-highlight')).toHaveText('connected task, timeline, and resource workflows.');
     await expect(page.locator('#project-planning .project-role')).toContainText('End-to-end Gantt & resource UX/UI');
-    await expect(page.locator('#project-analytics .scan-highlight')).toHaveText('consistent report authoring across five connected features.');
+    await expect(page.locator('#project-analytics .scan-highlight')).toHaveText('scenario-based chart selection.');
     await expect(page.locator('#project-analytics .project-role')).toContainText('Chart Wizard and reusable KPI templates shipped');
     const workLink = page.getByRole('link', { name: 'View selected work', exact: true });
     await expect(workLink).toHaveAttribute('href', '#work');
@@ -42,7 +42,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const [path, destination, focus] of [
       ['/powertable.html', '/column-mapping.html', 'PowerTable in action.'],
-      ['/analytics-plus.html', '/storyboard.html', 'Analytics+ in action.']
+      ['/analytics-plus.html', '/analytics.html', 'Analytics+ in action.']
     ]) {
       await openReady(page, path);
       const figure = page.locator('main > .case-evidence');
@@ -59,7 +59,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       if (path === '/powertable.html') {
         await expect(page.locator('h1')).toHaveText('PowerTable.');
         await expect(page.locator('.case-summary')).toHaveText('Complex planning. Connected workflows.');
-        await expect(page.locator('.decision-flow')).toContainText('Microsoft Fabric design system');
+        await expect(page.locator('.case-focus')).toContainText('Microsoft Fabric design system');
         await expect(figure.locator('figcaption')).toContainText('Official product screenshot');
         await expect(figure.locator('.product-overview-copy')).toContainText('No-code data apps');
         await expect(page.locator('.case-brief')).toContainText('remain explorations');
@@ -116,7 +116,7 @@ test('the recommended reading route and Home work link work without JavaScript',
     await page.getByRole('link', { name: 'View selected work', exact: true }).click();
     await expect(page).toHaveURL(/#work$/);
     await expect(page.locator('#work')).toBeInViewport();
-    for (const [path, destination] of [['/powertable.html', '/column-mapping.html'], ['/analytics-plus.html', '/storyboard.html']]) {
+    for (const [path, destination] of [['/powertable.html', '/column-mapping.html'], ['/analytics-plus.html', '/analytics.html']]) {
       await page.goto(baseURL + path);
       const firstRead = path === '/powertable.html'
         ? page.getByRole('link', { name: 'Explore Gantt', exact: true })

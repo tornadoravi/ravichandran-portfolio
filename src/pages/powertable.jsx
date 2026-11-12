@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
-import { CaseContext, CaseSnapshot, CaseFlow } from '../CaseReview.jsx';
+import { CaseContext, CaseFlow } from '../CaseReview.jsx';
+import CaseFocus from '../CaseFocus.jsx';
 
 export default function PowertablePage() {
   return (
@@ -67,8 +68,7 @@ export default function PowertablePage() {
           {"\n    "}
         </figure>
         {"\n    "}
-        <CaseSnapshot caseId="powertable" />
-        {"\n    "}
+        <CaseFocus story="planning" />
         <section id={"workspaces"} className={"workspace-directory wrap"} aria-labelledby={"workspaces-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>

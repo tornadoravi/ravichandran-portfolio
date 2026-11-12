@@ -1,7 +1,8 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
+import { CaseDetails, CaseContext, CaseFlow } from '../CaseReview.jsx';
+import CaseFocus from '../CaseFocus.jsx';
 
 export default function AnalyticsPage() {
   return (
@@ -46,6 +47,7 @@ export default function AnalyticsPage() {
         </section>
 
         {"\n    "}
+        <CaseFocus story="wizard" />
         <div className={"wizard-gallery case-evidence wrap"}>
           {"\n      "}
           <figure id={"browse-chart"} className={"detail-figure screenshot-scene"}>
@@ -84,7 +86,6 @@ export default function AnalyticsPage() {
           {"\n    "}
         </div>
         {"\n    "}
-        <CaseSnapshot caseId="wizard" />
         <CaseDetails>
         <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           <div>

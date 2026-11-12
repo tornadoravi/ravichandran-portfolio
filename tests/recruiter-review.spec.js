@@ -53,22 +53,31 @@ for (const appearance of ['light', 'dark']) {
         expect(words, path).toBeLessThanOrEqual(path === '/analytics-plus.html' ? 450 : 350);
         if (path !== '/' && path !== '/about.html') {
           const overview = ['/powertable.html', '/analytics-plus.html'].includes(path);
-          await expect(page.locator('.case-diagram')).toHaveCount(overview ? 0 : 1);
-          if (!overview) {
+          const focused = ['/powertable.html', '/analytics.html'].includes(path);
+          await expect(page.locator('.case-diagram')).toHaveCount(overview || focused ? 0 : 1);
+          if (!overview && !focused) {
             await expect(page.locator('.case-diagram')).toBeVisible();
             await expect(page.locator('.case-diagram')).toHaveAttribute('aria-label', /.+/);
             await expect(page.locator('.decision-illustration figcaption')).toHaveText('Concept diagram · Not a product screenshot.');
           }
-          await expect(page.locator('.decision-flow > li')).toHaveCount(3);
-          await expect(page.locator('.case-topic-art')).toHaveCount(3);
+          await expect(page.locator('.decision-flow > li')).toHaveCount(focused ? 0 : 3);
+          await expect(page.locator('.case-topic-art')).toHaveCount(focused ? 0 : 3);
+          if (focused) {
+            await expect(page.locator('.case-focus')).toBeVisible();
+            await expect(page.locator('.focus-illustration')).toHaveCount(1);
+            await expect(page.locator('.focus-steps > li')).toHaveCount(3);
+            await expect(page.locator('.focus-explanation dt')).toHaveText(['My ownership', 'Key design decision', 'Delivery & evidence']);
+            await expect(page.locator('.focus-illustration figcaption')).toContainText('Not product UI or an observed session');
+          }
           for (const illustration of await page.locator('.case-topic-art').all()) {
-            await expect(illustration).toBeVisible();
+            if (path === '/analytics-plus.html') await expect(illustration).toBeHidden();
+            else await expect(illustration).toBeVisible();
             const signature = await illustration.locator('.case-topic-scene').evaluate(scene => scene.innerHTML);
             expect(sceneSignatures.has(signature), `Repeated illustration on ${path}`).toBe(false);
             sceneSignatures.add(signature);
           }
-          await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
-          if (!['/powertable.html', '/analytics-plus.html'].includes(path)) {
+          if (!focused) await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
+          if (!overview && !focused) {
             await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
             await expect(page.locator('.scenario-visual')).toBeVisible();
             expect(await page.locator('.scenario-visual').getAttribute('data-use-case')).toBeTruthy();
@@ -101,8 +110,8 @@ for (const appearance of ['light', 'dark']) {
         if (features.some(([feature]) => feature === path)) {
           expect(words, path).toBeLessThanOrEqual(['/gantt-backlog.html', '/presentation.html'].includes(path) ? 350 : 280);
           await expect(page.locator('#case-details')).not.toHaveAttribute('open');
-          await expect(page.locator('.decision-flow > li')).toHaveCount(3);
-          await expect(page.locator('.decision-flow .small-index')).toHaveText(['01 / Challenge', '02 / Design', '03 / Evidence']);
+          await expect(page.locator('.decision-flow > li')).toHaveCount(path === '/analytics.html' ? 0 : 3);
+          if (path !== '/analytics.html') await expect(page.locator('.decision-flow .small-index')).toHaveText(['01 / Challenge', '02 / Design', '03 / Evidence']);
           await expect(page.locator('main > .mapping-lead img, main > .case-evidence img, main > .mapping-evidence img').first()).toBeVisible();
           for (const item of await page.locator('.decision-flow > li').all()) {
             const box = await item.boundingBox();
@@ -113,7 +122,7 @@ for (const appearance of ['light', 'dark']) {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), path).toBe(true);
       }
       expect(errors).toEqual([]);
-      expect(sceneSignatures.size).toBe(42);
+      expect(sceneSignatures.size).toBe(36);
     });
 
   }
@@ -183,8 +192,9 @@ test('recruiter summaries, branding, evidence disclosures and feature navigation
     for (const [path] of features) {
       await page.goto(baseURL + path);
       await expect(page.locator('.case-snapshot')).toBeVisible();
-      await expect(page.locator('.case-topic-art')).toHaveCount(3);
-      await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
+      await expect(page.locator('.case-topic-art')).toHaveCount(path === '/analytics.html' ? 0 : 3);
+      if (path === '/analytics.html') await expect(page.locator('.focus-task')).toBeVisible();
+      else await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
       await page.locator('.case-context > summary').focus();
       await page.keyboard.press('Enter');
       await expect(page.locator('.case-context .metadata')).toBeVisible();

@@ -78,6 +78,43 @@ html[data-theme="dark"] .editorial-home {
 .case-context .metadata { margin: 8px 0 16px; }
 .case-snapshot { padding-block: 20px 36px; }
 .case-snapshot > .eyebrow { color: var(--muted); margin-bottom: 8px; }
+.focus-task { margin: -4px 0 24px; max-width: 64ch; color: var(--muted); font-size: 16px; line-height: 1.6; }
+.focus-story { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.focus-illustration { min-width: 0; margin: 0; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.focus-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.focus-steps > li { position: relative; min-width: 0; }
+.focus-steps > li:not(:last-child)::after { content: "→"; position: absolute; right: -20px; top: 54px; color: var(--accent); font-size: 20px; }
+.focus-steps svg { display: block; width: 100%; height: auto; margin-bottom: 16px; fill: var(--bg); stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.focus-steps svg path { fill: none; }
+.focus-steps svg .focus-fill { fill: var(--pill-bg); }
+.focus-steps svg .focus-solid, .focus-steps svg .focus-dot { fill: var(--accent); }
+.focus-steps svg .focus-secondary { fill: color-mix(in srgb, var(--accent) 45%, var(--bg)); }
+.focus-steps svg .focus-gridline { stroke: var(--line); }
+.focus-steps svg .focus-check { stroke: var(--bg); stroke-width: 2.5; }
+.focus-steps h3 { margin: 0 0 6px; font-size: 16px; font-weight: 500; line-height: 1.4; }
+.focus-steps p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.focus-illustration figcaption { margin-top: 20px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.focus-explanation { min-width: 0; }
+.focus-explanation dl, .analytics-supporting-work dl { margin: 0; }
+.focus-explanation dl > div { padding: 14px 0; border-top: 1px solid var(--line); }
+.focus-explanation dt, .analytics-supporting-work dt { margin-bottom: 6px; font-size: 14px; font-weight: 500; color: var(--ink); }
+.focus-explanation dd, .analytics-supporting-work dd { margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; }
+.focus-explanation .text-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+.analytics-supporting-work { padding-block: 12px 28px; }
+.analytics-supporting-work > summary { min-height: 44px; padding-block: 12px; color: var(--accent); font-size: 14px; line-height: 1.5; cursor: pointer; }
+.analytics-supporting-work dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 32px; padding-top: 12px; }
+.analytics-supporting-work > p { max-width: 72ch; margin-top: 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+@media (max-width: 1050px) {
+  .focus-story { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+@media (max-width: 600px) {
+  .focus-illustration { padding: 18px; }
+  .focus-steps { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .focus-steps > li { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 14px; align-items: center; }
+  .focus-steps svg { margin: 0; }
+  .focus-steps > li:not(:last-child)::after { content: "↓"; top: auto; bottom: -27px; right: auto; left: 44px; }
+  .analytics-supporting-work dl { grid-template-columns: minmax(0, 1fr); }
+}
 .visual-story-title { margin: 0 0 20px; font: 400 clamp(24px, 2.4vw, 34px)/1.2 var(--serif); letter-spacing: -.5px; }
 .visual-storyboard { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; gap: 24px; }
 .decision-illustration { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }

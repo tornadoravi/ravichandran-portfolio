@@ -80,16 +80,14 @@ export default function AnalyticsPlusPage() {
                 {"Explore the Marketplace ↗"}
                 <span className={"sr-only"}>{" (opens in a new tab)"}</span>
               </a>
-              <a className={"recommended-case"} href={"/storyboard.html"} aria-label={"Recommended first read: Storyboard authoring"}>
-                <span>{"My feature work · Storyboard"}</span>
+              <a className={"recommended-case"} href={"/analytics.html"} aria-label={"Recommended first read: Chart Wizard"}>
+                <span>{"Start with Chart Wizard · Shipped"}</span>
                 <span aria-hidden={"true"}>{"→"}</span>
               </a>
             </div>
           </div>
           {"\n    "}
         </figure>
-        {"\n    "}
-        <CaseSnapshot caseId="analyticsSuite" />
         {"\n    "}
         <details id={"design-details"} className={"case-deep-dive"}>
           {"\n      "}
@@ -102,6 +100,7 @@ export default function AnalyticsPlusPage() {
           </summary>
           {"\n      "}
           <div className={"deep-dive-content"}>
+            <CaseSnapshot caseId="analyticsSuite" />
             <section className={"case-brief case-brief--compact wrap"} aria-label={"Detailed contribution summary"}>
               <div>
                 <h2>{"Design challenge"}</h2>
@@ -547,6 +546,16 @@ export default function AnalyticsPlusPage() {
           {"\n    "}
         </section>
         {"\n    "}
+        <details id="supporting-work" className="analytics-supporting-work wrap">
+          <summary>More contributions · KPI, icons, systems & integrations</summary>
+          <dl>
+            <div><dt>KPI & iconography</dt><dd>30+ KPI layouts, 20+ chart/matrix KPI presets, and 70+ unique chart/matrix icons.</dd></div>
+            <div><dt>Design foundations</dt><dd>Implemented side-panel revamp; toolbar designs, color picker, and theme palette.</dd></div>
+            <div><dt>Excel, PowerPoint & AI</dt><dd>Excel Add-In UI; Excel Analytics and AI Genie UX refinements; PowerPoint visualization templates and Text-to-Visual storytelling.</dd></div>
+            <div><dt>Research</dt><dd>Super App research and wireframes.</dd></div>
+          </dl>
+          <p>Design-scope highlights, not a claim that every variation shipped. Detailed feature cases retain their own delivery status.</p>
+        </details>
         <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
           <div className="case-section-heading">
             <p className="eyebrow">Separate concept case study</p>

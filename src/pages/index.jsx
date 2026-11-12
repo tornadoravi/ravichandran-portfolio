@@ -231,11 +231,11 @@ export default function IndexPage() {
               <div className={"project-description"}>
                 <p>
                   {"Designing "}
-                  <mark className={"scan-highlight"}>{"consistent report authoring across five connected features."}</mark>
+                  <mark className={"scan-highlight"}>{"scenario-based chart selection."}</mark>
                 </p>
                 <p className={"project-role"}>
                   {"My role · "}
-                  <strong>{"Five-feature UX/UI"}</strong>
+                  <strong>{"End-to-end Chart Wizard UX/UI"}</strong>
                   {"; Chart Wizard and reusable KPI templates shipped"}
                 </p>
                 <a className={"text-link case-link"} href={"/analytics-plus.html"}>
