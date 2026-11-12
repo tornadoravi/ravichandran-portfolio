@@ -467,11 +467,6 @@ export default function GanttPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap"} href={"/analytics.html"}>
-          <span className={"eyebrow"}>{"Next feature"}</span>
-          <span className={"next-title"}>{"Chart Wizard."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

@@ -881,11 +881,6 @@ export default function PowertablePage() {
           {"\n    "}
         </details>
         {"\n    "}
-        <a className={"next-project wrap review-next"} href={"/analytics-plus.html"}>
-          <span className={"eyebrow"}>{"Next case study"}</span>
-          <span className={"next-title"}>{"Inforiver Analytics+."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

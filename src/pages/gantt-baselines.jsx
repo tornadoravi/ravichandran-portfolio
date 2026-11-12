@@ -275,11 +275,6 @@ export default function GanttBaselinesPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap review-next"} href={"/column-mapping.html"}>
-          <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
-          <span className={"next-title"}>{"Column Mapping & Configuration."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

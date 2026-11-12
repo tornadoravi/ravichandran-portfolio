@@ -500,11 +500,6 @@ export default function KpiPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap"} href={"/analytics-plus.html#features"}>
-          <span className={"eyebrow"}>{"Back to the product"}</span>
-          <span className={"next-title"}>{"Analytics+ overview."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

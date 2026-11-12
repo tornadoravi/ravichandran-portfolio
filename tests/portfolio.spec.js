@@ -136,7 +136,7 @@ test('mobile menu supports keyboard, dismissal, and navigation', async ({ page }
   await expect(page.locator('.portrait-hero')).toBeInViewport();
 });
 
-test('product overview and ordered feature stories navigate correctly', async ({ page }) => {
+test('viewers return to the overview to choose another feature or product', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
@@ -144,31 +144,37 @@ test('product overview and ordered feature stories navigate correctly', async ({
   await openCaseDetails(page);
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Presentation', exact: true }).click();
   await expect(page.locator('#presentation')).toBeInViewport();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.locator('#feature-gantt').click();
   await expect(page).toHaveURL(/gantt\.html$/);
   await openCaseDetails(page);
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Timeline', exact: true }).click();
   await expect(page.locator('#timeline')).toBeInViewport();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.locator('#feature-wizard').click();
   await expect(page).toHaveURL(/analytics\.html$/);
   await openCaseDetails(page);
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Chart Wizard', exact: true }).click();
   await expect(page.locator('#wizard')).toBeInViewport();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.locator('#feature-annotations').click();
   await expect(page).toHaveURL(/presentation\.html$/);
   await openCaseDetails(page);
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Comments', exact: true }).click();
   await expect(page.locator('#comments')).toBeInViewport();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.locator('#feature-kpi').click();
   await expect(page).toHaveURL(/kpi\.html$/);
   await openCaseDetails(page);
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Variance presets', exact: true }).click();
   await expect(page.locator('#variance')).toBeInViewport();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
   await expect(page).toHaveURL(/analytics-plus\.html#features$/);
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
   await expect(page).toHaveURL(/powertable\.html$/);
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study', exact: true }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
 });
 

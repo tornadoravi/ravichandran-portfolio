@@ -12,6 +12,36 @@ const activePages = [
   '/analytics.html', '/presentation.html', '/kpi.html'
 ];
 
+for (const appearance of ['light', 'dark']) {
+  for (const width of [320, 390, 768, 1440]) {
+    test(`product covers show the Microsoft wordmark and platform in ${appearance} at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
+      await page.goto('/');
+      await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+      const badges = page.locator('.project-visual .platform-pill');
+      await expect(badges).toHaveCount(2);
+      await expect(badges.locator(':scope > span')).toHaveText(['Fabric', 'Power BI']);
+      for (const badge of await badges.all()) {
+        await badge.scrollIntoViewIfNeeded();
+        await expect(badge).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+        const logo = badge.getByAltText('Microsoft', { exact: true });
+        await expect(logo).toBeVisible();
+        await expect(logo).toHaveAttribute('src', '/assets/microsoft-logo.png');
+        await expect(logo).toHaveJSProperty('naturalWidth', 216);
+        const box = await logo.boundingBox();
+        expect(box.width).toBeGreaterThanOrEqual(94);
+        expect(box.width / box.height).toBeCloseTo(216 / 46, 2);
+        const bounds = await badge.boundingBox();
+        const cover = await badge.locator('..').locator('..').boundingBox();
+        expect(bounds.x).toBeGreaterThanOrEqual(cover.x);
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(cover.x + cover.width);
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    });
+  }
+}
+
 test('one interactive character precedes the name on every active page', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const path of activePages) {

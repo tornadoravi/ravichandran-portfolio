@@ -123,8 +123,8 @@ export default function IndexPage() {
                   <small>{"Task and timeline planning"}</small>
                 </span>
                 <span className={"visual-pill platform-pill"}>
-                  <img src={"/assets/microsoft-fabric.svg"} width={"24"} height={"24"} alt={""} />
-                  {"Microsoft Fabric"}
+                  <img className="brand-image microsoft-wordmark" src="/assets/microsoft-logo.png" width="216" height="46" alt="Microsoft" />
+                  <span>Fabric</span>
                 </span>
               </div>
               {"\n          "}
@@ -199,8 +199,8 @@ export default function IndexPage() {
                   <small>{"One product. Five connected feature experiences."}</small>
                 </span>
                 <span className={"visual-pill platform-pill"}>
-                  <img src={"/assets/microsoft-power-bi.svg"} width={"24"} height={"24"} alt={""} />
-                  {"Microsoft Power BI"}
+                  <img className="brand-image microsoft-wordmark" src="/assets/microsoft-logo.png" width="216" height="46" alt="Microsoft" />
+                  <span>Power BI</span>
                 </span>
               </div>
               {"\n          "}

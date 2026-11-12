@@ -282,11 +282,6 @@ export default function GanttBacklogPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap review-next"} href={"/gantt-conditional-formatting.html"}>
-          <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
-          <span className={"next-title"}>{"Conditional Formatting."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

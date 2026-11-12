@@ -349,11 +349,6 @@ export default function ColumnMappingPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap review-next"} href={"/gantt-baselines.html"}>
-          <span className={"eyebrow"}>{"Related PowerTable feature"}</span>
-          <span className={"next-title"}>{"Gantt Baselines."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

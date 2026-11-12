@@ -388,11 +388,6 @@ export default function GanttConfigurationPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap review-next"} href={"/resource-configuration.html"}>
-          <span className={"eyebrow"}>{"Related resource feature"}</span>
-          <span className={"next-title"}>{"Resource Configuration."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

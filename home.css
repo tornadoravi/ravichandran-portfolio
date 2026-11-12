@@ -737,6 +737,8 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 .editorial-home .project-visual .visual-bottom { color: var(--muted); padding-top: 0; }
 .editorial-home .work-section .project-visual { box-shadow: none; }
 .editorial-home .project-visual .visual-pill { background: var(--pill-bg); color: var(--ink); border-color: var(--line); }
+.editorial-home .project-visual .platform-pill { max-width: none; gap: 8px; background: #fff; color: #1d3032; border-color: #d3ddd3; white-space: nowrap; }
+.editorial-home .project-visual .platform-pill .microsoft-wordmark { flex: 0 0 94px; width: 94px; height: auto; }
 .editorial-home .project-visual .analytics-brand { padding: 6px; border-radius: 4px; background: #fff; }
 .editorial-home .project-description > p { padding: 12px 14px; border-left: 2px solid var(--line); background: var(--surface); }
 .editorial-home .project-description > .project-role { border-color: var(--accent); }

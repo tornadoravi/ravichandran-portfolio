@@ -2,6 +2,47 @@ import { test, expect } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
+const overviewReturns = [
+  ['/powertable.html', '/#work'],
+  ['/analytics-plus.html', '/#work'],
+  ['/column-mapping.html', '/powertable.html#gantt-features'],
+  ['/gantt-baselines.html', '/powertable.html#gantt-features'],
+  ['/gantt-backlog.html', '/powertable.html#gantt-features'],
+  ['/gantt-configuration.html', '/powertable.html#gantt-features'],
+  ['/gantt-conditional-formatting.html', '/powertable.html#resource-features'],
+  ['/resource-configuration.html', '/powertable.html#resource-features'],
+  ['/crosstab.html', '/powertable.html#crosstab-features'],
+  ['/storyboard.html', '/analytics-plus.html#features'],
+  ['/gantt.html', '/analytics-plus.html#features'],
+  ['/analytics.html', '/analytics-plus.html#features'],
+  ['/presentation.html', '/analytics-plus.html#features'],
+  ['/kpi.html', '/analytics-plus.html#features'],
+  ['/analytics-spatial.html', '/analytics-plus.html#spatial-exploration']
+];
+
+for (const javaScriptEnabled of [true, false]) {
+  for (const width of [390, 1440]) {
+    test(`cases return to a viewer-chosen overview without next-topic shortcuts at ${width}px with JavaScript ${javaScriptEnabled}`, async ({ browser, baseURL }) => {
+      const context = await browser.newContext({ javaScriptEnabled, viewport: { width, height: 900 }, reducedMotion: 'reduce' });
+      try {
+        const page = await context.newPage();
+        for (const [route, destination] of overviewReturns) {
+          await page.goto(baseURL + route);
+          await expect(page.locator('.next-project, .next-title, .next-arrow')).toHaveCount(0);
+          const back = page.locator('.back-link');
+          await expect(back).toHaveAttribute('href', destination);
+          await back.focus();
+          await page.keyboard.press('Enter');
+          await expect(page).toHaveURL(baseURL + destination);
+          await expect(page.locator(destination.slice(destination.indexOf('#')))).toBeInViewport();
+        }
+      } finally {
+        await context.close();
+      }
+    });
+  }
+}
+
 async function openReady(page, path) {
   await page.goto(path);
   await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();

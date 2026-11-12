@@ -508,11 +508,6 @@ export default function StoryboardPage() {
         </section>
         {"\n    "}
         </CaseDetails>
-        <a className={"next-project wrap"} href={"/gantt.html"}>
-          <span className={"eyebrow"}>{"Next feature"}</span>
-          <span className={"next-title"}>{"Gantt for Power BI."}</span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

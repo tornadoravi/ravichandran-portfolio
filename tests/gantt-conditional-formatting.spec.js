@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -99,7 +99,10 @@ test('Home, parent, and baseline sibling link the new feature without adding a p
   await expect(page.locator('#resource-features')).toContainText('Gantt Resources');
   await expect(page.locator('#resource-features a')).toHaveCount(1);
   await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
+  await openWorkspaceNavigation(page);
+  await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Baselines', exact: true }).click();
   await expect(page).toHaveURL(/gantt-baselines\.html$/);
   await openCaseDetails(page);
   await page.getByRole('link', { name: 'Related case / Gantt Resources — Conditional Formatting', exact: true }).click();

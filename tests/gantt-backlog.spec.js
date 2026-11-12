@@ -103,7 +103,8 @@ test('Home, parent, and formatting sibling expose backlog without adding another
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
   await openCaseDetails(page);
   await page.locator('a[href="/gantt-backlog.html"]').click();

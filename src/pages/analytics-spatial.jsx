@@ -39,11 +39,6 @@ export default function AnalyticsSpatialPage() {
           <a className="text-link" href="/assets/analytics-spatial-sequence.png" target="_blank" rel="noopener noreferrer" aria-label="View original concept sequence (opens in a new tab)">View original sequence ↗</a>
         </div>
       </section>
-      <a className="next-project wrap review-next" href="/analytics-plus.html#features">
-        <span className="eyebrow">Product case / Analytics+</span>
-        <span className="next-title">Explore the five feature stories.</span>
-        <span className="next-arrow" aria-hidden="true">↗</span>
-      </a>
     </main>
     <footer className="site-footer wrap">
       <a className="wordmark" href="/">Ravichandran V<span className="accent">.</span></a>

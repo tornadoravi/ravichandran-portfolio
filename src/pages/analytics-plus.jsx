@@ -702,13 +702,6 @@ export default function AnalyticsPlusPage() {
           </div>
         </section>
         {"\n    "}
-        <a className={"next-project wrap review-next"} href={"/powertable.html"}>
-          <span className={"eyebrow"}>{"Next case study"}</span>
-          <span className={"next-title"}>
-            {"PowerTable · Connected planning."}
-          </span>
-          <span className={"next-arrow"} aria-hidden={"true"}>{"↗"}</span>
-        </a>
         {"\n  "}
       </main>
       {"\n  "}

@@ -49,7 +49,7 @@ for (const appearance of ['light', 'dark']) {
             await expect(illustration).toHaveCSS('border-top-width', '0px');
             await expect(illustration.locator('.focus-steps > li')).toHaveCount(3);
           }
-          expect((await page.locator('.next-project').boundingBox()).height).toBeLessThanOrEqual(180);
+          await expect(page.locator('.next-project')).toHaveCount(0);
           await expect(page.locator('#case-details')).not.toHaveAttribute('open');
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name).toBe(true);

@@ -98,7 +98,10 @@ test('Home, grouped parent, baseline and resource siblings reach the correct cas
   await page.goto('/gantt-baselines.html');
   await openWorkspaceNavigation(page);
   await page.locator('.gantt-feature-tabs a[href="/gantt-configuration.html"]').click();
-  await page.locator('.next-project').click();
+  await page.locator('.back-link').click();
+  await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
+  await openWorkspaceNavigation(page);
+  await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
   await expect(page).toHaveURL(/resource-configuration\.html$/);
   await openCaseDetails(page);
   await page.locator('a[href="/gantt-configuration.html"]').click();
