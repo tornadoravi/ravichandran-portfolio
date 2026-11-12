@@ -45,6 +45,31 @@ for (const appearance of ['light', 'dark']) {
       const roles = page.locator('.project-description > .project-role');
       await expect(roles).toHaveCount(2);
       for (const role of await roles.all()) await expect(role).toHaveCSS('border-top-width', '0px');
+      await expect(page.locator('.project-visual .product-brand-preview')).toHaveCount(2);
+      await expect(page.locator('.project-visual .product-screenshot')).toHaveCount(0);
+      for (const cover of await page.locator('.project-visual').all()) {
+        const dimensions = await cover.evaluate(element => {
+          const style = getComputedStyle(element);
+          const contentWidth = element.getBoundingClientRect().width
+            - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)
+            - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth);
+          return {
+            contentWidth,
+            panelWidth: element.querySelector('.product-brand-preview').getBoundingClientRect().width
+          };
+        });
+        expect(dimensions.panelWidth).toBeCloseTo(dimensions.contentWidth, 1);
+      }
+      const productIcon = page.locator('#project-planning .product-brand-mark');
+      await productIcon.evaluate(image => image.decode());
+      const pixel = await productIcon.evaluate(image => {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 24;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, 24, 24);
+        return [...context.getImageData(1, 12, 1, 1).data];
+      });
+      expect(pixel).toEqual([237, 80, 13, 255]);
       for (const badge of await badges.all()) {
         await badge.scrollIntoViewIfNeeded();
         await expect(badge).toHaveCSS('background-color', 'rgb(255, 255, 255)');
@@ -192,11 +217,12 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     for (const project of await projects.all()) {
       await expect(project.locator('.project-categories li')).toHaveCount(2);
       await expect(project.locator('.project-categories a, .project-categories button')).toHaveCount(0);
-      const image = project.locator('.product-screenshot img');
+      const image = project.locator('.product-brand-preview img');
       const expectedImage = await project.getAttribute('id') === 'project-planning'
-        ? '/assets/powertable-official-gantt.webp'
-        : '/assets/analytics-plus-official-dashboard.webp';
+        ? '/assets/lumel-powertable-icon.svg'
+        : '/assets/inforiver-analytics-logo.svg';
       await expect(image).toHaveAttribute('src', expectedImage);
+      await expect(project.locator('.product-screenshot')).toHaveCount(0);
       await expect(project.locator('.visual-bottom')).toContainText('Official');
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(image => image.decode());
@@ -206,11 +232,10 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
       expect(screen.y).toBeGreaterThanOrEqual(frame.y);
       expect(screen.y + screen.height).toBeLessThanOrEqual(frame.y + frame.height - 8);
       expect(source.y + source.height).toBeLessThanOrEqual(frame.y + frame.height - 8);
-      const dimensions = await image.evaluate(image => ({
-        width: image.clientWidth, height: image.clientHeight,
-        nativeWidth: image.naturalWidth, nativeHeight: image.naturalHeight
-      }));
-      expect(dimensions.width).toBeLessThanOrEqual(dimensions.nativeWidth);
+      const dimensions = await image.evaluate(image => {
+        const { width, height } = image.getBoundingClientRect();
+        return { width, height, nativeWidth: image.naturalWidth, nativeHeight: image.naturalHeight };
+      });
       expect(Math.abs(dimensions.width / dimensions.height - dimensions.nativeWidth / dimensions.nativeHeight)).toBeLessThan(.02);
       await expect(project.locator('.project-features')).toHaveCount(0);
       await expect(project.locator('.case-link')).toHaveCount(1);
@@ -218,7 +243,7 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     await expect(page.locator('#project-planning h3')).toHaveText('PowerTable');
     await expect(page.locator('#project-analytics h3')).toHaveText('Inforiver Analytics+');
     if (width > 700) {
-      for (const selector of ['.project-visual', '.visual-heading', '.cover-statement', '.product-screenshot', '.visual-bottom']) {
+      for (const selector of ['.project-visual', '.visual-heading', '.cover-statement', '.product-brand-preview', '.visual-bottom']) {
         const [planning, analytics] = await page.locator(`#work > .project ${selector}`).evaluateAll(elements => elements.map(element => {
           const { y, height } = element.getBoundingClientRect();
           return { y, height };
@@ -347,7 +372,7 @@ test('fine-pointer hover gives covers and the original character subtle motion',
 
 test('reduced motion keeps portrait, cover and character hover effects still', async ({ page }) => {
   await page.goto('/');
-  for (const selector of ['.hero-portrait img', '#project-planning .project-visual', '#project-analytics .product-screenshot', '.soundroom-companion']) {
+  for (const selector of ['.hero-portrait img', '#project-planning .project-visual', '#project-analytics .product-brand-preview', '.soundroom-companion']) {
     const element = page.locator(selector).first();
     await element.hover();
     await expect(element).toHaveCSS('transform', 'none');

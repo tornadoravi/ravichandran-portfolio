@@ -134,14 +134,15 @@ export default function IndexPage() {
                 {"Connected workflows."}
               </p>
               {"\n          "}
-              <div className={"product-screenshot"}>
-                <img src={"/assets/powertable-official-gantt.webp"} width={"2944"} height={"1570"} loading={"lazy"} alt={"Official PowerTable implementation in Microsoft Fabric, with a task table and a populated Gantt timeline showing progress, milestones, and dependencies."} />
+              <div className="product-brand-preview">
+                <img className="product-brand-mark" src="/assets/lumel-powertable-icon.svg" width="80" height="80" alt="PowerTable" />
+                <span className="product-brand-name" aria-hidden="true">PowerTable</span>
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
                 <span className="cover-maker">
                   <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel" />
-                  <span>{"Official PowerTable implementation · Product preview"}</span>
+                  <span>{"Official PowerTable icon · Lumel"}</span>
                 </span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>
@@ -195,7 +196,7 @@ export default function IndexPage() {
               {"\n          "}
               <div className={"visual-heading"}>
                 <span>
-                  <img className={"analytics-brand"} src={"/assets/inforiver-analytics-logo.svg"} width={"173"} height={"36"} alt={"Inforiver Analytics+"} />
+                  {"Analytics+"}
                   <small>{"One product. Five connected feature experiences."}</small>
                 </span>
                 <span className={"visual-pill platform-pill"}>
@@ -210,14 +211,14 @@ export default function IndexPage() {
                 {"inside Power BI."}
               </p>
               {"\n          "}
-              <div className={"product-screenshot"}>
-                <img src={"/assets/analytics-plus-official-dashboard.webp"} width={"1920"} height={"1080"} loading={"lazy"} alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
+              <div className="product-brand-preview">
+                <img className="product-brand-wordmark" src="/assets/inforiver-analytics-logo.svg" width="173" height="36" alt="Inforiver Analytics+" />
               </div>
               {"\n          "}
               <div className={"visual-bottom"}>
                 <span className="cover-maker">
                   <img className="brand-image" src="/assets/lumel-logo.svg" width="787" height="360" alt="Lumel" />
-                  <span>{"Official Analytics+ template · Lumel Inc."}</span>
+                  <span>{"Official Analytics+ logo · Lumel"}</span>
                 </span>
                 <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
               </div>

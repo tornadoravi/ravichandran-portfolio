@@ -196,7 +196,7 @@ test('reduced-motion preferences disable smooth scroll and illustration movement
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
-  expect(await page.locator('.project-visual .product-screenshot').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
+  expect(await page.locator('.project-visual .product-brand-preview').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
 });
 
 test('keyboard skip link reaches main content', async ({ page }) => {
@@ -236,8 +236,8 @@ test('editorial covers preserve genuine product views and the serif hierarchy', 
   await page.goto('/');
   expect(await page.locator('h1 em').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('italic');
   await expect(page.locator('.analytics-scene').first()).toHaveCSS('background-color', 'rgb(232, 228, 239)');
-  await expect(page.locator('.project-visual .product-screenshot img').first()).toHaveCSS('transform', 'none');
-  await expect(page.locator('.project-visual .product-screenshot img').first()).toHaveCSS('filter', 'none');
+  await expect(page.locator('.project-visual .product-brand-preview img').first()).toHaveCSS('transform', 'none');
+  await expect(page.locator('.project-visual .product-brand-preview img').first()).toHaveCSS('filter', 'none');
   await expect(page.locator('.hero-index, .monogram')).toHaveCount(0);
 });
 
@@ -513,8 +513,8 @@ test('Chart Wizard flow preserves alternative routes and reaches configuration a
 
 test('Wizard screenshots use native-size crops while the feature gallery uses illustrations', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#project-analytics .product-screenshot img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
-  await expect(page.locator('#project-analytics .visual-bottom')).toContainText('Official Analytics+ template · Lumel Inc.');
+  await expect(page.locator('#project-analytics .product-brand-preview img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
+  await expect(page.locator('#project-analytics .visual-bottom')).toContainText('Official Analytics+ logo · Lumel');
   await page.goto('/analytics-plus.html');
   const wizard = page.locator('#feature-wizard');
   await expect(wizard.locator('img')).toHaveCount(0);

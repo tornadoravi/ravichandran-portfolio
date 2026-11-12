@@ -778,6 +778,13 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 .editorial-home .project-visual .platform-pill { max-width: none; gap: 8px; background: #fff; color: #1d3032; border-color: #d3ddd3; white-space: nowrap; }
 .editorial-home .project-visual .platform-pill .microsoft-wordmark { flex: 0 0 94px; width: 94px; height: auto; }
 .editorial-home .project-visual .analytics-brand { padding: 6px; border-radius: 4px; background: #fff; }
+.editorial-home .product-brand-preview { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; height: 200px; padding: 24px; border: 1px solid #d3ddd3; border-radius: 6px; background: #fff; color: #1d3032; }
+.editorial-home .product-brand-mark { flex: 0 0 auto; width: clamp(48px, 5vw, 80px); height: auto; }
+.editorial-home .product-brand-name { font: 600 clamp(24px, 2.4vw, 36px)/1.2 var(--sans); letter-spacing: -.035em; }
+.editorial-home .product-brand-wordmark { width: min(100%, 340px); height: auto; }
+@media (max-width: 700px) {
+  .editorial-home .product-brand-preview { height: 160px; padding: 20px; }
+}
 .editorial-home .project-description > p { padding: 12px 14px; border-left: 2px solid var(--line); background: var(--surface); }
 .editorial-home .project-index a, .about-nav a { border-bottom: 1px solid var(--line); }
 @media (max-width: 1000px) {
@@ -830,7 +837,7 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 }
 @media (min-width: 701px) {
   .editorial-home .work-section > .project { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; grid-row: span 5; }
-  .editorial-home .work-section > .project > .project-visual { display: grid; grid-template-rows: subgrid; grid-column: 1; grid-row: 1 / span 4; gap: 16px; }
+  .editorial-home .work-section > .project > .project-visual { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; grid-column: 1; grid-row: 1 / span 4; gap: 16px; }
   .editorial-home .work-section > .project > .project-caption { grid-column: 1; grid-row: 5; }
   .editorial-home .work-section .project-visual .product-screenshot { display: flex; align-items: center; justify-content: center; }
 }

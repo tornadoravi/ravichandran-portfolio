@@ -43,6 +43,7 @@ export const files = new Map([
   ['/assets/microsoft-power-bi.svg', ['assets/microsoft-power-bi.svg', 'image/svg+xml']],
   ['/assets/microsoft-logo.png', ['assets/microsoft-logo.png', 'image/png']],
   ['/assets/lumel-logo.svg', ['assets/lumel-logo.svg', 'image/svg+xml']],
+  ['/assets/lumel-powertable-icon.svg', ['assets/lumel-powertable-icon.svg', 'image/svg+xml']],
   ['/assets/microsoft-fabric.svg', ['assets/microsoft-fabric.svg', 'image/svg+xml']],
   ['/assets/fabric-gantt-configuration.png', ['assets/fabric-gantt-configuration.png', 'image/png']],
   ['/assets/powertable-official-gantt.webp', ['assets/powertable-official-gantt.webp', 'image/webp']],
