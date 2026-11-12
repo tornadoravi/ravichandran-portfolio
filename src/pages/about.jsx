@@ -65,9 +65,11 @@ export default function AboutPage() {
               {"\n          "}
               <p className={"large-copy"}>{"I think in workflows, not isolated screens."}</p>
               {"\n          "}
-              <p>{"I’m a Product Designer II at Lumel, with four years across PowerTable for Microsoft Fabric and Inforiver Analytics+ for Power BI."}</p>
+              <p>{"I’m a Product Designer II at Lumel, with four years designing enterprise B2B SaaS products for "}<strong className="scan-emphasis">Power BI and Microsoft Fabric.</strong></p>
               {"\n          "}
-              <p>{"I connect product requirements, user flows, and interaction design—working with product managers and developers through handoff and implementation review."}</p>
+              <p>{"Across PowerTable and Inforiver Analytics+, I turn complex requirements into "}<strong className="scan-emphasis">clear workflows, consistent interfaces, and reusable visual patterns</strong>{"—including product iconography."}</p>
+              {"\n          "}
+              <p>{"I collaborate with product managers and developers, refining designs through feedback, prototyping, and implementation review."}</p>
               {"\n          "}
               <p>{"My design work on PowerTable was based entirely on the Microsoft Fabric design system."}</p>
               {"\n          "}

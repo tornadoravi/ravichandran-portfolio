@@ -262,8 +262,9 @@ export default function IndexPage() {
               <br />
               <em>{"I make complex work feel clear."}</em>
             </h2>
-            <p>{"I’m a Product Designer II at Lumel, with four years in enterprise analytics and connected planning."}</p>
-            <p>{"I think in workflows, not isolated screens—connecting product requirements, interaction design, and implementation."}</p>
+            <p>{"I’m a Product Designer II at Lumel, with four years in "}<strong className="scan-emphasis">Power BI and Microsoft Fabric.</strong></p>
+            <p>{"I design enterprise B2B SaaS "}<strong className="scan-emphasis">workflows, consistent interfaces, and product iconography.</strong></p>
+            <p>{"I partner with product managers and developers through prototyping and implementation review."}</p>
             <p>
               {"My design work on PowerTable was based entirely on the "}
               <strong className={"scan-emphasis"}>{"Microsoft Fabric design system"}</strong>

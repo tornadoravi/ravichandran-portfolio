@@ -65,7 +65,10 @@ for (const width of [390, 1440]) {
     await page.goto('/');
     await expect(page.locator('.hero-introduction')).toContainText('Four years');
     await expect(page.locator('.home-about')).toContainText('Product Designer II at Lumel, with four years');
-    await expect(page.locator('.home-about')).toContainText('I think in workflows, not isolated screens');
+    await expect(page.locator('.home-about')).toContainText('Power BI and Microsoft Fabric');
+    await expect(page.locator('.home-about')).toContainText('enterprise B2B SaaS');
+    await expect(page.locator('.home-about')).toContainText('product iconography');
+    await expect(page.locator('.home-about')).toContainText('prototyping and implementation review');
     await expect(page.locator('.home-about dl')).toHaveCount(0);
     for (const paragraph of await page.locator('.home-about > div > p').all()) {
       expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
@@ -77,7 +80,8 @@ for (const width of [390, 1440]) {
     await page.locator('.home-about a[href="/about.html"]').click();
     await expect(page.locator('.about-intro')).toContainText('Product Designer II at Lumel, with four years');
     await expect(page.locator('.about-intro')).toContainText('I think in workflows, not isolated screens');
-    await expect(page.locator('.about-intro')).toContainText('PowerTable for Microsoft Fabric and Inforiver Analytics+ for Power BI');
+    await expect(page.locator('.about-intro')).toContainText('Across PowerTable and Inforiver Analytics+');
+    await expect(page.locator('.about-intro')).toContainText('product iconography');
     await expect(page.locator('.about-intro')).toContainText('product managers and developers');
     for (const paragraph of await page.locator('.about-intro > div:last-child > p').all()) {
       expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
