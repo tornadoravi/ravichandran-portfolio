@@ -12,6 +12,26 @@ const activePages = [
   '/analytics.html', '/presentation.html', '/kpi.html'
 ];
 
+test('Analytics+ case links align horizontally where they fit and wrap without overlap', async ({ page }) => {
+  for (const width of [320, 390, 768, 1060, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/#project-analytics');
+    await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+    await page.evaluate(() => document.fonts.ready);
+    const links = page.locator('#project-analytics .project-case-links > a');
+    await expect(links).toHaveCount(2);
+    await expect(links.nth(0)).toHaveAttribute('href', '/analytics-plus.html');
+    await expect(links.nth(1)).toHaveAttribute('href', '/analytics-spatial.html');
+    const [main, concept] = await Promise.all([links.nth(0).boundingBox(), links.nth(1).boundingBox()]);
+    expect(main.height).toBeGreaterThanOrEqual(44);
+    expect(concept.height).toBeGreaterThanOrEqual(44);
+    if (width >= 1060) expect(concept.y).toBeCloseTo(main.y, 1);
+    if (Math.abs(concept.y - main.y) < 1) expect(concept.x).toBeGreaterThanOrEqual(main.x + main.width + 24);
+    else expect(concept.y).toBeGreaterThanOrEqual(main.y + main.height + 12);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
+
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
     test(`product covers show the Microsoft wordmark and platform in ${appearance} at ${width}px`, async ({ page }) => {

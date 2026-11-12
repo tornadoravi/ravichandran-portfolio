@@ -245,13 +245,15 @@ export default function IndexPage() {
                   <strong>{"End-to-end Chart Wizard UX/UI"}</strong>
                   {"; Chart Wizard and reusable KPI templates shipped"}
                 </p>
-                <a className={"text-link case-link"} href={"/analytics-plus.html"}>
-                  {"Explore case study "}
-                  <span aria-hidden={"true"}>{"→"}</span>
-                </a>
-                <a className="text-link concept-case-link" href="/analytics-spatial.html">
-                  Spatial Analytics+ · Concept study <span aria-hidden="true">→</span>
-                </a>
+                <div className="project-case-links">
+                  <a className={"text-link case-link"} href={"/analytics-plus.html"}>
+                    {"Explore case study "}
+                    <span aria-hidden={"true"}>{"→"}</span>
+                  </a>
+                  <a className="text-link concept-case-link" href="/analytics-spatial.html">
+                    Spatial Analytics+ · Concept study <span aria-hidden="true">→</span>
+                  </a>
+                </div>
               </div>
             </div>
             {"\n      "}
