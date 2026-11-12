@@ -78,6 +78,16 @@ html[data-theme="dark"] .editorial-home {
 .case-context .metadata { margin: 8px 0 16px; }
 .case-snapshot { padding-block: 20px 36px; }
 .case-snapshot > .eyebrow { color: var(--muted); margin-bottom: 8px; }
+.presentation-at-a-glance { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.presentation-at-a-glance > * { min-width: 0; }
+.presentation-at-a-glance .decision-illustration { margin: 0; }
+.presentation-key-points { margin: 0; }
+.presentation-key-points > div { padding: 14px 0; border-top: 1px solid var(--line); }
+.presentation-key-points dt { margin-bottom: 6px; color: var(--ink); font-size: 15px; font-weight: 500; }
+.presentation-key-points dd { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
+@media (max-width: 700px) {
+  .presentation-at-a-glance { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
 .focus-task { margin: -4px 0 24px; max-width: 64ch; color: var(--muted); font-size: 16px; line-height: 1.6; }
 .focus-story { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 28px; align-items: start; }
 .focus-illustration { min-width: 0; margin: 0; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
@@ -325,7 +335,7 @@ html[data-theme="dark"] .project-visual { box-shadow: 0 12px 0 -7px #aaa0cf, 0 2
 .editorial-case main > .mapping-lead .mapping-preview { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .editorial-case main > .mapping-lead .mapping-preview img { width: auto; height: auto; max-width: 100%; max-height: 380px; margin-inline: auto; }
 .editorial-case main > :is(figure.case-evidence, .case-evidence .screenshot-scene) img { width: auto; height: auto; max-width: 100%; max-height: 380px; margin-inline: auto; }
-.editorial-case main > .case-evidence .product-screenshot img { width: auto; height: auto; max-width: 100%; max-height: 380px; margin-inline: auto; }
+.editorial-case main > .case-evidence .product-screenshot img, .editorial-case #design-screens .product-screenshot img { width: auto; height: auto; max-width: 100%; max-height: 380px; margin-inline: auto; }
 .editorial-case main > .mapping-evidence .backlog-state img { width: auto; height: auto; max-width: 100%; max-height: 320px; margin-inline: auto; }
 .editorial-case .product-overview .product-screenshot { display: flex; justify-content: center; }
 .editorial-case main > figure.product-overview img { max-height: 420px; }

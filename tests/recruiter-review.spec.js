@@ -54,14 +54,19 @@ for (const appearance of ['light', 'dark']) {
         if (path !== '/' && path !== '/about.html') {
           const overview = ['/powertable.html', '/analytics-plus.html'].includes(path);
           const focused = ['/powertable.html', '/analytics.html'].includes(path);
+          const compact = path === '/presentation.html';
           await expect(page.locator('.case-diagram')).toHaveCount(overview || focused ? 0 : 1);
           if (!overview && !focused) {
             await expect(page.locator('.case-diagram')).toBeVisible();
             await expect(page.locator('.case-diagram')).toHaveAttribute('aria-label', /.+/);
             await expect(page.locator('.decision-illustration figcaption')).toHaveText('Concept diagram · Not a product screenshot.');
           }
-          await expect(page.locator('.decision-flow > li')).toHaveCount(focused ? 0 : 3);
-          await expect(page.locator('.case-topic-art')).toHaveCount(focused ? 0 : 3);
+          await expect(page.locator('.decision-flow > li')).toHaveCount(focused || compact ? 0 : 3);
+          await expect(page.locator('.case-topic-art')).toHaveCount(focused || compact ? 0 : 3);
+          if (compact) {
+            await expect(page.locator('.presentation-key-points dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
+            await expect(page.locator('#design-screens')).toBeHidden();
+          }
           if (focused) {
             await expect(page.locator('.case-focus')).toBeVisible();
             await expect(page.locator('.focus-illustration')).toHaveCount(1);
@@ -76,8 +81,8 @@ for (const appearance of ['light', 'dark']) {
             expect(sceneSignatures.has(signature), `Repeated illustration on ${path}`).toBe(false);
             sceneSignatures.add(signature);
           }
-          if (!focused) await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
-          if (!overview && !focused) {
+          if (!focused && !compact) await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
+          if (!overview && !focused && !compact) {
             await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
             await expect(page.locator('.scenario-visual')).toBeVisible();
             expect(await page.locator('.scenario-visual').getAttribute('data-use-case')).toBeTruthy();
@@ -110,9 +115,11 @@ for (const appearance of ['light', 'dark']) {
         if (features.some(([feature]) => feature === path)) {
           expect(words, path).toBeLessThanOrEqual(['/gantt-backlog.html', '/presentation.html'].includes(path) ? 350 : 280);
           await expect(page.locator('#case-details')).not.toHaveAttribute('open');
-          await expect(page.locator('.decision-flow > li')).toHaveCount(path === '/analytics.html' ? 0 : 3);
-          if (path !== '/analytics.html') await expect(page.locator('.decision-flow .small-index')).toHaveText(['01 / Challenge', '02 / Design', '03 / Evidence']);
-          await expect(page.locator('main > .mapping-lead img, main > .case-evidence img, main > .mapping-evidence img').first()).toBeVisible();
+          const compact = path === '/presentation.html';
+          await expect(page.locator('.decision-flow > li')).toHaveCount(path === '/analytics.html' || compact ? 0 : 3);
+          if (path !== '/analytics.html' && !compact) await expect(page.locator('.decision-flow .small-index')).toHaveText(['01 / Challenge', '02 / Design', '03 / Evidence']);
+          if (compact) await expect(page.locator('.presentation-summary .case-diagram')).toBeVisible();
+          else await expect(page.locator('main > .mapping-lead img, main > .case-evidence img, main > .mapping-evidence img').first()).toBeVisible();
           for (const item of await page.locator('.decision-flow > li').all()) {
             const box = await item.boundingBox();
             expect(box.x).toBeGreaterThanOrEqual(0);
@@ -122,7 +129,7 @@ for (const appearance of ['light', 'dark']) {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), path).toBe(true);
       }
       expect(errors).toEqual([]);
-      expect(sceneSignatures.size).toBe(36);
+      expect(sceneSignatures.size).toBe(33);
     });
 
   }
@@ -192,8 +199,9 @@ test('recruiter summaries, branding, evidence disclosures and feature navigation
     for (const [path] of features) {
       await page.goto(baseURL + path);
       await expect(page.locator('.case-snapshot')).toBeVisible();
-      await expect(page.locator('.case-topic-art')).toHaveCount(path === '/analytics.html' ? 0 : 3);
+      await expect(page.locator('.case-topic-art')).toHaveCount(['/analytics.html', '/presentation.html'].includes(path) ? 0 : 3);
       if (path === '/analytics.html') await expect(page.locator('.focus-task')).toBeVisible();
+      else if (path === '/presentation.html') await expect(page.locator('.presentation-key-points')).toBeVisible();
       else await expect(page.getByRole('region', { name: 'Illustrative task', exact: true })).toBeVisible();
       await page.locator('.case-context > summary').focus();
       await page.keyboard.press('Enter');

@@ -1,7 +1,8 @@
 import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import WorkspaceFeatureTabs from '../WorkspaceFeatureTabs.jsx';
-import { CaseDetails, CaseSnapshot, CaseContext, CaseFlow } from '../CaseReview.jsx';
+import { CaseDetails, CaseContext, CaseFlow } from '../CaseReview.jsx';
+import CaseDiagram from '../CaseDiagram.jsx';
 
 export default function PresentationPage() {
   return (
@@ -20,7 +21,7 @@ export default function PresentationPage() {
           {"\n      "}
           <h1>{"Annotations & Presentation."}</h1>
           {"\n      "}
-          <p className="case-summary">{"Connect the observation, explanation, and audience."}</p>
+          <p className="case-summary">{"Explain the insight without leaving the report."}</p>
           {"\n      "}
           <CaseContext role="Feature UX/UI · Handoff & implementation review">
             <dl className={"metadata"}>
@@ -51,7 +52,24 @@ export default function PresentationPage() {
         </section>
 
         {"\n\n    "}
-        <section className={"case-evidence wrap"} aria-labelledby={"screens-title"}>
+        <section className="presentation-summary case-snapshot wrap" aria-labelledby="presentation-summary-title">
+          <h2 id="presentation-summary-title" className="visual-story-title">Put the explanation beside the data.</h2>
+          <div className="presentation-at-a-glance">
+            <figure className="decision-illustration">
+              <CaseDiagram caseId="presentation" />
+              <figcaption>Concept diagram · Not a product screenshot.</figcaption>
+            </figure>
+            <div>
+              <dl className="presentation-key-points">
+                <div><dt>Problem</dt><dd>A chart can show the change without explaining it.</dd></div>
+                <div><dt>My decision</dt><dd>Attach explanations to data points and keep presentation controls in the report.</dd></div>
+                <div><dt>Evidence</dt><dd>Nine design screens; release status is not verified here.</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+        <CaseDetails title="View design screens & walkthrough">
+        <section id="design-screens" className={"case-evidence wrap"} aria-labelledby={"screens-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>
             <p className={"eyebrow"}>{"Design screens / 01–03"}</p>
@@ -67,7 +85,7 @@ export default function PresentationPage() {
                 <h3>{"Presentation disabled"}</h3>
               </div>
               <a className={"product-screenshot native-shot"} href={"/assets/presentation-screen-01.png"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View supplied presentation screen 01 full-size (opens in a new tab)"}>
-                <img src={"/assets/presentation-screen-01.png"} width={"1707"} height={"830"} fetchPriority={"high"} alt={"Analytics+ Advanced panel with Enable Present switched off, numbered annotation markers, and a report-level comments region."} />
+                <img src={"/assets/presentation-screen-01.png"} width={"1707"} height={"830"} loading={"lazy"} alt={"Analytics+ Advanced panel with Enable Present switched off, numbered annotation markers, and a report-level comments region."} />
               </a>
               <figcaption>
                 {"Design screen · Enable Present is off; an instructional callout identifies the setting. "}
@@ -116,8 +134,6 @@ export default function PresentationPage() {
           {"\n    "}
         </section>
         {"\n\n    "}
-        <CaseSnapshot caseId="presentation" />
-        <CaseDetails>
         <section className={"case-brief wrap"} aria-label={"Detailed contribution summary"}>
           {"\n      "}
           <div>
