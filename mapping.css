@@ -31,7 +31,9 @@
 .workspace-group .feature-case-link h3 { font-size: 18px; font-weight: 500; line-height: 1.5; margin: 0; }
 .workspace-group .feature-case-link a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; padding-block: 16px; }
 .workspace-group .feature-case-link a span { color: var(--accent); flex-shrink: 0; }
-.workspace-group a:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .workspace-group a:hover { color: var(--accent); }
+}
 .workspace-contribution { border-top: 1px solid var(--line); padding-top: 16px; }
 .workspace-contribution .text-link { margin: 0; min-height: 44px; }
 .workspace-contribution p { font-size: 13px; color: var(--muted); margin-top: 8px; }

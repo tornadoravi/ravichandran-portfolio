@@ -1,41 +1,10 @@
 import { sitePath } from '../site-path.js';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import SoundroomControls from '../SoundroomControls.jsx';
 import DesignApproach from '../DesignApproach.jsx';
 
-const headlinePhrases = [
-  'Considered experiences.',
-  'Intuitive workflows.',
-  'Clear interactions.',
-  'Confident decisions.'
-];
-
 export default function IndexPage() {
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [motionAllowed, setMotionAllowed] = useState(false);
-
-  useEffect(() => {
-    const preference = matchMedia('(prefers-reduced-motion: reduce)');
-    const events = new AbortController();
-    function updateMotion() {
-      setMotionAllowed(!preference.matches && !document.hidden);
-      if (preference.matches) setPhraseIndex(0);
-    }
-    updateMotion();
-    preference.addEventListener('change', updateMotion, { signal: events.signal });
-    document.addEventListener('visibilitychange', updateMotion, { signal: events.signal });
-    return () => events.abort();
-  }, []);
-
-  useEffect(() => {
-    if (!motionAllowed) return;
-    const timer = window.setInterval(() => {
-      setPhraseIndex(index => (index + 1) % headlinePhrases.length);
-    }, 4000);
-    return () => window.clearInterval(timer);
-  }, [motionAllowed]);
-
   return (
     <>
       {"\n  "}
@@ -58,8 +27,8 @@ export default function IndexPage() {
             <h1 id={"portrait-title"} className={"portrait-title"} aria-label="Complex products. Considered experiences.">
               {"Complex products."}
               <br />
-              <em className="rotating-headline" data-sizer={headlinePhrases[0]} data-rotating={motionAllowed}>
-                <span className="headline-phrase" key={phraseIndex}>{headlinePhrases[phraseIndex]}</span>
+              <em>
+                <span className="headline-phrase">Considered experiences.</span>
               </em>
             </h1>
             {"\n        "}

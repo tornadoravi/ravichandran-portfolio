@@ -451,16 +451,17 @@ test('recommendation disclosures and source links remain usable without JavaScri
   await context.close();
 });
 
-test('scroll reveals are visible when reached and respect changed motion preferences', async ({ page }) => {
+test('project content stays visible without scroll reveals or motion preferences', async ({ page }) => {
   await page.goto('/');
   const lastProject = page.locator('#project-planning');
-  await expect(lastProject).toHaveClass(/reveal-target/);
+  await expect(page.locator('.reveal-target')).toHaveCount(0);
+  await expect(lastProject).toHaveCSS('opacity', '1');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   expect(await lastProject.evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
   expect(await lastProject.evaluate((element) => getComputedStyle(element).transform)).toBe('none');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await lastProject.scrollIntoViewIfNeeded();
-  await expect(lastProject).toHaveClass(/is-revealed/);
+  await expect(page.locator('.reveal-target')).toHaveCount(0);
   await expect(lastProject).toHaveCSS('opacity', '1');
 });
 
@@ -545,32 +546,29 @@ test('Chart Wizard documentation is not presented as an independent review or ou
 });
 
 for (const path of pages.filter((path) => path !== '/')) {
-  test(`intro motion runs once and settles on ${path}`, async ({ page }) => {
+  test(`content is readable immediately without intro motion on ${path}`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'domcontentloaded' });
     const heading = page.locator('h1');
     const timing = await heading.evaluate((element) => element.getAnimations().map((animation) => animation.effect.getTiming()));
-    expect(timing).toHaveLength(1);
-    expect(timing[0].duration).toBe(700);
-    expect(timing[0].iterations).toBe(1);
-    await heading.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)));
+    expect(timing).toEqual([]);
     await expect(heading).toHaveCSS('opacity', '1');
     await expect(heading).toHaveCSS('transform', 'none');
   });
 }
 
-test('project motion responds to pointer and keyboard without transforming screenshots', async ({ page }) => {
+test('project motion is pointer-only and never transforms official brand artwork', async ({ page }) => {
   await page.goto('/#project-analytics');
   const preview = page.locator('#project-analytics .project-visual');
   await preview.hover();
   await expect.poll(() => preview.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42)).toBeLessThan(-4.9);
-  await expect(preview.locator('.product-screenshot img')).toHaveCSS('transform', 'none');
-  expect(await preview.locator('.product-screenshot img').evaluate((element) => element.clientWidth)).toBeLessThanOrEqual(1390);
+  await expect(preview.locator('.product-brand-preview img')).toHaveCSS('transform', 'none');
   await page.mouse.move(0, 0);
   await preview.focus();
   await page.keyboard.press('Tab');
   await page.keyboard.press('Shift+Tab');
   await expect(preview).toBeFocused();
-  await expect(preview).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -5)');
+  await expect(preview).toHaveCSS('transform', 'none');
+  await expect(preview).toHaveCSS('transition-duration', '0s');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(preview).toHaveCSS('transform', 'none');
 });
@@ -593,9 +591,9 @@ test('floating back-to-top navigation returns position and keyboard focus on eve
   }
 });
 
-test('reduced motion cancels active entrances and deep links skip them', async ({ page }) => {
+test('normal, reduced-motion and deep-link entries never animate content', async ({ page }) => {
   await page.goto('/about.html', { waitUntil: 'domcontentloaded' });
-  expect(await page.locator('h1').evaluate((element) => element.getAnimations().length)).toBe(1);
+  expect(await page.locator('h1').evaluate((element) => element.getAnimations().length)).toBe(0);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect.poll(() => page.locator('h1').evaluate((element) => element.getAnimations().length)).toBe(0);
   await expect(page.locator('h1')).toHaveCSS('opacity', '1');
@@ -625,15 +623,15 @@ test('touch browsing has no desktop hover lift and project taps still navigate',
   await context.close();
 });
 
-test('About employer and recommendation reveals settle when reached', async ({ page }) => {
+test('About employer and recommendation content needs no reveal animation', async ({ page }) => {
   await page.goto('/about.html');
   await page.locator('#experience-details > summary').click();
   const employer = page.locator('.experience-timeline > li').last();
   const recommendation = page.locator('.recommendation-card').last();
   for (const element of [employer, recommendation]) {
-    await expect(element).toHaveClass(/reveal-target/);
+    await expect(element).not.toHaveClass(/reveal-target/);
+    await expect(element).toHaveCSS('opacity', '1');
     await element.scrollIntoViewIfNeeded();
-    await expect(element).toHaveClass(/is-revealed/);
     await expect(element).toHaveCSS('opacity', '1');
   }
 });
@@ -807,12 +805,10 @@ test('user-flow disclosures remain keyboard-usable without JavaScript', async ({
   await context.close();
 });
 
-test('reveal motion does not compound a fading parent and child', async ({ page }) => {
+test('About content is never hidden behind nested reveal animations', async ({ page }) => {
   await page.goto('/about.html');
-  const nested = await page.locator('.reveal-target').evaluateAll((elements) =>
-    elements.filter((element) => element.parentElement.closest('.reveal-target')).map((element) => element.className));
-  expect(nested).toEqual([]);
-  await expect(page.locator('.recommendation-card.reveal-target')).toHaveCount(2);
+  await expect(page.locator('.reveal-target')).toHaveCount(0);
+  await expect(page.locator('.recommendation-card')).toHaveCount(2);
 });
 
 test('homepage prioritizes selected work before the approach', async ({ page }) => {

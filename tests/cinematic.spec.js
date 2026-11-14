@@ -1,22 +1,22 @@
 import { test, expect } from './fixtures.js';
 
-test('cinematic role and title entrances are finite and settle into readable content', async ({ page }) => {
+test('role and title are immediately readable without decorative entrances', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const timing = await page.locator('.hero-role, .portrait-title')
     .evaluateAll(elements => elements.map(element => element.getAnimations().map(animation => {
       const { duration, delay, iterations } = animation.effect.getTiming();
       return { duration, delay, iterations };
     })));
-  expect(timing).toEqual([0, 110].map(delay => [{ duration: 1000, delay, iterations: 1 }]));
+  expect(timing).toEqual([[], []]);
   await page.evaluate(() => Promise.all(document.getAnimations().map(animation => animation.finished)));
   await expect(page.locator('.portrait-title')).toHaveCSS('opacity', '1');
   await expect(page.locator('.portrait-title')).toHaveCSS('clip-path', 'none');
   expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
   await expect(page.locator('.portrait-hero')).toHaveCSS('border-radius', '0px');
-  await expect(page.locator('.portrait-title em')).toHaveCSS('font-style', 'italic');
+  await expect(page.locator('.portrait-title')).toHaveText('Complex products.Considered experiences.');
 });
 
-test('motion changes cancel cinematic effects and keep pending project chapters visible', async ({ page }) => {
+test('motion preference changes keep every project chapter visible', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   expect(await page.locator('.hero-role, .portrait-title')

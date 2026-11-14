@@ -32,7 +32,15 @@ The build publishes the pre-rendered React pages and compiled bundles plus the p
 
 Focus is the default listening mode for new visitors. An explicitly selected Soundroom listening mode can persist within the same tab, but restoring it never starts music without a user action.
 
-Home keeps "Complex products." fixed while the italic line cycles through "Considered experiences.", "Intuitive workflows.", "Clear interactions.", and "Confident decisions." every four seconds, without additional controls. The longest phrase reserves the line's dimensions so the hero does not jump. Reduced-motion visitors and no-JavaScript browsers receive the original static headline. Hidden tabs suspend the timer.
+Home uses one static headline: "Complex products. Considered experiences." It stays unchanged with or without JavaScript and across motion preferences; there is no rotation timer or decorative text entrance.
+
+## Interaction and motion
+
+Case content is readable immediately, without route entrances or scroll-triggered reveal observers. Hover styles in the active base, mapping, and editorial stylesheets require both `(hover: hover)` and `(pointer: fine)`; selected and focus-visible styles remain available independently. Routine card and companion hover movement uses a 200ms strong ease-out. Controls provide a 100ms pointer-press response, while keyboard focus disables CSS animation, transitions, and smooth scrolling throughout the document. Reduced-motion preferences remain respected, including keeping pointer-press transforms still.
+
+Desktop portrait depth remains bounded to 8px horizontally and 5px vertically. Its frame callback writes directly to the portrait image's transform, not inherited variables on the hero. Touch browsing, reduced motion, keyboard input, pointer leave, visibility changes, and route cleanup reset or suppress this decorative movement. The native cursor, optional music, appearance controls, original illustrations, and case evidence remain intact. Real-phone interaction and frame-rate profiling are separate from browser-emulation coverage.
+
+Four project-local design skills from [emilkowalski/skills](https://github.com/emilkowalski/skills) are installed in `.agents/skills/`: `emil-design-eng`, `review-animations`, `mobile-native`, and `animation-performance`. `skills-lock.json` records their source hashes and `.agents/skills/LICENSE` preserves the upstream MIT license. These are development instructions, not runtime dependencies or published portfolio assets.
 
 The user confirmed permission to publish the supplied product screenshots before this hosting setup. Netlify account authorization, the GitHub repository connection, and the first live deployment still need to be completed in Netlify; committing these settings alone does not create a live site.
 

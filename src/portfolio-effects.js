@@ -175,42 +175,17 @@ export function initializePortfolioEffects() {
     element.innerHTML = render();
   });
 
-  const introAnimations = [];
-  if (!motionPreference.matches && !location.hash && typeof Element.prototype.animate === 'function') {
-    const introElements = document.querySelectorAll('.hero-role, .portrait-title, .hero > .eyebrow, .hero h1, .hero h2, .hero-note, .hero-bottom, .hero-domains, .case-hero > .eyebrow, .case-hero h1, .case-summary, .metadata, .about-nav');
-    [...introElements].filter((element) => {
-      const bounds = element.getBoundingClientRect();
-      return bounds.top < window.innerHeight && bounds.bottom > 0;
-    }).forEach((element, index) => {
-      const cinematic = Boolean(element.closest('.portrait-hero'));
-      const frames = cinematic ? [
-        { opacity: 0, transform: 'translateY(32px)', clipPath: 'inset(0 0 100% 0)' },
-        { opacity: 1, transform: 'none', clipPath: 'inset(0 0 0% 0)' }
-      ] : [
-        { opacity: 0, transform: 'translateY(18px)' },
-        { opacity: 1, transform: 'none' }
-      ];
-      introAnimations.push(element.animate(frames, {
-        duration: cinematic ? 1000 : 700,
-        delay: index * (cinematic ? 110 : 65),
-        easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'backwards'
-      }));
-    });
-  }
-  listen(motionPreference, 'change', () => {
-    if (motionPreference.matches) introAnimations.forEach((animation) => animation.cancel());
-  });
-
   const portraitHero = document.querySelector('.portrait-hero');
-  if (portraitHero) {
+  const portraitArt = portraitHero?.querySelector('.portrait-art');
+  if (portraitArt) {
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     let portraitFrame;
     let portraitX = 0;
     let portraitY = 0;
     function applyPortraitPosition() {
       portraitFrame = undefined;
-      portraitHero.style.setProperty('--portrait-x', `${portraitX}px`);
-      portraitHero.style.setProperty('--portrait-y', `${portraitY}px`);
+      if (portraitX || portraitY) portraitArt.style.transform = `translate3d(${portraitX}px, ${portraitY}px, 0)`;
+      else portraitArt.style.removeProperty('transform');
     }
     function resetPortraitPosition() {
       cancelAnimationFrame(portraitFrame);
@@ -225,6 +200,7 @@ export function initializePortfolioEffects() {
       if (portraitFrame === undefined) portraitFrame = requestAnimationFrame(applyPortraitPosition);
     });
     listen(portraitHero, 'pointerleave', resetPortraitPosition);
+    listen(document, 'keydown', resetPortraitPosition);
     listen(motionPreference, 'change', resetPortraitPosition);
     listen(finePointer, 'change', resetPortraitPosition);
     listen(document, 'visibilitychange', resetPortraitPosition);
@@ -395,31 +371,6 @@ export function initializePortfolioEffects() {
   document.querySelectorAll('img').forEach((image) => listen(image, 'load', scheduleReadingPosition));
   scheduleReadingPosition();
 
-  if ('IntersectionObserver' in window && !motionPreference.matches) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          target.classList.add('is-revealed');
-          revealObserver.unobserve(target);
-        }
-      });
-    }, { threshold: 0, rootMargin: '0px 0px -30px 0px' });
-    cleanups.push(() => revealObserver.disconnect());
-    const revealElements = [...document.querySelectorAll('.project, .home-about, .editorial-section, .detail-figure, .next-project, .closing, .principles > div, .experience-timeline > li, .recommendation-card, .solution-grid > li, .concept-node')]
-      .filter((element) => !element.matches('.editorial-section') || !element.querySelector('.principles, .experience-timeline, .recommendation-card'));
-    revealElements.forEach((element) => {
-      if (!element.closest('.case-evidence') && element.getBoundingClientRect().top > window.innerHeight) {
-        element.classList.add('reveal-target');
-        revealObserver.observe(element);
-      }
-    });
-    listen(motionPreference, 'change', () => {
-      if (!motionPreference.matches) return;
-      revealObserver.disconnect();
-      revealElements.forEach(element => element.classList.add('is-revealed'));
-    });
-  }
-
   function inspectImage(image, opener, kind) {
     const dialog = document.createElement('dialog');
     dialog.className = 'screenshot-preview';
@@ -511,7 +462,6 @@ export function initializePortfolioEffects() {
   return () => {
     events.abort();
     cleanups.forEach(cleanup => cleanup());
-    introAnimations.forEach(animation => animation.cancel());
     cancelAnimationFrame(readingFrame);
     hidePortfolioCursor();
     portfolioCursor.remove();
