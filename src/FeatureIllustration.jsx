@@ -33,7 +33,7 @@ function MiniBars({ x, y, paint, width = 64, height = 54 }) {
       const barHeight = value * height / 54;
       return <g key={value}>
         <rect x={index * width / 4 + 3} y={height + 1 - barHeight} width={width / 4 - 6} height={barHeight} rx="2" className="feature-bar-depth" />
-        <rect x={index * width / 4 + 2} y={height - 1 - barHeight} width={width / 4 - 6} height={barHeight} rx="2" fill={`url(#${index === 2 ? paint.sand : paint.green})`} />
+        <rect x={index * width / 4 + 2} y={height - 1 - barHeight} width={width / 4 - 6} height={barHeight} rx="2" fill={`url(#${index === 2 ? paint.sand : paint.accent})`} />
       </g>;
     })}
   </g>;
@@ -85,7 +85,7 @@ function Gantt({ paint }) {
       {[0, 1, 2].map(row => <g key={row}>
         <path className="feature-muted-line" d={`M19 ${74 + row * 29}h19`} />
         <rect className="feature-bar-depth" x={57 + row * 36} y={69 + row * 29} width={75 - row * 10} height="11" rx="3" />
-        <rect x={56 + row * 36} y={67 + row * 29} width={75 - row * 10} height="11" rx="3" fill={`url(#${row === 1 ? paint.sand : paint.green})`} />
+        <rect x={56 + row * 36} y={67 + row * 29} width={75 - row * 10} height="11" rx="3" fill={`url(#${row === 1 ? paint.sand : paint.accent})`} />
       </g>)}
       <path className="feature-connector feature-fine-line" d="M132 73h8v29h-10m26 0h12v29h-4" />
     </Paper>
@@ -108,7 +108,7 @@ function Wizard({ paint }) {
     </Paper>
     <path className="feature-route" d="M183 74h21q19 0 19 19v13m-40 58h21q19 0 19-19v-13" />
     <circle className="feature-node-depth" cx="225" cy="122" r="15" />
-    <circle cx="223" cy="119" r="15" fill={`url(#${paint.green})`} />
+    <circle cx="223" cy="119" r="15" fill={`url(#${paint.accent})`} />
     <path className="feature-check" d="m216 119 5 5 9-11" />
     <Arrow d="M246 119h34m-6-5 6 5-6 5" />
     <Paper x={294} y={36} width={142} height={163} title="CONFIGURE" paint={paint} stacked>
@@ -156,7 +156,7 @@ function Kpi({ paint }) {
       {[0, 1, 2, 3].map(index => <g key={index} transform={`translate(${14 + index % 2 * 60} ${44 + Math.floor(index / 2) * 51})`}>
         <rect className={index === 0 ? 'feature-selected-panel' : 'feature-module'} width="53" height="41" rx="4" />
         <path className="feature-muted-line" d="M10 12h27" />
-        <rect x="10" y="22" width={index % 2 ? 18 : 32} height="8" rx="2" fill={`url(#${paint.green})`} />
+        <rect x="10" y="22" width={index % 2 ? 18 : 32} height="8" rx="2" fill={`url(#${paint.accent})`} />
       </g>)}
     </Paper>
     <Arrow d="M194 119h35m-6-5 6 5-6 5" />

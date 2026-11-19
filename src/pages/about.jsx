@@ -15,7 +15,6 @@ export default function AboutPage() {
         <section id={"profile"} className={"case-hero wrap about-hero"}>
           {"\n      "}
           <p className={"eyebrow"}>{"About / Product Designer"}</p>
-          <ProjectIdentity product="portfolio" />
           {"\n      "}
           <h1>
             {"Product design for"}
@@ -76,6 +75,7 @@ export default function AboutPage() {
               </dl>
               {"\n          "}
               <p>{"I work with product managers and developers through implementation review."}</p>
+              <ProjectIdentity product="portfolio" />
               {"\n          "}
               <DesignApproach />
               {"\n        "}

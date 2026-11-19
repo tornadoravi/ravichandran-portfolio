@@ -15,8 +15,6 @@ export default function StoryboardPage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
-          <ProjectIdentity product="analytics" />
-          <WorkspaceFeatureTabs workspace="analytics" active="storyboard" />
           <h1>{"Storyboard."}</h1>
           <p className="case-summary">{"Choose a start. Build a report. Tell the story."}</p>
           <CaseContext role="Feature UX/UI · Handoff & implementation review">
@@ -38,7 +36,9 @@ export default function StoryboardPage() {
                 <dd>{"Within 2.5 years on Analytics+"}</dd>
               </div>
             </dl>
+            <ProjectIdentity product="analytics" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="analytics" active="storyboard" />
         </section>
         <CaseStoryLayout caseId="storyboard">
 

@@ -17,8 +17,6 @@ export default function GanttPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <ProjectIdentity product="analytics" />
-          <WorkspaceFeatureTabs workspace="analytics" active="gantt" />
           {"\n      "}
           <h1>{"Gantt for Power BI."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function GanttPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="analytics" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="analytics" active="gantt" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="gantt">

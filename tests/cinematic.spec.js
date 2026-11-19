@@ -11,9 +11,9 @@ test('role and title are immediately readable without decorative entrances', asy
   await page.evaluate(() => Promise.all(document.getAnimations().map(animation => animation.finished)));
   await expect(page.locator('.portrait-title')).toHaveCSS('opacity', '1');
   await expect(page.locator('.portrait-title')).toHaveCSS('clip-path', 'none');
-  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
+  await expect.poll(() => page.evaluate(() => document.getAnimations().length)).toBe(0);
   await expect(page.locator('.portrait-hero')).toHaveCSS('border-radius', '0px');
-  await expect(page.locator('.portrait-title')).toHaveText('Complex products.Considered experiences.');
+  await expect(page.locator('.portrait-title')).toHaveText('I make complexproducts feel clear.');
 });
 
 test('motion preference changes keep every project chapter visible', async ({ page }) => {
@@ -41,7 +41,7 @@ test('the cinematic composition is readable without scripts', async ({ browser, 
   const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width: 390, height: 900 } });
   const page = await context.newPage();
   await page.goto(baseURL);
-  await expect(page.locator('.portrait-title')).toHaveText('Complex products.Considered experiences.');
+  await expect(page.locator('.portrait-title')).toHaveText('I make complexproducts feel clear.');
   await expect(page.locator('.hero-role')).toBeVisible();
   await expect(page.locator('.portrait-art')).toHaveJSProperty('complete', true);
   await expect(page.locator('#project-analytics')).toHaveCSS('opacity', '1');

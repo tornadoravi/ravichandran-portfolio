@@ -8,11 +8,11 @@ export default function AnalyticsSpatialPage() {
     <main id="main" className="design-review">
       <section className="case-hero wrap">
         <a className="back-link" href={sitePath("/analytics-plus.html#spatial-exploration")}>← Analytics+ product case</a>
-        <ProjectIdentity product="analytics" />
         <p className="eyebrow">Concept exploration · Apple Vision Pro-inspired</p>
         <h1>Analytics+, beyond the screen.</h1>
         <p className="case-summary">A familiar report workflow, explored in a spatial environment.</p>
         <p className="fine-print">Prototype only—not a shipped Vision Pro product.</p>
+        <ProjectIdentity product="analytics" />
       </section>
       <CaseStoryLayout caseId="spatial">
       <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">

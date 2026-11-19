@@ -17,19 +17,18 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/#work")}>{"← Selected work"}</a>
           {"\n      "}
-          <ProjectIdentity product="analytics" />
           {"\n      "}
           <h1>{"Inforiver Analytics+."}</h1>
           {"\n      "}
-          <p className="case-summary">{"A connected workflow for report authors."}</p>
+          <p className="case-summary">{"Helping authors find a chart by analytical intent, then configure it in one shared flow."}</p>
           {"\n      "}
-          <CaseContext role="Product Designer · 2.5 years on Analytics+">
+          <CaseContext role="End-to-end Chart Wizard UX/UI · Chart Wizard & KPI templates shipped">
             <dl className={"metadata"}>
               <div>
                 <dt>{"My role"}</dt>
                 <dd>
                   {"Product Designer · "}
-                  <strong className={"scan-emphasis"}>{"End-to-end UX/UI"}</strong>
+                  <strong className={"scan-emphasis"}>{"End-to-end Chart Wizard UX/UI"}</strong>
                 </dd>
               </div>
               <div>
@@ -47,10 +46,30 @@ export default function AnalyticsPlusPage() {
                 <dd>{"2.5 years on Analytics+ at Lumel"}</dd>
               </div>
             </dl>
+            <ProjectIdentity product="analytics" compact />
           </CaseContext>
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="analyticsSuite">
+        <figure id="contribution-evidence" className="detail-figure wrap screenshot-scene case-evidence contribution-evidence">
+          <div className="figure-label">
+            <span className="eyebrow">My design / Chart Wizard</span>
+            <h2>Two ways in. One configuration flow.</h2>
+          </div>
+          <p className="product-overview-copy">Chart and Function routes converge on the same Customize and Advanced steps.</p>
+          <a className="product-screenshot wizard-shot" href={sitePath("/assets/wizard-function.png")} target="_blank" rel="noopener noreferrer" aria-label="View my Chart Wizard Function route screen full-size (opens in a new tab)">
+            <img src={sitePath("/assets/wizard-function.png")} width="540" height="370" fetchPriority="high" alt="Chart Wizard Function route with categorical data, analytical-use-case filters, measure choices, and recommended charts." />
+          </a>
+          <figcaption>Original Chart Wizard design · Shipped feature, not measured user impact.</figcaption>
+          <a className="text-link" href={sitePath("/analytics.html")}>Inspect the Chart Wizard decisions <span aria-hidden="true">→</span></a>
+        </figure>
+        <section id="review-brief" className="case-review-brief wrap" aria-label="Design contribution at a glance">
+          <dl>
+            <div><dt>Design challenge</dt><dd>Choose a visual without first knowing its chart name.</dd></div>
+            <div><dt>My scope</dt><dd>End-to-end Chart Wizard UX/UI, developer handoff, and implementation review.</dd></div>
+            <div><dt>Confirmed delivery</dt><dd>Chart Wizard and reusable KPI templates shipped. Other feature statuses remain separate.</dd></div>
+          </dl>
+        </section>
         {"\n    "}
         <figure className={"detail-figure wrap screenshot-scene case-evidence analytics-lead-screen product-overview"}>
           {"\n      "}
@@ -61,7 +80,7 @@ export default function AnalyticsPlusPage() {
           <p className={"product-overview-copy"}>{"Charts, KPI cards, tables, and storytelling in Power BI."}</p>
           {"\n      "}
           <a className={"product-screenshot"} href={sitePath("/assets/analytics-plus-official-dashboard.webp")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official Analytics+ planning dashboard full-size (opens in a new tab)"}>
-            <img src={sitePath("/assets/analytics-plus-official-dashboard.webp")} width={"1920"} height={"1080"} fetchPriority={"high"} alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
+            <img src={sitePath("/assets/analytics-plus-official-dashboard.webp")} width={"1920"} height={"1080"} loading="lazy" alt={"Official Analytics+ planning report with KPI cards, expense tables, and charts comparing actual performance against plan."} />
           </a>
           {"\n      "}
           <figcaption>
@@ -84,13 +103,6 @@ export default function AnalyticsPlusPage() {
           </div>
           {"\n    "}
         </figure>
-        <section id="review-brief" className="case-review-brief wrap" aria-label="Design contribution at a glance">
-          <dl>
-            <div><dt>Design challenge</dt><dd>Help authors choose visuals, build reports, and explain insights.</dd></div>
-            <div><dt>My scope</dt><dd>Five feature experiences, from UX/UI through implementation review.</dd></div>
-            <div><dt>Confirmed delivery</dt><dd>Chart Wizard and reusable KPI templates shipped.</dd></div>
-          </dl>
-        </section>
         {"\n    "}
         <details id={"design-details"} className={"case-deep-dive"}>
           {"\n      "}
@@ -489,9 +501,21 @@ export default function AnalyticsPlusPage() {
           </div>
           {"\n      "}
           <nav className={"feature-card-grid feature-review-index"} aria-label={"Analytics+ feature index"}>
+            <a id={"feature-wizard"} className={"album-card"} href={sitePath("/analytics.html")} aria-label={"Read Chart Wizard case study"}>
+              <span className={"album-kicker"}>{"01 / Visual discovery · Shipped"}</span>
+              <h3>{"Chart Wizard"}</h3>
+              <p className={"album-description"}>{"Two discovery routes. One configuration flow."}</p>
+              <div className={"album-media"}>
+                <FeatureIllustration caseId="wizard" />
+              </div>
+              <span className={"album-footer"}>
+                {"Original concept illustration "}
+                <span aria-hidden={"true"}>{"↗"}</span>
+              </span>
+            </a>
             {"\n        "}
             <a id={"feature-storyboard"} className={"album-card"} href={sitePath("/storyboard.html")} aria-label={"Read Storyboard authoring case study"}>
-              <span className={"album-kicker"}>{"01 / Report authoring"}</span>
+              <span className={"album-kicker"}>{"02 / Report authoring"}</span>
               <h3>{"Storyboard"}</h3>
               <p className={"album-description"}>{"Multiple starting routes, one authoring canvas."}</p>
               <div className={"album-media"}>
@@ -504,7 +528,7 @@ export default function AnalyticsPlusPage() {
             </a>
             {"\n        "}
             <a id={"feature-gantt"} className={"album-card"} href={sitePath("/gantt.html")} aria-label={"Read Power BI Gantt case study"}>
-              <span className={"album-kicker"}>{"02 / Task planning"}</span>
+              <span className={"album-kicker"}>{"03 / Task planning"}</span>
               <h3>{"Gantt for Power BI"}</h3>
               <p className={"album-description"}>{"Map source fields before building the timeline."}</p>
               <div className={"album-media"}>
@@ -516,18 +540,6 @@ export default function AnalyticsPlusPage() {
               </span>
             </a>
             {"\n        "}
-            <a id={"feature-wizard"} className={"album-card"} href={sitePath("/analytics.html")} aria-label={"Read Chart Wizard case study"}>
-              <span className={"album-kicker"}>{"03 / Visual discovery"}</span>
-              <h3>{"Chart Wizard"}</h3>
-              <p className={"album-description"}>{"Two discovery routes. One configuration flow."}</p>
-              <div className={"album-media"}>
-                <FeatureIllustration caseId="wizard" />
-              </div>
-              <span className={"album-footer"}>
-                {"Original concept illustration "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-              </span>
-            </a>
             {"\n        "}
             <a id={"feature-annotations"} className={"album-card"} href={sitePath("/presentation.html")} aria-label={"Read Annotations, Comments and Presentation case study"}>
               <span className={"album-kicker"}>{"04 / Data storytelling"}</span>

@@ -22,10 +22,13 @@ for (const appearance of ['light', 'dark']) {
           else await page.evaluate(value => { document.documentElement.dataset.theme = value; }, appearance);
           const artwork = page.locator('.portfolio-illustration');
           expect(await artwork.count(), route).toBeGreaterThan(0);
-          const issues = await artwork.evaluateAll(svgs => svgs.flatMap(svg => {
+          const issues = await artwork.evaluateAll((svgs, palette) => svgs.flatMap(svg => {
             const problems = [];
             const style = getComputedStyle(svg);
-            if (style.getPropertyValue('--art-ink').trim() !== '#526960') problems.push('Missing shared palette');
+            const site = getComputedStyle(document.body);
+            for (const [art, token] of [['--art-ink', '--ink'], ['--art-accent', '--accent'], ['--art-white', '--card'], ['--art-line', '--line']]) {
+              if (style.getPropertyValue(art).trim() !== site.getPropertyValue(token).trim()) problems.push(`Artwork diverged from ${token}`);
+            }
             if (!svg.classList.contains('feature-illustration') && !style.backgroundImage.includes('radial-gradient')) problems.push('Missing gridded ground');
             if (!svg.closest('.product-illustration') && svg.querySelectorAll('feDropShadow').length !== 1) problems.push('Missing local shadow');
             const ids = new Set([...svg.querySelectorAll('[id]')].map(node => node.id));
@@ -43,11 +46,20 @@ for (const appearance of ['light', 'dark']) {
               if (['rgb(0, 0, 0)', 'none'].includes(paint.fill)) problems.push('Unresolved paper paint');
             }
             if (svg.querySelector('.illustration-surface[style]')) problems.push('Inline styles blocked by site policy');
+            for (const stop of svg.querySelectorAll('linearGradient[id$="-paper"] > stop:first-child')) {
+              if (getComputedStyle(stop).stopColor !== palette.paper) problems.push('Paper gradient ignores appearance');
+            }
+            for (const stop of svg.querySelectorAll('linearGradient[id$="-accent"] > stop:last-child')) {
+              if (getComputedStyle(stop).stopColor !== palette.accent) problems.push('Accent gradient ignores appearance');
+            }
             for (const bar of svg.querySelectorAll('.diagram-bar')) {
-              if (getComputedStyle(bar).fill !== 'rgb(102, 133, 119)') problems.push('Timeline bars lost their distinction');
+              if (getComputedStyle(bar).fill !== palette.accent) problems.push('Timeline bars lost their distinction');
             }
             return problems;
-          }));
+          }), {
+            paper: appearance === 'dark' ? 'rgb(27, 32, 40)' : 'rgb(252, 251, 248)',
+            accent: appearance === 'dark' ? 'rgb(177, 189, 255)' : 'rgb(51, 79, 229)'
+          });
           expect(issues, route).toEqual([]);
           const ids = await artwork.locator('[id]').evaluateAll(nodes => nodes.map(node => node.id));
           expect(new Set(ids).size, route).toBe(ids.length);
@@ -61,6 +73,21 @@ for (const appearance of ['light', 'dark']) {
     });
   }
 }
+
+test('shared artwork follows live system appearance without recreating the illustration', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
+  await page.goto('/analytics-plus.html');
+  const illustration = page.locator('.feature-illustration').first();
+  const paper = illustration.locator('linearGradient[id$="-paper"] > stop').first();
+  const accent = illustration.locator('linearGradient[id$="-accent"] > stop').last();
+  const originalId = await illustration.locator('linearGradient').first().getAttribute('id');
+  await expect(paper).toHaveCSS('stop-color', 'rgb(252, 251, 248)');
+  await expect(accent).toHaveCSS('stop-color', 'rgb(51, 79, 229)');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(paper).toHaveCSS('stop-color', 'rgb(27, 32, 40)');
+  await expect(accent).toHaveCSS('stop-color', 'rgb(177, 189, 255)');
+  await expect(illustration.locator('linearGradient').first()).toHaveAttribute('id', originalId);
+});
 
 test('standalone Presentation concepts retain their descriptions, local paint and original dimensions', async ({ page }) => {
   await page.goto('/presentation.html');
@@ -79,7 +106,9 @@ test('standalone Presentation concepts retain their descriptions, local paint an
         sheets: svg.querySelectorAll('.paper').length,
         shadows: svg.querySelectorAll('feDropShadow').length,
         inlineStyles: svg.querySelectorAll('style, [style]').length,
-        localPaint: references.every(id => ids.has(id))
+        localPaint: references.every(id => ids.has(id)),
+        paper: svg.querySelector('#paper stop')?.getAttribute('stop-color'),
+        accent: svg.querySelector('#cobalt stop:last-child')?.getAttribute('stop-color')
       };
     }, await response.text());
     expect(artwork.valid).toBe(true);
@@ -89,5 +118,7 @@ test('standalone Presentation concepts retain their descriptions, local paint an
     expect(artwork.shadows).toBe(1);
     expect(artwork.inlineStyles).toBe(0);
     expect(artwork.localPaint).toBe(true);
+    expect(artwork.paper).toBe('#fcfbf8');
+    expect(artwork.accent).toBe('#334fe5');
   }
 });

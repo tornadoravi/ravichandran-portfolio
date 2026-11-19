@@ -16,11 +16,11 @@ const screens = {
 
 const productChapters = {
   planning: [
-    ['Context', '#design-focus'], ['Decision', '#story-decision'], ['Flow', '#story-flow'],
+    ['My design', '#contribution-evidence'], ['Decision', '#story-decision'], ['Flow', '#story-flow'],
     ['Browse features', '#workspaces'], ['Full evidence', '#study-details']
   ],
   analyticsSuite: [
-    ['Context', '#review-brief'], ['Decision', '#solutions'], ['Flow', '#concept'],
+    ['My design', '#contribution-evidence'], ['Decision', '#solutions'], ['Flow', '#concept'],
     ['Browse features', '#features'], ['Full evidence', '#evidence-notes']
   ],
   crosstab: [

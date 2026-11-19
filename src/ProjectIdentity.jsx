@@ -1,11 +1,11 @@
 import { sitePath } from './site-path.js';
 import React from 'react';
 
-export default function ProjectIdentity({ product }) {
+export default function ProjectIdentity({ product, compact = true }) {
   const analytics = product === 'analytics';
   const portfolio = product === 'portfolio';
   return (
-    <div className="project-identity" role="group" aria-label="Employer and product platform">
+    <div className={`project-identity${compact ? ' project-identity--compact' : ''}`} role="group" aria-label="Employer and product platform">
       <div className="identity-company">
         <span className="identity-label">Designed at</span>
         <img className="brand-image" src={sitePath("/assets/lumel-logo.svg")} width="787" height="360" alt="Lumel Technologies" />

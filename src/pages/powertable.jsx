@@ -15,9 +15,8 @@ export default function PowertablePage() {
         {"\n    "}
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={sitePath("/#work")}>{"← Selected work"}</a>
-          <ProjectIdentity product="powertable" />
           <h1>{"PowerTable."}</h1>
-          <p className="case-summary">{"Complex planning. Connected workflows."}</p>
+          <p className="case-summary">{"Connecting task data, logged time, and resource assignments inside Microsoft Fabric."}</p>
           <CaseContext role="End-to-end Gantt & resource UX/UI · Cross-tab contribution">
             <dl className={"metadata"}>
               <div>
@@ -28,7 +27,8 @@ export default function PowertablePage() {
                 <dt>{"Role"}</dt>
                 <dd>
                   {"Product Designer · "}
-                  <strong className={"scan-emphasis"}>{"End-to-end UX/UI"}</strong>
+                  <strong className={"scan-emphasis"}>{"End-to-end Gantt & resource UX/UI"}</strong>
+                  {"; Cross-tab contribution"}
                 </dd>
               </div>
               <div>
@@ -40,9 +40,23 @@ export default function PowertablePage() {
                 <dd>{"1.5 years on PowerTable"}</dd>
               </div>
             </dl>
+            <ProjectIdentity product="powertable" compact />
           </CaseContext>
         </section>
         <CaseStoryLayout caseId="planning">
+        <figure id="contribution-evidence" className="detail-figure wrap screenshot-scene case-evidence contribution-evidence">
+          <div className="figure-label">
+            <span className="eyebrow">My design / Gantt · Time Entries</span>
+            <h2>Link logged hours to the right task.</h2>
+          </div>
+          <p className="product-overview-copy">Select the Time Entries table, map Task_Id to Task ID column, and use Hours_Logged for Actual Effort (Hrs).</p>
+          <a className="product-screenshot native-shot" href={sitePath("/assets/fabric-mapping-time-entries.png")} target="_blank" rel="noopener noreferrer" aria-label="View my Gantt time-entry mapping screen full-size (opens in a new tab)">
+            <img src={sitePath("/assets/fabric-mapping-time-entries.png")} width="780" height="588" fetchPriority="high" alt="Gantt Time Entries design with Direct Time Entry selected, Time Entries as the source table, Task_Id mapped to Task ID column, and Hours_Logged mapped to Actual Effort (Hrs)." />
+          </a>
+          <figcaption>Original design screen · Gantt / Time Entries configuration.</figcaption>
+          <a className="text-link" href={sitePath("/column-mapping.html")}>Read the mapping case study <span aria-hidden="true">→</span></a>
+        </figure>
+        <CaseFocus story="planning" />
         {"\n    "}
         <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>
           {"\n      "}
@@ -53,7 +67,7 @@ export default function PowertablePage() {
           <p className={"product-overview-copy"}>{"No-code data apps and planning in Microsoft Fabric."}</p>
           {"\n      "}
           <a className={"product-screenshot"} href={sitePath("/assets/powertable-official-gantt.webp")} target={"_blank"} rel={"noopener noreferrer"} aria-label={"View official PowerTable Gantt workspace full-size (opens in a new tab)"}>
-            <img src={sitePath("/assets/powertable-official-gantt.webp")} width={"2944"} height={"1570"} fetchPriority={"high"} alt={"Official PowerTable workspace in Microsoft Fabric, with a task table beside a Gantt timeline showing progress bars, milestones, and dependency connectors."} />
+            <img src={sitePath("/assets/powertable-official-gantt.webp")} width={"2944"} height={"1570"} loading="lazy" alt={"Official PowerTable workspace in Microsoft Fabric, with a task table beside a Gantt timeline showing progress bars, milestones, and dependency connectors."} />
           </a>
           {"\n      "}
           <figcaption>
@@ -71,7 +85,6 @@ export default function PowertablePage() {
           {"\n    "}
         </figure>
         {"\n    "}
-        <CaseFocus story="planning" />
         <section id={"workspaces"} className={"workspace-directory wrap"} aria-labelledby={"workspaces-title"}>
           {"\n      "}
           <div className={"case-section-heading"}>

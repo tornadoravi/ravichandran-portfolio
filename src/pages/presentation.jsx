@@ -17,8 +17,6 @@ export default function PresentationPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <ProjectIdentity product="analytics" />
-          <WorkspaceFeatureTabs workspace="analytics" active="presentation" />
           {"\n      "}
           <h1>{"Annotations & Presentation."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function PresentationPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="analytics" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="analytics" active="presentation" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="presentation">

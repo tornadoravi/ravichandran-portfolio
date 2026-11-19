@@ -11,8 +11,6 @@ export default function CrosstabPage() {
       <main id="main" className="design-review">
         <section className="case-hero wrap">
           <a className="back-link" href={sitePath("/powertable.html#crosstab-features")}>← PowerTable / Cross-tab</a>
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs workspace="crosstab" />
           <h1>{"Cross-tab."}</h1>
           <p className="case-summary">{"Shape rows, columns, and measures into a useful view."}</p>
           <CaseContext role="Cross-tab contribution · Not end-to-end ownership">
@@ -22,7 +20,9 @@ export default function CrosstabPage() {
               <div><dt>Focus</dt><dd>Layout & data configuration</dd></div>
               <div><dt>Evidence</dt><dd>Contribution overview · Concept diagram</dd></div>
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="crosstab" />
         </section>
         <CaseStoryLayout caseId="crosstab">
         <CaseSnapshot caseId="crosstab" id="contribution" />

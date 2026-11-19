@@ -47,14 +47,19 @@ for (const javaScriptEnabled of [true, false]) {
   });
 }
 
-test('Analytics+ is one product with five ordered feature stories and official brand context', async ({ page }) => {
+test('Home Analytics+ cover opens the product case with official brand context', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(2);
-  await expect(page.locator('#project-analytics .platform-pill img')).toHaveAttribute('src', '/assets/microsoft-logo.png');
+  await expect(page.locator('#project-analytics .eyebrow')).toContainText('Microsoft Power BI');
+  await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
   await expect(page.locator('#project-analytics .project-features')).toHaveCount(0);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
   await expect(page.locator('h1')).toContainText('Inforiver Analytics+');
   await expect(page.locator('.analytics-logo-plate img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
+});
+
+test('Analytics+ is one product with five ordered feature stories and official brand context', async ({ page }) => {
+  await page.goto('/analytics-plus.html');
   expect(await page.locator('.feature-card-grid > a').evaluateAll((items) => items.map((item) => item.id))).toEqual(features.map(([id]) => id));
   await expect(page.locator('.feature-card-grid h3')).toHaveText(['Storyboard', 'Gantt for Power BI', 'Chart Wizard', 'Annotations & Presentation', 'KPI Presets']);
   await expect(page.locator('#feature-storyboard .album-description')).toContainText('Multiple starting routes');

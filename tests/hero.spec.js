@@ -64,7 +64,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.goto('/');
     const hero = page.locator('.portrait-hero');
     await expect(hero).toBeVisible();
-    await expect(hero.getByRole('heading', { level: 1 })).toHaveAccessibleName('Complex products. Considered experiences.');
+    await expect(hero.getByRole('heading', { level: 1 })).toHaveAccessibleName('I make complex products feel clear.');
     const portrait = hero.getByRole('img', { name: /3D-style illustrated portrait/ });
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveJSProperty('complete', true);

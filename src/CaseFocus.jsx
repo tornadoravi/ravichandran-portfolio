@@ -4,16 +4,16 @@ import IllustrationSurface, { PaperSheet } from './IllustrationSurface.jsx';
 
 const stories = {
   planning: {
-    title: 'From task data to a connected plan.',
-    scenario: 'A planner needs to schedule work and see who is assigned.',
+    title: 'Give each mapping a clear role.',
+    scenario: 'Column names alone do not explain IDs or cost prerequisites.',
     steps: [
-      ['Map the task data', 'Task IDs, dates, and assignees.'],
-      ['Schedule the work', 'Tasks and dependencies on a timeline.'],
-      ['Connect the people', 'Assignments in the resource view.']
+      ['Separate data roles', 'Task, Time Entries, Resource, and Cost.'],
+      ['Expose ID relationships', 'Task IDs link time entries; Assigned To matches resource IDs.'],
+      ['Explain cost prerequisites', 'Standard and Usage Cost need resource mapping; Fixed Cost is separate.']
     ],
     ownership: 'End-to-end Gantt and resource UX/UI; Microsoft Fabric design system.',
-    decision: 'Separate task, time, resource, and cost roles; expose shared IDs.',
-    evidence: 'Design screens and implementation review. Baseline planning and resource earned-value remain explorations.',
+    decision: 'Separate data roles; expose ID links and resource-dependent costs.',
+    evidence: 'Original configuration screens. Baseline planning and resource earned-value remain explorations.',
     link: [sitePath('/column-mapping.html'), 'Inspect my mapping design']
   },
   wizard: {
@@ -34,33 +34,48 @@ const stories = {
 function ScenarioScene({ story, step }) {
   if (story === 'planning') {
     if (step === 0) return <>
-      <PaperSheet x="8" y="16" width="72" height="110" rx="9" />
-      <PaperSheet x="122" y="16" width="70" height="110" rx="9" />
-      {[0, 1, 2].map(row => <g key={row}>
-        <rect className="focus-fill" x="19" y={34 + row * 28} width="49" height="16" rx="4" />
-        <path className="focus-connector" d={`M84 ${42 + row * 28}h30m-5-5 5 5-5 5`} />
-        <circle className="focus-dot" cx="139" cy={42 + row * 28} r="5" />
-        <path d={`M151 ${42 + row * 28}h27`} />
+      {[[8, 16], [106, 16], [8, 78], [106, 78]].map(([x, y]) =>
+        <PaperSheet className="focus-role-card" key={x + y} x={x} y={y} width="86" height="48" rx="8" />
+      )}
+      {[30, 40, 50].map(y => <g key={y}>
+        <circle className="focus-dot" cx="25" cy={y} r="2" />
+        <path d={`M34 ${y}h40`} />
       </g>)}
+      <circle className="focus-fill" cx="149" cy="40" r="15" />
+      <path d="M149 30v10l8 5" />
+      <circle className="focus-fill" cx="51" cy="102" r="17" />
+      <circle cx="51" cy="97" r="5" />
+      <path d="M41 112q10-15 20 0" />
+      <ellipse className="focus-fill" cx="149" cy="110" rx="18" ry="7" />
+      <path d="M131 102v8m36-8v8" />
+      <ellipse className="focus-fill" cx="149" cy="102" rx="18" ry="7" />
+      <path d="M131 94v8m36-8v8" />
+      <ellipse className="focus-fill" cx="149" cy="94" rx="18" ry="7" />
     </>;
     if (step === 1) return <>
-      <PaperSheet x="6" y="14" width="188" height="112" rx="9" />
-      {[55, 94, 133, 172].map(x => <path className="focus-gridline" key={x} d={`M${x} 26v88`} />)}
-      {[0, 1, 2].map(row => <g key={row}>
-        <circle cx="21" cy={43 + row * 29} r="4" />
-        <rect className={row === 1 ? 'focus-secondary' : 'focus-solid'} x={39 + row * 31} y={36 + row * 29} width={69 - row * 10} height="13" rx="4" />
+      <PaperSheet x="8" y="16" width="72" height="110" rx="9" />
+      <PaperSheet x="122" y="16" width="70" height="110" rx="9" />
+      {[45, 96].map(y => <g key={y}>
+        <rect className="focus-fill" x="19" y={y - 10} width="49" height="20" rx="4" />
+        <path className="focus-connector" d={`M84 ${y}h30m-5-5 5 5-5 5`} />
+        <circle className="focus-dot" cx="139" cy={y} r="5" />
+        <path d={`M151 ${y}h27`} />
       </g>)}
-      <path className="focus-connector" d="M108 43h10v29m-4-5 4 5 4-5" />
     </>;
     return <>
-      <PaperSheet x="6" y="14" width="188" height="112" rx="9" />
-      {[0, 1, 2].map(row => <g key={row}>
-        <circle className="focus-fill" cx="26" cy={40 + row * 31} r="12" />
-        <circle cx="26" cy={36 + row * 31} r="3" />
-        <path d={`M20 ${46 + row * 31}q6-8 12 0`} />
-        <rect className="focus-fill" x="48" y={34 + row * 31} width="130" height="13" rx="5" />
-        <rect className={row === 1 ? 'focus-secondary' : 'focus-solid'} x={52 + row * 16} y={34 + row * 31} width={63 - row * 9} height="13" rx="5" />
-      </g>)}
+      <PaperSheet x="8" y="18" width="72" height="106" rx="9" />
+      <PaperSheet x="122" y="18" width="70" height="106" rx="9" />
+      <circle className="focus-fill" cx="44" cy="61" r="21" />
+      <circle cx="44" cy="54" r="7" />
+      <path d="M30 74q14-21 28 0" />
+      <path className="focus-connector" d="M85 65h29m-5-5 5 5-5 5" />
+      <g className="focus-prerequisite">
+        <path d="M146 61v-9a11 11 0 0 1 22 0v9" />
+        <rect className="focus-fill" x="140" y="61" width="34" height="27" rx="5" />
+        <circle className="focus-dot" cx="157" cy="73" r="3" />
+        <path d="M157 76v5" />
+      </g>
+      <path className="focus-gridline" d="M24 103h40m74 0h38" />
     </>;
   }
   if (step === 0) return <>
@@ -99,13 +114,15 @@ export default function CaseFocus({ story }) {
     <p id="story-problem" className="focus-task">{content.scenario}</p>
     <div className="focus-story">
       <figure id="story-flow" className="focus-illustration">
-        <ol className="focus-steps" aria-label={story === 'planning' ? 'Illustrative planning scenario' : 'Illustrative chart-selection scenario'}>
+        <ol className="focus-steps" aria-label={story === 'planning' ? 'Illustrative mapping decisions' : 'Illustrative chart-selection scenario'}>
           {content.steps.map(([title, detail], step) => <li key={title}>
             <svg className="portfolio-illustration" viewBox="0 0 200 140" aria-hidden="true" focusable="false"><IllustrationSurface><ScenarioScene story={story} step={step} /></IllustrationSurface></svg>
             <div><span className="story-step-number" aria-hidden="true">{String(step + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{detail}</p></div>
           </li>)}
         </ol>
-        <figcaption>Original scenario illustration · Not product UI or an observed session.</figcaption>
+        <figcaption>{story === 'planning'
+          ? 'Illustrative mapping model · Not product UI or a required setup order.'
+          : 'Original scenario illustration · Not product UI or an observed session.'}</figcaption>
       </figure>
       <div className="focus-explanation">
         <dl>

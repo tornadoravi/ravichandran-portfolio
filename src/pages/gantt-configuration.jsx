@@ -17,8 +17,6 @@ export default function GanttConfigurationPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable / Gantt"}</a>
           {"\n      "}
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs active="configuration" />
           {"\n      "}
           <h1>{"Gantt Side Panel."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function GanttConfigurationPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs active="configuration" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="ganttPanel">

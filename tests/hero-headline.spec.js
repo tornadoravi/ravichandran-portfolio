@@ -13,8 +13,8 @@ for (const width of [320, 390, 768, 1060, 1440, 1920]) {
     const portrait = await page.locator('.hero-portrait').boundingBox();
     const work = await page.locator('#work').boundingBox();
     await page.clock.fastForward(20000);
-    await expect(title).toHaveText('Complex products.Considered experiences.');
-    await expect(title).toHaveAccessibleName('Complex products. Considered experiences.');
+    await expect(title).toHaveText('I make complexproducts feel clear.');
+    await expect(title).toHaveAccessibleName('I make complex products feel clear.');
     await expect(title.locator('.headline-phrase')).toHaveCSS('animation-name', 'none');
     expect(await title.boundingBox()).toEqual(initial);
     expect(await page.locator('.hero-portrait').boundingBox()).toEqual(portrait);
@@ -30,7 +30,7 @@ test('headline remains still across live motion preference changes', async ({ pa
   for (const reducedMotion of ['reduce', 'no-preference', 'reduce']) {
     await page.emulateMedia({ reducedMotion });
     await page.clock.fastForward(16000);
-    await expect(page.locator('.headline-phrase')).toHaveText('Considered experiences.');
+    await expect(page.locator('.headline-phrase')).toHaveText('products feel clear.');
     await expect(page.locator('.headline-phrase')).toHaveCSS('animation-name', 'none');
   }
 });
@@ -40,7 +40,7 @@ test('the same headline is available without JavaScript', async ({ browser, base
   try {
     const page = await context.newPage();
     await page.goto(baseURL);
-    await expect(page.locator('h1')).toHaveText('Complex products.Considered experiences.');
+    await expect(page.locator('h1')).toHaveText('I make complexproducts feel clear.');
   } finally {
     await context.close();
   }

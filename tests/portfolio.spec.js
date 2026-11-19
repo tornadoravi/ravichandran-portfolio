@@ -33,7 +33,7 @@ for (const width of [320, 390, 768, 1440]) {
       }
       expect(errors).toEqual([]);
       if (path !== '/about.html') {
-        await expect(page.locator('.product-screenshot img, [data-illustration] svg, .case-diagram, .structure-map').first()).toBeVisible();
+        await expect(page.locator('.cover-evidence img, .product-screenshot img, [data-illustration] svg, .case-diagram, .structure-map').first()).toBeVisible();
       }
       for (const disclosure of await page.locator('.case-deep-dive, .feature-previews, .case-context').all()) {
         if (await disclosure.getAttribute('open') === null) {
@@ -196,7 +196,7 @@ test('reduced-motion preferences disable smooth scroll and illustration movement
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
-  expect(await page.locator('.project-visual .product-brand-preview').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
+  expect(await page.locator('.project-visual .cover-evidence').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
 });
 
 test('keyboard skip link reaches main content', async ({ page }) => {
@@ -234,10 +234,9 @@ test('all six supplied screenshots appear in the case study and open full-size',
 
 test('editorial covers preserve genuine product views and the serif hierarchy', async ({ page }) => {
   await page.goto('/');
-  expect(await page.locator('h1 em').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('italic');
-  await expect(page.locator('.analytics-scene').first()).toHaveCSS('background-color', 'rgb(232, 228, 239)');
-  await expect(page.locator('.project-visual .product-brand-preview img').first()).toHaveCSS('transform', 'none');
-  await expect(page.locator('.project-visual .product-brand-preview img').first()).toHaveCSS('filter', 'none');
+  expect(await page.locator('h1 em').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('normal');
+  await expect(page.locator('.project-visual .cover-evidence img').first()).toHaveCSS('transform', 'none');
+  await expect(page.locator('.project-visual .cover-evidence img').first()).toHaveCSS('filter', 'none');
   await expect(page.locator('.hero-index, .monogram')).toHaveCount(0);
 });
 
@@ -254,7 +253,7 @@ test('storyboard screenshots are separate from Chart Wizard and planning', async
   await expect(page.locator('img[src="/assets/storyboard-editor.png"], img[src="/assets/template-store.png"], img[src="/assets/custom-layout.png"]')).toHaveCount(0);
   await page.goto('/powertable.html');
   await expect(page.locator('img[src^="/assets/wizard-"], img[src^="/assets/storyboard-"]')).toHaveCount(0);
-  await expect(page.locator('.case-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
+  await expect(page.locator('.product-overview img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await page.goto('/');
   await expect(page.locator('.project')).toHaveCount(productPages.length);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
@@ -514,8 +513,8 @@ test('Chart Wizard flow preserves alternative routes and reaches configuration a
 
 test('Wizard screenshots use native-size crops while the feature gallery uses illustrations', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#project-analytics .product-brand-preview img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
-  await expect(page.locator('#project-analytics .visual-bottom')).toContainText('Official Analytics+ logo · Lumel');
+  await expect(page.locator('#project-analytics .product-cover-illustration')).toHaveAttribute('src', '/assets/analytics-insights-cover.webp');
+  await expect(page.locator('#project-analytics .product-cover-illustration')).toBeVisible();
   await page.goto('/analytics-plus.html');
   const wizard = page.locator('#feature-wizard');
   await expect(wizard.locator('img')).toHaveCount(0);
@@ -556,12 +555,12 @@ for (const path of pages.filter((path) => path !== '/')) {
   });
 }
 
-test('project motion is pointer-only and never transforms official brand artwork', async ({ page }) => {
+test('project hover keeps the cover and original evidence still', async ({ page }) => {
   await page.goto('/#project-analytics');
   const preview = page.locator('#project-analytics .project-visual');
   await preview.hover();
-  await expect.poll(() => preview.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42)).toBeLessThan(-4.9);
-  await expect(preview.locator('.product-brand-preview img')).toHaveCSS('transform', 'none');
+  await expect(preview).toHaveCSS('transform', 'none');
+  await expect(preview.locator('.cover-evidence img')).toHaveCSS('transform', 'none');
   await page.mouse.move(0, 0);
   await preview.focus();
   await page.keyboard.press('Tab');

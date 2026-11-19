@@ -18,8 +18,6 @@ export default function AnalyticsPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <ProjectIdentity product="analytics" />
-          <WorkspaceFeatureTabs workspace="analytics" active="wizard" />
           {"\n      "}
           <h1>{"Chart Wizard."}</h1>
           {"\n      "}
@@ -44,7 +42,9 @@ export default function AnalyticsPage() {
                 <dd>{"Within 2.5 years on Analytics+"}</dd>
               </div>
             </dl>
+            <ProjectIdentity product="analytics" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="analytics" active="wizard" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="wizard">

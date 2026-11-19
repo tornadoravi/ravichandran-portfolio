@@ -64,13 +64,13 @@ for (const javaScriptEnabled of [true, false]) {
   }
 }
 
-test('Home covers identify Lumel and the spatial case keeps branding separate from release claims', async ({ page }) => {
+test('Home keeps attribution outside the covers and the spatial case separates branding from release claims', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project-visual .cover-maker img')).toHaveCount(2);
-  for (const image of await page.locator('.cover-maker img').all()) {
-    await expect(image).toHaveAttribute('src', '/assets/lumel-logo.svg');
-    await expect(image).toHaveAttribute('alt', 'Lumel');
-  }
+  await expect(page.locator('.project-visual .cover-maker')).toHaveCount(0);
+  await expect(page.locator('.hero-copy .identity-company')).toContainText('Designed at');
+  await expect(page.locator('.hero-copy .identity-company img')).toHaveAttribute('src', '/assets/lumel-logo.svg');
+  await expect(page.locator('.hero-copy .identity-company img')).toHaveAttribute('alt', 'Lumel Technologies');
+  await expect(page.locator('.hero-copy .identity-platform')).toContainText('Built for');
   await page.goto('/analytics-spatial.html');
   await expect(page.getByAltText('Microsoft', { exact: true })).toBeInViewport();
   await expect(page.getByAltText('Lumel Technologies', { exact: true })).toBeInViewport();

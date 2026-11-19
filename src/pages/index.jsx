@@ -3,6 +3,7 @@ import React from 'react';
 import ProjectIdentity from '../ProjectIdentity.jsx';
 import SoundroomControls from '../SoundroomControls.jsx';
 import DesignApproach from '../DesignApproach.jsx';
+import ProductCover from '../ProductCover.jsx';
 
 export default function IndexPage() {
   return (
@@ -21,22 +22,22 @@ export default function IndexPage() {
                 <strong>{"Product Designer II at Lumel."}</strong>
                 <span>{"Enterprise analytics & connected planning."}</span>
               </p>
-              <ProjectIdentity product="portfolio" />
             </div>
             {"\n        "}
-            <h1 id={"portrait-title"} className={"portrait-title"} aria-label="Complex products. Considered experiences.">
-              {"Complex products."}
+            <h1 id={"portrait-title"} className={"portrait-title"} aria-label="I make complex products feel clear.">
+              {"I make complex"}
               <br />
               <em>
-                <span className="headline-phrase">Considered experiences.</span>
+                <span className="headline-phrase">products feel clear.</span>
               </em>
             </h1>
             {"\n        "}
-            <p className={"hero-introduction"}>{"Four years designing complex enterprise workflows, from UX/UI to implementation review."}</p>
+            <p className={"hero-introduction"}>{"Four years shaping analytics and planning experiences—from UX/UI to implementation review."}</p>
             <a className={"text-link hero-work-link"} href={"#work"}>
               {"View selected work "}
               <span aria-hidden={"true"}>{"↓"}</span>
             </a>
+            <ProjectIdentity product="portfolio" compact />
             {"\n      "}
           </div>
           {"\n      "}
@@ -49,6 +50,7 @@ export default function IndexPage() {
             </span>
             {"\n        "}
             <img className={"portrait-art"} src={sitePath("/assets/portrait-3d.webp?v=3")} width={"1254"} height={"1254"} fetchPriority={"high"} alt={"3D-style illustrated portrait of Ravichandran V, smiling with swept-up dark hair and a mint-green collared shirt."} />
+            <figcaption className="portrait-caption"><span>Ravichandran V.</span><span>Product designer</span></figcaption>
             {"\n      "}
           </figure>
           {"\n    "}
@@ -68,7 +70,7 @@ export default function IndexPage() {
           </div>
           {"\n      "}
           <div className={"work-browse"}>
-            <p className={"review-reading-note"}>{"A five-minute first look: choose a product, then explore a feature for design evidence."}</p>
+            <p className={"review-reading-note"}>{"Two products. A closer look at the decisions behind them."}</p>
             {"\n        "}
             <nav className={"project-index"} aria-label={"Selected work index"}>
               <a href={"#project-planning"}>
@@ -84,72 +86,52 @@ export default function IndexPage() {
           </div>
           {"\n      "}
           <article id={"project-planning"} className={"project"}>
-            {"\n        "}
-            <a className={"project-visual planning-scene"} href={sitePath("/powertable.html")} aria-label={"Read PowerTable case study"}>
-              {"\n          "}
-              <div className={"visual-heading"}>
-                <span>
-                  {"PowerTable"}
-                  <small>{"Task and timeline planning"}</small>
-                </span>
-                <span className={"visual-pill platform-pill"}>
-                  <img className="brand-image microsoft-wordmark" src={sitePath("/assets/microsoft-logo.png")} width="216" height="46" alt="Microsoft" />
-                  <span>Fabric</span>
-                </span>
-              </div>
-              {"\n          "}
-              <p className={"cover-statement"}>
-                {"Complex planning."}
-                <br />
-                {"Connected workflows."}
-              </p>
-              {"\n          "}
-              <div className="product-brand-preview">
-                <img className="product-brand-mark" src={sitePath("/assets/lumel-powertable-icon.svg")} width="80" height="80" alt="PowerTable" />
-                <span className="product-brand-name" aria-hidden="true">PowerTable</span>
-              </div>
-              {"\n          "}
-              <div className={"visual-bottom"}>
-                <span className="cover-maker">
-                  <img className="brand-image" src={sitePath("/assets/lumel-logo.svg")} width="787" height="360" alt="Lumel" />
-                  <span>{"Official PowerTable icon · Lumel"}</span>
-                </span>
-                <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
-              </div>
-              {"\n        "}
-            </a>
-            {"\n        "}
             <div className={"project-caption"}>
               <div>
                 <p className={"eyebrow"}>{"01 / Microsoft Fabric"}</p>
-                <h3>
-                  <a href={sitePath("/powertable.html")}>{"PowerTable"}</a>
-                </h3>
+                <h3><a href={sitePath("/powertable.html")}>{"PowerTable"}</a></h3>
+                <p className="project-pitch">Connect the data<br />behind the plan.</p>
                 <ul className={"project-categories"} aria-label={"PowerTable categories"}>
                   <li>{"Connected planning"}</li>
                   <li>{"Enterprise UX"}</li>
                 </ul>
               </div>
               <div className={"project-description"}>
-                <p>
-                  {"Designing "}
-                  <mark className={"scan-highlight"}>{"connected task, timeline, and resource workflows."}</mark>
-                </p>
-                <p className={"project-role"}>
-                  {"My role · "}
-                  <strong>{"End-to-end Gantt & resource UX/UI"}</strong>
-                  {"; cross-tab contribution"}
-                </p>
-                <a className={"text-link case-link"} href={sitePath("/powertable.html")}>
-                  {"Explore case study "}
-                  <span aria-hidden={"true"}>{"→"}</span>
-                </a>
+                <p>{"Designing "}<mark className={"scan-highlight"}>{"connected task, timeline, and resource workflows."}</mark></p>
+                <p className={"project-role"}>{"My role · "}<strong>{"End-to-end Gantt & resource UX/UI"}</strong>{"; cross-tab contribution"}</p>
+                <a className={"text-link case-link"} href={sitePath("/powertable.html")}>{"Explore case study "}<span aria-hidden={"true"}>{"→"}</span></a>
+                <a className="feature-entry" href={sitePath("/column-mapping.html")}>Inspect Gantt mapping <span aria-hidden="true">→</span></a>
               </div>
             </div>
+            {"\n        "}
+            <a className={"project-visual planning-scene"} href={sitePath("/powertable.html")} aria-label={"Read PowerTable case study"}>
+              <ProductCover product="powertable" />
+            </a>
+            {"\n        "}
             {"\n      "}
           </article>
           {"\n      "}
           <article id={"project-analytics"} className={"project"}>
+            <div className={"project-caption"}>
+              <div>
+                <p className={"eyebrow"}>{"02 / Microsoft Power BI"}</p>
+                <h3><a href={sitePath("/analytics-plus.html")}>{"Inforiver Analytics+"}</a></h3>
+                <p className="project-pitch">Start with a question,<br />not a chart name.</p>
+                <ul className={"project-categories"} aria-label={"Analytics+ categories"}>
+                  <li>{"Data visualization"}</li>
+                  <li>{"Authoring tools"}</li>
+                </ul>
+              </div>
+              <div className={"project-description"}>
+                <p>{"Designing "}<mark className={"scan-highlight"}>{"scenario-based chart selection."}</mark></p>
+                <p className={"project-role"}>{"My role · "}<strong>{"End-to-end Chart Wizard UX/UI"}</strong>{"; Chart Wizard and reusable KPI templates shipped"}</p>
+                <div className="project-case-links">
+                  <a className={"text-link case-link"} href={sitePath("/analytics-plus.html")}>{"Explore case study "}<span aria-hidden={"true"}>{"→"}</span></a>
+                  <a className="text-link concept-case-link" href={sitePath("/analytics-spatial.html")}>Spatial Analytics+ · Concept study <span aria-hidden="true">→</span></a>
+                </div>
+                <a className="feature-entry" href={sitePath("/analytics.html")}>Inspect Chart Wizard decisions <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
             {"\n        "}
             {"\n        "}
             <span id={"project-storyboard"} className={"project-bookmark"} aria-hidden={"true"}>{""}</span>
@@ -163,70 +145,9 @@ export default function IndexPage() {
             <span id={"project-kpi"} className={"project-bookmark"} aria-hidden={"true"}>{""}</span>
             {"\n        "}
             <a className={"project-visual analytics-scene"} href={sitePath("/analytics-plus.html")} aria-label={"Read Inforiver Analytics+ case study"}>
-              {"\n          "}
-              <div className={"visual-heading"}>
-                <span>
-                  {"Analytics+"}
-                  <small>{"One product. Five connected feature experiences."}</small>
-                </span>
-                <span className={"visual-pill platform-pill"}>
-                  <img className="brand-image microsoft-wordmark" src={sitePath("/assets/microsoft-logo.png")} width="216" height="46" alt="Microsoft" />
-                  <span>Power BI</span>
-                </span>
-              </div>
-              {"\n          "}
-              <p className={"cover-statement"}>
-                {"Connected authoring"}
-                <br />
-                {"inside Power BI."}
-              </p>
-              {"\n          "}
-              <div className="product-brand-preview">
-                <img className="product-brand-wordmark" src={sitePath("/assets/inforiver-analytics-logo.svg")} width="173" height="36" alt="Inforiver Analytics+" />
-              </div>
-              {"\n          "}
-              <div className={"visual-bottom"}>
-                <span className="cover-maker">
-                  <img className="brand-image" src={sitePath("/assets/lumel-logo.svg")} width="787" height="360" alt="Lumel" />
-                  <span>{"Official Analytics+ logo · Lumel"}</span>
-                </span>
-                <span className={"project-open"} aria-hidden={"true"}>{"↗"}</span>
-              </div>
-              {"\n        "}
+              <ProductCover product="analytics" />
             </a>
             {"\n        "}
-            <div className={"project-caption"}>
-              <div>
-                <p className={"eyebrow"}>{"02 / Microsoft Power BI"}</p>
-                <h3>
-                  <a href={sitePath("/analytics-plus.html")}>{"Inforiver Analytics+"}</a>
-                </h3>
-                <ul className={"project-categories"} aria-label={"Analytics+ categories"}>
-                  <li>{"Data visualization"}</li>
-                  <li>{"Authoring tools"}</li>
-                </ul>
-              </div>
-              <div className={"project-description"}>
-                <p>
-                  {"Designing "}
-                  <mark className={"scan-highlight"}>{"scenario-based chart selection."}</mark>
-                </p>
-                <p className={"project-role"}>
-                  {"My role · "}
-                  <strong>{"End-to-end Chart Wizard UX/UI"}</strong>
-                  {"; Chart Wizard and reusable KPI templates shipped"}
-                </p>
-                <div className="project-case-links">
-                  <a className={"text-link case-link"} href={sitePath("/analytics-plus.html")}>
-                    {"Explore case study "}
-                    <span aria-hidden={"true"}>{"→"}</span>
-                  </a>
-                  <a className="text-link concept-case-link" href={sitePath("/analytics-spatial.html")}>
-                    Spatial Analytics+ · Concept study <span aria-hidden="true">→</span>
-                  </a>
-                </div>
-              </div>
-            </div>
             {"\n      "}
           </article>
           {"\n    "}

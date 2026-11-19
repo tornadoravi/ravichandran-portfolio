@@ -54,7 +54,7 @@ export default function Header({ page }) {
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header wrap" ref={header}>
       <div className="header-brand" ref={brand}>
-        <button className="companion-button" type="button" data-companion="" aria-label="Say hello to the studio companion" aria-expanded={greetingOpen} aria-controls="companion-greeting" disabled={!ready} onClick={() => { setAppearanceOpen(false); setMenuOpen(false); setGreetingOpen(open => !open); }}><img className="soundroom-companion" src={sitePath("/assets/studio-companion-3d.webp")} width="352" height="384" alt="" aria-hidden="true" /></button>
+        <button className="companion-button" type="button" data-companion="" aria-label="Say hello to the studio companion" aria-expanded={greetingOpen} aria-controls="companion-greeting" disabled={!ready} onClick={() => { setAppearanceOpen(false); setMenuOpen(false); setGreetingOpen(open => !open); }}><img className="soundroom-companion" src={sitePath("/assets/studio-companion-cobalt.png")} width="352" height="384" alt="" aria-hidden="true" /></button>
         <a className="wordmark" href={sitePath("/")} aria-label="Ravichandran V home">Ravichandran<span className="accent"> V.</span></a>
         <p id="companion-greeting" className="companion-greeting" role="status" hidden={!greetingOpen}>{greetingOpen ? greeting : ''}</p>
       </div>

@@ -26,6 +26,9 @@ export const files = new Map([
   ['/assets/studio-ambience.wav', ['assets/studio-ambience.wav', 'audio/wav']],
   ['/assets/studio-companion.svg', ['assets/studio-companion.svg', 'image/svg+xml']],
   ['/assets/studio-companion-3d.webp', ['assets/studio-companion-3d.webp', 'image/webp']],
+  ['/assets/studio-companion-cobalt.png', ['assets/studio-companion-cobalt.png', 'image/png']],
+  ...['powertable-planning-cover', 'analytics-insights-cover'].flatMap(name =>
+    ['', '-small'].map(size => [`/assets/${name}${size}.webp`, [`assets/${name}${size}.webp`, 'image/webp']])),
   ['/assets/ravichandran-resume.pdf', ['assets/ravichandran-resume.pdf', 'application/pdf']],
   ['/assets/portrait-3d.webp', ['assets/portrait-3d.webp', 'image/webp']],
   ['/assets/portrait-3d-source.png', ['assets/portrait-3d-source.png', 'image/png']],

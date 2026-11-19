@@ -17,8 +17,6 @@ export default function ColumnMappingPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs active="mapping" />
           {"\n      "}
           <h1>{"Column Mapping & Configuration."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function ColumnMappingPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs active="mapping" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="mapping">

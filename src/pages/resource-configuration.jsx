@@ -17,8 +17,6 @@ export default function ResourceConfigurationPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/powertable.html#resource-features")}>{"← PowerTable / Gantt Resources"}</a>
           {"\n      "}
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs workspace="resources" active="configuration" />
           {"\n      "}
           <h1>{"Resource Side Panel."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function ResourceConfigurationPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="resources" active="configuration" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="resourcePanel">

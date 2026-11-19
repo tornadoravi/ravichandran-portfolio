@@ -2,7 +2,7 @@ import React from 'react';
 import IllustrationSurface, { PaperSheet } from './IllustrationSurface.jsx';
 
 const ink = 'var(--art-ink)';
-const green = 'var(--art-green)';
+const green = 'var(--art-accent)';
 const purple = 'var(--art-secondary)';
 const amber = 'var(--art-sand)';
 
@@ -315,7 +315,7 @@ function CrosstabScene({ stage }) {
     <Paper x={46} y={33} width={266} height={169} label="Configuration contribution">
       <rect x="18" y="44" width="228" height="102" rx="5" fill="none" stroke="var(--art-line)" strokeWidth="2" strokeDasharray="5 5" />
       <rect x="18" y="44" width="99" height="58" rx="5" fill="var(--art-soft)" stroke={green} strokeWidth="2" />
-      <Lines x={30} y={59} width={71} rows={2} color="var(--art-green)" />
+      <Lines x={30} y={59} width={71} rows={2} color="var(--art-accent)" />
       <text x="177" y="128" textAnchor="middle" fill={ink}>Defined scope</text>
     </Paper>
     <path d="m269 180 34-45 12 10-34 45-18 7Z" fill={amber} />

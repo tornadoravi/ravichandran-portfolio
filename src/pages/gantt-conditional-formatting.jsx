@@ -17,8 +17,6 @@ export default function GanttConditionalFormattingPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/powertable.html#resource-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs workspace="resources" active="formatting" />
           {"\n      "}
           <h1>{"Conditional Formatting."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function GanttConditionalFormattingPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="resources" active="formatting" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="formatting">

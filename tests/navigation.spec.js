@@ -47,7 +47,7 @@ test('one audio element continues through every case family with matching contro
   await follow('/analytics-plus.html', 'analytics-plus');
   await page.locator('#supporting-work > summary').click();
   await follow('/analytics-spatial.html', 'analytics-spatial');
-  await follow('/analytics-plus.html#features', 'analytics-plus');
+  await follow('/analytics-plus.html#spatial-exploration', 'analytics-plus');
   await follow('/storyboard.html', 'storyboard');
   await follow('/gantt.html', 'gantt');
   await follow('/analytics.html', 'analytics');

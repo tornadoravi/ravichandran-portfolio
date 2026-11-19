@@ -17,8 +17,6 @@ export default function GanttBacklogPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs active="backlog" />
           {"\n      "}
           <h1>{"Gantt Backlog."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function GanttBacklogPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs active="backlog" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="backlog">

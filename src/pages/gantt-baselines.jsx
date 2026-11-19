@@ -17,8 +17,6 @@ export default function GanttBaselinesPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/powertable.html#gantt-features")}>{"← PowerTable case study"}</a>
           {"\n      "}
-          <ProjectIdentity product="powertable" />
-          <WorkspaceFeatureTabs active="baselines" />
           {"\n      "}
           <h1>{"Gantt Baselines."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function GanttBaselinesPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="powertable" />
           </CaseContext>
+          <WorkspaceFeatureTabs active="baselines" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="baselines">

@@ -9,7 +9,7 @@ for (const appearance of ['light', 'dark']) {
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       const scenes = new Set();
       for (const [path, story, labels, delivery] of [
-        ['/powertable.html', 'planning', ['Map the task data', 'Schedule the work', 'Connect the people'], 'remain explorations'],
+        ['/powertable.html', 'planning', ['Separate data roles', 'Expose ID relationships', 'Explain cost prerequisites'], 'remain explorations'],
         ['/analytics.html', 'wizard', ['Start with the need', 'Choose a suitable chart', 'Shape the result'], 'Chart Wizard shipped']
       ]) {
         await page.goto(path);
@@ -21,6 +21,21 @@ for (const appearance of ['light', 'dark']) {
         await expect(focus.locator('.focus-steps h3')).toHaveText(labels);
         await expect(focus.locator('.focus-explanation dt')).toHaveText(['My ownership', 'Key design decision', 'Delivery & evidence']);
         await expect(focus.locator('.focus-explanation')).toContainText(delivery);
+        if (story === 'planning') {
+          await expect(focus.getByRole('heading', { level: 2 })).toHaveText('Give each mapping a clear role.');
+          await expect(focus.locator('.focus-steps')).toHaveAccessibleName('Illustrative mapping decisions');
+          await expect(focus.locator('.focus-steps li p')).toHaveText([
+            'Task, Time Entries, Resource, and Cost.',
+            'Task IDs link time entries; Assigned To matches resource IDs.',
+            'Standard and Usage Cost need resource mapping; Fixed Cost is separate.'
+          ]);
+          await expect(focus.locator('#story-decision dd')).toHaveText('Separate data roles; expose ID links and resource-dependent costs.');
+          await expect(focus.locator('.focus-role-card')).toHaveCount(4);
+          await expect(focus.locator('.focus-steps li').nth(1).locator('.focus-connector')).toHaveCount(2);
+          await expect(focus.locator('.focus-steps li').nth(2).locator('.focus-prerequisite')).toHaveCount(1);
+          await expect(focus.locator('figcaption')).toHaveText('Illustrative mapping model · Not product UI or a required setup order.');
+          await expect(focus).not.toContainText('Schedule the work');
+        }
         await expect(focus.locator('img')).toHaveCount(0);
         expect((await focus.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(150);
         for (const svg of await focus.locator('svg').all()) {

@@ -17,8 +17,6 @@ export default function KpiPage() {
           {"\n      "}
           <a className={"back-link"} href={sitePath("/analytics-plus.html#features")}>{"← Inforiver Analytics+ features"}</a>
           {"\n      "}
-          <ProjectIdentity product="analytics" />
-          <WorkspaceFeatureTabs workspace="analytics" active="kpi" />
           {"\n      "}
           <h1>{"KPI Presets."}</h1>
           {"\n      "}
@@ -48,7 +46,9 @@ export default function KpiPage() {
               </div>
               {"\n      "}
             </dl>
+            <ProjectIdentity product="analytics" />
           </CaseContext>
+          <WorkspaceFeatureTabs workspace="analytics" active="kpi" />
           {"\n    "}
         </section>
         <CaseStoryLayout caseId="kpi">

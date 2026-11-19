@@ -25,7 +25,8 @@ test('Analytics+ case links align horizontally where they fit and wrap without o
     const [main, concept] = await Promise.all([links.nth(0).boundingBox(), links.nth(1).boundingBox()]);
     expect(main.height).toBeGreaterThanOrEqual(44);
     expect(concept.height).toBeGreaterThanOrEqual(44);
-    if (width >= 1060) expect(concept.y).toBeCloseTo(main.y, 1);
+    const available = await page.locator('#project-analytics .project-case-links').boundingBox();
+    if (main.width + concept.width + 24 <= available.width) expect(concept.y).toBeCloseTo(main.y, 1);
     if (Math.abs(concept.y - main.y) < 1) expect(concept.x).toBeGreaterThanOrEqual(main.x + main.width + 24);
     else expect(concept.y).toBeGreaterThanOrEqual(main.y + main.height + 12);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -34,20 +35,39 @@ test('Analytics+ case links align horizontally where they fit and wrap without o
 
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`product covers show the Microsoft wordmark and platform in ${appearance} at ${width}px`, async ({ page }) => {
+    test(`product covers show planning and analytics illustrations in ${appearance} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       await page.goto('/');
       await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
-      const badges = page.locator('.project-visual .platform-pill');
-      await expect(badges).toHaveCount(2);
-      await expect(badges.locator(':scope > span')).toHaveText(['Fabric', 'Power BI']);
+      await expect(page.locator('.project-visual .platform-pill, .project-visual .visual-heading, .project-visual .visual-bottom')).toHaveCount(0);
+      await expect(page.locator('#project-planning .eyebrow')).toContainText('Microsoft Fabric');
+      await expect(page.locator('#project-analytics .eyebrow')).toContainText('Microsoft Power BI');
+      await expect(page.locator('.hero-copy .identity-company')).toContainText('Designed at');
+      await expect(page.locator('.hero-copy .identity-platform')).toContainText('Built for');
+      await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
       const roles = page.locator('.project-description > .project-role');
       await expect(roles).toHaveCount(2);
       for (const role of await roles.all()) await expect(role).toHaveCSS('border-top-width', '0px');
-      await expect(page.locator('.project-visual .product-brand-preview')).toHaveCount(2);
+      await expect(page.locator('.project-visual .cover-evidence')).toHaveCount(2);
+      await expect(page.getByRole('img', { name: 'PowerTable product cover', exact: true })).toBeVisible();
+      await expect(page.getByRole('img', { name: 'Inforiver Analytics+ product cover', exact: true })).toBeVisible();
+      await expect(page.locator('.project-visual img[src*="fabric-mapping"], .project-visual img[src*="wizard-function"]')).toHaveCount(0);
       await expect(page.locator('.project-visual .product-screenshot')).toHaveCount(0);
+      await expect(page.locator('.product-cover-illustration')).toHaveCount(2);
+      await expect(page.locator('.product-cover-sculpture, .cover-sculpted-loop')).toHaveCount(0);
       for (const cover of await page.locator('.project-visual').all()) {
+        const artwork = cover.locator('.product-cover-illustration');
+        await artwork.scrollIntoViewIfNeeded();
+        await artwork.evaluate(image => image.decode());
+        await expect(cover.locator('[role="img"]')).toHaveAttribute('aria-description', /^Concept illustration of /);
+        await expect(artwork).toHaveAttribute('srcset', /-small\.webp 960w, .+\.webp 1536w$/);
+        const source = await artwork.evaluate(image => ({
+          width: image.naturalWidth, height: image.naturalHeight, selected: image.currentSrc
+        }));
+        expect(source.width).toBeGreaterThan(0);
+        expect(Math.abs(source.width / source.height - 1.5)).toBeLessThan(.02);
+        expect(source.selected).toMatch(/\/assets\/(?:powertable-planning|analytics-insights)-cover(?:-small)?\.webp$/);
         const dimensions = await cover.evaluate(element => {
           const style = getComputedStyle(element);
           const contentWidth = element.getBoundingClientRect().width
@@ -55,35 +75,10 @@ for (const appearance of ['light', 'dark']) {
             - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth);
           return {
             contentWidth,
-            panelWidth: element.querySelector('.product-brand-preview').getBoundingClientRect().width
+            panelWidth: element.querySelector('.cover-evidence').getBoundingClientRect().width
           };
         });
         expect(dimensions.panelWidth).toBeCloseTo(dimensions.contentWidth, 1);
-      }
-      const productIcon = page.locator('#project-planning .product-brand-mark');
-      await productIcon.evaluate(image => image.decode());
-      const pixel = await productIcon.evaluate(image => {
-        const canvas = document.createElement('canvas');
-        canvas.width = canvas.height = 24;
-        const context = canvas.getContext('2d');
-        context.drawImage(image, 0, 0, 24, 24);
-        return [...context.getImageData(1, 12, 1, 1).data];
-      });
-      expect(pixel).toEqual([237, 80, 13, 255]);
-      for (const badge of await badges.all()) {
-        await badge.scrollIntoViewIfNeeded();
-        await expect(badge).toHaveCSS('background-color', 'rgb(255, 255, 255)');
-        const logo = badge.getByAltText('Microsoft', { exact: true });
-        await expect(logo).toBeVisible();
-        await expect(logo).toHaveAttribute('src', '/assets/microsoft-logo.png');
-        await expect(logo).toHaveJSProperty('naturalWidth', 216);
-        const box = await logo.boundingBox();
-        expect(box.width).toBeGreaterThanOrEqual(94);
-        expect(box.width / box.height).toBeCloseTo(216 / 46, 2);
-        const bounds = await badge.boundingBox();
-        const cover = await badge.locator('..').locator('..').boundingBox();
-        expect(bounds.x).toBeGreaterThanOrEqual(cover.x);
-        expect(bounds.x + bounds.width).toBeLessThanOrEqual(cover.x + cover.width);
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
@@ -168,22 +163,22 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('/');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
-    await expect(page.locator('h1')).toHaveText('Complex products.Considered experiences.');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
+    await expect(page.locator('h1')).toHaveText('I make complexproducts feel clear.');
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('.hero-role strong')).toHaveText('Product Designer II at Lumel.');
     await expect(page.locator('.hero-role > span')).toHaveText('Enterprise analytics & connected planning.');
     const role = await page.locator('.hero-role').boundingBox();
-    const identity = page.locator('.hero-context .project-identity');
+    const identity = page.locator('.hero-copy > .project-identity');
     await expect(identity.locator('.identity-company')).toContainText('Designed at');
     await expect(identity.locator('.identity-company img')).toHaveAttribute('alt', 'Lumel Technologies');
     await expect(identity.locator('.identity-platform')).toContainText('Fabric & Power BI');
     await expect(identity.locator('.identity-platform img[alt="Microsoft"]')).toBeVisible();
     const badges = await identity.boundingBox();
     const title = await page.locator('.portrait-title').boundingBox();
-    expect(badges.y).toBeGreaterThanOrEqual(role.y + role.height + 12);
+    expect(title.y).toBeGreaterThanOrEqual(role.y + role.height + 12);
     expect(badges.x).toBeCloseTo(role.x, 1);
-    expect(badges.y + badges.height).toBeLessThan(title.y);
+    expect(badges.y).toBeGreaterThanOrEqual(title.y + title.height + 12);
     await expect(page.locator('.portrait-footer, .portrait-work-link')).toHaveCount(0);
     await expect(page.locator('.portrait-stage')).toHaveCount(0);
     await expect(page.locator('.portrait-wordmark')).toHaveText('PRODUCTDESIGNER');
@@ -195,64 +190,57 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     await expect(portrait).toHaveJSProperty('complete', true);
     expect(await portrait.evaluate(image => image.naturalWidth)).toBe(1254);
     const portraitWidth = width > 1050
-      ? Math.min((Math.min(1600, width - 112) - 48) / 2.3, 640)
-      : width > 700 ? Math.min((width - 92) / 2.1, 440) : Math.min(360, width - 40);
+      ? Math.min((Math.min(1600, width - 112) - 48) / 2.35, 520)
+      : width > 700 ? Math.min((width - 92) / 2.1, 440) : Math.min(260, width - 40);
     expect((await portrait.boundingBox()).width).toBeCloseTo(portraitWidth, 1);
     expect(await page.locator('.hero-portrait').evaluate(element => getComputedStyle(element, '::before').content)).toBe('none');
-    await expect(page.locator('.soundroom-companion')).toHaveAttribute('src', '/assets/studio-companion-3d.webp');
+    await expect(page.locator('.soundroom-companion')).toHaveAttribute('src', '/assets/studio-companion-cobalt.png');
     const hero = await page.locator('.portrait-hero').boundingBox();
-    expect(hero.y + hero.height).toBeGreaterThanOrEqual(900);
+    expect(hero.y + hero.height).toBeLessThan(width <= 700 ? 1100 : 820);
     const projects = page.locator('#work > .project');
     await expect(projects).toHaveCount(2);
     const boxes = await projects.evaluateAll(items => items.map(item => {
       const { x, y, width, height } = item.getBoundingClientRect();
       return { x, y, width, height };
     }));
-    if (width > 700) {
-      expect(boxes[1].y).toBe(boxes[0].y);
-      expect(boxes[1].x).toBeGreaterThanOrEqual(boxes[0].x + boxes[0].width);
-    } else {
-      expect(boxes[1].y).toBeGreaterThanOrEqual(boxes[0].y + boxes[0].height);
-    }
+    expect(boxes[1].y).toBeGreaterThanOrEqual(boxes[0].y + boxes[0].height);
     for (const project of await projects.all()) {
       await expect(project.locator('.project-categories li')).toHaveCount(2);
       await expect(project.locator('.project-categories a, .project-categories button')).toHaveCount(0);
-      const image = project.locator('.product-brand-preview img');
+      const image = project.locator('.cover-evidence img');
       const expectedImage = await project.getAttribute('id') === 'project-planning'
-        ? '/assets/lumel-powertable-icon.svg'
-        : '/assets/inforiver-analytics-logo.svg';
+        ? '/assets/powertable-planning-cover.webp'
+        : '/assets/analytics-insights-cover.webp';
       await expect(image).toHaveAttribute('src', expectedImage);
       await expect(project.locator('.product-screenshot')).toHaveCount(0);
-      await expect(project.locator('.visual-bottom')).toContainText('Official');
+      await expect(project.locator('.visual-bottom')).toHaveCount(0);
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(image => image.decode());
       const frame = await project.locator('.project-visual').boundingBox();
       const screen = await image.boundingBox();
-      const source = await project.locator('.visual-bottom').boundingBox();
       expect(screen.y).toBeGreaterThanOrEqual(frame.y);
-      expect(screen.y + screen.height).toBeLessThanOrEqual(frame.y + frame.height - 8);
-      expect(source.y + source.height).toBeLessThanOrEqual(frame.y + frame.height - 8);
+      expect(screen.y + screen.height).toBeLessThanOrEqual(frame.y + frame.height);
       const dimensions = await image.evaluate(image => {
         const { width, height } = image.getBoundingClientRect();
         return { width, height, nativeWidth: image.naturalWidth, nativeHeight: image.naturalHeight };
       });
       expect(Math.abs(dimensions.width / dimensions.height - dimensions.nativeWidth / dimensions.nativeHeight)).toBeLessThan(.02);
+      await expect(image).toHaveCSS('filter', 'none');
+      await expect(image).toHaveCSS('transform', 'none');
       await expect(project.locator('.project-features')).toHaveCount(0);
       await expect(project.locator('.case-link')).toHaveCount(1);
     }
     await expect(page.locator('#project-planning h3')).toHaveText('PowerTable');
     await expect(page.locator('#project-analytics h3')).toHaveText('Inforiver Analytics+');
-    if (width > 700) {
-      for (const selector of ['.project-visual', '.visual-heading', '.cover-statement', '.product-brand-preview', '.visual-bottom']) {
-        const [planning, analytics] = await page.locator(`#work > .project ${selector}`).evaluateAll(elements => elements.map(element => {
-          const { y, height } = element.getBoundingClientRect();
-          return { y, height };
-        }));
-        expect(analytics.y, `${selector} top`).toBeCloseTo(planning.y, 0);
-        expect(analytics.height, `${selector} height`).toBeCloseTo(planning.height, 0);
-      }
+    for (const project of await projects.all()) {
+      const caption = await project.locator('.project-caption').boundingBox();
+      const visual = await project.locator('.project-visual').boundingBox();
+      if (width > 1050) expect(visual.x).toBeGreaterThanOrEqual(caption.x + caption.width);
+      else expect(visual.y).toBeGreaterThanOrEqual(caption.y + caption.height);
+      const frame = await project.locator('.cover-evidence').boundingBox();
+      expect(frame.width / frame.height).toBeCloseTo(1.5, 2);
     }
-    for (const label of await page.locator('.platform-pill, .project-categories li, .visual-bottom').all()) {
+    for (const label of await page.locator('.project-categories li').all()) {
       expect(await label.evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(12);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
@@ -262,14 +250,14 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
 
 for (const mode of ['focus', 'soundroom']) {
   for (const width of [1440, 1920, 2560]) {
-    test(`Home content scales to fill a ${width}px screen in ${mode}`, async ({ page }) => {
+    test(`Home keeps work accessible without a full-height introduction at ${width}px in ${mode}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       await page.goto('/');
       await page.evaluate(() => document.fonts.ready);
       const hero = await page.locator('.portrait-hero').boundingBox();
       expect(hero.width).toBeCloseTo(Math.min(1600, width - 112), 1);
-      expect((await page.locator('.portrait-art').boundingBox()).width).toBeGreaterThanOrEqual(550);
+      expect((await page.locator('.portrait-art').boundingBox()).width).toBeGreaterThanOrEqual(400);
       const title = await page.locator('.portrait-title').evaluate(element => {
         const style = getComputedStyle(element);
         return { size: parseFloat(style.fontSize), lines: element.getBoundingClientRect().height / parseFloat(style.lineHeight) };
@@ -278,7 +266,7 @@ for (const mode of ['focus', 'soundroom']) {
       expect(title.lines).toBeCloseTo(2, 1);
       await expect(page.locator('.hero-role')).toHaveCSS('font-size', '14px');
       await expect(page.locator('.hero-introduction')).toHaveCSS('font-size', '18px');
-      expect((await page.locator('#work').boundingBox()).y).toBeCloseTo(900, 0);
+      expect((await page.locator('#work').boundingBox()).y).toBeLessThan(820);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
   }
@@ -348,6 +336,12 @@ test('editorial Home keeps native links and a complete gallery without JavaScrip
     await expect(page.locator('[data-soundroom]')).toBeHidden();
     await expect(page.locator('#main-nav')).toBeVisible();
     await expect(page.locator('.header-contacts a')).toHaveCount(2);
+    await expect(page.locator('.product-cover-illustration')).toHaveCount(2);
+    for (const artwork of await page.locator('.product-cover-illustration').all()) {
+      await artwork.scrollIntoViewIfNeeded();
+      await artwork.evaluate(image => image.decode());
+      expect(await artwork.evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+    }
     await page.locator('#main-nav a[href="/#work"]').click();
     await expect(page.locator('#work')).toBeInViewport();
     await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
@@ -357,13 +351,14 @@ test('editorial Home keeps native links and a complete gallery without JavaScrip
   }
 });
 
-test('fine-pointer hover gives covers and the original character subtle motion', async ({ page }) => {
+test('fine-pointer hover keeps evidence still while the original character has subtle motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   const cover = page.locator('#project-planning .project-visual');
   await cover.hover();
   await expect(page.locator('#project-planning')).toHaveCSS('transform', 'none');
-  await expect.poll(() => cover.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42)).toBeLessThan(-4.9);
+  await expect(cover).toHaveCSS('transform', 'none');
+  await expect(cover.locator('.cover-evidence img')).toHaveCSS('transform', 'none');
   await page.locator('.companion-button').hover();
   await expect.poll(() => page.locator('.soundroom-companion')
     .evaluate(element => Math.abs(new DOMMatrixReadOnly(getComputedStyle(element).transform).m12))).toBeGreaterThan(.13);
@@ -372,7 +367,7 @@ test('fine-pointer hover gives covers and the original character subtle motion',
 
 test('reduced motion keeps portrait, cover and character hover effects still', async ({ page }) => {
   await page.goto('/');
-  for (const selector of ['.hero-portrait img', '#project-planning .project-visual', '#project-analytics .product-brand-preview', '.soundroom-companion']) {
+  for (const selector of ['.hero-portrait img', '#project-planning .project-visual', '#project-analytics .cover-evidence', '.soundroom-companion']) {
     const element = page.locator(selector).first();
     await element.hover();
     await expect(element).toHaveCSS('transform', 'none');
@@ -412,7 +407,7 @@ for (const width of [320, 390, 768, 1440]) {
   test(`About matches the editorial Home without losing its content at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/about.html');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 248, 243)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('.header-contacts a')).toHaveCount(2);
     await expect(page.locator('.profile-photo')).toHaveJSProperty('naturalWidth', 800);
