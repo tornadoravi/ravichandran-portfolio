@@ -19,7 +19,7 @@ for (const width of [320, 390, 768, 1440]) {
     expect((await page.goto('/column-mapping.html')).status()).toBe(200);
     await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Column Mapping & Configuration.');
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveCount(0);
     await expect(page.locator('#mapping-walkthrough')).not.toHaveAttribute('open');
     await expect(page.locator('.mapping-preview img')).toHaveJSProperty('naturalWidth', 780);
     await expect(page.locator('.mapping-preview .inspect-button')).toHaveCSS('color', 'rgb(29, 48, 50)');
@@ -68,9 +68,9 @@ test('mapping crops are served at their native dimensions and sources remain dis
 
 test('Home and PowerTable link to the new feature without changing the product order', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project')).toHaveCount(2);
-  await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
-  await page.locator('#project-planning .case-link').click();
+  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.product-context-card').first()).toHaveAttribute('id', 'project-planning');
+  await page.locator('.product-context-card[href="/powertable.html"]').click();
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await expect(page).toHaveURL(/column-mapping\.html$/);
   await page.locator('.back-link').click();

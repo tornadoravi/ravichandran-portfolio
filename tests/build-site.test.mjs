@@ -43,6 +43,7 @@ test('React production build preserves public boundaries, prerenders routes, and
 
   assert.equal(reactPages.length, 17);
   assert.ok(compiledFiles.filter(file => file.endsWith('.js')).length > 1, 'Expected split client bundles');
+  const favicons = new Set();
   for (const [index, file] of reactPages.entries()) {
     const source = await readFile(new URL(file, root), 'utf8');
     const html = await readFile(new URL(file, output), 'utf8');
@@ -55,7 +56,11 @@ test('React production build preserves public boundaries, prerenders routes, and
     assert.equal(html.match(/<title>[\s\S]*?<\/title>/)?.[0], source.match(/<title>[\s\S]*?<\/title>/)?.[0]);
     assert.equal(html.match(/<body[^>]*>/)?.[0], source.match(/<body[^>]*>/)?.[0]);
     assert.match(html, /theme\.js/);
+    const favicon = html.match(/<link rel="icon" href="([^"]+\.png)" type="image\/png" sizes="64x64">/)?.[1];
+    assert.ok(favicon, `Missing mascot PNG favicon in ${file}`);
+    favicons.add(favicon);
   }
+  assert.equal(favicons.size, 1, 'All active pages must use the same mascot favicon');
   const routeContent = await Promise.all(reactPages.map(async file =>
     (await readFile(new URL(file, output), 'utf8')).match(/<main(?:\s|>)[\s\S]*?<\/main>/)?.[0]));
   assert.equal(new Set(routeContent).size, reactPages.length, 'Every route must prerender its own main content');
@@ -115,6 +120,10 @@ test('React production build preserves public boundaries, prerenders routes, and
     }
   }
   const script = compiledFiles.find(file => file.endsWith('.js'));
+  const faviconResponse = await fetch(`${origin}${[...favicons][0]}`);
+  assert.equal(faviconResponse.status, 200);
+  assert.match(faviconResponse.headers.get('content-type'), /image\/png/);
+  assert.deepEqual(Buffer.from(await faviconResponse.arrayBuffer()), await readFile(new URL('favicon.png', root)));
   const scriptResponse = await fetch(`${origin}/${script}`);
   assert.equal(scriptResponse.status, 200);
   assert.match(scriptResponse.headers.get('content-type'), /text\/javascript/);

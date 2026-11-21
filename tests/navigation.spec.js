@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openCaseDetails, openListeningControls } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -6,6 +6,7 @@ test('one audio element continues through every case family with matching contro
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect.poll(() => page.locator('audio').evaluate(audio => !audio.paused && audio.currentTime > 0)).toBe(true);
   await page.evaluate(() => {
@@ -19,6 +20,7 @@ test('one audio element continues through every case family with matching contro
     if (await page.locator(`.workspace-navigation a[href="${href}"]`).count()) await openWorkspaceNavigation(page);
     await page.locator(`a[href="${href}"]:visible`).first().click();
     await expect(page.locator('body')).toHaveAttribute('data-page', name);
+    await openListeningControls(page);
     await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeVisible();
     await expect(page.locator('.soundroom-volume output')).toHaveText('27%');
     await expect(page.locator('[data-soundroom]')).toHaveCount(1);
@@ -45,6 +47,7 @@ test('one audio element continues through every case family with matching contro
   await follow('/about.html', 'about');
   await follow('/', 'index');
   await follow('/analytics-plus.html', 'analytics-plus');
+  await page.locator('#full-case-evidence > summary').click();
   await page.locator('#supporting-work > summary').click();
   await follow('/analytics-spatial.html', 'analytics-spatial');
   await follow('/analytics-plus.html#spatial-exploration', 'analytics-plus');
@@ -60,9 +63,10 @@ test('one audio element continues through every case family with matching contro
 
 test('back and forward preserve the song, expanded evidence, and reading position', async ({ page }) => {
   await page.goto('/column-mapping.html');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
-  await page.locator('#case-details > summary').click();
+  await openCaseDetails(page);
   await page.locator('#mapping-walkthrough > summary').click();
   await page.locator('#cost-mapping').scrollIntoViewIfNeeded();
   const position = await page.evaluate(() => scrollY);
@@ -90,7 +94,7 @@ test('page metadata, body classes, hash disclosures, and screenshot inspection u
   await expect(page).toHaveTitle('Column Mapping & Configuration — Ravichandran V');
   await expect(page.locator('body')).toHaveClass(/mapping-case/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Column Mapping & Configuration/);
-  await page.locator('#case-details > summary').click();
+  await openCaseDetails(page);
   await page.locator('#mapping-walkthrough > summary').click();
   await page.locator('a[href="#cost-mapping"]:visible').first().click();
   await expect(page.locator('#cost-mapping')).toBeInViewport();
@@ -109,6 +113,7 @@ test('rapid navigation cancels a stale destination without restarting the player
   const gate = new Promise(resolve => { release = resolve; });
   await page.route('**/about.html', async route => { await gate; await route.continue(); });
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await page.locator('#main-nav a[href="/about.html"]').click();
@@ -125,19 +130,22 @@ test('case-page entry and refresh never autoplay, even when Soundroom was select
   const requests = [];
   page.on('request', request => { if (request.url().endsWith('.mp3')) requests.push(request.url()); });
   await page.goto('/kpi.html');
+  await openListeningControls(page);
   await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeVisible();
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
   await page.reload();
+  await openListeningControls(page);
   await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeVisible();
   expect(requests).toEqual([]);
 });
 
 test('Home and Work bookmarks keep the same song and native history', async ({ page }) => {
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await page.evaluate(() => { window.originalAudio = document.querySelector('audio'); });
-  await page.locator('#main-nav a[href="/#work"]').click();
+  await page.locator('.hero-work-link').click();
   await expect(page.locator('#work')).toBeInViewport();
   await page.locator('#main-nav a[href="/"]').click();
   await expect(page).toHaveURL(/\/$/);
@@ -148,15 +156,14 @@ test('Home and Work bookmarks keep the same song and native history', async ({ p
   expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused)).toBe(true);
 });
 
-test('work index respects the chosen project when covers share a desktop row', async ({ page }) => {
+test('native project bookmarks remain usable when feature cards share a desktop row', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/#work');
-  const index = page.getByRole('navigation', { name: 'Selected work index' });
   for (const id of ['project-analytics', 'project-planning', 'project-analytics']) {
-    const link = index.locator(`a[href="#${id}"]`);
-    await link.click();
-    await expect(link).toHaveAttribute('aria-current', 'location');
-    await expect(index.locator('[aria-current="location"]')).toHaveCount(1);
+    await page.goto(`/#${id}`);
+    await expect(page).toHaveURL(new RegExp(`#${id}$`));
     await expect(page.locator(`#${id}`)).toBeInViewport();
   }
+  await page.goto('/#project-wizard');
+  await expect(page.locator('#project-analytics')).toBeInViewport();
+  await expect(page.locator('#project-wizard')).toHaveCount(1);
 });

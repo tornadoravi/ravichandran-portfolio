@@ -20,7 +20,7 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <h1>{"Inforiver Analytics+."}</h1>
           {"\n      "}
-          <p className="case-summary">{"Helping authors find a chart by analytical intent, then configure it in one shared flow."}</p>
+          <p className="case-summary">{"A Power BI product for creating charts, KPI cards, and reports. My feature work is below."}</p>
           {"\n      "}
           <CaseContext role="End-to-end Chart Wizard UX/UI · Chart Wizard & KPI templates shipped">
             <dl className={"metadata"}>

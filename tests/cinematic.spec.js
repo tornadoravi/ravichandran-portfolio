@@ -45,7 +45,7 @@ test('the cinematic composition is readable without scripts', async ({ browser, 
   await expect(page.locator('.hero-role')).toBeVisible();
   await expect(page.locator('.portrait-art')).toHaveJSProperty('complete', true);
   await expect(page.locator('#project-analytics')).toHaveCSS('opacity', '1');
-  await page.locator('#main-nav a[href="/#work"]').click();
+  await page.locator('.hero-work-link').click();
   await expect(page.locator('#work')).toBeInViewport();
   await context.close();
 });

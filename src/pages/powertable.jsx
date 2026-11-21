@@ -16,7 +16,7 @@ export default function PowertablePage() {
         <section className={"case-hero wrap"}>
           <a className={"back-link"} href={sitePath("/#work")}>{"← Selected work"}</a>
           <h1>{"PowerTable."}</h1>
-          <p className="case-summary">{"Connecting task data, logged time, and resource assignments inside Microsoft Fabric."}</p>
+          <p className="case-summary">{"A planning product for task schedules and team assignments in Microsoft Fabric."}</p>
           <CaseContext role="End-to-end Gantt & resource UX/UI · Cross-tab contribution">
             <dl className={"metadata"}>
               <div>
@@ -44,18 +44,13 @@ export default function PowertablePage() {
           </CaseContext>
         </section>
         <CaseStoryLayout caseId="planning">
-        <figure id="contribution-evidence" className="detail-figure wrap screenshot-scene case-evidence contribution-evidence">
+        <section id="contribution-evidence" className="detail-figure wrap contribution-evidence" aria-labelledby="product-explanation-title">
           <div className="figure-label">
-            <span className="eyebrow">My design / Gantt · Time Entries</span>
-            <h2>Link logged hours to the right task.</h2>
+            <span className="eyebrow">Product overview / Microsoft Fabric</span>
+            <h2 id="product-explanation-title">What is PowerTable?</h2>
+            <p className="product-explanation-copy">PowerTable brings no-code data apps and planning to Microsoft Fabric. Teams can organize business data, plan tasks with Gantt timelines, review resource assignments, and summarize information in Cross-tab views.</p>
           </div>
-          <p className="product-overview-copy">Select the Time Entries table, map Task_Id to Task ID column, and use Hours_Logged for Actual Effort (Hrs).</p>
-          <a className="product-screenshot native-shot" href={sitePath("/assets/fabric-mapping-time-entries.png")} target="_blank" rel="noopener noreferrer" aria-label="View my Gantt time-entry mapping screen full-size (opens in a new tab)">
-            <img src={sitePath("/assets/fabric-mapping-time-entries.png")} width="780" height="588" fetchPriority="high" alt="Gantt Time Entries design with Direct Time Entry selected, Time Entries as the source table, Task_Id mapped to Task ID column, and Hours_Logged mapped to Actual Effort (Hrs)." />
-          </a>
-          <figcaption>Original design screen · Gantt / Time Entries configuration.</figcaption>
-          <a className="text-link" href={sitePath("/column-mapping.html")}>Read the mapping case study <span aria-hidden="true">→</span></a>
-        </figure>
+        </section>
         <CaseFocus story="planning" />
         {"\n    "}
         <figure className={"detail-figure screenshot-scene case-evidence powertable-product-overview product-overview wrap"}>

@@ -5,6 +5,7 @@ dist/
 .netlify/
 .DS_Store
 /career-ops/
+/assets/satoshi-variable.woff2
 .env
 .env.*
 *.pem

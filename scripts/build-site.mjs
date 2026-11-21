@@ -7,6 +7,19 @@ const root = new URL('../', import.meta.url);
 const output = new URL('../dist/', import.meta.url);
 const publicFiles = new Set([...files.values()].map(([file]) => file));
 
+const satoshi = new URL('assets/satoshi-variable.woff2', root);
+try {
+  await readFile(satoshi);
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+  console.log('Downloading Satoshi for this website under assets/satoshi-FFL.txt (not redistributed in Git).');
+  const response = await fetch('https://cdn.fontshare.com/wf/NWBQYJIM7GCZ5XWD7D26ARB3VDY55ZRT/K63EV2KZIGKLE7RANQ2U42S6SVHU5RJ7/X6XYTKIVDUW7GZTZPZNN4EUM5KH54KHF.woff2', { signal: AbortSignal.timeout(30000) });
+  if (!response.ok) throw new Error(`Satoshi download failed: HTTP ${response.status}`);
+  const font = Buffer.from(await response.arrayBuffer());
+  if (font.toString('ascii', 0, 4) !== 'wOF2') throw new Error('Satoshi download was not a WOFF2 font.');
+  await writeFile(satoshi, font);
+}
+
 await build({
   root: fileURLToPath(root),
   configFile: fileURLToPath(new URL('../vite.config.js', import.meta.url)),

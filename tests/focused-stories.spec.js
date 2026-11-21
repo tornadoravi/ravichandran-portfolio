@@ -71,11 +71,10 @@ for (const appearance of ['light', 'dark']) {
 
 test('Home and Analytics+ prioritize Chart Wizard while breadth stays optional', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#work > .project')).toHaveCount(2);
+  await expect(page.locator('#work .product-context-card')).toHaveCount(2);
   await expect(page.locator('.portfolio-scope, .contribution-map')).toHaveCount(0);
-  await expect(page.locator('#project-planning .project-role')).toContainText('End-to-end Gantt & resource UX/UI');
-  await expect(page.locator('#project-analytics .project-role')).toContainText('End-to-end Chart Wizard UX/UI');
-  await page.locator('#project-analytics .case-link').click();
+  await expect(page.locator('.showcase-case')).toHaveCount(0);
+  await page.locator('#project-analytics').click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
   await page.getByRole('link', { name: 'Recommended first read: Chart Wizard' }).click();
   await expect(page).toHaveURL(/analytics\.html$/);

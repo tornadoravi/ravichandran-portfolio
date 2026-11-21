@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openListeningControls } from './fixtures.js';
 import { readFile } from 'node:fs/promises';
 import sharp from 'sharp';
 
@@ -12,23 +12,15 @@ const activePages = [
   '/analytics.html', '/presentation.html', '/kpi.html'
 ];
 
-test('Analytics+ case links align horizontally where they fit and wrap without overlap', async ({ page }) => {
+test('Analytics+ remains accessible through the compact product card', async ({ page }) => {
   for (const width of [320, 390, 768, 1060, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/#project-analytics');
     await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
     await page.evaluate(() => document.fonts.ready);
-    const links = page.locator('#project-analytics .project-case-links > a');
-    await expect(links).toHaveCount(2);
-    await expect(links.nth(0)).toHaveAttribute('href', '/analytics-plus.html');
-    await expect(links.nth(1)).toHaveAttribute('href', '/analytics-spatial.html');
-    const [main, concept] = await Promise.all([links.nth(0).boundingBox(), links.nth(1).boundingBox()]);
-    expect(main.height).toBeGreaterThanOrEqual(44);
-    expect(concept.height).toBeGreaterThanOrEqual(44);
-    const available = await page.locator('#project-analytics .project-case-links').boundingBox();
-    if (main.width + concept.width + 24 <= available.width) expect(concept.y).toBeCloseTo(main.y, 1);
-    if (Math.abs(concept.y - main.y) < 1) expect(concept.x).toBeGreaterThanOrEqual(main.x + main.width + 24);
-    else expect(concept.y).toBeGreaterThanOrEqual(main.y + main.height + 12);
+    const card = page.locator('#project-analytics');
+    await expect(card).toHaveAttribute('href', '/analytics-plus.html');
+    expect((await card.boundingBox()).height).toBeGreaterThanOrEqual(44);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });
@@ -46,28 +38,24 @@ for (const appearance of ['light', 'dark']) {
       await expect(page.locator('.hero-copy .identity-company')).toContainText('Designed at');
       await expect(page.locator('.hero-copy .identity-platform')).toContainText('Built for');
       await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
-      const roles = page.locator('.project-description > .project-role');
-      await expect(roles).toHaveCount(2);
-      for (const role of await roles.all()) await expect(role).toHaveCSS('border-top-width', '0px');
-      await expect(page.locator('.project-visual .cover-evidence')).toHaveCount(2);
+      await expect(page.locator('.showcase-case')).toHaveCount(0);
+      await expect(page.locator('.product-context-card .cover-evidence')).toHaveCount(2);
       await expect(page.getByRole('img', { name: 'PowerTable product cover', exact: true })).toBeVisible();
       await expect(page.getByRole('img', { name: 'Inforiver Analytics+ product cover', exact: true })).toBeVisible();
-      await expect(page.locator('.project-visual img[src*="fabric-mapping"], .project-visual img[src*="wizard-function"]')).toHaveCount(0);
+      await expect(page.locator('.product-cover-poster img[src*="fabric-mapping"], .product-cover-poster img[src*="wizard-function"]')).toHaveCount(2);
       await expect(page.locator('.project-visual .product-screenshot')).toHaveCount(0);
       await expect(page.locator('.product-cover-illustration')).toHaveCount(2);
       await expect(page.locator('.product-cover-sculpture, .cover-sculpted-loop')).toHaveCount(0);
-      for (const cover of await page.locator('.project-visual').all()) {
+      for (const cover of await page.locator('.product-context-card').all()) {
         const artwork = cover.locator('.product-cover-illustration');
         await artwork.scrollIntoViewIfNeeded();
         await artwork.evaluate(image => image.decode());
-        await expect(cover.locator('[role="img"]')).toHaveAttribute('aria-description', /^Concept illustration of /);
-        await expect(artwork).toHaveAttribute('srcset', /-small\.webp 960w, .+\.webp 1536w$/);
+        await expect(cover.locator('[role="img"]')).toHaveAttribute('aria-description', /^Editorial cover with the original /);
         const source = await artwork.evaluate(image => ({
           width: image.naturalWidth, height: image.naturalHeight, selected: image.currentSrc
         }));
         expect(source.width).toBeGreaterThan(0);
-        expect(Math.abs(source.width / source.height - 1.5)).toBeLessThan(.02);
-        expect(source.selected).toMatch(/\/assets\/(?:powertable-planning|analytics-insights)-cover(?:-small)?\.webp$/);
+        expect(source.selected).toMatch(/\/assets\/(?:fabric-mapping-time-entries|wizard-function)\.png$/);
         const dimensions = await cover.evaluate(element => {
           const style = getComputedStyle(element);
           const contentWidth = element.getBoundingClientRect().width
@@ -158,7 +146,7 @@ for (const mode of ['focus', 'soundroom']) {
 }
 
 for (const width of [320, 390, 650, 768, 1440, 2000]) {
-  test(`editorial Home preserves its gallery, categories and character at ${width}px`, async ({ page }) => {
+  test(`editorial Home preserves its feature gallery and character at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -197,26 +185,28 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
     await expect(page.locator('.soundroom-companion')).toHaveAttribute('src', '/assets/studio-companion-cobalt.png');
     const hero = await page.locator('.portrait-hero').boundingBox();
     expect(hero.y + hero.height).toBeLessThan(width <= 700 ? 1100 : 820);
-    const projects = page.locator('#work > .project');
+    const projects = page.locator('#work .product-context-card');
     await expect(projects).toHaveCount(2);
     const boxes = await projects.evaluateAll(items => items.map(item => {
       const { x, y, width, height } = item.getBoundingClientRect();
       return { x, y, width, height };
     }));
-    expect(boxes[1].y).toBeGreaterThanOrEqual(boxes[0].y + boxes[0].height);
+    if (width > 700) {
+      expect(boxes[1].y).toBeCloseTo(boxes[0].y, 1);
+      expect(boxes[1].x).toBeGreaterThan(boxes[0].x + boxes[0].width);
+    } else expect(boxes[1].y).toBeGreaterThanOrEqual(boxes[0].y + boxes[0].height);
     for (const project of await projects.all()) {
-      await expect(project.locator('.project-categories li')).toHaveCount(2);
-      await expect(project.locator('.project-categories a, .project-categories button')).toHaveCount(0);
+      await expect(project.locator('.delivery-badge')).toHaveCount(0);
       const image = project.locator('.cover-evidence img');
       const expectedImage = await project.getAttribute('id') === 'project-planning'
-        ? '/assets/powertable-planning-cover.webp'
-        : '/assets/analytics-insights-cover.webp';
+        ? '/assets/fabric-mapping-time-entries.png'
+        : '/assets/wizard-function.png';
       await expect(image).toHaveAttribute('src', expectedImage);
       await expect(project.locator('.product-screenshot')).toHaveCount(0);
       await expect(project.locator('.visual-bottom')).toHaveCount(0);
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(image => image.decode());
-      const frame = await project.locator('.project-visual').boundingBox();
+      const frame = await project.locator('.cover-evidence').boundingBox();
       const screen = await image.boundingBox();
       expect(screen.y).toBeGreaterThanOrEqual(frame.y);
       expect(screen.y + screen.height).toBeLessThanOrEqual(frame.y + frame.height);
@@ -228,20 +218,15 @@ for (const width of [320, 390, 650, 768, 1440, 2000]) {
       await expect(image).toHaveCSS('filter', 'none');
       await expect(image).toHaveCSS('transform', 'none');
       await expect(project.locator('.project-features')).toHaveCount(0);
-      await expect(project.locator('.case-link')).toHaveCount(1);
+      await expect(project).toHaveAttribute('href', /\/(?:powertable|analytics-plus)\.html$/);
     }
-    await expect(page.locator('#project-planning h3')).toHaveText('PowerTable');
-    await expect(page.locator('#project-analytics h3')).toHaveText('Inforiver Analytics+');
+    await expect(page.locator('#project-planning h3')).toHaveText('PowerTable ↗');
+    await expect(page.locator('#project-analytics h3')).toHaveText('Inforiver Analytics+ ↗');
     for (const project of await projects.all()) {
-      const caption = await project.locator('.project-caption').boundingBox();
-      const visual = await project.locator('.project-visual').boundingBox();
-      if (width > 1050) expect(visual.x).toBeGreaterThanOrEqual(caption.x + caption.width);
-      else expect(visual.y).toBeGreaterThanOrEqual(caption.y + caption.height);
+      const caption = await project.locator('.product-context-copy').boundingBox();
       const frame = await project.locator('.cover-evidence').boundingBox();
-      expect(frame.width / frame.height).toBeCloseTo(1.5, 2);
-    }
-    for (const label of await page.locator('.project-categories li').all()) {
-      expect(await label.evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(12);
+      expect(caption.y).toBeGreaterThanOrEqual(frame.y + frame.height);
+      expect(frame.width / frame.height).toBeCloseTo(1.6, 2);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     expect(errors).toEqual([]);
@@ -342,7 +327,7 @@ test('editorial Home keeps native links and a complete gallery without JavaScrip
       await artwork.evaluate(image => image.decode());
       expect(await artwork.evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
     }
-    await page.locator('#main-nav a[href="/#work"]').click();
+    await page.locator('.hero-work-link').click();
     await expect(page.locator('#work')).toBeInViewport();
     await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
     await expect(page).toHaveURL(/powertable\.html$/);
@@ -354,11 +339,11 @@ test('editorial Home keeps native links and a complete gallery without JavaScrip
 test('fine-pointer hover keeps evidence still while the original character has subtle motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
-  const cover = page.locator('#project-planning .project-visual');
+  const cover = page.locator('#project-planning .cover-evidence');
   await cover.hover();
   await expect(page.locator('#project-planning')).toHaveCSS('transform', 'none');
   await expect(cover).toHaveCSS('transform', 'none');
-  await expect(cover.locator('.cover-evidence img')).toHaveCSS('transform', 'none');
+  await expect(cover.locator('img')).toHaveCSS('transform', 'none');
   await page.locator('.companion-button').hover();
   await expect.poll(() => page.locator('.soundroom-companion')
     .evaluate(element => Math.abs(new DOMMatrixReadOnly(getComputedStyle(element).transform).m12))).toBeGreaterThan(.13);
@@ -367,7 +352,7 @@ test('fine-pointer hover keeps evidence still while the original character has s
 
 test('reduced motion keeps portrait, cover and character hover effects still', async ({ page }) => {
   await page.goto('/');
-  for (const selector of ['.hero-portrait img', '#project-planning .project-visual', '#project-analytics .cover-evidence', '.soundroom-companion']) {
+  for (const selector of ['.hero-portrait img', '#project-planning', '.product-context-card .cover-evidence', '.soundroom-companion']) {
     const element = page.locator(selector).first();
     await element.hover();
     await expect(element).toHaveCSS('transform', 'none');
@@ -383,7 +368,8 @@ test('the dimensional companion greets keyboard and touch users without interfer
   const greeting = page.locator('#companion-greeting');
   await expect(companion).toHaveAttribute('aria-expanded', 'false');
   await expect(greeting).toBeHidden();
-  await expect(page.locator('.soundroom-companion')).toHaveJSProperty('naturalWidth', 352);
+  await page.locator('.soundroom-companion').evaluate(image => image.decode());
+  await expect(page.locator('.soundroom-companion')).toHaveJSProperty('naturalWidth', 160);
   expect((await companion.boundingBox()).height).toBeGreaterThanOrEqual(44);
   await companion.focus();
   await page.keyboard.press('Enter');
@@ -393,6 +379,7 @@ test('the dimensional companion greets keyboard and touch users without interfer
   await page.keyboard.press('Escape');
   await expect(greeting).toBeHidden();
   await expect(companion).toBeFocused();
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.locator('.soundroom-status')).toHaveText('Music is playing.');
   await companion.click();
@@ -412,8 +399,9 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('.header-contacts a')).toHaveCount(2);
     await expect(page.locator('.profile-photo')).toHaveJSProperty('naturalWidth', 800);
     await expect(page.locator('h1')).toHaveCSS('font-family', await page.locator('.site-header .wordmark').evaluate(element => getComputedStyle(element).fontFamily));
+    await page.locator('#experience-details > summary').click();
     for (const target of ['#profile', '#approach', '#experience', '#recommendations']) {
-      await page.locator(`.about-nav a[href="${target}"]`).click();
+      await page.locator(target).scrollIntoViewIfNeeded();
       await expect(page.locator(target)).toBeInViewport();
     }
     await expect(page.locator('.recommendation-card')).toHaveCount(2);

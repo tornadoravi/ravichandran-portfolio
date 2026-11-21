@@ -1,8 +1,8 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openListeningControls } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
-const backgrounds = { light: 'rgb(244, 242, 236)', dark: 'rgb(21, 25, 31)' };
+const backgrounds = { light: 'rgb(244, 242, 238)', dark: 'rgb(23, 22, 20)' };
 
 async function choose(page, label) {
   await page.getByRole('button', { name: /^Appearance:/ }).click();
@@ -10,7 +10,66 @@ async function choose(page, label) {
   await expect(page.getByRole('button', { name: `Appearance: ${label}`, exact: true })).toBeFocused();
 }
 
+test('shared pages render the reference fonts locally without font or CSP errors', async ({ page }) => {
+  const fontURLs = [];
+  const errors = [];
+  page.on('request', request => {
+    if (request.resourceType() === 'font') fontURLs.push(request.url());
+  });
+  page.on('console', message => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  await page.emulateMedia({ colorScheme: 'light' });
+  for (const path of ['/', '/about.html', '/powertable.html', '/analytics-plus.html']) {
+    await page.goto(path);
+    const typography = await page.evaluate(async () => {
+      await document.fonts.ready;
+      return {
+        family: getComputedStyle(document.body).fontFamily,
+        heading: getComputedStyle(document.querySelector('h1')).fontFamily,
+        loaded: Array.from(document.fonts).filter(face => face.status === 'loaded').map(face => face.family.replaceAll('"', '')),
+      };
+    });
+    expect(typography.family.split(',')[0].replaceAll('"', '')).toBe('Satoshi');
+    expect(typography.heading.split(',')[0].replaceAll('"', '')).toBe('Urbanist');
+    expect(typography.loaded).toContain('Satoshi');
+    expect(typography.loaded).toContain('Urbanist');
+  }
+  expect(fontURLs.some(url => url.includes('satoshi-variable'))).toBe(true);
+  expect(fontURLs.some(url => url.includes('urbanist-latin'))).toBe(true);
+  expect(fontURLs.every(url => new URL(url).origin === new URL(page.url()).origin)).toBe(true);
+  expect(errors).toEqual([]);
+});
+
 for (const colorScheme of ['light', 'dark']) {
+  test(`reference text and tonal actions maintain readable contrast in ${colorScheme}`, async ({ page }) => {
+    const luminance = color => {
+      const channels = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(channel => {
+        const value = channel / 255;
+        return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4;
+      });
+      return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+    };
+    const checkContrast = async locator => {
+      const colors = await locator.evaluate(element => {
+        const style = getComputedStyle(element);
+        return { foreground: style.color, background: style.backgroundColor };
+      });
+      const values = [luminance(colors.foreground), luminance(colors.background)].sort((a, b) => a - b);
+      expect((values[1] + .05) / (values[0] + .05), JSON.stringify(colors)).toBeGreaterThanOrEqual(4.5);
+    };
+    await page.emulateMedia({ colorScheme });
+    await page.goto('/');
+    await expect(page.getByRole('button', { name: /^Appearance:/ })).toBeEnabled();
+    await checkContrast(page.locator('body'));
+    await checkContrast(page.locator('.hero-work-link'));
+    await checkContrast(page.locator('.site-header nav a[aria-current]'));
+    await page.getByRole('button', { name: /^Appearance:/ }).click();
+    await checkContrast(page.getByRole('menuitemradio', { name: 'System', exact: true }));
+    await page.goto('/powertable.html');
+    await checkContrast(page.locator('.case-read-link'));
+  });
+
   test(`System defaults to the ${colorScheme} device appearance without loading music`, async ({ page }) => {
     await page.emulateMedia({ colorScheme });
     const audioRequests = [];
@@ -44,7 +103,7 @@ test('explicit appearance persists across routes, reloads, and visits independen
   await choose(page, 'Light');
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.light);
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f4f2ec');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f4f2ee');
 });
 
 test('System follows live device changes while explicit Dark remains pinned', async ({ page }) => {
@@ -58,7 +117,7 @@ test('System follows live device changes while explicit Dark remains pinned', as
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.light);
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.dark);
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#15191f');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#171614');
   expect(await page.evaluate(() => localStorage.getItem('portfolio-appearance'))).toBe('system');
 });
 
@@ -66,12 +125,14 @@ test('appearance changes neither start nor pause music and listening mode never 
   await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/');
   await choose(page, 'Light');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect.poll(() => page.locator('audio').evaluate(audio => !audio.paused && audio.currentTime > 0)).toBe(true);
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.light);
   await choose(page, 'Dark');
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(false);
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.dark);
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Focus Mode', exact: true }).click();
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.dark);
@@ -87,7 +148,12 @@ for (const width of [320, 390, 701, 768, 900, 1440]) {
     const menu = page.getByRole('menu', { name: 'Appearance', exact: true });
     await expect(trigger).toBeEnabled();
     await expect(trigger).toHaveAttribute('title', 'Appearance');
-    expect((await trigger.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    if (width <= 700) {
+      const brand = await page.locator('.header-brand').boundingBox();
+      const menuToggle = await page.getByRole('button', { name: 'Menu', exact: true }).boundingBox();
+      expect(Math.abs(brand.y + brand.height / 2 - menuToggle.y - menuToggle.height / 2)).toBeLessThan(1);
+    }
+    expect((await trigger.boundingBox()).height).toBeGreaterThanOrEqual(48);
     const icon = await trigger.locator('svg:not(.appearance-chevron)').boundingBox();
     const chevron = await trigger.locator('.appearance-chevron').boundingBox();
     expect(icon.y + icon.height / 2).toBeCloseTo(chevron.y + chevron.height / 2, 1);
@@ -106,12 +172,12 @@ for (const width of [320, 390, 701, 768, 900, 1440]) {
     await expect(menu).toBeHidden();
     await trigger.click();
     await expect(page.getByRole('menuitemradio', { name: 'Dark', exact: true })).toHaveAttribute('aria-checked', 'true');
-    await expect(page.getByRole('menuitemradio', { name: 'Dark', exact: true })).toHaveCSS('color', 'rgb(177, 189, 255)');
+    await expect(page.getByRole('menuitemradio', { name: 'Dark', exact: true })).toHaveCSS('color', 'rgb(255, 223, 187)');
     const box = await menu.boundingBox();
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(width);
     for (const item of await menu.getByRole('menuitemradio').all()) {
-      expect((await item.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      expect((await item.boundingBox()).height).toBeGreaterThanOrEqual(48);
     }
     await page.keyboard.press('Escape');
     await expect(trigger).toBeFocused();
@@ -147,7 +213,7 @@ test('stored appearance is applied before React hydrates', async ({ page }) => {
   await page.goto('/analytics-plus.html');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('body')).toHaveCSS('background-color', backgrounds.dark);
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#15191f');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#171614');
   await expect(page.getByRole('button', { name: /^Appearance:/ })).toBeDisabled();
 });
 

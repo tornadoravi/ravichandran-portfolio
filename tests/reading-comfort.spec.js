@@ -34,7 +34,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       }
       const selector = path === '/about.html'
         ? '.about-intro > div:last-child > p:not(.large-copy), .recommendation-full[open] blockquote p'
-        : '.home-about p:not(.eyebrow)';
+        : '.hero-introduction';
       const paragraphs = await page.locator(selector).evaluateAll(elements => elements.map(element => {
         const style = getComputedStyle(element);
         const context = document.createElement('canvas').getContext('2d');

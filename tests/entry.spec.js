@@ -36,8 +36,7 @@ for (const width of [320, 390, 1440]) {
       .evaluate(image => image.getBoundingClientRect().top + scrollY);
     expect(imageTop - workTop).toBeLessThanOrEqual(500);
     await expect(page.locator('#work .flagship-link')).toHaveCount(0);
-    if (width <= 700) await page.locator('.menu-toggle').click();
-    await page.locator('#main-nav a[href="/#work"]').click();
+    await page.locator('.hero-work-link').click();
     await expect(page.locator('#work')).toBeInViewport();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
@@ -61,7 +60,7 @@ test('direct work bookmarks remain intact without an intro intercept', async ({ 
     await page.goto('/' + hash);
     await expect(page).toHaveURL(new RegExp(hash + '$'));
     await expect(page.locator(hash)).toBeInViewport();
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Home');
   }
   await page.locator('#main-nav').getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page).toHaveURL(/\/$/);

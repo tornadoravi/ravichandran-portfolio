@@ -49,60 +49,62 @@ for (const width of [320, 390, 768, 1440]) {
   }
 }
 
-test('main navigation includes Home, Work, and About on every page', async ({ page }) => {
+test('main navigation includes Home and About without a Work tab on every page', async ({ page }) => {
   for (const path of [...pages, '/index.html']) {
     await page.goto(path);
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('link')).toHaveText(['Home', 'Work', 'About']);
+    await expect(nav.getByRole('link')).toHaveText(['Home', 'About']);
+    await expect(nav.getByRole('link', { name: 'Work', exact: true, includeHidden: true })).toHaveCount(0);
     await expect(nav.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('href', '/');
-    const current = path === '/' || path === '/index.html' ? 'Home' : path === '/about.html' ? 'About' : 'Work';
-    await expect(nav.locator('a[aria-current]')).toHaveText(current);
+    const current = path === '/' || path === '/index.html' ? 'Home' : path === '/about.html' ? 'About' : null;
+    if (current) await expect(nav.locator('a[aria-current]')).toHaveText(current);
+    else await expect(nav.locator('a[aria-current]')).toHaveCount(0);
   }
 });
 
-test('Home and Work tabs follow anchor navigation and browser history', async ({ page }) => {
+test('the hero work link preserves anchor navigation and browser history', async ({ page }) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Main navigation' });
   const workPosition = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop));
   await expect(nav.locator('a[aria-current]')).toHaveText('Home');
-  await nav.getByRole('link', { name: 'Work', exact: true }).click();
+  await page.locator('.hero-work-link').click();
   await expect.poll(() => page.locator('#work').evaluate((element) => element.getBoundingClientRect().top)).toBeCloseTo(workPosition, 0);
-  await expect(nav.locator('a[aria-current]')).toHaveText('Work');
+  await expect(nav.locator('a[aria-current]')).toHaveText('Home');
   await page.goBack();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await expect(nav.locator('a[aria-current]')).toHaveText('Home');
   await page.goForward();
   await expect.poll(() => page.locator('#work').evaluate((element) => element.getBoundingClientRect().top)).toBeCloseTo(workPosition, 0);
-  await expect(nav.locator('a[aria-current]')).toHaveText('Work');
+  await expect(nav.locator('a[aria-current]')).toHaveText('Home');
   await page.goto('/#project-analytics');
-  await expect(nav.locator('a[aria-current]')).toHaveText('Work');
+  await expect(nav.locator('a[aria-current]')).toHaveText('Home');
   await nav.getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page).toHaveURL(origin + '/');
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await expect(nav.locator('a[aria-current]')).toHaveText('Home');
-  await expect(page.locator('.portrait-hero')).toBeInViewport();
+  await expect(page.locator('.reference-hero')).toBeInViewport();
 });
 
-test('Home remains selected at the hero even when the URL retains a work bookmark', async ({ page }) => {
+test('Home remains selected throughout its hero and work bookmarks', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const hash of ['#work', '#project-analytics']) {
       await page.goto('/' + hash);
       const current = page.locator('#main-nav a[aria-current]');
-      await expect(current).toHaveText('Work');
+      await expect(current).toHaveText('Home');
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-      await expect(page.locator('.portrait-hero')).toBeInViewport();
+      await expect(page.locator('.reference-hero')).toBeInViewport();
       await expect(current).toHaveText('Home');
       expect(new URL(page.url()).hash).toBe(hash);
-      await page.locator('.home-about').scrollIntoViewIfNeeded();
-      await expect(current).toHaveText('Work');
+      await page.locator('#project-analytics').scrollIntoViewIfNeeded();
+      await expect(current).toHaveText('Home');
       await page.locator('#work').evaluate((element) => element.scrollIntoView({ behavior: 'instant' }));
-      await expect(current).toHaveText('Work');
+      await expect(current).toHaveText('Home');
     }
     await page.goto('/');
     await page.locator('#project-planning').scrollIntoViewIfNeeded();
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Home');
     expect(new URL(page.url()).hash).toBe('');
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
     await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Home');
@@ -126,14 +128,17 @@ test('mobile menu supports keyboard, dismissal, and navigation', async ({ page }
   await nav.getByRole('link', { name: 'About', exact: true }).click();
   await expect(page).toHaveURL(/about\.html$/);
   await menu.click();
-  await nav.getByRole('link', { name: 'Work', exact: true }).click();
+  await nav.getByRole('link', { name: 'Home', exact: true }).click();
+  await expect(page).toHaveURL(origin + '/');
+  await expect(nav).toBeHidden();
+  await page.locator('.hero-work-link').click();
   await expect(page).toHaveURL(/\/#work$/);
   await expect(page.locator('#work')).toBeInViewport();
   await menu.click();
   await nav.getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page).toHaveURL(origin + '/');
   await expect(nav).toBeHidden();
-  await expect(page.locator('.portrait-hero')).toBeInViewport();
+  await expect(page.locator('.reference-hero')).toBeInViewport();
 });
 
 test('viewers return to the overview to choose another feature or product', async ({ page }) => {
@@ -316,17 +321,129 @@ test('storyboard views follow entry, alternative setup routes, and authoring ord
   await expect(page.locator('#editor')).toBeInViewport();
 });
 
+test('About lists the supplied tools without Framer on small and large screens', async ({ page }) => {
+  for (const width of [320, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/about.html#tools');
+    await expect(page.getByRole('navigation', { name: 'About sections' })).toHaveCount(0);
+    await expect(page).toHaveURL(/about\.html#tools$/);
+    await expect(page.locator('#tools')).toBeInViewport();
+    await expect(page.locator('.about-tools-list > li > span:last-child')).toHaveText([
+      'Figma', 'Microsoft Fabric', 'Power BI', 'Claude', 'ChatGPT',
+      'Microsoft Loop', 'Notion', 'Canva', 'Adobe Photoshop', 'CorelDRAW', 'Adobe Illustrator'
+    ]);
+    await expect(page.locator('#tools')).not.toContainText('Framer');
+    const icons = page.locator('.about-tool-icon img');
+    await expect(icons).toHaveCount(11);
+    await icons.evaluateAll(images => Promise.all(images.map(image => image.decode())));
+    expect(await icons.evaluateAll(images => images.every(image =>
+      image.naturalWidth > 0 && image.naturalHeight > 0 && new URL(image.src).origin === location.origin
+    ))).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
+
+for (const appearance of ['light', 'dark']) {
+  for (const width of [320, 390, 768, 1006, 1440]) {
+    test(`reference About layout preserves the owner's identity in ${appearance} at ${width}px`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.setViewportSize({ width, height: 1000 });
+      await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
+      await page.goto('/about.html');
+      await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+      await page.evaluate(() => document.fonts.ready);
+      await expect(page.locator('h1')).toHaveText('About me');
+      await expect(page.locator('.about-reference-copy p')).toHaveCount(2);
+      await expect(page.locator('.about-reference-copy')).toContainText('Ravichandran V');
+      await expect(page.locator('.about-reference-card h2')).toHaveText(['Experience', 'Education']);
+      await expect(page.locator('#education')).toContainText('Anna University of Technology Madurai');
+      await expect(page.locator('#education')).toContainText('2018–2022');
+      await expect(page.locator('#education li')).toHaveCount(1);
+      await expect(page.locator('#education')).not.toContainText('HSC');
+      await expect(page.locator('.about-skill-track ul').first().locator('li')).toHaveCount(6);
+      await expect(page.locator('.about-skill-track')).not.toContainText('Signage design');
+      await expect(page.locator('#experience-details')).not.toHaveAttribute('open');
+      await expect(page.locator('.contact-email')).toHaveAttribute('href', 'mailto:ravichandran.uxui@gmail.com');
+      const photo = page.locator('.about-reference-photo');
+      await photo.evaluate(image => image.decode());
+      await expect(photo).toHaveAttribute('src', '/assets/ravichandran-profile.png');
+      await expect(photo).toHaveCSS('border-radius', '24px');
+      const image = await photo.boundingBox();
+      const copy = await page.locator('.about-reference-copy').boundingBox();
+      const cards = await Promise.all((await page.locator('.about-reference-card').all()).map(card => card.boundingBox()));
+      expect(image.height / image.width).toBeCloseTo(1.4144, 3);
+      if (width > 700) {
+        expect(copy.x + copy.width).toBeLessThan(image.x - 24);
+        expect(cards[0].y).toBeCloseTo(cards[1].y, 1);
+        expect(cards[0].height).toBeCloseTo(cards[1].height, 1);
+      } else {
+        expect(image.y - copy.y - copy.height).toBeCloseTo(64, 1);
+        expect(cards[1].y - cards[0].y - cards[0].height).toBeCloseTo(24, 1);
+      }
+      if (width === 1440) {
+        expect(copy.x).toBeCloseTo(126, 1);
+        expect(image.x).toBeCloseTo(950, 1);
+        expect(image.y).toBeCloseTo(180, 1);
+        expect(image.width).toBeCloseTo(364, 1);
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    });
+  }
+}
+
+test('About skills scroll continuously without a pause button or hover pause and respect reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/about.html');
+  const track = page.locator('.about-skill-track');
+  await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+  await expect(page.locator('.about-skill-band button')).toHaveCount(0);
+  await expect(track).toHaveCSS('animation-name', 'about-skills-scroll');
+  expect(await track.evaluate(element => element.getAnimations()[0].effect.getKeyframes().every(frame =>
+    Object.keys(frame).every(key => ['transform', 'offset', 'computedOffset', 'easing', 'composite'].includes(key))
+  ))).toBe(true);
+  await page.locator('.about-skill-band').hover();
+  await expect(track).toHaveCSS('animation-play-state', 'running');
+  const start = await track.evaluate(element => element.getAnimations()[0].currentTime);
+  await expect.poll(() => track.evaluate(element => element.getAnimations()[0].currentTime)).toBeGreaterThan(start + 50);
+  expect(await track.evaluate(element => element.getAnimations()[0].effect.getTiming().iterations)).toBe(Infinity);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(track).toHaveCSS('animation-name', 'none');
+  await expect(track.locator('ul[aria-hidden]')).toBeHidden();
+  for (const skill of await track.locator('ul').first().locator('li').all()) await expect(skill).toBeVisible();
+});
+
+test('About reference layout and full career details work without JavaScript', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  try {
+    const page = await context.newPage();
+    await page.goto(`${baseURL}/about.html`);
+    await expect(page.locator('h1')).toHaveText('About me');
+    await expect(page.locator('#education')).toBeVisible();
+    await expect(page.locator('.about-skill-band button')).toHaveCount(0);
+    await page.locator('#experience-details > summary').click();
+    await expect(page.locator('#experience')).toBeVisible();
+    await expect(page.locator('.recommendation-card')).toHaveCount(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  } finally {
+    await context.close();
+  }
+});
+
 test('About displays the supplied portrait and exposes experience and recommendations', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/about.html');
+  await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+  await page.evaluate(() => document.fonts.ready);
   const portrait = page.getByRole('img', { name: 'Portrait of Ravichandran V', exact: true });
   await expect(portrait).toHaveAttribute('src', '/assets/ravichandran-profile.png');
   await expect(portrait).toHaveJSProperty('naturalWidth', 800);
   await expect(portrait).toHaveJSProperty('naturalHeight', 800);
-  const navigation = page.getByRole('navigation', { name: 'About sections' });
-  await navigation.getByRole('link', { name: 'Experience', exact: true }).click();
+  await expect(page.getByRole('navigation', { name: 'About sections' })).toHaveCount(0);
+  await page.locator('#experience-details > summary').click();
+  await expect(page.locator('#experience-details')).toHaveAttribute('open');
+  await page.locator('#experience').scrollIntoViewIfNeeded();
   await expect(page.locator('#experience')).toBeInViewport();
-  await navigation.getByRole('link', { name: 'Recommendations', exact: true }).click();
+  await page.locator('#recommendations').scrollIntoViewIfNeeded();
   await expect(page.locator('#recommendations')).toBeInViewport();
   const recommendation = page.locator('#recommendations .recommendation-link');
   await expect(recommendation).toHaveAttribute('href', 'https://www.linkedin.com/in/ravichandran-uxui/details/recommendations/');
@@ -364,20 +481,17 @@ test('recommendations preserve the supplied text, attribution, dates, and relati
   await expect(cards.first().locator('.recommendation-full blockquote')).toBeVisible();
   await page.keyboard.press('Enter');
   await expect(cards.first().locator('details')).not.toHaveAttribute('open', '');
-  await expect(page.locator('.name-block')).not.toContainText('Senior');
+  await expect(page.locator('.about-reference-copy')).not.toContainText('Senior');
 });
 
-test('numbered work index reaches each project and follows the reading position', async ({ page }) => {
+test('compact product summaries preserve both product-overview routes', async ({ page }) => {
   await page.goto('/');
-  const index = page.getByRole('navigation', { name: 'Selected work index' });
-  await expect(index.getByRole('link')).toHaveCount(productPages.length);
-  await index.getByRole('link', { name: /Inforiver Analytics/ }).click();
-  await expect(page).toHaveURL(/#project-analytics$/);
-  await expect(page.locator('#project-analytics')).toBeInViewport();
-  await expect(index.getByRole('link', { name: /Inforiver Analytics/ })).toHaveAttribute('aria-current', 'location');
-  await index.getByRole('link', { name: /PowerTable/ }).click();
-  await expect(page.locator('#project-planning')).toBeInViewport();
-  await expect(index.getByRole('link', { name: /PowerTable/ })).toHaveAttribute('aria-current', 'location');
+  await expect(page.locator('.product-context-card')).toHaveCount(productPages.length);
+  await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study', exact: true }).click();
+  await expect(page).toHaveURL(/analytics-plus\.html$/);
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
+  await expect(page).toHaveURL(/powertable\.html$/);
 });
 
 test('case navigation stays available and exposes reading progress', async ({ page }) => {
@@ -810,20 +924,17 @@ test('About content is never hidden behind nested reveal animations', async ({ p
   await expect(page.locator('.recommendation-card')).toHaveCount(2);
 });
 
-test('homepage prioritizes selected work before the approach', async ({ page }) => {
+test('homepage ends after selected work without the editorial section', async ({ page }) => {
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    await expect(page.locator('.home-about')).toHaveCount(1);
-    await expect(page.locator('#about-title')).toHaveText(/Good design connects\s*the whole workflow\./);
+    await expect(page.locator('.studio-notes, #about-title')).toHaveCount(0);
     expect(await page.locator('main > section').evaluateAll((sections) => sections.map((section) => section.classList[0]))).toEqual([
-      'portrait-hero', 'work-section', 'home-about'
+      'reference-hero', 'product-context'
     ]);
-    await expect(page.locator('.home-about a[href="/about.html"]')).toBeVisible();
-    if (width <= 700) await page.locator('.menu-toggle').click();
-    await page.locator('#main-nav a[href="/#work"]').click();
+    await page.locator('.hero-work-link').click();
     await expect(page.locator('#work')).toBeInViewport();
-    await expect(page.locator('.project').first()).toHaveAttribute('id', 'project-planning');
+    await expect(page.locator('.product-context-card').first()).toHaveAttribute('id', 'project-planning');
   }
 });
 
@@ -849,7 +960,7 @@ test('homepage gives clear ownership and direct case and contact actions', async
   await expect(contact).toHaveAttribute('href', 'https://www.linkedin.com/in/ravichandran-uxui/');
   await expect(contact).toHaveAttribute('target', '_blank');
   await expect(page.locator('.portrait-work-link')).toHaveCount(0);
-  const primary = page.locator('#main-nav a[href="/#work"]');
+  const primary = page.locator('.hero-work-link');
   expect(await primary.evaluate((element) => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(48);
   await primary.click();
   await expect(page.locator('#work')).toBeInViewport();
@@ -1028,23 +1139,22 @@ test('presentation concepts and related case links work without JavaScript', asy
   await context.close();
 });
 
-test('two products agree across Home, index, and branded product case heroes', async ({ page }) => {
+test('two products agree across Home summaries and branded product case heroes', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#work-title sup')).toHaveText('02');
-  await expect(page.locator('.project-index a > span')).toHaveText(['01', '02']);
-  const projects = await page.locator('.project').evaluateAll((elements) => elements.map((element) => ({
+  const projects = await page.locator('.product-context-card').evaluateAll((elements) => elements.map((element) => ({
     id: element.id,
-    number: element.querySelector('.project-caption .eyebrow').textContent.slice(0, 2),
-    path: element.querySelector('.case-link').getAttribute('href')
+    platform: element.querySelector('.eyebrow').textContent
   })));
   expect(projects.map((project) => project.id)).toEqual([
     'project-planning', 'project-analytics'
   ]);
-  expect(projects.map((project) => project.number)).toEqual(['01', '02']);
-  for (const project of projects) {
-    await page.goto(project.path);
+  expect(projects.map((project) => project.platform)).toEqual(['Microsoft Fabric', 'Microsoft Power BI']);
+  const paths = await page.locator('.product-context-card').evaluateAll(links => links.map(link => link.getAttribute('href')));
+  expect(paths).toEqual(['/powertable.html', '/analytics-plus.html']);
+  for (const path of paths) {
+    await page.goto(path);
     await expect(page.locator('.case-hero .project-identity')).toContainText(
-      project.id === 'project-planning' ? 'PowerTable' : 'Analytics+'
+      path === '/powertable.html' ? 'PowerTable' : 'Analytics+'
     );
   }
   await page.goto('/about.html');

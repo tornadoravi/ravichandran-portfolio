@@ -10,11 +10,9 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('.project-features, .project-feature-group')).toHaveCount(0);
     for (const [id, path] of [['project-planning', '/powertable.html'], ['project-analytics', '/analytics-plus.html']]) {
       const card = page.locator('#' + id);
-      await expect(card.locator('.project-categories li')).toHaveCount(2);
-      await expect(card.locator('.project-role')).toHaveCount(1);
-      await expect(card.locator('.project-description .case-link')).toHaveCount(1);
-      await expect(card.locator('.project-description a')).toHaveCount(id === 'project-analytics' ? 3 : 2);
-      await expect(card.locator('.case-link')).toHaveAttribute('href', path);
+      await expect(card.locator('.product-cover-poster')).toHaveCount(1);
+      await expect(card.locator('.showcase-case, .project-role')).toHaveCount(0);
+      await expect(card).toHaveAttribute('href', path);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
@@ -58,7 +56,7 @@ test('workspace groups and feature links remain available without JavaScript', a
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/');
-  await page.locator('#project-planning .case-link').click();
+  await page.locator('.product-context-card[href="/powertable.html"]').click();
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
@@ -88,7 +86,7 @@ test('official PowerTable overview is attributed and original design evidence st
     expect([image.width, image.height]).toEqual([width, height]);
   }
   await page.goto('/powertable.html');
-  await expect(page.locator('.case-evidence img')).toHaveCount(2);
+  await expect(page.locator('.case-evidence img')).toHaveCount(1);
   await expect(page.locator('.product-overview img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('.product-overview h2')).toHaveText('PowerTable in action.');
   await expect(page.locator('.product-overview .product-overview-copy')).toHaveText('No-code data apps and planning in Microsoft Fabric.');
@@ -186,16 +184,16 @@ for (const width of [320, 390, 768, 1440]) {
   });
 }
 
-test('Home shows a planning cover illustration and a direct feature link', async ({ page }) => {
+test('Home shows an editorial planning cover and a direct product link', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#project-planning h3')).toHaveText('PowerTable');
-  await expect(page.locator('#project-planning .cover-evidence img')).toHaveAttribute('src', '/assets/powertable-planning-cover.webp');
-  await expect(page.locator('#project-planning .feature-entry')).toHaveAttribute('href', '/column-mapping.html');
+  await expect(page.locator('#project-planning h3')).toHaveText(/^PowerTable \S$/);
+  await expect(page.locator('#project-planning .cover-evidence img')).toHaveAttribute('src', '/assets/fabric-mapping-time-entries.png');
+  await expect(page.locator('#project-planning .feature-entry')).toHaveCount(0);
   await expect(page.locator('#project-planning .product-cover-illustration')).toBeVisible();
   await expect(page.locator('#project-planning .eyebrow')).toContainText('Microsoft Fabric');
   await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
   await expect(page.locator('.project-features')).toHaveCount(0);
-  await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
+  await page.locator('#project-planning').click();
   await expect(page).toHaveURL(/powertable\.html$/);
   await expect(page.locator('.metadata')).toContainText('implementation review');
 });
@@ -204,7 +202,7 @@ test('Home leads into keyboard-usable PowerTable workspace and feature links', a
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const target of ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-conditional-formatting.html', '/crosstab.html']) {
     await page.goto('/');
-    const productLink = page.locator('#project-planning .case-link');
+    const productLink = page.locator('.product-context-card[href="/powertable.html"]');
     await productLink.focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/powertable\.html$/);

@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 
 const features = [
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
@@ -23,7 +23,8 @@ for (const appearance of ['light', 'dark']) {
         const navigation = hero.locator('.workspace-navigation');
         await expect(context).not.toHaveAttribute('open');
         await expect(identity).toBeHidden();
-        await expect(navigation).not.toHaveAttribute('open');
+        await expect(navigation.locator('summary')).toHaveCount(0);
+        await expect(navigation.locator('.workspace-feature-tabs')).toBeVisible();
         expect(await heading.evaluate(element =>
           Boolean(element.compareDocumentPosition(element.parentElement.querySelector('.workspace-navigation')) & Node.DOCUMENT_POSITION_FOLLOWING)
         ), path).toBe(true);
@@ -43,9 +44,8 @@ for (const appearance of ['light', 'dark']) {
         }
 
         await context.locator('summary').click();
-        await navigation.locator('summary').focus();
-        await page.keyboard.press('Enter');
-        await expect(navigation).toHaveAttribute('open', '');
+        await navigation.getByRole('navigation').last().getByRole('link').first().focus();
+        await expect(navigation.getByRole('navigation').last().getByRole('link').first()).toBeFocused();
         await expect(navigation.getByRole('navigation').last().getByRole('link').first()).toBeVisible();
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), path).toBe(true);
       }
@@ -59,16 +59,16 @@ test('the authored feature layout keeps its context and original images availabl
     const page = await context.newPage();
     for (const path of ['/column-mapping.html', '/analytics.html']) {
       await page.goto(new URL(path, baseURL).href);
-      await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f4f2ec');
+      await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f4f2ee');
       const details = page.locator('.case-hero .case-context');
       await expect(details.locator('.project-identity')).toBeHidden();
       await details.locator('summary').click();
       await expect(details.locator('.project-identity')).toBeVisible();
       const navigation = page.locator('.workspace-navigation');
-      await navigation.locator('summary').click();
+      await expect(navigation.locator('summary')).toHaveCount(0);
       await expect(navigation.getByRole('navigation').last().getByRole('link').first()).toBeVisible();
       const evidenceDetails = page.locator('#case-details');
-      if (await evidenceDetails.count()) await evidenceDetails.locator(':scope > summary').click();
+      if (await evidenceDetails.count()) await openCaseDetails(page);
       const image = page.locator('main a.product-screenshot img').first();
       await image.scrollIntoViewIfNeeded();
       await expect(image).toBeVisible();

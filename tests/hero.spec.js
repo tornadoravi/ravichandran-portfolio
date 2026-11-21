@@ -82,8 +82,7 @@ for (const width of [320, 390, 768, 1440]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await expect(hero.getByRole('link')).toHaveCount(1);
     await expect(hero.getByRole('link', { name: 'View selected work', exact: true })).toHaveAttribute('href', '#work');
-    if (width <= 700) await page.locator('.menu-toggle').click();
-    await page.locator('#main-nav a[href="/#work"]').click();
+    await page.locator('.hero-work-link').click();
     await expect(page.locator('#work')).toBeInViewport();
     expect(errors).toEqual([]);
   });

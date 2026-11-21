@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openListeningControls } from './fixtures.js';
 import { readFile } from 'node:fs/promises';
 
 test.use({ reducedMotion: 'reduce' });
@@ -26,6 +26,7 @@ for (const width of [320, 390, 768, 1440]) {
       if (new URL(request.url()).origin !== new URL(baseURL).origin) externalRequests.push(request.url());
     });
     await page.goto('/');
+    await openListeningControls(page);
     const focus = page.getByRole('button', { name: 'Focus Mode', exact: true });
     const soundroom = page.getByRole('button', { name: 'Soundroom Mode', exact: true });
     await expect(focus).toHaveAttribute('aria-pressed', 'true');
@@ -41,10 +42,10 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('[data-soundroom]')).not.toContainText(/Pudhu|Instrumental|Roja/);
     await expect.poll(() => page.locator('audio').evaluate(audio => !audio.paused && audio.currentTime > 0)).toBe(true);
     expect(audioRequests).toHaveLength(1);
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
     await expect(page.locator('html')).toHaveAttribute('data-appearance', 'system');
-    await expect(soundroom).toHaveCSS('background-color', 'rgb(230, 233, 250)');
-    await expect(soundroom).toHaveCSS('color', 'rgb(32, 38, 48)');
+    expect(await soundroom.evaluate(element => getComputedStyle(element).backgroundColor))
+      .not.toBe(await focus.evaluate(element => getComputedStyle(element).backgroundColor));
     for (const control of await page.locator('.listening-modes button, .ambience-play, .soundroom-volume input').all()) {
       expect((await control.boundingBox()).height).toBeGreaterThanOrEqual(44);
     }
@@ -58,6 +59,7 @@ for (const width of [320, 390, 768, 1440]) {
 
 test('Soundroom plays the supplied MP3; looping, volume, pause and Focus control actual audio', async ({ page }) => {
   await page.goto('/');
+  await openListeningControls(page);
   await expect(page.locator('audio')).toHaveAttribute('src', '/assets/soundroom-roja.mp3');
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
@@ -85,12 +87,14 @@ test('Soundroom plays the supplied MP3; looping, volume, pause and Focus control
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
   await expect(page.locator('body')).not.toHaveClass(/is-listening/);
   await page.reload();
+  await openListeningControls(page);
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
   await expect(page.getByRole('button', { name: 'Focus Mode', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('visibility and page restoration stop audio without automatically restarting it', async ({ page }) => {
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await page.evaluate(() => {
@@ -114,6 +118,7 @@ test('visibility and page restoration stop audio without automatically restartin
 test('a failed media request is visible and a deliberate retry can recover', async ({ page }) => {
   await page.route('**/assets/soundroom-roja.mp3', route => route.fulfill({ status: 404, body: 'Audio unavailable' }));
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.locator('.soundroom-status')).toContainText(/could not (load|start)/);
   await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeEnabled();
@@ -129,6 +134,7 @@ test('blocked playback reports an error instead of claiming music is playing', a
     HTMLMediaElement.prototype.play = () => Promise.reject(new DOMException('Playback was blocked', 'NotAllowedError'));
   });
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.locator('.soundroom-status')).toHaveText('Music could not start. Press Play to retry.');
   await expect(page.locator('body')).not.toHaveClass(/is-listening/);
@@ -140,6 +146,7 @@ test('switching to Focus cancels a pending Play without a stale success state', 
     HTMLMediaElement.prototype.play = () => new Promise(resolve => { window.finishAudioStart = resolve; });
   });
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Starting...', exact: true })).toBeDisabled();
   await page.getByRole('button', { name: 'Focus Mode', exact: true }).click();
@@ -152,6 +159,7 @@ test('a stalled request restores Play instead of leaving the control disabled', 
   await page.clock.install();
   await page.addInitScript(() => { HTMLMediaElement.prototype.play = () => new Promise(() => {}); });
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Starting...', exact: true })).toBeDisabled();
   await page.clock.fastForward(12001);
@@ -161,6 +169,7 @@ test('a stalled request restores Play instead of leaving the control disabled', 
 
 test('music keeps playing through case pages and About without changing appearance or restarting audio', async ({ page }) => {
   await page.goto('/');
+  await openListeningControls(page);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await expect.poll(() => page.locator('audio').evaluate(audio => audio.currentTime)).toBeGreaterThan(0);
@@ -169,21 +178,23 @@ test('music keeps playing through case pages and About without changing appearan
     window.originalPlaybackTime = window.originalAudio.currentTime;
   });
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
-  await page.locator('#gantt-features a[href="/column-mapping.html"]').click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
+  await page.locator('#product-tasks a[href="/column-mapping.html"]').click();
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
   await page.locator('#main-nav').getByRole('link', { name: 'About', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
   await page.locator('#main-nav').getByRole('link', { name: 'Home', exact: true }).click();
+  await openListeningControls(page);
   await expect(page.getByRole('button', { name: 'Soundroom Mode', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused &&
     audio.currentTime >= window.originalPlaybackTime)).toBe(true);
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeVisible();
   await page.reload();
+  await openListeningControls(page);
   expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
   expect(await page.locator('audio').evaluate(audio => audio.readyState)).toBe(0);
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Focus Mode', exact: true }).click();
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
 });

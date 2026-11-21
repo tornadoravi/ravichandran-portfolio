@@ -2,7 +2,7 @@ import { test, expect } from './fixtures.js';
 
 for (const width of [320, 390, 768, 1440]) {
   for (const colorScheme of ['light', 'dark']) {
-    test(`listening controls stay clear of keyboard landmark focus at ${width}px in ${colorScheme}`, async ({ page }) => {
+    test(`header sound settings fit and preserve keyboard focus at ${width}px in ${colorScheme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme });
       await page.goto('/');
@@ -24,6 +24,13 @@ for (const width of [320, 390, 768, 1440]) {
       await expect(main.locator('h1')).toHaveCSS('outline-style', 'solid');
       await expect(main.locator('h1')).toHaveCSS('outline-width', '2px');
 
+      const trigger = page.getByRole('button', { name: 'Sound settings', exact: true });
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await expect(page.locator('.page-listening')).toHaveCount(0);
+      await trigger.focus();
+      await trigger.press('Enter');
+      const panel = page.getByRole('region', { name: 'Sound settings', exact: true });
+      await expect(panel).toBeVisible();
       async function expectClearSpacing() {
         const layout = await page.evaluate(() => {
           const box = selector => {
@@ -32,16 +39,13 @@ for (const width of [320, 390, 768, 1440]) {
           };
           return {
             header: box('.site-header'),
-            row: box('.page-listening'),
-            room: box('.page-listening .listening-room'),
-            main: box('#main'),
+            panel: box('.sound-settings-menu'),
             overflow: document.documentElement.scrollWidth - innerWidth
           };
         });
-        expect(layout.row.top).toBeGreaterThanOrEqual(layout.header.bottom - 1);
-        expect(layout.room.top - layout.row.top).toBeGreaterThanOrEqual(16);
-        expect(layout.row.bottom - layout.room.bottom).toBeGreaterThanOrEqual(16);
-        expect(layout.main.top).toBeGreaterThanOrEqual(layout.row.bottom - 1);
+        expect(layout.panel.top - layout.header.bottom).toBeCloseTo(8, 0);
+        expect(layout.panel.left).toBeGreaterThanOrEqual(12);
+        expect(layout.panel.right).toBeLessThanOrEqual(width - 12);
         expect(layout.overflow).toBeLessThanOrEqual(0);
       }
       await expectClearSpacing();
@@ -55,6 +59,48 @@ for (const width of [320, 390, 768, 1440]) {
       await page.getByRole('button', { name: 'Focus Mode', exact: true }).press('Enter');
       await expect(page.locator('#soundroom-panel')).toBeHidden();
       await expectClearSpacing();
+      await page.keyboard.press('Escape');
+      await expect(panel).toBeHidden();
+      await expect(trigger).toBeFocused();
+      expect(await page.locator('audio').evaluate(audio => audio.paused)).toBe(true);
     });
   }
 }
+
+test('sound settings close for other header controls and outside clicks without starting music', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const trigger = page.getByRole('button', { name: 'Sound settings', exact: true });
+    const panel = page.getByRole('region', { name: 'Sound settings', exact: true });
+    await trigger.click();
+    await page.getByRole('button', { name: /^Appearance:/ }).click();
+    await expect(panel).toBeHidden();
+    await trigger.click();
+    await expect(page.getByRole('menu', { name: 'Appearance', exact: true })).toBeHidden();
+    await page.getByRole('button', { name: 'Menu', exact: true }).click();
+    await expect(panel).toBeHidden();
+    await trigger.click();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeHidden();
+    await page.locator('h1').click();
+    await expect(panel).toBeHidden();
+    expect(await page.locator('audio').evaluate(audio => audio.paused && audio.readyState === 0)).toBe(true);
+  });
+
+test('a late playback failure remains visible after closing sound settings', async ({ page }) => {
+    await page.addInitScript(() => {
+      HTMLMediaElement.prototype.play = () => new Promise((resolve, reject) => {
+        window.failAudioStart = () => reject(new DOMException('Playback was blocked', 'NotAllowedError'));
+      });
+    });
+    await page.goto('/');
+    const trigger = page.getByRole('button', { name: 'Sound settings', exact: true });
+    await trigger.click();
+    await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
+    await trigger.click();
+    await page.evaluate(() => window.failAudioStart());
+    await expect(page.getByRole('alert')).toHaveText('Music could not start. Press Play to retry.');
+    await expect(page.getByRole('alert')).toBeVisible();
+    await trigger.click();
+    await expect(page.getByRole('alert')).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeEnabled();
+  });

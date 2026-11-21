@@ -2,9 +2,11 @@ import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import Portfolio from './Portfolio.jsx';
 import { loadPage } from './navigation.js';
+import '../design-system.css';
 import '../styles.css';
 import '../mapping.css';
 import '../home.css';
+import '../case-presentation.css';
 
 const page = document.body.dataset.page;
 const Page = await loadPage(page);

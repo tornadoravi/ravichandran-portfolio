@@ -4,6 +4,22 @@ import ProjectIdentity from '../ProjectIdentity.jsx';
 import { CaseDetails } from '../CaseReview.jsx';
 import DesignApproach from '../DesignApproach.jsx';
 
+const tools = [
+  ['Figma', 'tool-figma.svg'],
+  ['Microsoft Fabric', 'microsoft-fabric.svg'],
+  ['Power BI', 'microsoft-power-bi.svg'],
+  ['Claude', 'tool-claude.ico'],
+  ['ChatGPT', 'tool-chatgpt.png'],
+  ['Microsoft Loop', 'tool-microsoft-loop.svg'],
+  ['Notion', 'tool-notion.ico'],
+  ['Canva', 'tool-canva.ico'],
+  ['Adobe Photoshop', 'tool-photoshop.svg'],
+  ['CorelDRAW', 'tool-coreldraw.ico'],
+  ['Adobe Illustrator', 'tool-illustrator.svg']
+];
+
+const skills = ['UI/UX design', 'design systems', 'prototyping', 'enterprise workflows', 'visual design', 'implementation review'];
+
 export default function AboutPage() {
   return (
     <>
@@ -12,80 +28,67 @@ export default function AboutPage() {
       {"\n  "}
       <main id={"main"}>
         {"\n    "}
-        <section id={"profile"} className={"case-hero wrap about-hero"}>
-          {"\n      "}
-          <p className={"eyebrow"}>{"About / Product Designer"}</p>
-          {"\n      "}
-          <h1>
-            {"Product design for"}
-            <br />
-            <em>{"enterprise data experiences."}</em>
-          </h1>
-          {"\n      "}
-          <nav className={"about-nav"} aria-label={"About sections"}>
-            <a href={"#profile"}>{"Profile"}</a>
-            <a href={"#approach"}>{"Approach"}</a>
-            <a href={"#experience"}>{"Experience"}</a>
-            <a href={"#recommendations"}>{"Recommendations"}</a>
-          </nav>
-          {"\n      "}
-          <div className={"about-intro"}>
-            {"\n        "}
-            <div className={"name-block"}>
-              {"\n          "}
-              <img className={"profile-photo"} src={sitePath("/assets/ravichandran-profile.png")} width={"800"} height={"800"} alt={"Portrait of Ravichandran V"} />
-              {"\n          "}
-              <h2>{"Ravichandran V"}</h2>
-              {"\n          "}
-              <p>
-                {"Product Designer"}
-                <br />
-                {"Lumel Technologies · Since October 2022"}
-              </p>
-              {"\n          "}
-              <a className={"text-link"} href={"https://www.linkedin.com/in/ravichandran-uxui/"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"View LinkedIn profile "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
-              </a>
-              {"\n          "}
-              <a className={"text-link"} href={sitePath("/assets/ravichandran-resume.pdf")} target={"_blank"} rel={"noopener noreferrer"}>
-                {"Resume "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (PDF, opens in a new tab)"}</span>
-              </a>
-              {"\n          "}
-              <a className={"text-link"} href={"https://github.com/tornadoravi"} target={"_blank"} rel={"noopener noreferrer"}>
-                {"View GitHub profile "}
-                <span aria-hidden={"true"}>{"↗"}</span>
-                <span className={"sr-only"}>{" (opens in a new tab)"}</span>
-              </a>
-              {"\n        "}
-            </div>
-            {"\n        "}
-            <div>
-              {"\n          "}
-              <p className={"large-copy"}>{"I think in workflows, not isolated screens."}</p>
-              {"\n          "}
-              <p>{"Product Designer II at Lumel, with four years designing for "}<strong className="scan-emphasis">Power BI and Microsoft Fabric.</strong></p>
-              {"\n          "}
-              <dl className="profile-highlights">
-                <div><dt>PowerTable</dt><dd>Gantt & resource UX/UI; Microsoft Fabric design system.</dd></div>
-                <div><dt>Analytics+</dt><dd>Chart Wizard & reusable KPI templates shipped.</dd></div>
-              </dl>
-              {"\n          "}
-              <p>{"I work with product managers and developers through implementation review."}</p>
-              <ProjectIdentity product="portfolio" />
-              {"\n          "}
-              <DesignApproach />
-              {"\n        "}
-            </div>
-            {"\n      "}
+        <section id="profile" className="about-reference-hero about-reference-width" aria-labelledby="about-title">
+          <div className="about-reference-copy">
+            <h1 id="about-title">About me</h1>
+            <p>I’m Ravichandran V, a Product Designer II at Lumel. I bring clarity to complex enterprise products for Microsoft Power BI and Microsoft Fabric—connecting workflows, simplifying interactions, and building reusable patterns that make the experience feel cohesive.</p>
+            <p>Over four years, I’ve translated complex requirements into implementation-ready design across <em>PowerTable</em> and <em>Inforiver Analytics+</em>. My work spans Gantt and resource planning, Chart Wizard, and reusable KPI templates. I partner with product managers and developers from early prototypes through handoff and implementation review, carrying design decisions beyond the screen and into the product.</p>
           </div>
-          {"\n    "}
+          <img className="profile-photo about-reference-photo" src={sitePath("/assets/ravichandran-profile.png")} width="800" height="800" alt="Portrait of Ravichandran V" fetchPriority="high" />
         </section>
-        {"\n    "}
-        <CaseDetails id="experience-details" title="Experience & design approach">
+
+        <section className="about-skill-band about-reference-width" aria-label="Design skills">
+          <div className="about-skill-window">
+            <div className="about-skill-track">
+              <ul role="list">{skills.map(skill => <li key={skill}>{skill}<span aria-hidden="true">✹</span></li>)}</ul>
+              <ul role="presentation" aria-hidden="true">{skills.map(skill => <li key={skill}>{skill}<span>✹</span></li>)}</ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-reference-cards about-reference-width" aria-label="Experience and education">
+          <article className="about-reference-card">
+            <h2>Experience</h2>
+            <ul role="list">
+              <li>2022–Present — Lumel Technologies — Product Designer II</li>
+              <li>2022–2023 — Arus Info — UX/UI Designer &amp; Trainee Engineer</li>
+              <li>2021–2022 — Velsure Softech Solutions — Project Intern</li>
+            </ul>
+          </article>
+          <article id="education" className="about-reference-card">
+            <h2>Education</h2>
+            <ul role="list">
+              <li>2018–2022 — Anna University of Technology Madurai, Madurai Campus — B.E., Electrical, Electronics and Communications Engineering</li>
+            </ul>
+          </article>
+        </section>
+
+        <CaseDetails id="experience-details" title="More about my work">
+        <section className="about-extra-profile wrap" aria-label="Profile and design approach">
+          <h2>I think in workflows, not isolated screens.</h2>
+          <dl className="profile-highlights">
+            <div><dt>PowerTable</dt><dd>Gantt &amp; resource UX/UI; Microsoft Fabric design system.</dd></div>
+            <div><dt>Analytics+</dt><dd>Chart Wizard &amp; reusable KPI templates shipped.</dd></div>
+          </dl>
+          <div className="profile-links">
+            <a className="text-link" href="https://www.linkedin.com/in/ravichandran-uxui/" target="_blank" rel="noopener noreferrer">View LinkedIn profile <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>
+            <a className="text-link" href={sitePath("/assets/ravichandran-resume.pdf")} target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span><span className="sr-only"> (PDF, opens in a new tab)</span></a>
+            <a className="text-link" href="https://github.com/tornadoravi" target="_blank" rel="noopener noreferrer">View GitHub profile <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>
+          </div>
+          <ProjectIdentity product="portfolio" />
+          <DesignApproach />
+        </section>
+        <section id="tools" className="about-tools wrap" aria-labelledby="tools-title">
+          <h2 id="tools-title" className="eyebrow">Tools</h2>
+          <ul className="about-tools-list" role="list">
+            {tools.map(([name, asset]) => <li key={name}>
+              <span className="about-tool-icon" aria-hidden="true">
+                <img src={sitePath(`/assets/${asset}`)} width="24" height="24" alt="" loading="lazy" />
+              </span>
+              <span>{name}</span>
+            </li>)}
+          </ul>
+        </section>
         <section id={"approach"} className={"editorial-section wrap"}>
           {"\n      "}
           <div className={"section-label"}>
@@ -312,7 +315,6 @@ export default function AboutPage() {
           {"\n    "}
         </section>
         {"\n    "}
-        </CaseDetails>
         <section id={"recommendations"} className={"editorial-section wrap"} aria-labelledby={"recommendations-title"}>
           {"\n      "}
           <div className={"section-label"}>
@@ -427,19 +429,19 @@ export default function AboutPage() {
             <span aria-hidden={"true"}>{"↗"}</span>
           </a>
         </section>
+        </CaseDetails>
         {"\n  "}
       </main>
       {"\n  "}
-      <footer className={"site-footer wrap"}>
-        <a className={"wordmark"} href={sitePath("/")}>
-          {"Ravichandran"}
-          <span className={"accent"}>{" V."}</span>
-        </a>
-        <p>{"Product design, with care."}</p>
-        <a href={"#main"}>
-          {"Back to top "}
-          <span aria-hidden={"true"}>{"↑"}</span>
-        </a>
+      <footer className="site-footer reference-footer about-reference-width">
+        <p>Reach out at</p>
+        <h2><a className="contact-email" href="mailto:ravichandran.uxui@gmail.com">ravichandran.uxui@gmail.com</a></h2>
+        <a className="footer-contact" href="mailto:ravichandran.uxui@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+        <div className="footer-bottom">
+          <a className="wordmark" href={sitePath("/")}>Ravichandran<span className="accent"> V.</span></a>
+          <a href="https://www.linkedin.com/in/ravichandran-uxui/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>
+          <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
+        </div>
       </footer>
       {"\n\n\n"}
     </>

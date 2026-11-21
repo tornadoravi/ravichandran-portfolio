@@ -16,7 +16,7 @@ const screens = {
 
 const productChapters = {
   planning: [
-    ['My design', '#contribution-evidence'], ['Decision', '#story-decision'], ['Flow', '#story-flow'],
+    ['Product overview', '#contribution-evidence'], ['Decision', '#story-decision'], ['Flow', '#story-flow'],
     ['Browse features', '#workspaces'], ['Full evidence', '#study-details']
   ],
   analyticsSuite: [

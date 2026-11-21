@@ -93,6 +93,8 @@ const headlines = {
   analyticsSuite: 'From finding a chart to telling a story.'
 };
 
+export { summaries as caseSummaries, headlines as caseHeadlines };
+
 const stories = {
   mapping: {
     scenario: 'A planner needs logged hours beside the right task.',
@@ -143,6 +145,8 @@ const stories = {
     choices: [['Hidden data relationships', 'Explicit configuration structure'], ['Configuration detached from view', 'Visible layout relationship']]
   }
 };
+
+export { stories as caseStories };
 
 function ScenarioVisual({ caseId }) {
   switch (caseId) {

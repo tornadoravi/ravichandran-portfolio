@@ -19,7 +19,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('h1')).toHaveText('Conditional Formatting.');
     await expect(page).toHaveTitle('Gantt Resources — Conditional Formatting — Ravichandran V');
     await expect(page.locator('.workspace-switcher [aria-current]')).toHaveText('Resources');
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveCount(0);
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     const images = page.locator('main .product-screenshot img');
     expect(await images.evaluateAll(nodes => nodes.map(node => node.getAttribute('src'))))
@@ -87,9 +87,9 @@ test('formatting case distinguishes the configured rule from an applied result',
 
 test('Home, parent, and baseline sibling link the new feature without adding a product', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project')).toHaveCount(2);
-  await expect(page.locator('.case-link')).toHaveCount(2);
-  await page.locator('#project-planning .case-link').click();
+  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.showcase-case')).toHaveCount(0);
+  await page.locator('.product-context-card[href="/powertable.html"]').click();
   await page.locator('.workspace-grid a[href="/gantt-conditional-formatting.html"]').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
   await page.locator('.back-link').click();

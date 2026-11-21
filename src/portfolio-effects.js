@@ -211,63 +211,56 @@ export function initializePortfolioEffects() {
   const portfolioCursor = document.createElement('div');
   portfolioCursor.className = 'portfolio-cursor';
   portfolioCursor.setAttribute('aria-hidden', 'true');
-  const cursorDot = document.createElement('span');
-  cursorDot.className = 'cursor-dot';
-  const cursorRing = document.createElement('span');
-  cursorRing.className = 'cursor-ring';
-  portfolioCursor.append(cursorRing, cursorDot);
+  const cursorPointer = document.createElement('span');
+  cursorPointer.className = 'cursor-pointer';
+  const cursorArrow = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  cursorArrow.setAttribute('viewBox', '0 0 28 32');
+  const arrowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  arrowPath.setAttribute('d', 'M3 2 25 17 15 19 10 29Z');
+  cursorArrow.append(arrowPath);
+  const cursorName = document.createElement('span');
+  cursorName.className = 'cursor-name';
+  cursorName.textContent = 'You';
+  cursorPointer.append(cursorArrow, cursorName);
+  portfolioCursor.append(cursorPointer);
   document.body.append(portfolioCursor);
 
   let cursorFrame;
-  let cursorTime;
   let cursorVisible = false;
   let cursorInteractive = false;
   let cursorX = 0;
   let cursorY = 0;
-  let ringX = 0;
-  let ringY = 0;
 
   function hidePortfolioCursor() {
     cancelAnimationFrame(cursorFrame);
-    cursorFrame = cursorTime = undefined;
+    cursorFrame = undefined;
     cursorVisible = false;
     document.documentElement.classList.remove('has-custom-cursor');
   }
 
-  function renderPortfolioCursor(time) {
+  function renderPortfolioCursor() {
     cursorFrame = undefined;
-    const elapsed = cursorTime === undefined ? 16.7 : Math.min(time - cursorTime, 32);
-    const easing = 1 - Math.exp(-elapsed / 65);
-    ringX += (cursorX - ringX) * easing;
-    ringY += (cursorY - ringY) * easing;
-    const settled = Math.hypot(cursorX - ringX, cursorY - ringY) < .2;
-    if (settled) {
-      ringX = cursorX;
-      ringY = cursorY;
-    }
-    cursorDot.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
-    cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+    cursorPointer.style.transform = `translate3d(${cursorX - 3}px, ${cursorY - 2}px, 0)`;
     portfolioCursor.classList.toggle('is-interactive', cursorInteractive);
+    portfolioCursor.classList.toggle('is-left', cursorX > window.innerWidth - 90);
+    portfolioCursor.classList.toggle('is-above', cursorY > window.innerHeight - 60);
     document.documentElement.classList.add('has-custom-cursor');
-    cursorTime = settled ? undefined : time;
-    if (!settled) cursorFrame = requestAnimationFrame(renderPortfolioCursor);
   }
 
   function movePortfolioCursor(event) {
-    if (!cursorPreference.matches || event.pointerType !== 'mouse' ||
-        !(event.target instanceof Element) ||
-        event.target.closest('input, textarea, select, iframe, video, audio, [contenteditable]:not([contenteditable="false"]), [data-native-cursor]') ||
+    const target = event.target instanceof Element ? event.target : null;
+    const visitorRegion = target?.closest('[data-visitor-cursor]');
+    const nativeRegion = target?.closest('[data-native-cursor]');
+    if (!cursorPreference.matches || event.pointerType !== 'mouse' || event.buttons > 0 || !visitorRegion ||
+        (nativeRegion && visitorRegion.contains(nativeRegion)) ||
+        event.target.closest('input, textarea, select, iframe, video, audio, [contenteditable]:not([contenteditable="false"])') ||
         document.querySelector('dialog[open]')) {
       hidePortfolioCursor();
       return;
     }
     cursorX = event.clientX;
     cursorY = event.clientY;
-    if (!cursorVisible) {
-      ringX = cursorX;
-      ringY = cursorY;
-      cursorVisible = true;
-    }
+    cursorVisible = true;
     cursorInteractive = Boolean(event.target.closest('a, button:not(:disabled), summary, [role="button"]'));
     if (cursorFrame === undefined) cursorFrame = requestAnimationFrame(renderPortfolioCursor);
   }
@@ -282,6 +275,8 @@ export function initializePortfolioEffects() {
     if (event.key === 'Tab') hidePortfolioCursor();
   });
   listen(window, 'blur', hidePortfolioCursor);
+  listen(window, 'resize', hidePortfolioCursor);
+  listen(window, 'scroll', hidePortfolioCursor, { passive: true });
   listen(window, 'pagehide', hidePortfolioCursor);
   listen(cursorPreference, 'change', (event) => {
     if (!event.matches) hidePortfolioCursor();
@@ -325,10 +320,11 @@ export function initializePortfolioEffects() {
     backToTop.classList.toggle('is-visible', showBackToTop);
     sectionIndexes.forEach(({ nav, sections }) => {
       if (!nav.getClientRects().length) return;
-      const visibleSections = sections.filter(({ target }) => target.getClientRects().length);
+      const sectionTabs = nav.hasAttribute('data-section-tabs');
+      const visibleSections = sectionTabs ? sections : sections.filter(({ target }) => target.getClientRects().length);
       if (!visibleSections.length) return;
       let current = visibleSections[0];
-      if (nav.hasAttribute('data-section-tabs')) {
+      if (sectionTabs) {
         current = visibleSections.find(({ link }) => link.hash === location.hash) || current;
       } else {
         const readingLine = nav.matches('.case-nav') ? Math.max(128, Math.min(240, window.innerHeight / 3)) : 128;

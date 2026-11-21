@@ -49,11 +49,11 @@ for (const javaScriptEnabled of [true, false]) {
 
 test('Home Analytics+ cover opens the product case with official brand context', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project')).toHaveCount(2);
+  await expect(page.locator('.product-context-card')).toHaveCount(2);
   await expect(page.locator('#project-analytics .eyebrow')).toContainText('Microsoft Power BI');
   await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
   await expect(page.locator('#project-analytics .project-features')).toHaveCount(0);
-  await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
+  await page.locator('.product-context-card[href="/analytics-plus.html"]').click();
   await expect(page.locator('h1')).toContainText('Inforiver Analytics+');
   await expect(page.locator('.analytics-logo-plate img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
 });

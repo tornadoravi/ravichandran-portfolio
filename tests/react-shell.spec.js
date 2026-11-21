@@ -59,27 +59,16 @@ test('supplied screenshot cases reflect confirmed publication permission without
 });
 
 for (const width of [390, 1440]) {
-  test(`Home approach stays distinct from the full About introduction at ${width}px`, async ({ page }) => {
+  test(`Home omits the editorial section while About keeps its full content at ${width}px`, async ({ page }) => {
     const statement = 'My design work on PowerTable was based entirely on the Microsoft Fabric design system.';
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await expect(page.locator('.hero-introduction')).toContainText('Four years');
-    await expect(page.locator('.home-about > .eyebrow')).toHaveText('Behind the work');
-    await expect(page.locator('.home-about')).toContainText('Business goals, user needs & realistic use cases');
-    await expect(page.locator('.home-about')).toContainText('Everyday tasks, edge cases & reusable patterns');
-    await expect(page.locator('.home-about > div > p')).toHaveCount(0);
-    await expect(page.locator('.home-about .design-approach h3')).toHaveText(['Understand', 'Structure', 'Refine']);
-    await expect(page.locator('.home-about .design-approach svg')).toHaveCount(3);
-    await expect(page.locator('.home-about .profile-links a')).toHaveCount(1);
-    await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute('href', '/about.html');
-    await expect(page.locator('.home-about dl')).toHaveCount(0);
-    for (const paragraph of await page.locator('.home-about .design-approach p').all()) {
-      expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
-    }
-    await expect(page.locator('.home-about')).not.toContainText('Microsoft Fabric design system');
-    await expect(page.locator('.home-about')).not.toContainText('Product Designer II');
+    await expect(page.locator('.studio-notes, .studio-tools')).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Beyond the screens.' })).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.locator('.home-about a[href="/about.html"]').click();
+    if (width <= 700) await page.locator('.menu-toggle').click();
+    await page.locator('#main-nav a[href="/about.html"]').click();
     await expect(page.locator('.about-intro')).toContainText('Product Designer II at Lumel, with four years');
     await expect(page.locator('.about-intro')).toContainText('I think in workflows, not isolated screens');
     await expect(page.locator('.about-intro .profile-highlights dt')).toHaveText(['PowerTable', 'Analytics+']);

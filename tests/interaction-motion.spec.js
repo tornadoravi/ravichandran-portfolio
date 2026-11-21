@@ -7,6 +7,43 @@ async function keyboardFocus(page, locator) {
   expect(await locator.evaluate(element => element.matches(':focus-visible'))).toBe(true);
 }
 
+test('cards keep their resting borders on hover and retain keyboard focus outlines', async ({ page }) => {
+  const borders = element => {
+    const style = getComputedStyle(element);
+    return ['Top', 'Right', 'Bottom', 'Left'].map(side =>
+      [style[`border${side}Width`], style[`border${side}Style`], style[`border${side}Color`]]
+    );
+  };
+  for (const [path, selector] of [
+    ['/', '.product-context-card'],
+    ['/powertable.html', '.case-product-features a'],
+    ['/about.html', '.recommendation-card'],
+    ['/analytics.html', '.case-evidence-summary'],
+    ['/analytics.html', '.product-screenshot']
+  ]) {
+    await page.goto(path);
+    const card = page.locator(selector).first();
+    await card.evaluate(element => {
+      for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+        if (parent.tagName === 'DETAILS') parent.open = true;
+      }
+    });
+    await card.scrollIntoViewIfNeeded();
+    await page.mouse.move(0, 0);
+    const resting = await card.evaluate(borders);
+    await card.hover();
+    await card.evaluate(element => Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished)));
+    expect(await card.evaluate(borders), `${path} ${selector}`).toEqual(resting);
+  }
+  await page.goto('/');
+  const link = page.locator('.product-context-card').first();
+  await keyboardFocus(page, link);
+  expect(await link.evaluate(element => {
+    const style = getComputedStyle(element);
+    return style.outlineStyle !== 'none' && parseFloat(style.outlineWidth) >= 2;
+  })).toBe(true);
+});
+
 test('all hover rules require hover and fine-pointer capabilities', async ({ page }) => {
   await page.goto('/');
   const ungated = await page.evaluate(() => {
@@ -81,19 +118,75 @@ test('keyboard image inspection opens without entrance or backdrop animation', a
   await expect(inspect).toBeFocused();
 });
 
-test('keyboard focus resets portrait depth directly without inherited style writes', async ({ page }) => {
+test('the reference hero keeps its typography still during pointer and keyboard browsing', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await expect(page.locator('.appearance-trigger')).toBeEnabled();
-  const hero = page.locator('.portrait-hero');
-  const portrait = page.locator('.portrait-art');
+  const hero = page.locator('.reference-hero');
+  const title = page.locator('.portrait-title');
   const bounds = await hero.boundingBox();
   await page.mouse.move(bounds.x + bounds.width - 30, bounds.y + 120);
-  await expect.poll(() => portrait.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41)).toBeGreaterThan(6);
+  await expect(title).toHaveCSS('transform', 'none');
   await page.keyboard.press('Tab');
-  await expect(portrait).toHaveCSS('transform', 'none');
-  expect(await portrait.evaluate(element => element.style.transform)).toBe('');
+  await expect(title).toHaveCSS('transform', 'none');
+  expect(await title.evaluate(element => element.getAnimations().length)).toBe(0);
   expect(await hero.evaluate(element => element.style.cssText)).toBe('');
+});
+
+test('the centered portrait waits for its image and plays one composite-only cinematic entrance', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  let release;
+  const imageReady = new Promise(resolve => { release = resolve; });
+  await page.route('**/assets/portrait-3d.webp', async route => {
+    await imageReady;
+    await route.continue();
+  });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.appearance-trigger')).toBeEnabled();
+  const stage = page.locator('.hero-portrait-stage');
+  await expect(stage).not.toHaveClass(/is-ready/);
+  release();
+  await expect(stage).toHaveClass(/is-ready/);
+  const effects = await stage.evaluate(element => element.getAnimations({ subtree: true }).map(animation => {
+    const timing = animation.effect.getTiming();
+    return {
+      name: animation.animationName,
+      iterations: timing.iterations,
+      end: timing.delay + timing.duration,
+      properties: [...new Set(animation.effect.getKeyframes().flatMap(frame =>
+        Object.keys(frame).filter(key => !['offset', 'computedOffset', 'easing', 'composite'].includes(key))
+      ))]
+    };
+  }));
+  expect(effects.map(effect => effect.name).sort()).toEqual(['hero-light-sweep', 'hero-portrait-arrive', 'hero-type-arrive']);
+  for (const effect of effects) {
+    expect(effect.iterations).toBe(1);
+    expect(effect.end).toBeLessThanOrEqual(1950);
+    expect(effect.properties.every(property => ['transform', 'opacity'].includes(property))).toBe(true);
+  }
+  await stage.evaluate(element => Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished)));
+  await expect(page.locator('.hero-portrait-art')).toHaveCSS('transform', 'none');
+  await expect(page.locator('.hero-portrait-art')).toHaveCSS('opacity', '1');
+  expect(await stage.evaluate(element => getComputedStyle(element, '::after').opacity)).toBe('0');
+  await stage.hover();
+  expect(await stage.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+});
+
+test('reduced motion and keyboard input settle the portrait without hiding it', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const stage = page.locator('.hero-portrait-stage');
+  const running = () => stage.evaluate(element => element.getAnimations({ subtree: true }).length);
+  await expect(stage).toHaveClass(/is-ready/);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(running).toBe(0);
+  await expect(page.locator('.hero-portrait-art')).toHaveCSS('opacity', '1');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect.poll(running).toBeGreaterThan(0);
+  await page.keyboard.press('Tab');
+  await expect(stage).toHaveClass(/is-settled/);
+  await expect.poll(running).toBe(0);
+  await expect(page.locator('.hero-portrait-art')).toBeVisible();
 });
 
 test('pointer controls provide a short press response without disabling zoom or text selection', async ({ page }) => {
@@ -119,7 +212,7 @@ test('coarse-pointer emulation has no hover transforms and keeps selected theme 
     const page = await context.newPage();
     await page.goto(baseURL);
     expect(await page.evaluate(() => matchMedia('(hover: hover) and (pointer: fine)').matches)).toBe(false);
-    const card = page.locator('.project-visual').first();
+    const card = page.locator('.product-context-card').first();
     await card.hover();
     await expect(card).toHaveCSS('transform', 'none');
     const companion = page.locator('.header-brand [data-companion]');

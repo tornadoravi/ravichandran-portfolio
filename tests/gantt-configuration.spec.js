@@ -13,7 +13,7 @@ for (const width of [320, 390, 768, 1440]) {
     expect((await page.goto('/gantt-configuration.html')).status()).toBe(200);
     await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Gantt Side Panel.');
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveCount(0);
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('#panel-walkthrough')).not.toHaveAttribute('open');
     await page.locator('#panel-walkthrough > summary').click();
@@ -78,8 +78,8 @@ test('Gantt settings remain distinct from Resource settings and demonstrated out
 
 test('Home, grouped parent, baseline and resource siblings reach the correct case', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project')).toHaveCount(2);
-  await page.locator('#project-planning .case-link').click();
+  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await page.locator('.product-context-card[href="/powertable.html"]').click();
   await expect(page.locator('#gantt-configuration')).toHaveCount(1);
   expect(await page.locator('[id]').evaluateAll(nodes => {
     const ids = nodes.map(node => node.id);

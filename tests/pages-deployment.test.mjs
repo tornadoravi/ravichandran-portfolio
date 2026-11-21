@@ -18,7 +18,7 @@ test('GitHub Pages subpath supports every prerendered route, assets and enhanced
   });
   const publicFiles = new Map(files);
   const manifest = JSON.parse(await readFile(new URL('.vite/manifest.json', output), 'utf8'));
-  const types = { js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml', ttf: 'font/ttf' };
+  const types = { js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml', png: 'image/png', ttf: 'font/ttf', woff2: 'font/woff2' };
   for (const entry of Object.values(manifest)) {
     for (const file of [entry.file, ...(entry.css || []), ...(entry.assets || [])]) {
       const type = types[file.split('.').at(-1)];

@@ -54,10 +54,9 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     await openReady(page, '/');
     await expect(page.locator('.hero-introduction')).toContainText('from UX/UI to implementation review');
-    await expect(page.locator('#project-planning .scan-highlight')).toHaveText('connected task, timeline, and resource workflows.');
-    await expect(page.locator('#project-planning .project-role')).toContainText('End-to-end Gantt & resource UX/UI');
-    await expect(page.locator('#project-analytics .scan-highlight')).toHaveText('scenario-based chart selection.');
-    await expect(page.locator('#project-analytics .project-role')).toContainText('Chart Wizard and reusable KPI templates shipped');
+    await expect(page.locator('#project-planning')).toHaveAttribute('href', '/powertable.html');
+    await expect(page.locator('#project-analytics')).toHaveAttribute('href', '/analytics-plus.html');
+    await expect(page.locator('.showcase-case')).toHaveCount(0);
     const workLink = page.getByRole('link', { name: 'View selected work', exact: true });
     await expect(workLink).toHaveAttribute('href', '#work');
     const hero = await page.locator('.portrait-hero').boundingBox();
@@ -67,15 +66,15 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await workLink.focus();
     await page.keyboard.press('Enter');
     await expect(page.locator('#work')).toBeInViewport();
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Home');
     for (const control of await page.locator('.listening-modes button').all()) {
       expect((await control.boundingBox()).height).toBeGreaterThanOrEqual(44);
       await expect(control).toHaveCSS('font-size', '13px');
     }
     await expect(page.getByRole('link', { name: /Discuss a product design role/ })).toHaveCount(0);
     await expect(page.locator('.home-contact')).toHaveCount(0);
-    await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute('href', '/about.html');
-    await expect(page.locator('.home-about')).toContainText('Behind the work');
+    await expect(page.locator('#main-nav a[href="/about.html"]')).toHaveAttribute('href', '/about.html');
+    await expect(page.locator('.studio-notes')).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 

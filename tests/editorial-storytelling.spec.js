@@ -10,16 +10,16 @@ const features = [
 
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`editorial stories explain the problem without stacked navigation in ${appearance} at ${width}px`, async ({ page }) => {
+    test(`editorial stories keep feature navigation visible in ${appearance} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       for (const name of features) {
         await page.goto(`/${name}.html`);
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
-        const directory = page.locator('details.workspace-navigation');
-        await expect(directory).not.toHaveAttribute('open');
-        await expect(directory.locator('summary')).toContainText('Browse features');
-        await expect(directory.locator('nav').first()).toBeHidden();
+        const directory = page.locator('.workspace-navigation');
+        await expect(page.locator('details.workspace-navigation')).toHaveCount(0);
+        await expect(directory.locator('summary')).toHaveCount(0);
+        await expect(directory.locator('nav').first()).toBeVisible();
         await expect(page.locator('.case-story-nav')).toBeVisible();
         const facts = page.locator('.case-key-facts');
         await expect(facts.locator('dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
@@ -51,15 +51,11 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       const page = await context.newPage();
       await page.goto(baseURL + '/crosstab.html');
-      const summary = page.locator('.workspace-navigation > summary');
-      await summary.focus();
-      await page.keyboard.press('Enter');
-      await expect(page.locator('.workspace-navigation')).toHaveAttribute('open', '');
+      await expect(page.locator('.workspace-navigation summary')).toHaveCount(0);
       const resources = page.getByRole('navigation', { name: 'PowerTable workspaces' }).getByRole('link', { name: 'Resources', exact: true });
       await resources.focus();
       await page.keyboard.press('Enter');
       await expect(page).toHaveURL(baseURL + '/gantt-conditional-formatting.html');
-      await expect(page.locator('.workspace-navigation')).not.toHaveAttribute('open');
       await openWorkspaceNavigation(page);
       await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
       await expect(page).toHaveURL(baseURL + '/resource-configuration.html');

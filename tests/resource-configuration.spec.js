@@ -13,7 +13,7 @@ for (const width of [320, 390, 768, 1440]) {
     expect((await page.goto('/resource-configuration.html')).status()).toBe(200);
     await openCaseDetails(page);
     await expect(page.locator('h1')).toHaveText('Resource Side Panel.');
-    await expect(page.locator('#main-nav a[aria-current]')).toHaveText('Work');
+    await expect(page.locator('#main-nav a[aria-current]')).toHaveCount(0);
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('#panel-walkthrough')).not.toHaveAttribute('open');
     await page.locator('#panel-walkthrough > summary').click();
@@ -77,8 +77,8 @@ test('source boundaries and all four configuration states remain explicit', asyn
 
 test('grouped parent and related formatting case connect the new case', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project')).toHaveCount(2);
-  await page.locator('#project-planning .case-link').click();
+  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await page.locator('.product-context-card[href="/powertable.html"]').click();
   await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
   await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();

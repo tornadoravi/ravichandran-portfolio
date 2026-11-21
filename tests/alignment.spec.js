@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openListeningControls } from './fixtures.js';
 
 const routes = ['/', '/about.html', '/powertable.html', '/analytics-plus.html', '/analytics-spatial.html',
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
@@ -74,7 +74,7 @@ for (const appearance of ['light', 'dark']) {
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
         await page.evaluate(() => document.fonts.ready);
         await expect(page.locator('[data-soundroom]')).toHaveCount(1);
-        await expect(page.getByRole('button', { name: 'Soundroom Mode', exact: true })).toBeVisible();
+        await expect(page.getByRole('button', { name: 'Sound settings', exact: true })).toBeVisible();
         expect(await alignmentIssues(page), `${route}, collapsed`).toEqual([]);
         await page.locator('main details').evaluateAll(details => details.forEach(detail => { detail.open = true; }));
         expect(await alignmentIssues(page), `${route}, expanded`).toEqual([]);
@@ -91,6 +91,7 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('request', request => { if (request.url().endsWith('.mp3')) mediaRequests.push(request.url()); });
     for (const route of routes) {
       await page.goto(route);
+      await openListeningControls(page);
       await expect(page.getByRole('button', { name: 'Play ambience', exact: true })).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       expect(await alignmentIssues(page), route).toEqual([]);

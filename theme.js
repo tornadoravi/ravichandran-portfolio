@@ -12,7 +12,7 @@
     : appearance;
   document.documentElement.dataset.appearance = appearance;
   document.documentElement.dataset.theme = resolved;
-  document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#15191f' : '#f4f2ec';
+  document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#171614' : '#f4f2ee';
   let mode = 'focus';
   try {
     if (sessionStorage.getItem('portfolio-listening-mode') === 'soundroom') mode = 'soundroom';

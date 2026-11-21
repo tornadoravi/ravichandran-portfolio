@@ -8,6 +8,7 @@ export function ThemeProvider({ children }) {
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [starting, setStarting] = useState(false);
+  const [playbackError, setPlaybackError] = useState(false);
   const [volume, setVolume] = useState(18);
   const [status, setStatus] = useState('Quiet browsing.');
   const modeRef = useRef('focus');
@@ -22,6 +23,7 @@ export function ThemeProvider({ children }) {
     pending.current = false;
     setStarting(false);
     setPlaying(false);
+    setPlaybackError(false);
     setStatus(modeRef.current === 'focus' ? 'Quiet browsing.' : 'Paused. Press Play to listen.');
   }, []);
 
@@ -32,6 +34,7 @@ export function ThemeProvider({ children }) {
     let timeout;
     pending.current = true;
     setStarting(true);
+    setPlaybackError(false);
     setStatus('Loading music...');
     try {
       if (media.error) media.load();
@@ -54,6 +57,7 @@ export function ThemeProvider({ children }) {
       media.pause();
       console.error('Unable to play portfolio music:', error);
       setPlaying(false);
+      setPlaybackError(true);
       setStatus('Music could not start. Press Play to retry.');
     } finally {
       clearTimeout(timeout);
@@ -112,6 +116,7 @@ export function ThemeProvider({ children }) {
       pause();
       console.error('Portfolio music failed to load:', media.error);
       setStatus('Music could not load. Press Play to retry.');
+      setPlaybackError(true);
     }, { signal: events.signal });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) pause();
@@ -140,7 +145,7 @@ export function ThemeProvider({ children }) {
       const resolved = appearance === 'system' ? (system.matches ? 'dark' : 'light') : appearance;
       document.documentElement.dataset.appearance = appearance;
       document.documentElement.dataset.theme = resolved;
-      document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#15191f' : '#f4f2ec';
+      document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#171614' : '#f4f2ee';
     }
     applyAppearance();
     if (appearance !== 'system') return;
@@ -153,7 +158,7 @@ export function ThemeProvider({ children }) {
     return () => document.body.classList.remove('is-listening');
   }, [playing]);
 
-  return <ThemeContext.Provider value={{ appearance, selectAppearance, mode, ready, playing, starting, volume, status, selectMode, changeVolume, start, pause }}>
+  return <ThemeContext.Provider value={{ appearance, selectAppearance, mode, ready, playing, starting, playbackError, volume, status, selectMode, changeVolume, start, pause }}>
     {children}
   </ThemeContext.Provider>;
 }
