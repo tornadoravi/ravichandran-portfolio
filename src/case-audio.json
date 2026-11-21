@@ -1,0 +1,314 @@
+{
+  "profile": "energetic",
+  "label": "Energetic tech-explainer",
+  "cases": {
+    "powertable": [
+      {
+        "text": "Let me walk you through Power Table. Basically, it brings task schedules, time entries, and resource assignments into Microsoft Fabric. I worked on the Gantt and resource experience end to end, and contributed to Cross-tab configuration. I didn't design the whole product.",
+        "file": "energetic-39bd5f2d931bfbc1bed19eaf.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Connect tasks, time, and capacity.",
+        "file": "energetic-2d74b6bc523257ff042340bb.m4a"
+      },
+      {
+        "text": "Here's how I approached it. The idea was to keep the planning context connected. First, give tasks, dates, time entries, resources, and costs clear data roles. Then, keep Gantt and resource settings beside the views they control. At the same time, make the ownership clear. Cross-tab was a contribution, and the planning explorations are labelled separately.",
+        "file": "energetic-ef24d5643eab9c5c9b30c0ea.m4a"
+      },
+      {
+        "text": "Now, here's the wider product for context. This is an official product image, not a claim that I designed the whole product. The feature cases explain my own contribution separately.",
+        "file": "energetic-08cc94e780e8b42b4b2215f9.m4a"
+      },
+      {
+        "text": "And to wrap up. My end-to-end work covered Gantt and resource experience design. Cross-tab was a contribution, not whole-product ownership. Baseline planning and resource earned-value are still explorations. So, the important thing is to read each feature with its own scope, rather than assume everything shown was shipped.",
+        "file": "energetic-864546c65db86b4045f73b07.m4a"
+      }
+    ],
+    "mapping": [
+      {
+        "text": "Let's look at Column Mapping. Before a planner can use the timeline, the product needs to know what each column actually means. Is it a task, a time entry, a resource, or a cost? My work covered the Gantt and resource mapping experience end to end.",
+        "file": "energetic-599a5bc2b25fbe9ce6415b24.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Tasks, time entries, resources, and costs need distinct meanings.",
+        "file": "energetic-fe107309a5167fe23b054d98.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I split the mapping into focused areas, instead of mixing every field together. Then I made the table relationships explicit. For example, the task identifier connects logged hours to the right task. Resource mapping also enables standard and usage costs. So, it's about making the meaning clear, not just matching column names.",
+        "file": "energetic-3ea84604e11aac65d888f04d.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. There are five supplied design states here. My work went through user experience and interface design, developer handoff, and implementation review. These screens explain the mapping decisions. They don't, on their own, establish runtime behaviour or a measured customer improvement.",
+        "file": "energetic-458e6e8dc56cc36ec5c792e0.m4a"
+      }
+    ],
+    "baselines": [
+      {
+        "text": "Let me take you through Baselines. Say the current schedule has changed, and you want to compare it with a saved reference. That's the idea behind this work. My part was the Gantt comparison experience, and this is still an exploration, not a confirmed release.",
+        "file": "energetic-53350fbf7f6ac5126380bc27.m4a"
+      },
+      {
+        "text": "So, what was the challenge? A useful comparison needs a clear reference.",
+        "file": "energetic-be62a9eafbf17debddabb979.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I kept the comparison bounded to two selections in total. The current plan and the reference stay visually distinct on one timeline. Managing saved baselines is a separate task, so I kept that away from the comparison itself. Basically, you should be able to read the difference without mixing it up with baseline management.",
+        "file": "energetic-e4c1245b2ba795215a0daad4.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. This is still an exploration. The supplied states cover comparison selection, the timeline, and baseline-management crops. They don't show a baseline-creation flow, or establish that a comparison feature was released. I'm keeping that distinction clear rather than presenting a design exploration as a shipped outcome.",
+        "file": "energetic-a32f60860776c1326c07a453.m4a"
+      }
+    ],
+    "backlog": [
+      {
+        "text": "Let's talk about the Backlog. A task may not have dates yet, but it still needs a place beside the plan. I designed the Gantt backlog experience end to end, including how it starts empty and how pending changes are shown.",
+        "file": "energetic-02b64d318b17bbd97ae34133.m4a"
+      },
+      {
+        "text": "So, what was the challenge? An empty backlog still needs a useful next step.",
+        "file": "energetic-e52ef57097c7496f416c3dff.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I started with the empty state, so there's a clear way to add a task before a list exists. Once tasks are there, the rows and their actions stay beside the schedule. The key thing is the change state. If something hasn't been saved, it shouldn't look as though it's already persisted.",
+        "file": "energetic-0e997c6e70f7df014fbdb67d.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. The two supplied states explain the backlog design and its pending changes. They don't verify that those changes were saved to a database. So, this is design evidence, not a claim about persistence or a measured improvement.",
+        "file": "energetic-7457c3514840bb101ff9a008.m4a"
+      }
+    ],
+    "ganttPanel": [
+      {
+        "text": "Here's the Gantt Side Panel. The aim is quite simple: let planners change timeline settings without taking them away from the plan. I worked on this configuration experience end to end.",
+        "file": "energetic-ed1b40a9eb97309dac8315af.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Configuration should not obscure the planning context.",
+        "file": "energetic-63f0ebda42bc39e6f206e874.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I kept the settings in a contextual side panel. Then I grouped them by what the planner is trying to change: timeline, milestones, dependencies, colours, and labels. Each tab has one clear job. So, you can focus on the setting while keeping the planning view in sight.",
+        "file": "energetic-7b19862276479acae70a150c.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. There are five configuration tab states in the supplied designs. They explain the structure of the panel, but they're not a recording of someone using the product. I'm not treating those static states as proof of every interaction or a measured outcome.",
+        "file": "energetic-e0f94d71e17193aaf5da364d.m4a"
+      }
+    ],
+    "formatting": [
+      {
+        "text": "Let's look at Conditional Formatting for the resource Gantt. A rule has a condition, a set of targets, and a visual style. My work covered that rule-editing experience end to end. The important part was not to mix up what a rule means with how it looks.",
+        "file": "energetic-440c5e25783cee308c324fed.m4a"
+      },
+      {
+        "text": "So, what was the challenge? People need to distinguish a condition from its appearance.",
+        "file": "energetic-96686613d8ba7d5786b6c8d0.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I separated three decisions: the condition, its targets, and its appearance. In this example, scheduled hours greater than zero means scheduled work. It doesn't mean overload. Then the planner can set the scope and the visual treatment without confusing those choices with the condition itself.",
+        "file": "energetic-009d21075f1ae2d22ef3c35e.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. The evidence shows one rule-editing state. It doesn't show a result after pressing Apply, so I'm not claiming that result or an improvement in capacity planning. What you can inspect here is the design of the rule editor.",
+        "file": "energetic-b9a0982a2fe754b480b448fc.m4a"
+      }
+    ],
+    "resourcePanel": [
+      {
+        "text": "Let me take you through the Resource Side Panel. This is about adjusting a resource planning view without losing its context. I designed the resource Gantt configuration experience end to end.",
+        "file": "energetic-76f96cbbb437b8410541d813.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Capacity, task styling, and labels need clear boundaries.",
+        "file": "energetic-001b9042e6f77e18ec4a5289.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I organised the panel into four focused settings: timeline, milestones, colours, and labels. Those controls stay beside the resource view. Conditional rules are a different task, so I kept their editor separate. That way, view configuration and rule editing don't become one mixed-up job.",
+        "file": "energetic-766a79a7cb77842ec3f9dfd9.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. The supplied evidence covers four configuration states. The conditional-formatting rule editor is a separate feature, with its own evidence. These screens explain the design; they don't establish every runtime interaction or a measured improvement.",
+        "file": "energetic-c5ca4d6b45afb4dd43b012fa.m4a"
+      }
+    ],
+    "crosstab": [
+      {
+        "text": "Let's look at Cross-tab. Basically, rows, columns, and measures give people different ways to organise the same data. I contributed to its configuration. This wasn't an end-to-end ownership role for the whole experience.",
+        "file": "energetic-7b4ef8cb29376a760f42559a.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Rows and columns organize the same measures.",
+        "file": "energetic-f11cfcbfa4338edb8e215425.m4a"
+      },
+      {
+        "text": "Here's how I approached it. The focus was on making the structure understandable. Keep row and column configuration distinct, then show how the measures relate to the summary and detail view. Since dedicated design screens weren't supplied, the illustration explains that relationship rather than inventing a final interface.",
+        "file": "energetic-a46df48fc3fb01917fe71ed4.m4a"
+      },
+      {
+        "text": "Now, a quick note about what you're seeing. There's no dedicated design screen supplied for this case. This illustration explains my contribution; it's not a final interface or a recording of the product.",
+        "file": "energetic-bf20cfe821d5579a46461879.m4a"
+      },
+      {
+        "text": "And to wrap up. This is contribution-level work. There are no dedicated design screens or measured outcomes supplied for this case. So, I'm explaining the configuration concept and my part in it, without claiming a final interface or whole-product ownership.",
+        "file": "energetic-8ee6a4b4237567905464f504.m4a"
+      }
+    ],
+    "analyticsSuite": [
+      {
+        "text": "Let me walk you through Inforiver Analytics Plus. It sits inside Power B I and connects choosing a visual, building a report, and presenting the insight. My work included the full Chart Wizard experience, reusable K P I templates, and feature-specific contributions. I didn't design the whole product.",
+        "file": "energetic-fe4609dd8c05dc41ad4fe194.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Connect discovery, authoring, and presentation.",
+        "file": "energetic-d17e52b5bdaa31aaae7a2db9.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I looked at the authoring journey as a set of connected tasks. Chart Wizard gives people two ways to find a visual. Storyboard, Gantt, and K P I patterns support different parts of building the report. Annotations and presentation then keep the explanation connected to the insight. Each feature still has its own scope.",
+        "file": "energetic-1309695bd121dc3c373264d4.m4a"
+      },
+      {
+        "text": "Now, here's the wider product for context. This is an official product image, not a claim that I designed the whole product. The feature cases explain my own contribution separately.",
+        "file": "energetic-08cc94e780e8b42b4b2215f9.m4a"
+      },
+      {
+        "text": "And to wrap up. Chart Wizard and the reusable K P I templates are confirmed shipped work. The other screens remain separately identified design evidence. That distinction matters: showing a design state isn't the same as confirming a release, a runtime behaviour, or a measured customer outcome.",
+        "file": "energetic-e85f7354884b9e310665e209.m4a"
+      }
+    ],
+    "wizard": [
+      {
+        "text": "Let me quickly walk you through Chart Wizard. Sometimes you already know the chart you want. Other times, you just know the question you need to answer. I worked on the full Chart Wizard flow, from user experience and interface design through handoff and implementation review.",
+        "file": "energetic-a20a01da3e7d16c9b7bbe843.m4a"
+      },
+      {
+        "text": "So, what was the challenge? People start with either a known chart or an analytical question.",
+        "file": "energetic-cb78794ed7e55a6a82a7494e.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I gave people two ways in: start with a chart family, or start with an analytical function. From there, both routes come together. You customise the visual, then move into shared configuration. Favourites stay within discovery. So, it's a different starting point, but not a completely different setup process.",
+        "file": "energetic-86e0fb4572d3694ad9639792.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. Chart Wizard shipped. My work covered the flow end to end, including handoff, walkthroughs, and implementation checks. The screens show the design decisions behind that delivery. They don't, by themselves, prove a measured usability improvement or customer outcome.",
+        "file": "energetic-bcf902b5fe665a3d21c2ca1d.m4a"
+      }
+    ],
+    "storyboard": [
+      {
+        "text": "Let's look at Storyboard. Not every report starts the same way. You might want a template, a custom layout, or just a blank canvas. I worked on the feature experience, developer handoff, and implementation review.",
+        "file": "energetic-7656caec3b1d6449fdadfe9d.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Authors may need a template, custom layout, or blank report.",
+        "file": "energetic-99de744a76306dd88c1ed573.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I kept those starting points distinct, then connected them to the authoring canvas. First, choose how you want to begin. Next, establish the layout. Then, start composing the report in that structure. The idea is to connect the setup with the editing context, rather than treat them as unrelated screens.",
+        "file": "energetic-a2eeaff05f6ecb1526489d64.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. The six supplied screens cover report authoring and template states. Presentation is a separate contribution. These are design and product screens, not a recording of the complete journey or proof that every state was released.",
+        "file": "energetic-89e145f553432bf534822094.m4a"
+      }
+    ],
+    "gantt": [
+      {
+        "text": "Here's the Gantt work inside Analytics Plus for Power B I. Before task data becomes a useful timeline, its fields need clear meanings. I worked on the feature experience, handoff, and implementation review. This is separate from the Power Table work in Microsoft Fabric.",
+        "file": "energetic-a5e23bbc756801b574c73a2b.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Source columns must acquire task and date meanings.",
+        "file": "energetic-d06b7407bbff8240a91c3d86.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I connected three parts of the flow. Choose Gantt from the chart-selection context. Map the task, start date, and end date to their proper roles. Then, connect those roles to the schedule view. Basically, the timeline needs to make sense in terms of the data that created it.",
+        "file": "energetic-569c234cc58feebc56a86fd3.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. This case covers the Analytics Plus Gantt feature in Power B I, not the Power Table Gantt product in Fabric. The screens explain its design states. They don't, on their own, establish every interaction, a release outcome, or a measured improvement.",
+        "file": "energetic-52f437d626c7f6e90832e102.m4a"
+      }
+    ],
+    "presentation": [
+      {
+        "text": "Let's talk about annotations and presentation. A chart can show an observation, but people also need the explanation and a clear point of focus. I worked on this feature's experience, handoff, and implementation review.",
+        "file": "energetic-c28fc926ba7c5f63d7c3d0f0.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Connect an observation, its explanation, and the audience\u2019s focus.",
+        "file": "energetic-5ac402cc21e15a1a9e359e19.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I connected the observation to its chart context, kept comments and formatting beside the report, and used the presentation context to guide attention. The aim wasn't just to add a note. It was to keep the insight, its explanation, and the audience's focus together.",
+        "file": "energetic-cb290ad62808f75896c38cd8.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. There are nine supplied design screens here. They show annotation and presentation states, but they're not proof of every interaction or release. So, I'm keeping the interface evidence separate from claims about what happened in use.",
+        "file": "energetic-ebf43113b8c176bb130e081d.m4a"
+      }
+    ],
+    "kpi": [
+      {
+        "text": "Let me take you through K P I Presets. Instead of starting every metric card from scratch, authors can use a reusable pattern. My work focused on designing and delivering those reusable K P I templates.",
+        "file": "energetic-2fe61c4c4b6e44ad88699667.m4a"
+      },
+      {
+        "text": "So, what was the challenge? Authors need reusable starting points for cards and comparisons.",
+        "file": "energetic-8c94e723f811f667d5657311.m4a"
+      },
+      {
+        "text": "Here's how I approached it. I separated simple cards from variance arrangements, so the starting patterns are clear. Choosing a preset is one task; shaping the card is another. Library management stays distinct as well. Basically, reuse shouldn't blur the difference between selecting a pattern and authoring the actual card.",
+        "file": "energetic-6a06da7d9758223e33f6510a.m4a"
+      },
+      {
+        "text": "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.",
+        "file": "energetic-665e208c41a9b15c0a7ff98b.m4a"
+      },
+      {
+        "text": "And to wrap up. The reusable K P I templates shipped. Other authoring and library screens remain design evidence, not an automatic claim that every state was released. That's the scope of the contribution shown here.",
+        "file": "energetic-a3ee5085c196c37acca973df.m4a"
+      }
+    ]
+  }
+}

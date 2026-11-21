@@ -1,29 +1,23 @@
 import { test, expect } from './fixtures.js';
 import { createCaseNarration } from '../src/case-narration.js';
+import { readFileSync } from 'node:fs';
 
-async function mockVoice(page, available = true, { indian = true } = {}) {
-  await page.addInitScript(({ available, indian }) => {
-    const speech = new EventTarget();
+const recordedVoice = JSON.parse(readFileSync(new URL('../src/case-audio.json', import.meta.url), 'utf8'));
+
+async function mockVoice(page) {
+  await page.addInitScript(recorded => {
     window.__narration = { spoken: [], current: null, cancels: 0 };
-    speech.getVoices = () => [
-      { name: 'Remote Indian English', lang: 'en-IN', default: true, localService: false },
-      ...(available ? [
-        { name: 'Local English', lang: 'en-US', default: true, localService: true },
-        { name: 'Tara', lang: 'en-IN', default: true, localService: true },
-        ...(indian ? [{ name: 'Rishi', lang: 'en-IN', default: false, localService: true }] : [])
-      ] : [])
-    ];
-    speech.speak = utterance => {
-      window.__narration.current = utterance;
-      window.__narration.spoken.push({ text: utterance.text, local: utterance.voice.localService, language: utterance.lang, name: utterance.voice.name });
-      queueMicrotask(() => utterance.onstart?.());
+    HTMLMediaElement.prototype.play = function () {
+      const clip = Object.values(recorded.cases).flat().find(item =>
+        this.src.includes(item.file.replace('.m4a', '')));
+      if (!clip) return Promise.reject(new Error(`Unknown recorded narration: ${this.src}`));
+      window.__narration.current = this;
+      window.__narration.spoken.push({ text: clip.text, src: this.src, name: recorded.label });
+      queueMicrotask(() => this.dispatchEvent(new Event('playing')));
+      return Promise.resolve();
     };
-    speech.cancel = () => { window.__narration.cancels++; };
-    Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: speech });
-    Object.defineProperty(window, 'SpeechSynthesisUtterance', {
-      configurable: true, value: class { constructor(text) { this.text = text; } }
-    });
-  }, { available, indian });
+    HTMLMediaElement.prototype.pause = function () { window.__narration.cancels++; };
+  }, recordedVoice);
 }
 
 async function openPlayer(page, route = '/analytics.html') {
@@ -50,6 +44,10 @@ test('every case has an opt-in walkthrough and never starts narration on page lo
     await expect(page.getByRole('navigation', { name: 'Case study chapters', exact: true }).getByRole('button', { name: 'Walkthrough', exact: true })).toBeVisible();
     await expect(page.locator('.case-player')).toHaveCount(0);
     expect(await page.evaluate(() => window.__narration.spoken)).toEqual([]);
+    await page.getByRole('navigation', { name: 'Case study chapters', exact: true })
+      .getByRole('button', { name: 'Walkthrough', exact: true }).click();
+    await expect(page.getByRole('button', { name: 'Voice on', exact: true })).toBeEnabled();
+    await page.getByRole('button', { name: 'Close case study walkthrough', exact: true }).click();
   }
 });
 
@@ -59,13 +57,13 @@ test('local narration controls automatic steps, can pause, and stops on close', 
   const player = await openPlayer(page);
   await expect(player).toBeVisible();
   await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5 / Narrating');
-  expect(await page.evaluate(() => window.__narration.spoken[0])).toMatchObject({ local: true, language: 'en-IN', name: 'Rishi' });
-  await expect(player.getByText('Indian male English narration / Rishi.', { exact: false })).toBeVisible();
+  expect(await page.evaluate(() => window.__narration.spoken[0])).toMatchObject({ name: 'Energetic tech-explainer' });
+  await expect(player.getByText('Recorded English narration / Energetic tech-explainer.', { exact: false })).toBeVisible();
   expect(await page.evaluate(() => window.__narration.spoken[0].text)).toContain('I worked on the full Chart Wizard flow');
   expect(await page.evaluate(() => window.__narration.spoken[0].text)).not.toContain('My role:');
   await page.clock.fastForward(20000);
   await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5');
-  await page.evaluate(() => window.__narration.current.onend());
+  await page.evaluate(() => window.__narration.current.dispatchEvent(new Event('ended')));
   await page.clock.runFor(750);
   await expect(player.locator('.case-player-status')).toContainText('Step 2 of 5 / Narrating');
   await player.getByRole('button', { name: 'Pause', exact: true }).click();
@@ -139,36 +137,82 @@ test('conversational narration retains exploration and contribution boundaries',
   expect(text).toContain("not a final interface");
 });
 
-test('keyboard activation also automatically starts the Indian-English walkthrough', async ({ page }) => {
+test('keyboard activation starts the approved recorded walkthrough', async ({ page }) => {
   await mockVoice(page);
   await page.goto('/analytics.html');
   await page.locator('.case-player-entry').getByRole('button', { name: 'Walkthrough', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('.case-player-status')).toContainText('Step 1 of 5 / Narrating');
-  expect(await page.evaluate(() => window.__narration.spoken[0])).toMatchObject({ language: 'en-IN', local: true });
+  expect(await page.evaluate(() => window.__narration.spoken[0])).toMatchObject({ name: 'Energetic tech-explainer' });
 });
 
-test('female and US voices are not substituted for the requested Indian male voice', async ({ page }) => {
-  await mockVoice(page, true, { indian: false });
-  const player = await openPlayer(page);
-  await expect(player.getByText('No local Indian male English voice is available here. The visual walkthrough still works.')).toBeVisible();
-  await expect(player.getByRole('button', { name: 'Voice unavailable', exact: true })).toBeDisabled();
-  await expect(player.locator('.case-player-status')).toContainText('Playing');
-  expect(await page.evaluate(() => window.__narration.spoken)).toEqual([]);
-});
-
-test('a later-loaded Indian male voice automatically starts after the visitor pressed Play', async ({ page }) => {
-  await mockVoice(page, true, { indian: false });
-  const player = await openPlayer(page);
-  expect(await page.evaluate(() => window.__narration.spoken)).toEqual([]);
-  await page.evaluate(() => {
-    const installed = speechSynthesis.getVoices();
-    speechSynthesis.getVoices = () => [...installed, { name: 'Rishi', lang: 'en-IN', localService: true, default: false }];
-    speechSynthesis.dispatchEvent(new Event('voiceschanged'));
+test('recorded narration does not use installed browser voices or the local API', async ({ page }) => {
+  await mockVoice(page);
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'speechSynthesis', { value: {
+      getVoices() { throw new Error('Browser voice lookup must not be used.'); },
+      speak() { throw new Error('Browser speech must not be used.'); }
+    } });
   });
-  await expect(player.getByText('Indian male English narration / Rishi.', { exact: false })).toBeVisible();
-  expect(await page.evaluate(() => window.__narration.spoken.at(-1))).toMatchObject({ language: 'en-IN', local: true, name: 'Rishi' });
-  await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5 / Narrating');
+  const apiRequests = [];
+  page.on('request', request => { if (request.url().includes(':4176/')) apiRequests.push(request.url()); });
+  const player = await openPlayer(page);
+  await expect(player.getByRole('button', { name: 'Voice on', exact: true })).toBeEnabled();
+  expect(await page.evaluate(() => window.__narration.spoken[0].src)).toMatch(/\.m4a$/);
+  expect(apiRequests).toEqual([]);
+});
+
+test('AAC recordings support the byte ranges needed by native media playback', async ({ page, request }) => {
+  await mockVoice(page);
+  const player = await openPlayer(page);
+  const source = await player.locator('audio').getAttribute('src');
+  const first = await request.get(source, { headers: { Range: 'bytes=0-7' } });
+  expect(first.status()).toBe(206);
+  expect(first.headers()['content-type']).toBe('audio/mp4');
+  expect(first.headers()['accept-ranges']).toBe('bytes');
+  const bytes = await first.body();
+  expect(bytes.length).toBe(8);
+  expect(bytes.toString('ascii', 4)).toBe('ftyp');
+  const tail = await request.get(source, { headers: { Range: 'bytes=-8' } });
+  expect(tail.status()).toBe(206);
+  expect((await tail.body()).length).toBe(8);
+  const invalid = await request.get(source, { headers: { Range: 'bytes=999999999-1000000000' } });
+  expect(invalid.status()).toBe(416);
+  expect(invalid.headers()['content-range']).toMatch(/^bytes \*\/\d+$/);
+});
+
+test('real recorded audio starts only after activation, advances on completion, and stops on close', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.addInitScript(() => {
+    const play = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () {
+      window.__realNarration = this;
+      return play.call(this);
+    };
+  });
+  const mediaRequests = [];
+  page.on('request', request => { if (request.url().endsWith('.m4a')) mediaRequests.push(request.url()); });
+  await page.goto('/analytics.html');
+  expect(mediaRequests).toEqual([]);
+  await page.locator('.case-player-entry').getByRole('button', { name: 'Walkthrough', exact: true }).click();
+  const player = page.locator('.case-player');
+  await expect.poll(() => player.locator('audio').evaluate(media => !media.paused && media.currentTime > 0)).toBe(true);
+  await expect(player.locator('.case-player-status')).toContainText('Step 2 of 5 / Narrating', { timeout: 45000 });
+  await player.getByRole('button', { name: 'Close case study walkthrough', exact: true }).click();
+  await expect(player).toHaveCount(0);
+  expect(await page.evaluate(() => window.__realNarration.paused && !window.__realNarration.getAttribute('src'))).toBe(true);
+});
+
+test('an unavailable audio file pauses explicitly without a browser-voice fallback', async ({ page }) => {
+  await page.clock.install();
+  await page.route('**/*.m4a', route => route.fulfill({ status: 404, body: 'Audio missing' }));
+  const player = await openPlayer(page);
+  await expect(player.getByRole('alert')).toContainText('Voice playback could not finish');
+  await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5 / Paused');
+  await player.getByRole('button', { name: 'Voice on', exact: true }).click();
+  await player.getByRole('button', { name: 'Play from here', exact: true }).click();
+  await page.clock.fastForward(19000);
+  await expect(player.locator('.case-player-status')).toContainText('Step 2 of 5 / Playing');
 });
 
 test('voice availability updates do not undo explicit muting', async ({ page }) => {
@@ -182,12 +226,12 @@ test('voice availability updates do not undo explicit muting', async ({ page }) 
   await expect(player.locator('.case-player-status')).toContainText('Playing');
 });
 
-test('a visual walkthrough stays usable without a local voice, finishes once, and can replay', async ({ page }) => {
+test('a muted visual walkthrough finishes once and can replay', async ({ page }) => {
   await page.clock.install();
-  await mockVoice(page, false);
+  await mockVoice(page);
   const player = await openPlayer(page, '/gantt-baselines.html');
-  await expect(player.getByText('No local Indian male English voice is available here. The visual walkthrough still works.')).toBeVisible();
-  await expect(player.getByRole('button', { name: 'Voice unavailable', exact: true })).toBeDisabled();
+  await player.getByRole('button', { name: 'Voice on', exact: true }).click();
+  await expect(player.getByRole('button', { name: 'Voice off', exact: true })).toBeEnabled();
   await page.clock.fastForward(19000);
   await expect(player.locator('.case-player-status')).toContainText('Step 2 of 5');
   await player.getByRole('button', { name: 'Go to step 5: Delivery', exact: true }).click();
@@ -199,14 +243,14 @@ test('a visual walkthrough stays usable without a local voice, finishes once, an
   await expect(player.locator('.case-player-status')).toContainText('Step 5 of 5');
   await player.getByRole('button', { name: 'Replay', exact: true }).click();
   await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5 / Playing');
-  expect(await page.evaluate(() => window.__narration.spoken)).toEqual([]);
+  expect(await page.evaluate(() => window.__narration.spoken)).toHaveLength(1);
 });
 
 test('voice failures are explicit and readers can continue without voice', async ({ page }) => {
   await page.clock.install();
   await mockVoice(page);
   const player = await openPlayer(page);
-  await page.evaluate(() => window.__narration.current.onerror({ error: 'synthesis-failed' }));
+  await page.evaluate(() => window.__narration.current.dispatchEvent(new Event('error')));
   await expect(player.getByRole('alert')).toContainText('Voice playback could not finish');
   await expect(player.locator('.case-player-status')).toContainText('Paused');
   await player.getByRole('button', { name: 'Voice on', exact: true }).click();
@@ -215,27 +259,23 @@ test('voice failures are explicit and readers can continue without voice', async
   await expect(player.locator('.case-player-status')).toContainText('Step 2 of 5 / Playing');
 });
 
-test('a removed voice cannot trap the player in voice mode', async ({ page }) => {
+test('a stale playback failure does not interrupt the newly selected step', async ({ page }) => {
   await page.clock.install();
   await mockVoice(page);
   const player = await openPlayer(page);
-  await page.evaluate(() => {
-    speechSynthesis.getVoices = () => [];
-    speechSynthesis.dispatchEvent(new Event('voiceschanged'));
-    window.__narration.current.onend();
-  });
-  await page.clock.runFor(750);
-  await expect(player.getByRole('alert')).toContainText('no longer available');
-  await player.getByRole('button', { name: 'Voice on', exact: true }).click();
+  await page.evaluate(() => { window.__oldFailure = window.__narration.current.onerror; });
+  await player.getByRole('button', { name: 'Next', exact: true }).click();
   await player.getByRole('button', { name: 'Play from here', exact: true }).click();
-  await expect(player.locator('.case-player-status')).toContainText('Playing');
+  await page.evaluate(() => window.__oldFailure());
+  await expect(player.locator('.case-player-status')).toContainText('Step 2 of 5 / Narrating');
+  await expect(player.getByRole('alert')).toHaveCount(0);
 });
 
 test('stalled narration pauses with a recoverable error instead of silently advancing', async ({ page }) => {
   await page.clock.install();
   await mockVoice(page);
   const player = await openPlayer(page);
-  await page.clock.fastForward(61000);
+  await page.clock.fastForward(121000);
   await expect(player.getByRole('alert')).toContainText('Voice playback could not finish');
   await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5 / Paused');
 });
@@ -250,7 +290,7 @@ test('reduced motion is manual, keyboard browsing pauses playback, and Escape re
   await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5');
   expect(await page.evaluate(() => window.__narration.spoken)).toEqual([]);
   await player.getByRole('button', { name: 'Read this step', exact: true }).click();
-  await page.evaluate(() => window.__narration.current.onend());
+  await page.evaluate(() => window.__narration.current.dispatchEvent(new Event('ended')));
   await page.clock.runFor(750);
   await expect(player.locator('.case-player-status')).toContainText('Step 1 of 5 / Manual mode');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -267,7 +307,7 @@ test('reduced motion is manual, keyboard browsing pauses playback, and Escape re
 });
 
 test('short landscape layouts keep the story and controls reachable', async ({ page }) => {
-  await mockVoice(page, false);
+  await mockVoice(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 844, height: 390 });
   const player = await openPlayer(page);
@@ -299,7 +339,7 @@ test('hiding the page stops narration and automatic advancement', async ({ page 
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
     test(`walkthrough controls and honest evidence fit ${appearance} at ${width}px`, async ({ page }) => {
-      await mockVoice(page, false);
+      await mockVoice(page);
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       await page.setViewportSize({ width, height: 844 });
@@ -360,7 +400,7 @@ test('the Walkthrough CTA is visually compact and keeps a larger touch target', 
       const bounds = await trigger.boundingBox();
       expect(bounds.width).toBeLessThan(140);
       expect(bounds.height).toBe(hasTouch ? 44 : 36);
-      await expect(trigger).toHaveAccessibleDescription('Guided visuals + Indian male English narration when available.');
+      await expect(trigger).toHaveAccessibleDescription('Guided visuals + recorded English narration.');
     } finally {
       await context.close();
     }
@@ -377,7 +417,7 @@ test('the navigation tab opens one shared player and returns focus to the tab', 
     await expect(page.locator('.case-player')).toHaveCount(1);
     await expect(page.locator('.case-player')).toBeVisible();
     await expect(page.locator('.case-player-status')).toContainText('Step 1 of 5 / Narrating');
-    expect(await page.evaluate(() => window.__narration.spoken.at(-1).name)).toBe('Rishi');
+    expect(await page.evaluate(() => window.__narration.spoken.at(-1).name)).toBe('Energetic tech-explainer');
     await page.getByRole('button', { name: 'Close case study walkthrough', exact: true }).click();
     await expect(tab).toBeFocused();
     expect(page.url()).toBe(url);

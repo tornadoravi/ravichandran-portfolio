@@ -18,7 +18,7 @@ test('GitHub Pages subpath supports every prerendered route, assets and enhanced
   });
   const publicFiles = new Map(files);
   const manifest = JSON.parse(await readFile(new URL('.vite/manifest.json', output), 'utf8'));
-  const types = { js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml', png: 'image/png', ttf: 'font/ttf', woff2: 'font/woff2' };
+  const types = { js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml', png: 'image/png', ttf: 'font/ttf', woff2: 'font/woff2', m4a: 'audio/mp4' };
   for (const entry of Object.values(manifest)) {
     for (const file of [entry.file, ...(entry.css || []), ...(entry.assets || [])]) {
       const type = types[file.split('.').at(-1)];
@@ -96,6 +96,18 @@ test('GitHub Pages subpath supports every prerendered route, assets and enhanced
         }));
       });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), file);
+    }
+    if (javaScriptEnabled) {
+      await page.goto(`${origin}${base}analytics.html`);
+      await page.locator('.case-player-entry').getByRole('button', { name: 'Walkthrough', exact: true }).click();
+      await page.getByRole('button', { name: 'Read this step', exact: true }).click();
+      await page.waitForFunction(() => {
+        const audio = document.querySelector('.case-player audio');
+        return audio && !audio.paused && audio.currentTime > 0;
+      });
+      const source = await page.locator('.case-player audio').getAttribute('src');
+      assert.ok(new URL(source, page.url()).pathname.startsWith(`${base}assets/`));
+      await page.getByRole('button', { name: 'Close case study walkthrough', exact: true }).click();
     }
     await page.close();
   }

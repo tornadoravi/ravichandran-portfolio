@@ -2,7 +2,10 @@ import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, us
 import CaseIllustration from './CaseIllustration.jsx';
 import { useTheme } from './ThemeContext.jsx';
 import { createCaseNarration } from './case-narration.js';
+import recordedVoice from './case-audio.json';
 import { sitePath } from './site-path.js';
+
+const audioFiles = import.meta.glob('../assets/narration/*.m4a', { eager: true, query: '?url', import: 'default' });
 
 export function WalkthroughButton({ className = 'case-play-button', onClick }) {
   const { ready } = useTheme();
@@ -21,14 +24,11 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
   const [playing, setPlaying] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [voiceOn, setVoiceOn] = useState(false);
-  const [voiceAvailable, setVoiceAvailable] = useState(false);
-  const [voiceName, setVoiceName] = useState('');
   const [reducedMotion, setReducedMotion] = useState(false);
   const [message, setMessage] = useState('');
   const dialog = useRef(null);
   const opener = useRef(null);
-  const voice = useRef(null);
-  const narrationRequested = useRef(false);
+  const audio = useRef(null);
   const official = screen?.src.includes('official');
   const steps = useMemo(() => [
     { label: 'Context', guide: "Let's start with the context.", title: name, copy: narrative.purpose, note: `Designed for ${narrative.audience}. My role: ${narrative.role}`, stage: 'challenge' },
@@ -45,22 +45,17 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
     caseId, problem: facts[0][1], hasScreen: Boolean(screen), official
   }), [caseId, facts, screen, official]);
 
+  const recordings = useMemo(() => {
+    const saved = recordedVoice.cases[caseId];
+    if (!saved) return null;
+    if (saved.length !== narration.length || saved.some((item, index) =>
+      item.text !== narration[index] || !audioFiles[`../assets/narration/${item.file}`])) return null;
+    return saved.map(item => audioFiles[`../assets/narration/${item.file}`]);
+  }, [caseId, narration]);
+  const voiceAvailable = Boolean(recordings);
   useEffect(() => {
-    if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
-    const speech = window.speechSynthesis;
-    const update = () => {
-      // Web Speech has no gender field; use verified male voice names, not pitch changes.
-      const voices = speech.getVoices().filter(item => item.localService && /^en-IN$/i.test(item.lang) &&
-        /(?:\bRishi\b|\bAman\b|\bMicrosoft\b.*\b(?:Ravi|Prabhat)\b)/i.test(item.name));
-      voice.current = voices.find(item => item.default) || voices[0] || null;
-      setVoiceAvailable(Boolean(voice.current));
-      setVoiceName(voice.current?.name || '');
-      if (voice.current && narrationRequested.current) setVoiceOn(true);
-    };
-    update();
-    speech.addEventListener('voiceschanged', update);
-    return () => speech.removeEventListener('voiceschanged', update);
-  }, []);
+    if (opened && !voiceAvailable) console.error('Recorded walkthrough narration is missing or out of date:', caseId);
+  }, [opened, voiceAvailable, caseId]);
 
   useEffect(() => {
     if (!opened) return;
@@ -91,7 +86,7 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
     if (document.hidden) { setPlaying(false); return; }
     let live = true;
     let timer;
-    let utterance;
+    let media;
     const text = narration[active];
     const advance = () => {
       if (!live) return;
@@ -109,30 +104,28 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
       setMessage('Voice playback could not finish. Try playing this step again, or turn voice off.');
     };
     if (voiceOn) {
-      if (!voice.current) {
+      if (!recordings) {
         setPlaying(false);
-        setMessage('The Indian male English voice is no longer available. Turn voice off to continue visually.');
+        setMessage('Recorded narration is unavailable. Turn voice off to continue visually.');
         return;
       }
       pauseMusic();
-      utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = voice.current;
-      utterance.lang = voice.current.lang;
-      utterance.rate = 0.96;
-      utterance.onstart = () => {
+      media = audio.current;
+      media.src = recordings[active];
+      media.onplaying = () => {
         if (!live) return;
         clearTimeout(timer);
-        timer = setTimeout(() => fail('Speech completion timed out'), 60000);
+        timer = setTimeout(() => fail('Audio completion timed out'), 120000);
       };
-      utterance.onend = () => {
+      media.onended = () => {
         if (!live) return;
         clearTimeout(timer);
         timer = setTimeout(advance, 450);
       };
-      utterance.onerror = event => fail(event.error);
-      timer = setTimeout(() => fail('Speech did not start'), 5000);
+      media.onerror = () => fail(media.error || 'Recorded audio failed to load');
+      timer = setTimeout(() => fail('Audio did not start'), 15000);
       try {
-        window.speechSynthesis.speak(utterance);
+        media.play().catch(fail);
       } catch (error) {
         fail(error);
       }
@@ -143,14 +136,16 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
     return () => {
       live = false;
       clearTimeout(timer);
-      if (utterance) {
-        utterance.onstart = null;
-        utterance.onend = null;
-        utterance.onerror = null;
-        window.speechSynthesis.cancel();
+      if (media) {
+        media.onplaying = null;
+        media.onended = null;
+        media.onerror = null;
+        media.pause();
+        media.removeAttribute('src');
+        media.load();
       }
     };
-  }, [opened, playing, active, narration, steps.length, voiceOn, voiceName, reducedMotion, pauseMusic]);
+  }, [opened, playing, active, narration, steps.length, voiceOn, recordings, reducedMotion, pauseMusic]);
 
   const start = useCallback(trigger => {
     opener.current = trigger;
@@ -158,12 +153,11 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
     setActive(0);
     setCompleted(false);
     setMessage('');
-    narrationRequested.current = true;
-    setVoiceOn(Boolean(voice.current));
+    setVoiceOn(voiceAvailable);
     setReducedMotion(reduce);
     setPlaying(!reduce);
     setOpened(true);
-  }, []);
+  }, [voiceAvailable]);
   useImperativeHandle(ref, () => ({ open: start }), [start]);
   function choose(index) {
     setPlaying(false);
@@ -185,9 +179,9 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
 
   return <>
     {showTrigger && <WalkthroughButton onClick={event => start(event.currentTarget)} />}
-    <span className="case-play-hint sr-only" id="case-play-hint">Guided visuals + Indian male English narration when available.</span>
+    <span className="case-play-hint sr-only" id="case-play-hint">Guided visuals + recorded English narration.</span>
     {opened && <dialog className="case-player" ref={dialog} aria-labelledby="case-player-title" aria-describedby="case-player-description"
-      onClose={() => { narrationRequested.current = false; setPlaying(false); setOpened(false); }}
+      onClose={() => { setPlaying(false); setOpened(false); }}
       onKeyDown={event => { if (event.key === 'Tab') setPlaying(false); }}
       onClick={event => {
         if (event.target !== event.currentTarget) return;
@@ -233,10 +227,11 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
         </section>
       </div>
       <footer className="case-player-footer">
+        <audio ref={audio} preload="none" aria-label="Recorded walkthrough narration" hidden />
         <progress value={completed ? steps.length : active + 1} max={steps.length} aria-label="Case study progress" />
         <p className="case-player-status" role="status">Step {active + 1} of {steps.length} / {completed ? 'Walkthrough complete' : playing ? (voiceOn ? 'Narrating' : 'Playing') : reducedMotion ? 'Manual mode — reduced motion' : 'Paused — play restarts this step'}</p>
         {message && <p className="case-player-error" role="alert">{message}</p>}
-        {!voiceAvailable && <p className="case-player-voice-note">No local Indian male English voice is available here. The visual walkthrough still works.</p>}
+        {!voiceAvailable && <p className="case-player-voice-note">Recorded narration is missing or out of date here. The visual walkthrough still works.</p>}
         <div className="case-player-controls">
           <button type="button" onClick={() => choose(active - 1)} disabled={active === 0}>Back</button>
           <button className="case-player-toggle" type="button" onClick={toggle} disabled={reducedMotion && !voiceOn}>
@@ -244,7 +239,6 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
           </button>
           <button type="button" aria-pressed={voiceOn} disabled={!voiceAvailable && !voiceOn} onClick={() => {
             setMessage('');
-            narrationRequested.current = !voiceOn;
             setVoiceOn(value => !value);
           }}>
             {voiceAvailable || voiceOn ? `Voice ${voiceOn ? 'on' : 'off'}` : 'Voice unavailable'}
@@ -252,8 +246,8 @@ export default function CaseStudyPlayer({ ref, caseId, name, narrative, facts, s
           <button type="button" onClick={() => active === steps.length - 1 ? close() : choose(active + 1)}>{active === steps.length - 1 ? 'Finish' : 'Next'}</button>
         </div>
         <p className="case-player-voice-note">
-          {voiceAvailable ? `Indian male English narration / ${voiceName}.` : 'Indian male English voice required.'}
-          {' '}Soundroom pauses during narration. No third-party speech API.
+          {voiceAvailable ? `Recorded English narration / ${recordedVoice.label}.` : 'Recorded English narration unavailable.'}
+          {' '}Soundroom pauses during narration. Generated locally; no live speech API or browser voice.
         </p>
       </footer>
     </dialog>}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f2ee">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171614">
+  <title>Local voice audition</title>
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <img src="/mascot.webp" alt="" width="160" height="176">
+      <div><p class="eyebrow">Your own local voice API</p><h1>Let's find the right voice.</h1></div>
+    </header>
+    <p class="intro">English narration with a Tamil tech-explainer style: warm, clear, and conversational. Listen before choosing.</p>
+    <p class="scope">Tamil-influenced pronunciation is a style request, not a verified regional voice. This model does not speak Tamil. No human-match guarantee or YouTube voice cloning.</p>
+    <form>
+      <label for="voice">Speaking style</label>
+      <select id="voice" name="profile" required disabled aria-describedby="voice-hint">
+        <option value="">Loading voice options...</option>
+      </select>
+      <p id="voice-hint"></p>
+      <label for="text">Short audition script</label>
+      <textarea id="text" name="text" rows="5" maxlength="280" required aria-describedby="count">Let's take a quick look at this design. The idea is to make the next step clear, so you don't have to figure everything out at once. I'll show you the choices, and explain why they matter as we go.</textarea>
+      <p id="count"></p>
+      <button type="submit" disabled>Generate local preview</button>
+    </form>
+    <p id="status" role="status">Checking the local model...</p>
+    <p id="error" role="alert" hidden></p>
+    <section id="preview" aria-label="Generated voice preview" hidden>
+      <h2 id="preview-name">Listen to the audition</h2>
+      <audio controls preload="metadata" aria-label="Local voice audition"></audio>
+      <a id="download">Download WAV</a>
+      <p>These are speaking styles, not fixed speaker identities. Check the accent, pauses, pitch, and sentence flow. This preview has not replaced the portfolio narration.</p>
+    </section>
+    <footer>Runs on this Mac. No API key, paid speech service, or narration upload. Generation uses local memory and compute; WAV previews are saved locally.</footer>
+    <noscript>JavaScript is required for the audition controls. The API is also available through a local HTTP client.</noscript>
+  </main>
+</body>
+</html>

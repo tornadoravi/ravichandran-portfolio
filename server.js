@@ -10,7 +10,7 @@ const assetTypes = {
   '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.avif': 'image/avif',
   '.ttf': 'font/ttf', '.woff': 'font/woff', '.woff2': 'font/woff2',
-  '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.pdf': 'application/pdf'
+  '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.m4a': 'audio/mp4', '.pdf': 'application/pdf'
 };
 try {
   await readFile(new URL('index.html', output));
@@ -42,11 +42,35 @@ const server = http.createServer(async (request, response) => {
   }
   try {
     const content = await readFile(new URL(file[0], output));
-    response.writeHead(200, {
-      'Content-Type': `${file[1]}; charset=utf-8`,
+    const headers = {
+      'Content-Type': file[1] === 'audio/mp4' ? file[1] : `${file[1]}; charset=utf-8`,
       'Content-Length': content.length,
       ...securityHeaders(pathname)
-    });
+    };
+    if (file[1] === 'audio/mp4') {
+      headers['Accept-Ranges'] = 'bytes';
+      const range = request.headers.range;
+      if (range) {
+        const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+        const first = match?.[1] ? Number(match[1]) : null;
+        const last = match?.[2] ? Number(match[2]) : null;
+        const start = first ?? Math.max(0, content.length - last);
+        const end = first === null ? content.length - 1 : Math.min(last ?? content.length - 1, content.length - 1);
+        if (!match || (first === null && !last) || !Number.isSafeInteger(start) ||
+            !Number.isSafeInteger(end) || (last !== null && !Number.isSafeInteger(last)) ||
+            start >= content.length || end < start) {
+          response.writeHead(416, { ...headers, 'Content-Length': 0, 'Content-Range': `bytes */${content.length}` });
+          response.end();
+          return;
+        }
+        response.writeHead(206, {
+          ...headers, 'Content-Length': end - start + 1, 'Content-Range': `bytes ${start}-${end}/${content.length}`
+        });
+        response.end(request.method === 'HEAD' ? undefined : content.subarray(start, end + 1));
+        return;
+      }
+    }
+    response.writeHead(200, headers);
     response.end(request.method === 'HEAD' ? undefined : content);
   } catch (error) {
     console.error(`Unable to serve ${file[0]}:`, error);

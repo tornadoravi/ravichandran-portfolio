@@ -12,3 +12,8 @@ dist/
 *.key
 *.p12
 *.pfx
+/voice-api/.bootstrap/
+/voice-api/.venv/
+/voice-api/.models/
+/voice-api/output/
+/voice-api/**/__pycache__/
