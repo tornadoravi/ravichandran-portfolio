@@ -1,3 +1,5 @@
+import { bikecareScreens } from './src/bikecare-story.js';
+
 export const files = new Map([
   ['/', ['index.html', 'text/html']],
   ['/index.html', ['index.html', 'text/html']],
@@ -5,6 +7,16 @@ export const files = new Map([
   ['/analytics.html', ['analytics.html', 'text/html']],
   ['/analytics-plus.html', ['analytics-plus.html', 'text/html']],
   ['/analytics-spatial.html', ['analytics-spatial.html', 'text/html']],
+  ['/cod-shield.html', ['cod-shield.html', 'text/html']],
+  ['/bikecare.html', ['bikecare.html', 'text/html']],
+  ['/assets/bikecare-design-system.md', ['assets/bikecare-design-system.md', 'text/markdown; charset=utf-8']],
+  ...['honda', 'yamaha', 'hero', 'ather'].map(name =>
+    [`/assets/bikecare-official-${name}.webp`, [`assets/bikecare-official-${name}.webp`, 'image/webp']]),
+  ...bikecareScreens.map(screen => [screen.src, [screen.src.slice(1), 'image/webp']]),
+  ...['garage', 'vehicle', 'care', 'tracking'].map(state =>
+    [`/assets/bikecare-${state}.webp`, [`assets/bikecare-${state}.webp`, 'image/webp']]),
+  ...['home', 'report', 'verify', 'pending', 'activate', 'platforms', 'activating', 'active', 'removing', 'ended', 'help'].map(state =>
+    [`/assets/cod-shield-${state}.svg`, [`assets/cod-shield-${state}.svg`, 'image/svg+xml']]),
   ['/storyboard.html', ['storyboard.html', 'text/html']],
   ['/presentation.html', ['presentation.html', 'text/html']],
   ['/gantt.html', ['gantt.html', 'text/html']],

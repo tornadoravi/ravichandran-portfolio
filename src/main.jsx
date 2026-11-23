@@ -7,6 +7,8 @@ import '../styles.css';
 import '../mapping.css';
 import '../home.css';
 import '../case-presentation.css';
+import '../cod-shield.css';
+import '../bikecare.css';
 
 const page = document.body.dataset.page;
 const Page = await loadPage(page);

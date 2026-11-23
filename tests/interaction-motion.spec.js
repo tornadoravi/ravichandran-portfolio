@@ -167,10 +167,173 @@ test('the centered portrait waits for its image and plays one composite-only cin
   await stage.evaluate(element => Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished)));
   await expect(page.locator('.hero-portrait-art')).toHaveCSS('transform', 'none');
   await expect(page.locator('.hero-portrait-art')).toHaveCSS('opacity', '1');
-  expect(await stage.evaluate(element => getComputedStyle(element, '::after').opacity)).toBe('0');
+  expect(await stage.evaluate(element => getComputedStyle(element.querySelector('.hero-portrait-frame'), '::after').opacity)).toBe('0');
   await stage.hover();
   expect(await stage.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
 });
+
+for (const [route, selector] of [
+  ['/powertable.html', '.product-illustration .portfolio-illustration'],
+  ['/analytics-plus.html', '.feature-illustration'],
+  ['/cod-shield.html', '.cod-shield-illustration'],
+  ['/bikecare.html', '[data-case-scene="bikecare-challenge"]']
+]) {
+  test(`cinematic illustration on ${route} plays once, pauses offscreen and preserves its still layout`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto(route);
+    await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+    const art = page.locator(selector).first();
+    await art.evaluate(element => {
+      for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+        if (parent.tagName === 'DETAILS') parent.open = true;
+      }
+    });
+    const resting = await art.boundingBox();
+    await art.scrollIntoViewIfNeeded();
+    await expect(art).toHaveAttribute('data-cinematic-state', 'playing');
+    expect(await art.evaluate(element => element.getAnimations({ subtree: true }).some(animation => animation.playState === 'running'))).toBe(true);
+    const effects = await art.evaluate(element => element.getAnimations({ subtree: true }).map(animation => ({
+      iterations: animation.effect.getTiming().iterations,
+      end: animation.effect.getTiming().delay + animation.effect.getTiming().duration,
+      properties: [...new Set(animation.effect.getKeyframes().flatMap(frame =>
+        Object.keys(frame).filter(key => !['offset', 'computedOffset', 'easing', 'composite'].includes(key))
+      ))]
+    })));
+    expect(effects.length).toBeGreaterThan(1);
+    for (const effect of effects) {
+      expect(effect.iterations).toBe(1);
+      expect(effect.end).toBeLessThanOrEqual(2000);
+      expect(effect.properties.every(property => ['transform', 'opacity'].includes(property))).toBe(true);
+    }
+    await page.evaluate(() => scrollTo(0, 0));
+    await expect(art).toHaveAttribute('data-cinematic-state', 'paused');
+    expect(await art.evaluate(element => element.getAnimations({ subtree: true }).every(animation => animation.playState === 'paused'))).toBe(true);
+    await art.scrollIntoViewIfNeeded();
+    await expect(art).toHaveAttribute('data-cinematic-state', 'static');
+    expect(await art.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+    const settled = await art.boundingBox();
+    expect(settled.width).toBeCloseTo(resting.width, 1);
+    expect(settled.height).toBeCloseTo(resting.height, 1);
+    const foreground = art.locator('.illustration-foreground');
+    await expect(foreground).toHaveCSS('transform', 'none');
+    await expect(foreground).toHaveCSS('opacity', '1');
+    await page.evaluate(() => scrollTo(0, 0));
+    await art.scrollIntoViewIfNeeded();
+    await expect(art).toHaveAttribute('data-cinematic-state', 'static');
+  });
+}
+
+test('cinematic artwork settles on keyboard and reduced motion, including later-mounted diagrams', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/bikecare.html');
+  const art = page.locator('[data-case-scene="bikecare-challenge"]');
+  await art.scrollIntoViewIfNeeded();
+  await expect(art).toHaveAttribute('data-cinematic-state', 'playing');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(art).toHaveAttribute('data-cinematic-state', 'static');
+  expect(await art.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.keyboard.press('Tab');
+  await expect(art.locator('.illustration-foreground')).toHaveCSS('opacity', '1');
+  await page.evaluate(() => {
+    const sample = document.querySelector('[data-case-scene="bikecare-challenge"]').cloneNode(true);
+    sample.removeAttribute('data-cinematic-state');
+    sample.dataset.testLateIllustration = '';
+    document.querySelector('main').append(sample);
+  });
+  await expect(page.locator('[data-test-late-illustration]')).toHaveAttribute('data-cinematic-state', 'static');
+});
+
+test('all four cover headlines and curved underlines animate without moving the card or screenshots', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+  await page.evaluate(() => document.fonts.ready);
+  const cards = page.locator('.product-context-card');
+  for (let index = 0; index < 4; index++) {
+    if (index > 0) {
+      await page.reload();
+      await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+      await page.evaluate(() => document.fonts.ready);
+    }
+    const card = cards.nth(index);
+    const art = card.locator('[data-cinematic-root]');
+    const cardBefore = await card.boundingBox();
+    const screenBefore = await card.locator('.cover-screen').boundingBox();
+    await card.scrollIntoViewIfNeeded();
+    await expect(art).toHaveAttribute('data-cinematic-state', 'playing');
+    const effects = await art.evaluate(element => element.getAnimations({ subtree: true }).filter(animation =>
+      animation.animationName.startsWith('illustration-cover')).map(animation => ({
+        name: animation.animationName,
+        state: animation.playState,
+        iterations: animation.effect.getTiming().iterations,
+        properties: [...new Set(animation.effect.getKeyframes().flatMap(frame =>
+          Object.keys(frame).filter(key => !['offset', 'computedOffset', 'easing', 'composite'].includes(key))
+        ))]
+      })));
+    expect(effects).toHaveLength(5);
+    expect(effects.some(effect => effect.name === 'illustration-cover-rule')).toBe(true);
+    expect(effects.every(effect => effect.state === 'running' && effect.iterations === 1 &&
+      effect.properties.every(property => ['transform', 'opacity'].includes(property)))).toBe(true);
+    await expect(art).toHaveAttribute('data-cinematic-state', 'static');
+    const cardAfter = await card.boundingBox();
+    const screenAfter = await card.locator('.cover-screen').boundingBox();
+    expect(cardAfter.width).toBeCloseTo(cardBefore.width, 1);
+    expect(cardAfter.height).toBeCloseTo(cardBefore.height, 1);
+    expect(screenAfter.width).toBeCloseTo(screenBefore.width, 1);
+    expect(screenAfter.height).toBeCloseTo(screenBefore.height, 1);
+    await expect(card.locator('.cover-headline-rule')).toHaveCSS('transform', 'none');
+    await expect(card.locator('.cover-headline strong')).toHaveCSS('opacity', '1');
+    await expect(card.locator('.cover-headline strong')).toHaveCSS('transform', 'none');
+  }
+});
+
+for (const appearance of ['light', 'dark']) {
+  for (const javaScriptEnabled of [true, false]) {
+    test.describe(`cinematic still artwork in ${appearance} with JavaScript ${javaScriptEnabled}`, () => {
+      test.use({ javaScriptEnabled, reducedMotion: 'reduce', colorScheme: appearance });
+      test('preserves visible foregrounds and local theme paints on all four cases', async ({ page }) => {
+        if (javaScriptEnabled) await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
+        for (const route of ['/powertable.html', '/analytics-plus.html', '/cod-shield.html', '/bikecare.html']) {
+          await page.goto(route);
+          if (javaScriptEnabled) await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+          else await page.evaluate(value => { document.documentElement.dataset.theme = value; }, appearance);
+          const foregrounds = page.locator('.illustration-surface > .illustration-foreground');
+          expect(await foregrounds.count(), route).toBeGreaterThan(0);
+          const issues = await foregrounds.evaluateAll(elements => elements.flatMap(element => {
+            const problems = [];
+            const surface = element.parentElement;
+            const svg = element.closest('svg');
+            const ids = new Set([...svg.querySelectorAll('[id]')].map(node => node.id));
+            const style = getComputedStyle(element);
+            if (style.opacity !== '1' || style.transform !== 'none') problems.push('Still foreground is hidden or transformed');
+            if (surface.getAnimations({ subtree: true }).length) problems.push('Still artwork is animating');
+            if (getComputedStyle(surface.querySelector('.illustration-sweep')).opacity !== '0') problems.push('Light sweep obscures still artwork');
+            for (const [suffix, property] of [['paper', 'backgroundColor'], ['accent', 'color']]) {
+              const probe = document.createElement('span');
+              probe.style[property] = `var(--art-${suffix === 'paper' ? 'white' : 'accent'})`;
+              svg.parentElement.append(probe);
+              const expected = getComputedStyle(probe)[property];
+              probe.remove();
+              const stop = surface.querySelector(`linearGradient[id$="-${suffix}"] > stop:${suffix === 'paper' ? 'first' : 'last'}-child`);
+              if (getComputedStyle(stop).stopColor !== expected) problems.push(`Unresolved ${suffix} theme paint`);
+            }
+            for (const node of surface.querySelectorAll('*')) {
+              const paint = getComputedStyle(node);
+              for (const property of ['fill', 'stroke', 'filter']) {
+                for (const match of paint[property].matchAll(/url\(["']?[^#]*#([^"')]+)/g)) {
+                  if (!ids.has(decodeURIComponent(match[1]))) problems.push(`Non-local ${property}`);
+                }
+              }
+            }
+            return problems;
+          }));
+          expect(issues, route).toEqual([]);
+        }
+      });
+    });
+  }
+}
 
 test('reduced motion and keyboard input settle the portrait without hiding it', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });

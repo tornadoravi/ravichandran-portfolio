@@ -100,14 +100,18 @@ test('GitHub Pages subpath supports every prerendered route, assets and enhanced
     if (javaScriptEnabled) {
       await page.goto(`${origin}${base}analytics.html`);
       await page.locator('.case-player-entry').getByRole('button', { name: 'Walkthrough', exact: true }).click();
-      await page.getByRole('button', { name: 'Read this step', exact: true }).click();
+      await page.getByRole('button', { name: 'Read this scene', exact: true }).click();
       await page.waitForFunction(() => {
         const audio = document.querySelector('.case-player audio');
         return audio && !audio.paused && audio.currentTime > 0;
       });
       const source = await page.locator('.case-player audio').getAttribute('src');
       assert.ok(new URL(source, page.url()).pathname.startsWith(`${base}assets/`));
-      await page.getByRole('button', { name: 'Close case study walkthrough', exact: true }).click();
+      await page.getByRole('button', { name: 'Go to section 4: Evidence', exact: true }).click();
+      const evidence = page.locator('.case-film-source-screen img');
+      await evidence.evaluate(image => image.decode());
+      assert.ok(new URL(await evidence.getAttribute('src'), page.url()).pathname.startsWith(`${base}assets/`));
+      await page.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
     }
     await page.close();
   }

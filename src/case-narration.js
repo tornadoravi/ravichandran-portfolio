@@ -1,4 +1,10 @@
 const stories = {
+  codShield: {
+    intro: "Let's walk through C O D Shield. This independent concept responds to repeated unwanted cash on delivery orders. The idea is one supported incident, instead of making a resident manage every parcel.",
+    decisions: "Report once. Verify the exact household, because a phone code is not proof of residence. Explain genuine order restrictions, expiry, removal, and appeal before offering temporary protection.",
+    evidence: "Here's an original concept screen with fictional example data. It illustrates the proposed interface. It does not verify a real address, activate protection, or demonstrate a launched service.",
+    delivery: "This is an unlaunched, untested concept. Next, pilot one support path and test household impact, verification burden, wrong blocks, and removal. No measured improvement is claimed."
+  },
   powertable: {
     intro: "Let me walk you through PowerTable. Basically, it brings task schedules, time entries, and resource assignments into Microsoft Fabric. I worked on the Gantt and resource experience end to end, and contributed to Cross-tab configuration. I didn't design the whole product.",
     decisions: "The idea was to keep the planning context connected. First, give tasks, dates, time entries, resources, and costs clear data roles. Then, keep Gantt and resource settings beside the views they control. At the same time, make the ownership clear. Cross-tab was a contribution, and the planning explorations are labelled separately.",
@@ -85,11 +91,11 @@ function spokenText(text) {
 export function createCaseNarration({ caseId, problem, hasScreen, official }) {
   const story = stories[caseId];
   if (!story) throw new Error(`Unknown case narration: ${caseId}`);
-  const evidence = !hasScreen
+  const evidence = story.evidence || (!hasScreen
     ? "Now, a quick note about what you're seeing. There's no dedicated design screen supplied for this case. This illustration explains my contribution; it's not a final interface or a recording of the product."
     : official
       ? "Now, here's the wider product for context. This is an official product image, not a claim that I designed the whole product. The feature cases explain my own contribution separately."
-      : "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.";
+      : "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.");
   return [
     story.intro,
     `So, what was the challenge? ${problem}`,

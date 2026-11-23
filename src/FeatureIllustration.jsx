@@ -11,6 +11,7 @@ const descriptions = {
 
 function Paper({ x, y, width, height, title, paint, children, stacked = false }) {
   return <g transform={`translate(${x} ${y})`}>
+    <g className="illustration-layer">
     {stacked && <rect className="feature-paper-back" x="6" y="5" width={width} height={height} rx="8" transform={`rotate(3 ${width / 2} ${height / 2})`} />}
     <rect className="feature-paper" width={width} height={height} rx="8" fill={`url(#${paint.paper})`} filter={`url(#${paint.shadow})`} />
     {title && <>
@@ -19,6 +20,7 @@ function Paper({ x, y, width, height, title, paint, children, stacked = false })
       <text className="feature-micro feature-heading" x="24" y="17">{title}</text>
     </>}
     {children}
+    </g>
   </g>;
 }
 
@@ -31,7 +33,7 @@ function MiniBars({ x, y, paint, width = 64, height = 54 }) {
     <path className="feature-rule" d={`M0 ${height}h${width}`} />
     {[24, 39, 31, 48].map((value, index) => {
       const barHeight = value * height / 54;
-      return <g key={value}>
+      return <g className="illustration-chart-bar" key={value}>
         <rect x={index * width / 4 + 3} y={height + 1 - barHeight} width={width / 4 - 6} height={barHeight} rx="2" className="feature-bar-depth" />
         <rect x={index * width / 4 + 2} y={height - 1 - barHeight} width={width / 4 - 6} height={barHeight} rx="2" fill={`url(#${index === 2 ? paint.sand : paint.accent})`} />
       </g>;

@@ -6,6 +6,7 @@ import CaseProblemScene from './CaseProblemScene.jsx';
 import CaseConceptFilm from './CaseConceptFilm.jsx';
 import CaseIllustration from './CaseIllustration.jsx';
 import CaseStudyPlayer, { WalkthroughButton } from './CaseStudyPlayer.jsx';
+import CaseSolution from './CaseSolution.jsx';
 import { caseNarratives } from './case-narratives.js';
 
 const cases = [
@@ -25,7 +26,7 @@ const cases = [
   ['kpi', '/kpi.html', 'KPI Presets']
 ];
 
-const chapters = [
+export const chapters = [
   ['case-overview', 'Overview & my role'],
   ['case-problem', 'The problem'],
   ['case-approach', 'My design decisions'],
@@ -61,6 +62,21 @@ function findElement(children, predicate) {
     if (result) return result;
   }
   return null;
+}
+
+export function promoteCaseDecisions(children) {
+  const decisionStory = findElement(children, element => element.type === 'section' && element.props.id === 'decisions')
+    || findElement(children, element => element.type === 'section' && element.props.id === 'solutions');
+  if (!decisionStory) return { decisionStory: null, evidence: children };
+  function retainEvidence(nodes) {
+    return React.Children.map(nodes, node => {
+      if (!React.isValidElement(node)) return node;
+      if (node.type === decisionStory.type && node.props.id === decisionStory.props.id) return null;
+      if (node.props.children === undefined) return node;
+      return React.cloneElement(node, undefined, retainEvidence(node.props.children));
+    });
+  }
+  return { decisionStory, evidence: retainEvidence(children) };
 }
 
 function plainText(children) {
@@ -101,19 +117,19 @@ function collectScreens(children) {
   return screens;
 }
 
-function Chapter({ index, title, description, children, product = false }) {
-  const [id, label] = (product ? productChapters : chapters)[index];
-  return <section id={id} className="case-chapter" aria-labelledby={`${id}-title`}>
+export function Chapter({ index, title, description, children, product = false, headingId, heading, label }) {
+  const [id, chapterLabel] = (product ? productChapters : chapters)[index];
+  return <section id={id} className="case-chapter" aria-labelledby={headingId || `${id}-title`}>
     <header className="case-chapter-heading">
-      <p className="case-chapter-label">Chapter {String(index + 1).padStart(2, '0')} / {label}</p>
-      <h2 id={`${id}-title`}>{title}</h2>
+      <p className="case-chapter-label">Chapter {String(index + 1).padStart(2, '0')} / {label || chapterLabel}</p>
+      {heading || (title && <h2 id={`${id}-title`}>{title}</h2>)}
       {description && <p>{description}</p>}
     </header>
     {children}
   </section>;
 }
 
-function EvidenceScreen({ screen, eager = false }) {
+export function EvidenceScreen({ screen, eager = false }) {
   return <figure className="detail-figure case-demo-figure">
     <a className="product-screenshot case-demo-image" href={screen.src} target="_blank" rel="noopener noreferrer"
       aria-label={`View ${screen.label} screen at original resolution (opens in a new tab)`}>
@@ -149,7 +165,7 @@ export function CaseEvidencePreview({ caseId, children }) {
   </summary>;
 }
 
-function ScreenWalkthrough({ screens, diagramId }) {
+export function ScreenWalkthrough({ screens, diagramId }) {
   const [active, setActive] = useState(0);
   const buttons = useRef([]);
   function move(event, index) {
@@ -184,7 +200,7 @@ function ScreenWalkthrough({ screens, diagramId }) {
   </div>;
 }
 
-function OutcomeCard({ caseId, facts, evidenceNote }) {
+function OutcomeCard({ caseId, facts, evidenceNote, reviewChecks }) {
   const outcomes = {
     planning: {
       status: 'Design contribution',
@@ -240,6 +256,10 @@ function OutcomeCard({ caseId, facts, evidenceNote }) {
         <dt>{title}</dt><dd>{detail}</dd>
       </div>)}
     </dl>
+    {reviewChecks && <section className="case-review-evidence" aria-label="Documented implementation review">
+      <h4>How I checked the work</h4>
+      {React.cloneElement(reviewChecks, { className: 'case-review-checks' })}
+    </section>}
     <p className="case-outcome-note">{evidenceNote}</p>
   </div>;
 }
@@ -262,6 +282,8 @@ function ProductOverview({ caseId, product, narrative, facts, evidenceNote, onWa
           <div><dt>Not my claim</dt><dd>I did not design all of {product}{planning ? ' or Microsoft Fabric.' : ' or Power BI.'}</dd></div>
         </dl>
       </aside>
+      <CaseSolution caseId={planning ? 'powertable' : 'analyticsSuite'} />
+      <CaseConceptFilm caseId={planning ? 'powertable' : 'analyticsSuite'} />
     </Chapter>
     <Chapter product index={1} title="Choose one area of my work." description="Each area below explains the task, my role, and the feature case studies.">
       <span id="case-gap" className="case-bookmark" /><span id="case-goals" className="case-bookmark" />
@@ -294,7 +316,7 @@ function ProductOverview({ caseId, product, narrative, facts, evidenceNote, onWa
   </>;
 }
 
-export default function CasePresentation({ caseId, children }) {
+export default function CasePresentation({ caseId, children, decisionStory }) {
   const contentId = caseId === 'planning' ? 'powertable' : caseId;
   const facts = caseSummaries[contentId];
   const title = caseHeadlines[contentId];
@@ -329,6 +351,14 @@ export default function CasePresentation({ caseId, children }) {
     : caseId === 'analyticsSuite'
       ? 'Inforiver Analytics+ is a custom visual for Power BI. It brings chart discovery, KPI cards, tables, report authoring, and presentation into the reporting experience.'
       : `${narrative.purpose} Part of ${product} in ${platform}.`;
+  const reflection = caseId === 'wizard' && findElement(children, element => element.props.id === 'reflection');
+  const reviewChecks = reflection && findElement(reflection.props.children,
+    element => element.type === 'ul' && /\bcase-key-points\b/.test(element.props.className || ''));
+  const decisionHeader = decisionStory && findElement(decisionStory.props.children,
+    element => /\bcase-section-heading\b/.test(element.props.className || ''));
+  const decisionBody = decisionHeader && React.cloneElement(decisionStory, undefined,
+    React.Children.toArray(decisionStory.props.children).filter(element =>
+      !React.isValidElement(element) || !/\bcase-section-heading\b/.test(element.props.className || '')));
 
   useEffect(() => {
     if (!('IntersectionObserver' in window)) return;
@@ -366,7 +396,7 @@ export default function CasePresentation({ caseId, children }) {
           <div className="case-my-work"><dt>My work</dt><dd>{narrative.role}</dd></div>
           <div><dt>Delivery & evidence</dt><dd>{facts[2][1]}</dd></div>
         </dl>
-        <div><a href="#case-flow">Watch the concept <span aria-hidden="true">&#8595;</span></a><a href="#case-screens">Explore the screens <span aria-hidden="true">&#8599;</span></a></div>
+        <div><a href="#case-approach">Read design decisions <span aria-hidden="true">&#8595;</span></a><a href="#case-screens">Explore the screens <span aria-hidden="true">&#8599;</span></a></div>
       </aside>
       <nav className="case-chapter-nav" aria-label="Case study chapters" data-section-tabs="">
         {chapters.map(([id, label], index) => <a href={`#${id}`} key={id}><span>{String(index + 1).padStart(2, '0')}</span>{label}</a>)}
@@ -382,15 +412,18 @@ export default function CasePresentation({ caseId, children }) {
           <figcaption>Illustrative design problem / not an observed session or a historical product screen.</figcaption>
         </figure>
       </Chapter>
-      <Chapter index={2} title="What I designed." description={narrative.goal}>
+      <Chapter index={2} title={decisionHeader ? null : 'What I designed.'}
+        description={decisionHeader ? null : narrative.goal} heading={decisionHeader}
+        headingId={decisionHeader && decisionStory.props['aria-labelledby']}>
         <span id="case-gap" className="case-bookmark" /><span id="case-goals" className="case-bookmark" />
-        <div className="case-design-cards">
+        {decisionStory ? <div className="case-promoted-decisions">{decisionBody || decisionStory}</div> : <div className="case-design-cards">
           {narrative.steps.map(([heading, detail], index) => <article key={heading}><span className="case-card-number">0{index + 1}</span><h3>{heading}</h3><p>{detail}</p></article>)}
-        </div>
+        </div>}
       </Chapter>
-      <Chapter index={3} title="How it works." description="Task, decision, evidence. Choose a scene or play the short concept.">
+      <Chapter index={3} title="How the solution works." description="Start with the idea and its value. Explore an example, the design reasoning, and the evidence.">
         <span id="case-architecture" className="case-bookmark" />
-        <CaseConceptFilm caseId={contentId} facts={facts} />
+        <CaseSolution caseId={contentId} />
+        <CaseConceptFilm caseId={contentId} />
       </Chapter>
       <Chapter index={4} title={screens.length ? 'Explore the design screens.' : 'The contribution, clearly scoped.'}
         description={screens.length ? 'Select a screen. Open it full-size for the details.' : 'A concept explanation, not a fabricated final interface.'}>
@@ -398,7 +431,7 @@ export default function CasePresentation({ caseId, children }) {
       </Chapter>
       <Chapter index={5} title="Delivery & scope.">
         <span id="case-evidence" className="case-bookmark" /><span id="case-system" className="case-bookmark" />
-        <OutcomeCard caseId={caseId} facts={facts} evidenceNote={evidenceNote} />
+        <OutcomeCard caseId={caseId} facts={facts} evidenceNote={evidenceNote} reviewChecks={reviewChecks} />
       </Chapter>
       </>}
     </div>

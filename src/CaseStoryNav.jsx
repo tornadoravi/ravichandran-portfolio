@@ -29,6 +29,10 @@ const productChapters = {
   ],
   spatial: [
     ['Launch', '#spatial-launch'], ['Enter', '#spatial-entry'], ['Explore', '#spatial-report']
+  ],
+  codShield: [
+    ['Context', '#incident'], ['Decisions', '#decisions'], ['Prototype', '#prototype'],
+    ['Operations', '#operations'], ['Safeguards', '#safeguards'], ['Measures', '#measures']
   ]
 };
 

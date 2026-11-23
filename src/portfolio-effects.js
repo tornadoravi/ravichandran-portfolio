@@ -1,4 +1,5 @@
 import { sitePath } from './site-path.js';
+import { initializeCinematicIllustrations } from './cinematic-illustrations.js';
 export function initializePortfolioEffects() {
   const events = new AbortController();
   const cleanups = [];
@@ -57,7 +58,7 @@ export function initializePortfolioEffects() {
   const line = (x1, y1, x2, y2, color = 'var(--art-line)') =>
     `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}"/>`;
   const shell = (content, label, height = 460) =>
-    `<svg xmlns="http://www.w3.org/2000/svg" class="portfolio-illustration" viewBox="0 0 1000 ${height}" role="img" aria-label="${label}" font-family="Arial, Helvetica, sans-serif">${content}</svg>`;
+    `<svg xmlns="http://www.w3.org/2000/svg" class="portfolio-illustration" data-cinematic-art="" viewBox="0 0 1000 ${height}" role="img" aria-label="${label}" font-family="Arial, Helvetica, sans-serif"><g class="illustration-foreground">${content}</g></svg>`;
 
   function topbar(name, subtitle) {
     return `${rect(0, 0, 1000, 49, 'var(--art-white)', 10)}${rect(0, 30, 1000, 19, 'var(--art-white)')}${rect(20, 17, 17, 17, 'var(--art-accent)', 4)}${text(25, 30, '+', 16, 'var(--art-white)')}${text(48, 31, name, 14, 'var(--art-ink)', 600)}${text(228, 31, subtitle, 10)}${text(843, 31, 'Illustrative workspace', 10)}${line(0, 49, 1000, 49)}`;
@@ -124,7 +125,7 @@ export function initializePortfolioEffects() {
     ];
     const rowMarkup = rows.map(([name, category, start, duration, color], i) => {
       const y = 177 + i * 41;
-      return `${i % 2 === 0 ? rect(21, y - 20, 958, 41, 'var(--art-soft)') : ''}${line(21, y + 21, 979, y + 21)}${text(34, y + 5, i === 0 ? '▾' : '·', 12)}${text(57, y + 5, name, 11, 'var(--art-ink)', i === 0 ? 600 : 400)}${text(299, y + 5, category, 10)}${rect(431 + start * 56, y - 8, duration * 56, i === 0 ? 9 : 18, color, 3)}${i > 0 ? rect(431 + start * 56, y - 8, duration * 30, 18, 'var(--art-accent)', 3) : ''}`;
+      return `<g class="illustration-layer" data-illustration-order="${i}">${i % 2 === 0 ? rect(21, y - 20, 958, 41, 'var(--art-soft)') : ''}${line(21, y + 21, 979, y + 21)}${text(34, y + 5, i === 0 ? '▾' : '·', 12)}${text(57, y + 5, name, 11, 'var(--art-ink)', i === 0 ? 600 : 400)}${text(299, y + 5, category, 10)}${rect(431 + start * 56, y - 8, duration * 56, i === 0 ? 9 : 18, color, 3)}${i > 0 ? rect(431 + start * 56, y - 8, duration * 30, 18, 'var(--art-accent)', 3) : ''}</g>`;
     }).join('');
     const grid = Array.from({ length: 10 }, (_, i) => `${line(423 + i * 56, 138, 423 + i * 56, 424)}${text(440 + i * 56, 142, String(i * 3 + 1).padStart(2, '0'), 10)}`).join('');
     return shell(`${topbar('PowerTable', 'Sample workspace / Connected planning')}
@@ -157,7 +158,7 @@ export function initializePortfolioEffects() {
       ['Review team', 'Sample capacity', 55, 'var(--art-accent)']
     ].map(([name, caption, width, fill], i) => {
       const y = 184 + i * 69;
-      return `${rect(29, y - 28, 624, 60, 'var(--art-white)', 5, 'var(--art-line)')}${text(45, y - 3, name, 12, 'var(--art-ink)', 600)}${text(45, y + 16, caption, 9)}${rect(206, y - 8, 276, 16, 'var(--art-soft)', 4)}${rect(206, y - 8, width * 2.76, 16, fill, 4)}${text(502, y + 4, `${width}%`, 12, 'var(--art-ink)', 600)}${text(555, y + 4, 'Illustrative', 9)}`;
+      return `<g class="illustration-layer" data-illustration-order="${i}">${rect(29, y - 28, 624, 60, 'var(--art-white)', 5, 'var(--art-line)')}${text(45, y - 3, name, 12, 'var(--art-ink)', 600)}${text(45, y + 16, caption, 9)}${rect(206, y - 8, 276, 16, 'var(--art-soft)', 4)}${rect(206, y - 8, width * 2.76, 16, fill, 4)}${text(502, y + 4, `${width}%`, 12, 'var(--art-ink)', 600)}${text(555, y + 4, 'Illustrative', 9)}</g>`;
     }).join('');
     return shell(`${topbar('Resource planning', 'Concept / Workload in context')}
       ${text(30, 91, 'See the plan through a resource lens.', 20, 'var(--art-ink)', 600)}${text(30, 114, 'Fictional teams and values to illustrate the design intent.', 11)}
@@ -174,6 +175,7 @@ export function initializePortfolioEffects() {
     if (!render) throw new Error(`Unknown portfolio illustration: ${element.dataset.illustration}`);
     element.innerHTML = render();
   });
+  cleanups.push(initializeCinematicIllustrations(document));
 
   const portraitHero = document.querySelector('.portrait-hero');
   const portraitArt = portraitHero?.querySelector('.portrait-art');

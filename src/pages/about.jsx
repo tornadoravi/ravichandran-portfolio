@@ -31,8 +31,8 @@ export default function AboutPage() {
         <section id="profile" className="about-reference-hero about-reference-width" aria-labelledby="about-title">
           <div className="about-reference-copy">
             <h1 id="about-title">About me</h1>
-            <p>I’m Ravichandran V, a Product Designer II at Lumel. I bring clarity to complex enterprise products for Microsoft Power BI and Microsoft Fabric—connecting workflows, simplifying interactions, and building reusable patterns that make the experience feel cohesive.</p>
-            <p>Over four years, I’ve translated complex requirements into implementation-ready design across <em>PowerTable</em> and <em>Inforiver Analytics+</em>. My work spans Gantt and resource planning, Chart Wizard, and reusable KPI templates. I partner with product managers and developers from early prototypes through handoff and implementation review, carrying design decisions beyond the screen and into the product.</p>
+            <p><strong>Complex products. Clear paths forward.</strong> I’m Ravichandran V, a Product Designer II at Lumel. I design enterprise experiences for Microsoft Power BI and Microsoft Fabric—making complex data, connected workflows, and detailed configuration easier to understand and navigate.</p>
+            <p>Over four years, my work across <em>PowerTable</em> and <em>Inforiver Analytics+</em> has spanned Gantt and resource planning, end-to-end Chart Wizard design, and shipped KPI templates. I connect interaction details to the wider product experience, partnering with product managers and developers from early prototypes through implementation review. For me, design isn’t finished at handoff—it needs to hold together in the product.</p>
           </div>
           <img className="profile-photo about-reference-photo" src={sitePath("/assets/ravichandran-profile.png")} width="800" height="800" alt="Portrait of Ravichandran V" fetchPriority="high" />
         </section>

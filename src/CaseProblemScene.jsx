@@ -18,12 +18,14 @@ const descriptions = {
 
 function Window({ x, y, width, height, title, children }) {
   return <g transform={`translate(${x} ${y})`}>
+    <g className="illustration-layer">
     <path className="scene-depth" d={`M0 0l8-6h${width}v${height}l-8 6Z`} />
     <PaperSheet className="scene-paper" width={width} height={height} rx="8" />
     <path className="scene-line" d={`M0 32h${width}`} />
     <circle className="scene-dot" cx="15" cy="16" r="3" />
     <text x="27" y="21">{title}</text>
     {children}
+    </g>
   </g>;
 }
 

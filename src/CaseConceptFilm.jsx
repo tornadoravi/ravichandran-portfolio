@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import CaseIllustration from './CaseIllustration.jsx';
+import CaseSolutionScene from './CaseSolutionScene.jsx';
+import { caseSolutions, solutionSteps } from './case-solutions.js';
 
-const stages = ['challenge', 'design', 'evidence'];
-const labels = ['The task', 'The decision', 'The evidence'];
-
-export default function CaseConceptFilm({ caseId, facts }) {
+export default function CaseConceptFilm({ caseId }) {
+  const solution = caseSolutions[caseId];
+  const steps = solutionSteps[caseId];
+  if (!solution || !steps) throw new Error(`Unknown concept explanation: ${caseId}`);
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(false);
   const controls = useRef([]);
+  const words = [steps[active].title, steps[active].action, steps[active].response, steps[active].why].join(' ').split(/\s+/).length;
+  const duration = Math.max(6000, Math.min(30000, Math.ceil(words / 200 * 60000)));
 
   useEffect(() => {
     if (!playing) return;
@@ -16,9 +19,9 @@ export default function CaseConceptFilm({ caseId, facts }) {
     const visibility = () => { if (document.hidden) stop(); };
     if (preference.matches || document.hidden) { stop(); return; }
     const timer = setTimeout(() => {
-      if (active < stages.length - 1) setActive(value => value + 1);
+      if (active < steps.length - 1) setActive(value => value + 1);
       else stop();
-    }, 3200);
+    }, duration);
     preference.addEventListener('change', stop);
     document.addEventListener('visibilitychange', visibility);
     document.addEventListener('keydown', stop);
@@ -28,7 +31,7 @@ export default function CaseConceptFilm({ caseId, facts }) {
       document.removeEventListener('visibilitychange', visibility);
       document.removeEventListener('keydown', stop);
     };
-  }, [active, playing]);
+  }, [active, playing, duration]);
 
   function choose(index) {
     setPlaying(false);
@@ -44,28 +47,36 @@ export default function CaseConceptFilm({ caseId, facts }) {
     controls.current[next].focus();
   }
 
-  return <div className={`case-film${playing ? ' is-playing' : ''}`} role="group" aria-label="Illustrated case concept">
-    <div className="case-film-top"><span>Concept film / 3 scenes</span><span>Original illustration &#183; Not a product recording</span></div>
-    <div className="case-film-controls" role="group" aria-label="Concept scenes">
-      {labels.map((label, index) => <button key={label} type="button" aria-pressed={active === index}
+  return <div className={`case-film${playing ? ' is-playing' : ''}`} role="group" aria-label="Step-by-step solution illustration">
+    <div className="case-film-top"><span>Solution walkthrough / {steps.length} steps</span><span>Original illustration &#183; Not a product recording</span></div>
+    <div className="case-film-controls" role="group" aria-label="Solution steps">
+      {steps.map((step, index) => <button key={step.title} type="button" aria-pressed={active === index}
         ref={element => { controls.current[index] = element; }} onClick={() => choose(index)}
         onKeyDown={event => move(event, index)}>
-        <span aria-hidden="true">0{index + 1}</span> {label}
+        <span aria-hidden="true">0{index + 1}</span> {step.title}
       </button>)}
       <button className="case-film-play" type="button" aria-pressed={playing} onClick={event => {
         if (event.detail === 0) { choose(0); return; }
         if (playing) setPlaying(false);
         else if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { setActive(0); setPlaying(true); }
-      }}>{playing ? 'Pause concept' : 'Play 10-second concept'} <span aria-hidden="true">{playing ? <>&#8545;</> : <>&#9655;</>}</span></button>
+      }}>{playing ? 'Pause concept' : 'Play concept'} <span aria-hidden="true">{playing ? <>&#8545;</> : <>&#9655;</>}</span></button>
     </div>
-    {stages.map((stage, index) => <div key={stage} className="case-film-panel" hidden={active !== index}>
-      <div className="case-film-visual"><CaseIllustration caseId={caseId} stage={stage} /></div>
+    {steps.map((step, index) => <div key={step.title} className="case-film-panel" hidden={active !== index}>
+      <div className="case-film-visual"><CaseSolutionScene steps={steps} active={index} /></div>
       <div className="case-film-copy">
-        <span className="case-card-number">0{index + 1} / {labels[index]}</span>
-        <h3>{facts[index][0]}</h3><p>{facts[index][1]}</p>
-        <div key={`${active}-${playing}`} className="case-film-timeline" aria-hidden="true"><span /></div>
+        <span className="case-card-number">Step 0{index + 1} / {step.title}</span>
+        <h3>{step.title}</h3>
+        <dl className="case-film-step-details">
+          <div><dt>What the user does</dt><dd>{step.action}</dd></div>
+          <div><dt>What the design makes clear</dt><dd>{step.response}</dd></div>
+          <div><dt>Why this step matters</dt><dd>{step.why}</dd></div>
+        </dl>
+        <div key={`${active}-${playing}`} className="case-film-timeline" aria-hidden="true"><span ref={element => {
+          if (element) element.style.animationDuration = `${duration}ms`;
+        }} /></div>
       </div>
     </div>)}
-    <p className="case-film-status" role="status">Scene {active + 1} of 3{playing ? ' / Playing' : ' / Choose a scene to explore'}</p>
+    <p className="case-film-status" role="status">Step {active + 1} of {steps.length}{playing ? ' / Playing' : ' / Choose a step to explore'}</p>
+    <p className="case-film-scope"><strong>Evidence & scope</strong> {solution.evidence}</p>
   </div>;
 }

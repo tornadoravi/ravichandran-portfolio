@@ -8,10 +8,12 @@ const amber = 'var(--art-sand)';
 
 function Paper({ x, y, width = 110, height = 130, angle = 0, label, children }) {
   return <g transform={`translate(${x} ${y}) rotate(${angle} ${width / 2} ${height / 2})`}>
+    <g className="illustration-layer">
     <rect className="illustration-paper-back" x="4" y="4" width={width} height={height} rx="10" transform={`rotate(2 ${width / 2} ${height / 2})`} />
     <PaperSheet width={width} height={height} rx="10" />
     {label && <text x="12" y="25" fill={ink}>{label}</text>}
     {children}
+    </g>
   </g>;
 }
 
@@ -43,7 +45,7 @@ function Chart({ x = 0, y = 0, kind = 'bar', color = green }) {
   return <g transform={`translate(${x} ${y})`}>
     {kind === 'line' ? <path d="M3 62l23-26 24 10L78 7" fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" /> :
       kind === 'pie' ? <><circle cx="40" cy="36" r="31" fill="var(--art-soft)" /><path d="M40 36V5a31 31 0 0 1 31 31Z" fill={color} /></> :
-      [29, 49, 37, 65].map((height, index) => <rect key={index} x={index * 22} y={69 - height} width="14" height={height} rx="4" fill={index === 2 ? amber : color} />)}
+      [29, 49, 37, 65].map((height, index) => <rect className="illustration-chart-bar" key={index} x={index * 22} y={69 - height} width="14" height={height} rx="4" fill={index === 2 ? amber : color} />)}
   </g>;
 }
 
@@ -366,12 +368,45 @@ function AnalyticsSuiteScene({ stage }) {
   </>;
 }
 
+function CodShieldScene({ stage }) {
+  if (stage === 'challenge') return <>
+    {[['Calls', 27, 32, -7], ['Parcels', 209, 24, 7], ['Refusals', 208, 136, -5]].map(([label, x, y, angle]) => <Paper key={label} x={x} y={y} width={119} height={80} angle={angle} label={label}><Lines rows={2} width={83} /></Paper>)}
+    <Paper x={34} y={133} width={128} height={75} label="One home"><Lines rows={1} width={86} /></Paper>
+    <Arrow d="M151 74h36m-8-7 8 7-8 7M187 171h-17m8-7-8 7 8 7" dashed />
+  </>;
+  if (stage === 'design') return <>
+    <Paper x={18} y={42} width={94} height={113} angle={-5} label="Report"><Lines rows={3} width={58} /></Paper>
+    <Paper x={134} y={55} width={94} height={113} label="Verify"><Lines rows={3} width={58} /></Paper>
+    <Paper x={251} y={42} width={94} height={113} angle={5} label="Protect"><Lines rows={3} width={58} /></Paper>
+    <Arrow d="M114 102h17m-6-5 6 5-6 5M231 102h17m-6-5 6 5-6 5" />
+    <Tag x={95} y={186} width={170} text="Temporary + reversible" color="var(--art-sand-soft)" />
+  </>;
+  return <>
+    <Paper x={32} y={37} width={134} height={151} angle={-6} label="Concept"><Lines width={96} rows={5} /></Paper>
+    <Paper x={195} y={37} width={134} height={151} angle={6} label="Pilot next"><Lines width={96} rows={5} /></Paper>
+    <Tag x={110} y={175} width={141} text="Not launched" color="var(--art-sand-soft)" />
+  </>;
+}
+
+function BikeCareScene({ stage }) {
+  const labels = stage === 'challenge' ? ['Local service', 'Forgotten care', 'Resale history']
+    : stage === 'design' ? ['Record work', 'Both confirm', 'Remember']
+      : ['Rider', 'Local mechanic', 'Resale buyer'];
+  return <>
+    {labels.map((label, index) => <Paper key={label} x={18 + index * 116} y={45 + (index === 1 ? 12 : 0)} width={94} height={112} angle={index === 0 ? -5 : index === 2 ? 5 : 0} label={label}>
+      <Lines rows={3} width={58} />
+    </Paper>)}
+    <Arrow d="M114 102h17m-6-5 6 5-6 5M231 102h17m-6-5 6 5-6 5" dashed={stage === 'challenge'} />
+    <Tag x={92} y={185} width={176} text={stage === 'evidence' ? 'Intended benefits' : 'One bike. Shared record.'} color="var(--art-sand-soft)" />
+  </>;
+}
+
 const scenes = {
   mapping: MappingScene, baselines: BaselineScene, backlog: BacklogScene,
   formatting: FormattingScene, ganttPanel: GanttPanelScene, resourcePanel: ResourcePanelScene,
   storyboard: StoryboardScene, gantt: GanttScene, wizard: WizardScene,
   presentation: PresentationScene, kpi: KpiScene, crosstab: CrosstabScene,
-  powertable: PowerTableScene, analyticsSuite: AnalyticsSuiteScene
+  powertable: PowerTableScene, analyticsSuite: AnalyticsSuiteScene, codShield: CodShieldScene, bikecare: BikeCareScene
 };
 
 export default function CaseIllustration({ caseId, stage }) {

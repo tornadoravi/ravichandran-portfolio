@@ -45,16 +45,57 @@ for (const appearance of ['light', 'dark']) {
           words: document.querySelector('main').innerText.trim().split(/\s+/).length
         }));
         expect(layout.overflow, route).toBe(false);
-        expect(layout.words, route).toBeLessThan(product ? 850 : 650);
+        expect(layout.words, route).toBeLessThan(product ? 1200 : 1000);
         expect(await page.locator('.case-fast-read').innerText().then(text => text.split(/\s+/).length), route).toBeLessThan(100);
         await expect(page.locator('.case-fast-read .case-my-work dt')).toHaveText('My work');
         await expect(page.locator('.case-fast-read .case-my-work dd')).not.toBeEmpty();
-        await expect(page.locator('.case-film-panel:visible')).toHaveCount(product ? 0 : 1);
+        await expect(page.locator('.case-film-panel:visible')).toHaveCount(1);
       }
       expect(errors).toEqual([]);
     });
   }
 }
+
+test('original rationale is visible without opening evidence and keeps a single bookmark', async ({ page, browser, baseURL }) => {
+  for (const [route, id, text] of [
+    ['analytics', 'decisions', 'More flexibility introduces an entry choice'],
+    ['column-mapping', 'decisions', 'Clearer relationships cost extra label space'],
+    ['gantt-baselines', 'decisions', 'Separate the choice from the administration'],
+    ['gantt-backlog', 'decisions', 'Support the work before it reaches the schedule'],
+    ['gantt-configuration', 'decisions', 'Separate scheduling behavior from appearance'],
+    ['gantt-conditional-formatting', 'decisions', 'not measured usability findings'],
+    ['resource-configuration', 'decisions', 'Separate what changes, retain the context'],
+    ['kpi', 'solutions', 'Simple presets establish the value and label'],
+    ['storyboard', 'solutions', 'Solution highlight'],
+    ['gantt', 'solutions', 'Solution highlight'],
+    ['presentation', 'solutions', 'Solution highlight']
+  ]) {
+    await page.goto(`/${route}.html`);
+    await expect(page.locator(`#${id}`)).toHaveCount(1);
+    await expect(page.locator(`#case-approach #${id}`)).toBeVisible();
+    await expect(page.locator('#case-approach')).toContainText(text);
+    await expect(page.locator('#full-case-evidence')).not.toHaveAttribute('open');
+  }
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  try {
+    const offlinePage = await context.newPage();
+    await offlinePage.goto(`${baseURL}/analytics.html#decisions`);
+    await expect(offlinePage.locator('#decisions')).toBeInViewport();
+    await expect(offlinePage.locator('#decisions .decision-ledger > li')).toHaveCount(3);
+    await expect(offlinePage.locator('#full-case-evidence')).not.toHaveAttribute('open');
+  } finally {
+    await context.close();
+  }
+});
+
+test('delivery surfaces documented internal checks without implying customer impact', async ({ page }) => {
+  await page.goto('/analytics.html#case-delivery');
+  const review = page.getByRole('region', { name: 'Documented implementation review' });
+  await expect(review).toBeVisible();
+  await expect(review).toContainText('PM, developer, and stakeholder walkthroughs');
+  await expect(review).toContainText('customer-impact measurements are not included');
+  await expect(page.locator('#full-case-evidence')).not.toHaveAttribute('open');
+});
 
 for (const route of routes) {
   test(`walkthrough preserves original screens and captions on ${route}`, async ({ page }) => {
@@ -169,7 +210,7 @@ for (const route of ['powertable', 'column-mapping', 'analytics-plus', 'analytic
       await expect(page.locator(product ? '#case-approach' : '#case-screens')).toBeInViewport();
       await expect(page.locator('.case-demo-tabs')).toBeHidden();
       await expect(page.locator('.case-film-controls')).toBeHidden();
-      await expect(page.locator('.case-film-panel:visible')).toHaveCount(product ? 0 : 3);
+      await expect(page.locator('.case-film-panel:visible')).toHaveCount(3);
       for (const panel of await page.locator('.case-demo-panel').all()) await expect(panel).toBeVisible();
       await page.locator('#full-case-evidence > summary').click();
       await expect(page.locator('#full-case-evidence .case-story-nav')).toBeVisible();
@@ -286,45 +327,57 @@ test('a reader can follow product to area to feature and return to the same area
   await expect(page.locator('#product-tasks')).toBeInViewport();
 });
 
-test('concept film plays once, can be paused, and offers direct keyboard scene selection', async ({ page }) => {
+test('solution walkthrough uses readable timing, pauses, and supports keyboard step selection', async ({ page }) => {
+  await page.clock.install();
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/column-mapping.html#case-flow');
-  const film = page.getByRole('group', { name: 'Illustrated case concept', exact: true });
-  await expect(film.locator('.case-film-status')).toContainText('Scene 1 of 3');
-  await film.getByRole('button', { name: 'Play 10-second concept' }).click();
+  const film = page.getByRole('group', { name: 'Step-by-step solution illustration', exact: true });
+  await expect(film.locator('.case-film-status')).toContainText('Step 1 of 3');
+  await film.getByRole('button', { name: 'Play concept' }).click();
   await expect(film.getByRole('button', { name: 'Pause concept' })).toBeVisible();
-  await expect(film.locator('.case-film-status')).toContainText('Scene 2 of 3', { timeout: 5000 });
+  await page.clock.runFor(3200);
+  await expect(film.locator('.case-film-status')).toContainText('Step 1 of 3 / Playing');
+  const duration = await film.locator('.case-film-panel:visible .case-film-timeline span').evaluate(element => parseFloat(getComputedStyle(element).animationDuration) * 1000);
+  expect(duration).toBeGreaterThanOrEqual(6000);
+  await page.clock.runFor(duration);
+  await expect(film.locator('.case-film-status')).toContainText('Step 2 of 3 / Playing');
   await film.getByRole('button', { name: 'Pause concept' }).click();
-  await expect(film.locator('.case-film-status')).toContainText('Scene 2 of 3 / Choose');
-  await film.getByRole('button', { name: 'The evidence', exact: true }).focus();
+  await expect(film.locator('.case-film-status')).toContainText('Step 2 of 3 / Choose');
+  await film.getByRole('button', { name: 'Map resources', exact: true }).focus();
   await page.keyboard.press('Home');
-  await expect(film.getByRole('button', { name: 'The task', exact: true })).toBeFocused();
+  await expect(film.getByRole('button', { name: 'Define task roles', exact: true })).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(film.getByRole('button', { name: 'The decision', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(film.getByRole('button', { name: 'Connect time', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.mouse.click(1, 1);
-  await film.getByRole('button', { name: 'Play 10-second concept' }).click();
-  await expect(film.locator('.case-film-status')).toContainText('Scene 3 of 3 / Choose', { timeout: 12000 });
+  await film.getByRole('button', { name: 'Play concept' }).click();
+  await expect(film.locator('.case-film-status')).toContainText('Step 1 of 3 / Playing');
+  for (let index = 0; index < 3; index++) {
+    const currentDuration = await film.locator('.case-film-panel:visible .case-film-timeline span').evaluate(element => parseFloat(getComputedStyle(element).animationDuration) * 1000);
+    await page.clock.runFor(currentDuration + 1);
+    await expect(film.locator('.case-film-status')).toContainText(index < 2 ? `Step ${index + 2} of 3 / Playing` : 'Step 3 of 3 / Choose');
+  }
+  await expect(film.locator('.case-film-status')).toContainText('Step 3 of 3 / Choose');
   await expect(film.locator('.case-film-panel:visible')).toHaveCount(1);
-  await expect(film.locator('.case-film-panel:visible')).toContainText('Five design states');
+  await expect(film.locator('.case-film-panel:visible')).toContainText('Resource and Cost have focused tabs');
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(film.getByRole('button', { name: 'Play 10-second concept' })).toBeHidden();
-  await film.getByRole('button', { name: 'The task', exact: true }).click();
-  await expect(film.locator('.case-film-panel:visible')).toContainText('Complex data roles');
+  await expect(film.getByRole('button', { name: 'Play concept' })).toBeHidden();
+  await film.getByRole('button', { name: 'Define task roles', exact: true }).click();
+  await expect(film.locator('.case-film-panel:visible')).toContainText('Choose the source fields');
 });
 
 test('concept playback stops when motion preferences change and resets after navigation', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/analytics.html#case-flow');
-  await page.getByRole('button', { name: 'Play 10-second concept' }).click();
+  await page.getByRole('button', { name: 'Play concept' }).click();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.case-film')).not.toHaveClass(/is-playing/);
-  await expect(page.locator('.case-film-status')).toContainText('Scene 1 of 3 / Choose');
+  await expect(page.locator('.case-film-status')).toContainText('Step 1 of 3 / Choose');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.getByRole('button', { name: 'Play 10-second concept' }).click();
+  await page.getByRole('button', { name: 'Play concept' }).click();
   await page.locator('.case-endcap-next').click();
   await expect(page).toHaveURL(/storyboard\.html$/);
   await expect(page.locator('.case-film')).not.toHaveClass(/is-playing/);
-  await expect(page.locator('.case-film-status')).toContainText('Scene 1 of 3 / Choose');
+  await expect(page.locator('.case-film-status')).toContainText('Step 1 of 3 / Choose');
 });
 
 test('outcome cards distinguish confirmed shipping, exploration, and contribution', async ({ page }) => {
@@ -338,3 +391,36 @@ test('outcome cards distinguish confirmed shipping, exploration, and contributio
   }
   await expect(page.locator('.case-outcome')).toContainText('resource earned-value remain explorations');
 });
+
+for (const [width, appearance] of [[320, 'light'], [1440, 'dark']]) {
+  test(`all sixteen cases explain illustrated solution steps at ${width}px in ${appearance}`, async ({ page }) => {
+    test.setTimeout(90000);
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
+    for (const route of [...routes, 'cod-shield', 'analytics-spatial']) {
+      await page.goto(`/${route}.html`);
+      const summary = page.locator('.case-solution');
+      await expect(summary).toHaveCount(1);
+      await expect(summary.locator('.case-solution-idea')).not.toBeEmpty();
+      await expect(summary.locator('.case-solution-example')).toContainText('Example situation');
+      await expect(summary.locator('.case-solution-value')).toContainText('Designed to help');
+      const film = page.getByRole('group', { name: 'Step-by-step solution illustration', exact: true });
+      expect(await film.evaluate(element => element.closest('#full-case-evidence') === null), route).toBe(true);
+      const buttons = film.locator('.case-film-controls > button:not(.case-film-play)');
+      await expect(buttons).toHaveCount(3);
+      for (let index = 0; index < 3; index++) {
+        await buttons.nth(index).click();
+        await expect(buttons.nth(index)).toHaveAttribute('aria-pressed', 'true');
+        const panel = film.locator('.case-film-panel:visible');
+        await expect(panel).toHaveCount(1);
+        await expect(panel.locator('svg')).toHaveAttribute('data-solution-step', String(index + 1));
+        await expect(panel.locator('dt')).toHaveText(['What the user does', 'What the design makes clear', 'Why this step matters']);
+        for (const explanation of await panel.locator('dd').all()) await expect(explanation).not.toBeEmpty();
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} step ${index + 1}`).toBe(true);
+      }
+      await expect(film.locator('.case-film-scope')).toContainText('Evidence & scope');
+      await expect(film.locator('.case-film-scope')).not.toBeEmpty();
+    }
+  });
+}
