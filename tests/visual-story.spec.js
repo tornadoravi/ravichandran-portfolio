@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openProductDetails, openLinkDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -17,6 +17,7 @@ for (const javaScriptEnabled of [true, false]) {
         await page.goto(`${baseURL}/${name}.html`);
         if (javaScriptEnabled) await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
         const nav = page.locator('.case-story-nav');
+        await openLinkDetails(nav);
         await expect(nav).toHaveCount(1);
         const chapters = await nav.locator('a').all();
         expect(chapters.length).toBe(name === 'analytics-spatial' ? 3 : 5);
@@ -50,14 +51,20 @@ for (const appearance of ['light', 'dark']) {
       for (const path of ['/', '/about.html']) {
         await page.goto(path);
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
+        expect((await page.locator('main').innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(path === '/' ? 300 : 280);
+        if (path === '/') {
+          await expect(page.locator('.design-approach')).toHaveCount(0);
+          continue;
+        }
+        await openLinkDetails(page.locator('.design-approach'));
         await expect(page.locator('.design-approach h3')).toHaveText(['Understand', 'Structure', 'Refine']);
         await expect(page.locator('.design-approach svg')).toHaveCount(3);
         for (const point of await page.locator('.design-approach p').all()) {
           expect((await point.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(10);
         }
-        expect((await page.locator('main').innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(path === '/' ? 220 : 280);
       }
       await page.goto('/powertable.html');
+      await openProductDetails(page);
       await expect(page.locator('.focus-steps > li')).toHaveCount(3);
       await expect(page.locator('.focus-explanation .story-highlight')).toHaveCount(3);
       await expect(page.locator('.workspace-grid > .workspace-group')).toHaveCount(3);
@@ -77,7 +84,7 @@ for (const appearance of ['light', 'dark']) {
         'gantt-configuration', 'resource-configuration', 'crosstab', 'storyboard', 'gantt', 'presentation', 'kpi']) {
         await page.goto(`/${name}.html`);
         await expect(page.locator('.case-snapshot .story-highlight')).toHaveCount(3);
-        await expect(page.locator('.case-diagram')).toHaveCount(1);
+        await expect(page.locator('.case-story-content .case-diagram')).toHaveCount(1);
         await expect(page.locator('#case-details')).not.toHaveAttribute('open');
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name).toBe(true);
       }

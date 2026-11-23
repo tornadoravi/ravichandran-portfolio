@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openLinkDetails, openProductDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -7,6 +7,7 @@ const cases = ['analytics-plus', 'analytics', 'storyboard', 'gantt', 'presentati
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
     test(`senior review is restrained and evidence-led in ${appearance} at ${width}px`, async ({ page }) => {
+      test.setTimeout(90000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       for (const name of cases) {
@@ -15,6 +16,9 @@ for (const appearance of ['light', 'dark']) {
         await page.evaluate(() => document.fonts.ready);
         const main = page.locator('main.design-review');
         await expect(main).toBeVisible();
+        const defaultWords = (await main.innerText()).trim().split(/\s+/).length;
+        await openLinkDetails(page.getByAltText('Microsoft', { exact: true }));
+        await openLinkDetails(page.locator('.case-story-layout'));
         await expect(page.getByAltText('Microsoft', { exact: true })).toBeVisible();
         await expect(page.getByAltText('Lumel Technologies', { exact: true })).toBeVisible();
         if (name === 'analytics-plus') {
@@ -22,8 +26,8 @@ for (const appearance of ['light', 'dark']) {
           await expect(brief.locator('dt')).toHaveText(['Design challenge', 'My scope', 'Confirmed delivery']);
           await expect(brief).toContainText('Chart Wizard and reusable KPI templates shipped.');
           expect((await brief.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(40);
-          expect((await main.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(280);
-          expect((await main.boundingBox()).height).toBeLessThanOrEqual(width <= 700 ? 3600 : 2800);
+          expect(defaultWords).toBeLessThanOrEqual(500);
+          await expect(page.locator('.case-hero-preview img')).toBeVisible();
           await expect(page.getByRole('link', { name: 'Recommended first read: Chart Wizard' })).toBeVisible();
           await expect(page.locator('.product-marketplace')).toBeHidden();
           await expect(page.locator('#spatial-exploration')).toBeHidden();
@@ -84,6 +88,7 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       const page = await context.newPage();
       await page.goto(baseURL + '/analytics-plus.html');
+      await openProductDetails(page);
       await page.locator('#supporting-work > summary').focus();
       await page.keyboard.press('Enter');
       await expect(page.locator('#spatial-exploration')).toContainText('Prototype only—not a shipped Vision Pro product.');

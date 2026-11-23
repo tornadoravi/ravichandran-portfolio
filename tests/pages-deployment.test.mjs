@@ -11,6 +11,14 @@ test('GitHub Pages subpath supports every prerendered route, assets and enhanced
   const base = '/ravichandran-portfolio/';
   const root = new URL('../', import.meta.url);
   const output = new URL('../dist/', import.meta.url);
+  t.after(() => {
+    // Restore the local build even when a Pages assertion fails.
+    execFileSync(process.execPath, ['scripts/build-site.mjs'], {
+      cwd: root,
+      env: { ...process.env, SITE_BASE_PATH: process.env.SITE_BASE_PATH || '/' },
+      stdio: ['ignore', 'pipe', 'pipe']
+    });
+  });
   execFileSync(process.execPath, ['scripts/build-site.mjs'], {
     cwd: root,
     env: { ...process.env, SITE_BASE_PATH: base },
@@ -99,7 +107,7 @@ test('GitHub Pages subpath supports every prerendered route, assets and enhanced
     }
     if (javaScriptEnabled) {
       await page.goto(`${origin}${base}analytics.html`);
-      await page.locator('.case-player-entry').getByRole('button', { name: 'Walkthrough', exact: true }).click();
+      await page.locator('.case-watch-entry').getByRole('button', { name: 'Walkthrough', exact: true }).click();
       await page.getByRole('button', { name: 'Read this scene', exact: true }).click();
       await page.waitForFunction(() => {
         const audio = document.querySelector('.case-player audio');

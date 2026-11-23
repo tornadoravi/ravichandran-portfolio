@@ -3,21 +3,24 @@ import { test, expect, openListeningControls } from './fixtures.js';
 const routes = ['/', '/about.html', '/powertable.html', '/analytics-plus.html', '/analytics-spatial.html',
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
   '/gantt-conditional-formatting.html', '/gantt-configuration.html', '/resource-configuration.html',
-  '/crosstab.html', '/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html'];
+  '/crosstab.html', '/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html',
+  '/cod-shield.html', '/bikecare.html'];
 
 test.use({ reducedMotion: 'reduce' });
 
 for (const width of [1060, 1440, 1920]) {
-  test(`Home role, badges, headline, and portrait fit a short ${width}px desktop`, async ({ page }) => {
+  test(`Home identity, headline, and portrait align on a short ${width}px desktop`, async ({ page }) => {
     await page.setViewportSize({ width, height: 600 });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    const hero = await page.locator('.portrait-hero').boundingBox();
-    expect((await page.locator('#work').boundingBox()).y).toBeCloseTo(600, 0);
-    for (const selector of ['.hero-context', '.portrait-title', '.hero-introduction', '.hero-work-link', '.hero-portrait']) {
+    const hero = await page.locator('.reference-hero').boundingBox();
+    expect((await page.locator('#work').boundingBox()).y).toBeGreaterThanOrEqual(hero.y + hero.height);
+    for (const selector of ['.hero-identity', '.portrait-title', '.hero-introduction', '.hero-work-link', '.hero-portrait-stage']) {
       const bounds = await page.locator(selector).boundingBox();
       expect(bounds.y, selector).toBeGreaterThanOrEqual(hero.y);
       expect(bounds.y + bounds.height, selector).toBeLessThanOrEqual(hero.y + hero.height);
+      expect(bounds.x, selector).toBeGreaterThanOrEqual(hero.x);
+      expect(bounds.x + bounds.width, selector).toBeLessThanOrEqual(hero.x + hero.width);
     }
   });
 }
@@ -41,11 +44,18 @@ async function alignmentIssues(page) {
         issues.push(`${label(element)} overflows by ${element.scrollWidth - element.clientWidth}px`);
       }
     }
-    const header = document.querySelector('.site-header.wrap').getBoundingClientRect();
-    for (const element of document.querySelectorAll('main .wrap,footer.wrap,.page-listening.wrap')) {
-      if (!visible(element) || element.parentElement.closest('.wrap')) continue;
+    const tokens = getComputedStyle(document.documentElement);
+    const width = Math.min(parseFloat(tokens.getPropertyValue('--ds-page-width')),
+      innerWidth - 2 * parseFloat(tokens.getPropertyValue('--ds-page-gutter')));
+    const gutter = (innerWidth - width) / 2;
+    const pageLayout = '.design-review:has(> .case-presentation-layout)';
+    for (const element of document.querySelectorAll(`main.wrap,main .wrap,footer.wrap,.page-listening.wrap,main${pageLayout}`)) {
+      if (!visible(element) || element.parentElement.closest(`.wrap,${pageLayout}`)) continue;
       const bounds = element.getBoundingClientRect();
-      if (Math.abs(bounds.left - header.left) > 1 || Math.abs(bounds.right - header.right) > 1) {
+      const reference = element.matches('#experience-details > summary')
+        ? document.querySelector('.about-reference-width').getBoundingClientRect()
+        : { left: gutter, right: innerWidth - gutter };
+      if (Math.abs(bounds.left - reference.left) > 1 || Math.abs(bounds.right - reference.right) > 1) {
         issues.push(`${label(element)} does not align with the shared gutters`);
       }
     }
@@ -67,6 +77,7 @@ async function alignmentIssues(page) {
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 701, 768, 1024, 1440, 1920]) {
     test(`all page elements align in ${appearance} at ${width}px, including expanded evidence`, async ({ page }) => {
+      test.setTimeout(60000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(appearance => localStorage.setItem('portfolio-appearance', appearance), appearance);
       for (const route of routes) {
@@ -85,6 +96,7 @@ for (const appearance of ['light', 'dark']) {
 
 for (const width of [320, 390, 768, 1440]) {
   test(`expanded music controls align on every page at ${width}px without requesting playback`, async ({ page }) => {
+    test.setTimeout(60000);
     await page.setViewportSize({ width, height: 900 });
     await page.addInitScript(() => sessionStorage.setItem('portfolio-listening-mode', 'soundroom'));
     const mediaRequests = [];

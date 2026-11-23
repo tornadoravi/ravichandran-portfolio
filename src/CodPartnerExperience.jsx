@@ -51,9 +51,9 @@ export default function CodPartnerExperience({ renderPrototype }) {
         </details>
         <div className="cod-notice"><strong>Why not checkout?</strong><p>The person being targeted is not necessarily the buyer. Start outside an order, without a shopping account or order ID. Keep accessible web and official phone support as alternatives.</p></div>
         <div className="cod-notice"><strong>Secondary trigger</strong><p>A proposed “I did not order this” shortcut in recipient-facing delivery help should open or recover the same case—not create a new approval request for every parcel.</p></div>
-        <ol className="cod-partner-flow">
+        {working && <ol className="cod-partner-flow" aria-label="Working flow progress">
           {stages.map(([id, label], index) => <li key={id} aria-current={stage === index ? 'step' : undefined}><span>0{index + 1}</span>{label}</li>)}
-        </ol>
+        </ol>}
         <p className="fine-print">Suggested information architecture, not a claim about each platform’s current navigation. Partner access and COD eligibility require approval.</p>
       </div>
       <div>
@@ -61,7 +61,7 @@ export default function CodPartnerExperience({ renderPrototype }) {
           {stages.map(([id, label], index) => <button key={id} type="button" disabled={!ready} aria-pressed={stage === index}
             onClick={() => showStage(index)}>0{index + 1} / {label}</button>)}
         </div>
-        <p className="fine-print">Stage selectors preview designs and bypass the simulated journey.</p></>}
+        <p className="fine-print">Read-only design previews. Choose “Try working flow” to enter example data.</p></>}
         {working && started ? renderPrototype(partner, updateFlowStage) : <CodPartnerScreen partner={partner} stage={working ? 0 : stage} ready={ready} consent={consent}
           setConsent={setConsent} showStage={working ? () => { setStarted(true); showStage(1); } : showStage} titleRef={title}
           onOpenDemo={() => { setWorking(true); setStarted(true); showStage(1); }} />}

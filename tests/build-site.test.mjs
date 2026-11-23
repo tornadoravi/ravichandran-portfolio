@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { readFile, readdir, writeFile } from 'node:fs/promises';
+import { readFile, readdir, unlink, writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { files, reactPages, securityHeaders } from '../site-files.js';
@@ -146,4 +146,28 @@ test('React production build preserves public boundaries, prerenders routes, and
   const missingHead = await fetch(`${origin}/.env`, { method: 'HEAD' });
   assert.equal(missingHead.status, 404);
   assert.equal(await missingHead.text(), '');
+
+  await t.test('new build assets become available after a page refresh without restarting the server', async () => {
+    const manifestPath = new URL('.vite/manifest.json', output);
+    const originalManifest = await readFile(manifestPath, 'utf8');
+    const asset = 'assets/rebuilt-preview-test.js';
+    const assetPath = new URL(asset, output);
+    const content = 'export const rebuiltPreview = true;';
+    try {
+      await writeFile(assetPath, content);
+      assert.equal((await fetch(`${origin}/${asset}`)).status, 404, 'Unlisted assets must stay private');
+      await writeFile(manifestPath, JSON.stringify({ ...manifest, rebuiltPreview: { file: asset } }));
+      assert.equal((await fetch(`${origin}/powertable.html`)).status, 200);
+      const response = await fetch(`${origin}/${asset}`);
+      assert.equal(response.status, 200);
+      assert.match(response.headers.get('content-type'), /text\/javascript/);
+      assert.equal(await response.text(), content);
+      await writeFile(manifestPath, originalManifest);
+      assert.equal((await fetch(`${origin}/`)).status, 200);
+      assert.equal((await fetch(`${origin}/${asset}`)).status, 404, 'Removed manifest entries must stop being served');
+    } finally {
+      await writeFile(manifestPath, originalManifest);
+      await unlink(assetPath);
+    }
+  });
 });

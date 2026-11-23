@@ -269,7 +269,7 @@ export default function StoryboardPage() {
             </ul>
             <div className={"note"}>
               <span className={"eyebrow"}>{"Scope & evidence"}</span>
-              <p>{"Authoring screenshots show product context—not ownership of every feature or template. Presentation contributions stay separate."}</p>
+              <p>{"These screens document my Storyboard UX/UI contribution. Report content and templates provide product context; Presentation has its own feature case."}</p>
             </div>
           </div>
         </section>
@@ -339,7 +339,7 @@ export default function StoryboardPage() {
             <ul className="case-key-points">
               <li>{"Choose between Explore template store and Import templates. Import includes a drag-and-drop instruction."}</li>
               <li>{"The store offers dashboard/standalone templates, visual components, and data apps. Search, filters, and previews support browsing."}</li>
-              <li>{"Store imagery is ecosystem context—not ownership of the catalogue, community assets, or individual dashboards."}</li>
+              <li>{"Store imagery provides ecosystem context. Catalogue templates and community dashboards retain their creators’ attribution."}</li>
             </ul>
           </div>
         </section>
@@ -499,7 +499,7 @@ export default function StoryboardPage() {
                 </p>
                 <p>
                   <strong>{"Evidence:"}</strong>
-                  {" six authoring and template screens. Store imagery is product context, not ownership of the catalogue."}
+                  {" six authoring and template screens. Store imagery provides product and ecosystem context."}
                 </p>
                 <p>
                   <strong>{"Review:"}</strong>

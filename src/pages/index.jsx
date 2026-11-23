@@ -18,7 +18,8 @@ export default function IndexPage() {
     const settle = () => stage.classList.add('is-settled');
     image.addEventListener('load', reveal, { once: true, signal: events.signal });
     if (image.complete && image.naturalWidth) reveal();
-    if (document.activeElement?.matches(':focus-visible')) settle();
+    if (window.location.hash || document.activeElement?.matches(':focus-visible')) settle();
+    window.addEventListener('hashchange', settle, { signal: events.signal });
     document.addEventListener('keydown', settle, { once: true, signal: events.signal });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) settle();

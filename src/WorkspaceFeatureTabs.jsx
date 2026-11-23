@@ -42,7 +42,8 @@ const workspaces = {
 export default function WorkspaceFeatureTabs({ workspace = 'gantt', active }) {
   const { label, links, sections } = workspaces[workspace];
   return (
-    <div className="workspace-navigation">
+    <details className="workspace-navigation case-reading-details">
+      <summary>Related features and workspaces</summary>
       <div className="workspace-navigation-panel">
       {workspace !== 'analytics' && <nav className="workspace-switcher" aria-label="PowerTable workspaces">
         {[
@@ -62,6 +63,6 @@ export default function WorkspaceFeatureTabs({ workspace = 'gantt', active }) {
         ))}
       </nav>
       </div>
-    </div>
+    </details>
   );
 }

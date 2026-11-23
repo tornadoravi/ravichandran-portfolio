@@ -5,6 +5,7 @@ import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import CaseSolution from '../CaseSolution.jsx';
 import CaseConceptFilm from '../CaseConceptFilm.jsx';
 import CaseStudyPlayer from '../CaseStudyPlayer.jsx';
+import WalkthroughEntry from '../WalkthroughEntry.jsx';
 import { caseSolutions } from '../case-solutions.js';
 
 const narrative = {
@@ -33,10 +34,10 @@ export default function AnalyticsSpatialPage() {
         <p className="case-summary">A familiar report workflow, explored in a spatial environment.</p>
         <p className="fine-print">Prototype only—not a shipped Vision Pro product.</p>
         <ProjectIdentity product="analytics" />
-        <div className="case-player-entry">
+        <WalkthroughEntry caseId="spatial">
           <CaseStudyPlayer caseId="spatial" name="Analytics+ spatial exploration" narrative={narrative}
             facts={facts} screen={screen} evidenceNote={caseSolutions.spatial.evidence} concept />
-        </div>
+        </WalkthroughEntry>
       </section>
       <CaseStoryLayout caseId="spatial">
       <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">

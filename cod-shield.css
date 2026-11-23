@@ -116,8 +116,8 @@
 .cod-partner-placement-list ul { display: grid; gap: 14px; padding-left: 20px; font-size: 14px; }
 .cod-partner-placement-list p { margin: 6px 0 0; font-size: 13px; }
 .cod-partner-flow { display: grid; gap: 12px; padding: 0; margin: 24px 0; list-style: none; }
-.cod-partner-flow li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; }
-.cod-partner-flow li[aria-current="step"] { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+.cod-partner-flow li { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-left: 2px solid var(--line); font-size: 14px; }
+.cod-partner-flow li[aria-current="step"] { border-color: var(--accent); color: var(--ink); font-weight: 600; }
 .cod-partner-flow span { font: 12px var(--ds-font-mono); }
 .cod-partner-stage-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .cod-partner-stage-buttons button { min-width: 0; text-align: left; overflow-wrap: anywhere; }

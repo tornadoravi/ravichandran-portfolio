@@ -7,17 +7,18 @@ for (const appearance of ['light', 'dark']) {
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       await page.goto('/#work');
       await page.evaluate(() => document.fonts.ready);
-      await expect(page.locator('.product-cover-poster')).toHaveCount(2);
+      const professional = page.locator('#work > .product-context-grid');
+      await expect(page.locator('#work > .product-context-grid .product-cover-poster')).toHaveCount(2);
       await expect(page.locator('.showcase-case, .case-showcase')).toHaveCount(0);
-      await expect(page.locator('.cover-headline')).toHaveText(['Complex plans.Made clear.', 'Find a chart.Tell your story.']);
+      await expect(professional.locator('.cover-headline')).toHaveText(['Complex plans.Made clear.', 'Find a chart.Tell your story.']);
       await expect(page.locator('#project-planning .cover-screen img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
       await expect(page.locator('#project-analytics .cover-screen img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
-      await expect(page.locator('.cover-screen-caption')).toHaveText(['Official product canvas', 'Official product canvas']);
-      await expect(page.locator('.cover-poster-badge')).toHaveText(['Product overview', 'Product overview']);
-      await expect(page.locator('.cover-description')).toHaveCount(2);
-      await expect(page.locator('.cover-scope-tags > span')).toHaveCount(6);
+      await expect(professional.locator('.cover-screen-caption')).toHaveText(['Official product canvas', 'Official product canvas']);
+      await expect(professional.locator('.cover-poster-badge')).toHaveText(['Product overview', 'Product overview']);
+      await expect(professional.locator('.cover-description')).toHaveCount(2);
+      await expect(professional.locator('.cover-scope-tags > span')).toHaveCount(6);
       await expect(page.locator('#project-planning .cover-flow')).toHaveText('TasksTimeline');
-      for (const poster of await page.locator('.product-cover-poster').all()) {
+      for (const poster of await page.locator('#work > .product-context-grid .product-cover-poster').all()) {
         const image = poster.locator('img');
         await image.evaluate(image => image.decode());
         const box = await poster.boundingBox();
@@ -54,7 +55,7 @@ test('alternating reference cards use split landscape covers and readable stacke
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/#work');
     await page.locator('.product-cover-poster img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
-    const cards = await page.locator('.product-context-card').evaluateAll(cards => cards.map(card => {
+    const cards = await page.locator('#work > .product-context-grid .product-context-card').evaluateAll(cards => cards.map(card => {
       const bounds = selector => {
         const { x, y, width, height, right, bottom } = card.querySelector(selector).getBoundingClientRect();
         return { x, y, width, height, right, bottom };
@@ -66,7 +67,7 @@ test('alternating reference cards use split landscape covers and readable stacke
         frame: bounds('.cover-screen'),
         copy: bounds('.cover-poster-copy'),
         flow: { ...bounds('.cover-flow'), right: Math.max(...[...card.querySelectorAll('.cover-flow > span')].map(element => element.getBoundingClientRect().right)) },
-        badge: bounds('.product-live-badge'),
+        description: bounds('.product-context-copy > p:not([class])'),
         role: bounds('.product-my-work'),
         rows: ['.product-context-copy .eyebrow', '.product-context-copy h3', '.product-context-copy > p:not([class])'].map(bounds)
       };
@@ -81,7 +82,7 @@ test('alternating reference cards use split landscape covers and readable stacke
       }
       expect(card.flow.bottom, `${width}px flow inside tile`).toBeLessThanOrEqual(card.tile.bottom);
       expect(card.flow.right, `${width}px flow inside tile`).toBeLessThanOrEqual(card.tile.right);
-      expect(card.role.y - card.badge.bottom, `${width}px badge-to-divider gap`).toBeGreaterThanOrEqual(15);
+      expect(card.role.y - card.description.bottom, `${width}px description-to-divider gap`).toBeGreaterThanOrEqual(15);
     }
     if (width > 700) {
       expect(Math.abs(cards[0].height - cards[1].height), `${width}px card heights`).toBeLessThan(1);

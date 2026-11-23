@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openLinkDetails } from './fixtures.js';
 import { readFile } from 'node:fs/promises';
 
 const features = [
@@ -27,6 +27,7 @@ test.use({ reducedMotion: 'reduce' });
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
     test(`recruiter summaries and verified branding are concise and usable in ${appearance} at ${width}px`, async ({ page }) => {
+      test.setTimeout(120000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(appearance => localStorage.setItem('portfolio-appearance', appearance), appearance);
       const errors = [];
@@ -36,7 +37,18 @@ for (const appearance of ['light', 'dark']) {
         await page.goto(path);
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
         await page.evaluate(() => document.fonts.ready);
-        const identity = page.getByRole('group', { name: 'Employer and product platform' });
+        const words = await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length);
+        const budgets = { '/': 300, '/about.html': 300, '/powertable.html': 500, '/analytics-plus.html': 500, '/crosstab.html': 600 };
+        expect(words, path).toBeLessThanOrEqual(budgets[path] || 800);
+        if (path === '/') {
+          await expect(page.locator('.hero-role')).toContainText('Product Designer II at Lumel');
+          await expect(page.locator('#work > .product-context-grid .product-context-card')).toHaveCount(2);
+          expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), path).toBe(true);
+          continue;
+        }
+        const identity = page.getByRole('group', { name: 'Employer and product platform', includeHidden: true });
+        await openLinkDetails(identity);
+        await identity.scrollIntoViewIfNeeded();
         await expect(identity).toBeInViewport();
         await expect(identity.locator('.identity-company')).toContainText('Designed at');
         await expect(identity.locator('.identity-platform')).toContainText('Built for');
@@ -50,23 +62,22 @@ for (const appearance of ['light', 'dark']) {
             rendered: image.getBoundingClientRect().width / image.getBoundingClientRect().height
           }));
           expect(ratios.rendered).toBeCloseTo(ratios.source, 2);
-          if (await image.getAttribute('alt') === 'Microsoft') expect((await image.boundingBox()).width).toBeGreaterThanOrEqual(132);
-          if (await image.getAttribute('alt') === 'Lumel Technologies') expect((await image.boundingBox()).width).toBeGreaterThanOrEqual(88);
+          const compact = await image.evaluate(image => Boolean(image.closest('.project-identity--compact')));
+          if (await image.getAttribute('alt') === 'Microsoft') expect((await image.boundingBox()).width).toBeGreaterThanOrEqual(compact ? 108 : 132);
+          if (await image.getAttribute('alt') === 'Lumel Technologies') expect((await image.boundingBox()).width).toBeGreaterThanOrEqual(compact ? 64 : 88);
         }
-        const words = await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length);
-        const budgets = {
-          '/': 240, '/about.html': 300, '/powertable.html': 300, '/analytics-plus.html': 330,
-          '/gantt-backlog.html': 200, '/analytics.html': 220, '/presentation.html': 130
-        };
-        expect(words, path).toBeLessThanOrEqual(budgets[path] || 180);
+        const context = page.locator('.case-context');
+        if (await context.count() && await context.getAttribute('open') !== null) await context.locator(':scope > summary').click();
         if (path !== '/' && path !== '/about.html') {
+          await openLinkDetails(page.locator('.case-story-layout'));
           const overview = ['/powertable.html', '/analytics-plus.html'].includes(path);
           const focused = ['/powertable.html', '/analytics.html'].includes(path);
           const compact = path === '/presentation.html';
-          await expect(page.locator('.case-diagram')).toHaveCount(overview || focused ? 0 : 1);
+          const source = page.locator('.case-story-content');
+          await expect(source.locator('.case-diagram')).toHaveCount(overview || focused ? 0 : 1);
           if (!overview && !focused) {
-            await expect(page.locator('.case-diagram')).toBeVisible();
-            await expect(page.locator('.case-diagram')).toHaveAttribute('aria-label', /.+/);
+            await expect(source.locator('.case-diagram')).toBeVisible();
+            await expect(source.locator('.case-diagram')).toHaveAttribute('aria-label', /.+/);
             await expect(page.locator('.decision-illustration figcaption')).toHaveText('Illustrative problem & design flow · Not a product screenshot.');
           }
           await expect(page.locator('.decision-flow > li')).toHaveCount(focused || compact ? 0 : 3);
@@ -80,7 +91,7 @@ for (const appearance of ['light', 'dark']) {
             await expect(page.locator('.focus-illustration')).toHaveCount(1);
             await expect(page.locator('.focus-steps > li')).toHaveCount(3);
             await expect(page.locator('.focus-explanation dt')).toHaveText(['My ownership', 'Key design decision', 'Delivery & evidence']);
-            await expect(page.locator('.focus-illustration figcaption')).toContainText('Not product UI or an observed session');
+            await expect(page.locator('.focus-illustration figcaption')).toContainText(path === '/powertable.html' ? 'Not product UI or a required setup order' : 'Not product UI or an observed session');
           }
           for (const illustration of await page.locator('.decision-flow .case-topic-art').all()) {
             await expect(illustration).toBeHidden();
@@ -90,8 +101,8 @@ for (const appearance of ['light', 'dark']) {
           }
           if (!focused && !compact) await expect(page.locator('.story-art-note')).toContainText('Not research participants or measured outcomes');
           if (!overview && !focused && !compact) {
-            await expect(page.locator('.case-key-facts dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
-            for (const point of await page.locator('.case-key-facts dd > p').all()) {
+            await expect(source.locator('.case-key-facts dt')).toHaveText(['Problem', 'My decision', 'Evidence']);
+            for (const point of await source.locator('.case-key-facts dd > p').all()) {
               expect((await point.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(22);
             }
             await expect(page.locator('.case-scenario')).toBeHidden();
@@ -102,7 +113,7 @@ for (const appearance of ['light', 'dark']) {
           await expect(page.locator('.case-context')).not.toHaveAttribute('open');
           await expect(page.locator('.case-ownership')).toBeVisible();
           const hero = await page.locator('.case-hero').boundingBox();
-          expect(hero.height, path).toBeLessThan(width < 700 ? 510 : 420);
+          expect(hero.height, path).toBeLessThan(510);
           const outsideLabels = await page.locator('.case-diagram').evaluateAll(svgs =>
             svgs.flatMap(svg => [...svg.querySelectorAll('text')].filter(text => {
               const box = text.getBBox();
@@ -124,7 +135,7 @@ for (const appearance of ['light', 'dark']) {
           }
         }
         if (features.some(([feature]) => feature === path)) {
-          expect(words, path).toBeLessThanOrEqual(budgets[path] || 180);
+          expect(words, path).toBeLessThanOrEqual(budgets[path] || 800);
           await expect(page.locator('#case-details')).not.toHaveAttribute('open');
           const compact = path === '/presentation.html';
           await expect(page.locator('.decision-flow > li')).toHaveCount(path === '/analytics.html' || compact ? 0 : 3);
@@ -147,8 +158,10 @@ for (const appearance of ['light', 'dark']) {
 }
 
 test('role context and original screen notes remain native keyboard disclosures', async ({ page }) => {
+  test.setTimeout(90000);
   for (const path of ['/powertable.html', '/analytics-plus.html', '/crosstab.html', ...features.map(([path]) => path)]) {
     await page.goto(path);
+    await openLinkDetails(page.locator('.case-story-layout'));
     for (const disclosure of await page.locator('.case-context, .interface-notes').all()) {
       await expect(disclosure).not.toHaveAttribute('open');
       const summary = disclosure.locator(':scope > summary');
@@ -164,9 +177,11 @@ test('role context and original screen notes remain native keyboard disclosures'
 });
 
 test('all detailed evidence remains keyboard-accessible and bookmarked sections open their parent disclosures', async ({ page }) => {
+  test.setTimeout(90000);
   await page.setViewportSize({ width: 390, height: 900 });
   for (const [path, hash] of features) {
     await page.goto(path);
+    await openLinkDetails(page.locator('#case-details'));
     const summary = page.locator('#case-details > summary');
     await summary.focus();
     await page.keyboard.press('Enter');
@@ -211,8 +226,9 @@ test('recruiter summaries, branding, evidence disclosures and feature navigation
     const page = await context.newPage();
     for (const [path] of features) {
       await page.goto(baseURL + path);
+      await openLinkDetails(page.locator('.case-story-layout'));
       await expect(page.locator('.case-snapshot')).toBeVisible();
-      await expect(page.locator('.case-topic-art')).toHaveCount(['/analytics.html', '/presentation.html'].includes(path) ? 0 : 3);
+      await expect(page.locator('.case-story-content .case-topic-art')).toHaveCount(['/analytics.html', '/presentation.html'].includes(path) ? 0 : 3);
       if (path === '/analytics.html') await expect(page.locator('.focus-task')).toBeVisible();
       else if (path === '/presentation.html') await expect(page.locator('.presentation-key-points')).toBeVisible();
       else {

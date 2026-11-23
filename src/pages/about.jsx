@@ -175,7 +175,7 @@ export default function AboutPage() {
                       <time dateTime={"2025-01"}>{"Jan 2025"}</time>
                       {" — Present"}
                     </p>
-                    <p>{"Designing data analytics experiences through Inforiver Analytics+ for Microsoft Power BI."}</p>
+                    <p>{"Since February 2025, designing PowerTable Gantt and resource Gantt UX/UI in Microsoft Fabric, with contributions to Cross-tab layout and data configuration."}</p>
                   </li>
                   {"\n              "}
                   <li>
@@ -185,6 +185,7 @@ export default function AboutPage() {
                       {" — "}
                       <time dateTime={"2025-01"}>{"Jan 2025"}</time>
                     </p>
+                    <p>{"Designed user interfaces and workflows for Inforiver Analytics+ in Microsoft Power BI."}</p>
                   </li>
                   {"\n              "}
                   <li>
@@ -194,6 +195,7 @@ export default function AboutPage() {
                       {" — "}
                       <time dateTime={"2023-07"}>{"Jul 2023"}</time>
                     </p>
+                    <p>{"Contributed UX/UI design work to Inforiver Analytics+ on a contract basis."}</p>
                   </li>
                   {"\n            "}
                 </ol>

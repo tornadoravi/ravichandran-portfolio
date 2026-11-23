@@ -2,6 +2,7 @@ import { test, expect } from './fixtures.js';
 import { readFileSync } from 'node:fs';
 import { createCaseNarration } from '../src/case-narration.js';
 import { solutionSteps } from '../src/case-solutions.js';
+import { solutionScreens } from '../src/case-solution-evidence.js';
 import { solutionNarration, standaloneNarration } from '../src/case-film-narration.js';
 
 const recorded = JSON.parse(readFileSync(new URL('../src/case-film-audio.json', import.meta.url), 'utf8'));
@@ -70,12 +71,47 @@ test('every remaining case shares the animated Walkthrough frame with one Soluti
       await expect(player.locator('#case-player-solution-detail dt')).toHaveText([
         'What the user does', 'What the design makes clear', 'Why this step matters'
       ]);
+      if (caseId !== 'bikecare') {
+        const screen = solutionScreens[caseId]?.[index];
+        const image = player.locator('.case-solution-screen img');
+        if (screen) {
+          await expect(image).toHaveAttribute('src', screen.src);
+          await image.evaluate(node => node.decode());
+          expect(await image.evaluate(node => [node.naturalWidth, node.naturalHeight])).toEqual([screen.width, screen.height]);
+          const bounds = await image.boundingBox();
+          expect(bounds.width / bounds.height).toBeCloseTo(screen.width / screen.height, 2);
+          expect(bounds.width).toBeLessThanOrEqual(screen.width);
+          expect(bounds.height).toBeLessThanOrEqual(screen.height);
+        } else {
+          await expect(image).toHaveCount(0);
+        }
+      }
       await player.getByRole('button', { name: 'Play', exact: true }).click();
       await expect(player.locator('.cod-film-status')).toContainText(`Scene ${index + 3} of 7 / Narrating`);
       expect(await page.evaluate(() => window.__narration.spoken.at(-1).text)).toBe(recorded.cases[caseId][index + 2].text);
     }
     await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
   }
+});
+
+test('opening the original Solution screen pauses narration and preserves the case page', async ({ page }) => {
+  await mockVoice(page);
+  const player = await openPlayer(page);
+  await choose(player, 2);
+  await player.getByRole('button', { name: 'Play', exact: true }).click();
+  await expect(player.locator('.cod-film-status')).toContainText('Narrating');
+  const originalURL = page.url();
+  const [source] = await Promise.all([
+    page.waitForEvent('popup'),
+    player.getByRole('link', { name: 'Open original screen (opens in a new tab)' }).click()
+  ]);
+  await source.waitForLoadState();
+  await expect(source).toHaveURL(/\/assets\/wizard-chart-family\.png$/);
+  await expect(player.getByRole('button', { name: 'Play', exact: true })).toBeVisible();
+  expect(page.url()).toBe(originalURL);
+  await source.close();
+  await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Walkthrough', exact: true }).first()).toBeFocused();
 });
 
 test('seven native completion events advance the story and keep Solution grouped through all three scenes', async ({ page }) => {
@@ -122,7 +158,8 @@ test('exploration, contribution and spatial boundaries remain explicit without i
   player = await openPlayer(page, 'crosstab');
   await choose(player, 5);
   await expect(player.locator('.case-film-source-screen')).toHaveCount(0);
-  await expect(player.locator('.case-film-copy')).toContainText('contribution-level');
+  await expect(player.locator('.case-film-copy')).toContainText('Cross-tab layout and data configuration');
+  await expect(player.locator('.case-film-copy')).toContainText('Dedicated design screens and measured customer outcomes were not supplied');
   player = await openPlayer(page, 'analytics-spatial');
   await choose(player, 5);
   await expect(player.locator('.case-film-source-screen')).toHaveAttribute('href', '/assets/analytics-spatial-sequence.png');
@@ -152,6 +189,7 @@ test('keyboard activation uses packaged narration, never browser speech or a liv
 test('AAC narration supports native byte ranges', async ({ page, request }) => {
   await mockVoice(page);
   const player = await openPlayer(page);
+  await expect(player.locator('audio')).toHaveAttribute('src', /\.m4a$/);
   const source = await player.locator('audio').getAttribute('src');
   const first = await request.get(source, { headers: { Range: 'bytes=0-7' } });
   expect(first.status()).toBe(206);

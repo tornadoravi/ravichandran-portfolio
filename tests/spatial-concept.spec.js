@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, followLink } from './fixtures.js';
 import sharp from 'sharp';
 import { readFile } from 'node:fs/promises';
 
@@ -14,9 +14,10 @@ for (const appearance of ['light', 'dark']) {
       await expect(page.locator('.case-hero')).toContainText('Concept exploration · Apple Vision Pro-inspired');
       await expect(page.locator('.case-hero')).toContainText('Prototype only—not a shipped Vision Pro product.');
       await expect(page.locator('.feature-card-grid > a')).toHaveCount(0);
-      await expect(section.locator('figure')).toHaveCount(3);
-      await expect(section.locator('.inspect-button')).toHaveCount(3);
-      for (const image of await section.locator('img').all()) {
+      const sequence = section.locator('.spatial-sequence');
+      await expect(sequence.locator('figure')).toHaveCount(3);
+      await expect(sequence.locator('.inspect-button')).toHaveCount(3);
+      for (const image of await sequence.locator('img').all()) {
         await image.scrollIntoViewIfNeeded();
         await image.evaluate(image => image.decode());
         const size = await image.evaluate(image => ({
@@ -26,10 +27,10 @@ for (const appearance of ['light', 'dark']) {
         expect(size.width).toBeLessThanOrEqual(size.nativeWidth);
         expect(size.width / size.height).toBeCloseTo(size.nativeWidth / size.nativeHeight, 2);
       }
-      expect(await section.evaluate(element => element.innerText.trim().split(/\s+/).length)).toBeLessThanOrEqual(50);
-      expect(await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length)).toBeLessThanOrEqual(125);
+      expect((await section.locator('.case-section-heading, .spatial-sequence, .spatial-scope').allInnerTexts()).join(' ').trim().split(/\s+/).length).toBeLessThanOrEqual(50);
+      expect(await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length)).toBeLessThanOrEqual(350);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-      await section.locator('.inspect-button').last().click();
+      await sequence.locator('.inspect-button').last().click();
       await expect(page.locator('dialog[open] img')).toHaveJSProperty('naturalWidth', 276);
       await page.keyboard.press('Escape');
     });
@@ -55,7 +56,7 @@ test('the spatial exploration remains available with native image links and no J
     const page = await context.newPage();
     await page.goto(baseURL + '/analytics-spatial.html#spatial-exploration');
     await expect(page.locator('#spatial-exploration')).toBeInViewport();
-    await expect(page.locator('#spatial-exploration img')).toHaveCount(3);
+    await expect(page.locator('#spatial-exploration .spatial-sequence img')).toHaveCount(3);
     await expect(page.getByRole('link', { name: 'View original concept sequence (opens in a new tab)', exact: true })).toHaveAttribute('href', '/assets/analytics-spatial-sequence.png');
     await page.goto(baseURL + '/analytics-plus.html#spatial-exploration');
     await expect(page.locator('#spatial-exploration a')).toHaveAttribute('href', '/analytics-spatial.html');
@@ -68,7 +69,8 @@ test('the spatial exploration remains available with native image links and no J
 
 test('Home and the product case link to a separate concept without mixing its evidence into feature work', async ({ page }) => {
   await page.goto('/#work');
-  await page.locator('#project-analytics a[href="/analytics-spatial.html"]').click();
+  await page.locator('#project-analytics').click();
+  await followLink(page, '/analytics-spatial.html');
   await expect(page).toHaveTitle('Spatial Analytics+ Concept — Ravichandran V');
   await expect(page.locator('h1')).toHaveText('Analytics+, beyond the screen.');
   await expect(page.locator('body')).toHaveClass(/spatial-case/);

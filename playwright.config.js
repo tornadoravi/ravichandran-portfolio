@@ -5,6 +5,7 @@ export default defineConfig({
   testDir: './tests',
   testMatch: '**/*.spec.js',
   fullyParallel: true,
+  workers: 2,
   reporter: 'list',
   use: { baseURL },
   webServer: {

@@ -68,11 +68,11 @@ test('the Home cursor yields to header, keyboard, controls, nested opt-outs and 
   await page.getByRole('button', { name: 'Soundroom Mode', exact: true }).click();
   await page.getByRole('slider', { name: 'Volume', exact: true }).hover();
   await expect(page.locator('html')).not.toHaveClass(/has-custom-cursor/);
-  await page.locator('.hero-copy').evaluate(element => element.setAttribute('data-native-cursor', ''));
-  await page.locator('.hero-copy').hover();
+  await page.locator('.hero-identity').evaluate(element => element.setAttribute('data-native-cursor', ''));
+  await page.locator('.hero-identity').hover();
   await expect(page.locator('html')).not.toHaveClass(/has-custom-cursor/);
-  await page.locator('.hero-copy').evaluate(element => element.removeAttribute('data-native-cursor'));
-  await page.locator('.hero-copy').hover();
+  await page.locator('.hero-identity').evaluate(element => element.removeAttribute('data-native-cursor'));
+  await page.locator('.hero-identity').hover();
   await expect(page.locator('html')).toHaveClass(/has-custom-cursor/);
   await page.locator('.product-context-card[href="/powertable.html"]').click();
   await expect(page).toHaveURL(/powertable\.html$/);

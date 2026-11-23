@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, openProductDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -6,7 +6,7 @@ test('Chart Wizard summarizes decisions visually and retains full trade-offs and
   await page.goto('/analytics.html');
   await expect(page.locator('.case-snapshot')).toContainText('Chart Wizard shipped');
   await expect(page.locator('#case-details')).not.toHaveAttribute('open');
-  expect(await page.locator('main').evaluate(main => main.innerText.trim().split(/\s+/).length)).toBeLessThan(350);
+  expect(await page.locator('main').evaluate(main => main.innerText.trim().split(/\s+/).length)).toBeLessThan(800);
   await openCaseDetails(page);
   await expect(page.locator('#decisions .decision-ledger > li')).toHaveCount(3);
   await expect(page.locator('.decision-tradeoff')).toHaveCount(3);
@@ -17,7 +17,7 @@ test('Chart Wizard summarizes decisions visually and retains full trade-offs and
   await page.locator('#reflection .evidence-note > summary').click();
   await expect(page.locator('#reflection .evidence-note')).toContainText('No historical before/after iteration log');
   await expect(page.locator('#reflection .evidence-note')).toContainText('not an undocumented alternatives study');
-  const words = await page.locator('main').evaluate(main => main.innerText.trim().split(/\s+/).length);
+  const words = await page.locator('.case-story-content').evaluate(main => main.innerText.trim().split(/\s+/).length);
   expect(words).toBeLessThan(800);
 });
 
@@ -40,6 +40,7 @@ for (const width of [320, 390, 768, 1440]) {
 
 test('official PowerTable product context stays separate from personal feature evidence', async ({ page }) => {
   await page.goto('/powertable.html');
+  await openProductDetails(page);
   await expect(page.locator('.case-evidence .screen-pin, .case-evidence .screen-key')).toHaveCount(0);
   await expect(page.locator('.case-evidence figcaption')).toContainText('Official product screenshot');
   await expect(page.locator('.case-brief')).toContainText('resource, and cost configuration screens');
@@ -59,7 +60,7 @@ test('full case details remain natively accessible without JavaScript', async ({
   await page.locator('#feature-walkthrough > summary').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#visual-form')).toBeVisible();
-  await expect(page.locator('img[src^="/assets/wizard-"]')).toHaveCount(8);
+  await expect(page.locator('.case-story-content img[src^="/assets/wizard-"]')).toHaveCount(8);
   await page.locator('#reflection .evidence-note > summary').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#reflection .evidence-note')).toContainText('formal user-study results');

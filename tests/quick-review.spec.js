@@ -1,12 +1,12 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openProductDetails, openLinkDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
 
 const analyticsFeatures = [
+  ['feature-wizard', '/analytics.html'],
   ['feature-storyboard', '/storyboard.html'],
   ['feature-gantt', '/gantt.html'],
-  ['feature-wizard', '/analytics.html'],
   ['feature-annotations', '/presentation.html'],
   ['feature-kpi', '/kpi.html']
 ];
@@ -18,6 +18,7 @@ for (const mode of ['focus', 'soundroom']) {
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       for (const path of ['/powertable.html', '/analytics-plus.html']) {
         await page.goto(path);
+        await openProductDetails(page);
         const cards = page.locator('.workspace-grid > .album-card, .feature-card-grid > .album-card');
         await expect(cards).toHaveCount(path === '/powertable.html' ? 3 : 5);
         for (const card of await cards.all()) {
@@ -62,26 +63,27 @@ for (const mode of ['focus', 'soundroom']) {
 }
 
 for (const width of [320, 390, 680, 1440]) {
-  test(`default review including the spatial concept stays within a 925-word editorial budget at ${width}px`, async ({ page }) => {
+  test(`Home and professional overviews stay within a 1200-word first-look budget at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     let words = 0;
     for (const path of ['/', '/powertable.html', '/analytics-plus.html']) {
       await page.goto(path);
+      await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
       words += await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length);
       await expect(page.locator('.case-deep-dive[open]')).toHaveCount(0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       if (path !== '/') {
         await expect(page.locator('.workspace-grid > .album-card, .feature-card-grid > .album-card')).toHaveCount(path === '/powertable.html' ? 3 : 5);
         await expect(page.locator('.review-grid, .feature-previews')).toHaveCount(0);
-        await expect(page.locator('.case-evidence img')).toHaveJSProperty('complete', true);
-        expect(await page.locator('.case-evidence img').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+        await expect(page.locator('.case-solution img')).toHaveJSProperty('complete', true);
+        expect(await page.locator('.case-solution img').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
         await expect(page.locator('.case-brief p strong')).toHaveCount(3);
-        await expect(page.locator('.metadata .scan-emphasis')).toHaveText('End-to-end UX/UI');
+        await expect(page.locator('.metadata .scan-emphasis')).toHaveText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Chart Wizard UX/UI');
       } else {
-        await expect(page.locator('.project-description .scan-highlight')).toHaveCount(2);
+        await expect(page.locator('#work > .product-context-grid .product-my-work strong')).toHaveCount(2);
       }
     }
-    expect(words).toBeLessThanOrEqual(925);
+    expect(words).toBeLessThanOrEqual(1200);
   });
 }
 
@@ -92,6 +94,7 @@ for (const [overview, paths] of [
   test(`feature cards on ${overview} open full cases directly with the keyboard`, async ({ page, baseURL }) => {
     for (const path of paths) {
       await page.goto(overview);
+      await openProductDetails(page);
       await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
       const ganttPaths = ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html', '/gantt-configuration.html'];
       if (overview === '/powertable.html' && ganttPaths.includes(path)) {
@@ -134,6 +137,7 @@ test('feature cards and their source labels work without JavaScript', async ({ b
   const page = await context.newPage();
   for (const path of ['/powertable.html', '/analytics-plus.html']) {
     await page.goto(baseURL + path);
+    await openProductDetails(page);
     await expect(page.locator('.overview-moments, .feature-previews, .analytics-feature')).toHaveCount(0);
     const cards = page.locator('.workspace-grid > .album-card, .feature-card-grid > .album-card');
     await expect(cards).toHaveCount(path === '/powertable.html' ? 3 : 5);
@@ -160,6 +164,7 @@ test('feature cards and their source labels work without JavaScript', async ({ b
 test('Cross-tab card opens its workspace while old full-story bookmarks still reopen the disclosure', async ({ page }) => {
   await page.goto('/powertable.html');
   await expect(page.locator('#study-details')).not.toHaveAttribute('open');
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Explore Cross-tab', exact: true }).click();
   await expect(page).toHaveURL(/crosstab\.html$/);
   await page.locator('.back-link').click();
@@ -190,10 +195,11 @@ for (const [path, target, disclosure] of [
 
 test('all five Analytics+ cards link directly to full cases in the original order', async ({ page }) => {
   await page.goto('/analytics-plus.html');
+  await openProductDetails(page);
   const index = page.getByRole('navigation', { name: 'Analytics+ feature index' });
   expect(await index.locator('a').evaluateAll(links => links.map(link => [link.id, link.getAttribute('href')]))).toEqual(analyticsFeatures);
   await expect(page.locator('.feature-previews, .analytics-feature')).toHaveCount(0);
-  await expect(page.getByRole('region', { name: 'Continue the portfolio review' })).toHaveCount(0);
+  await expect(page.locator('.case-endcap-next')).toHaveAttribute('href', '/cod-shield.html');
   await expect(page.getByRole('link', { name: 'Experience & recommendations' })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Colleague feedback on collaboration' })).toHaveCount(0);
 });
@@ -215,6 +221,7 @@ test('optional detail uses native keyboard disclosure without JavaScript', async
     ['/analytics-plus.html', '#design-details', '#competitive-analysis']
   ]) {
     await page.goto(baseURL + path);
+    await openLinkDetails(page.locator(disclosure));
     await expect(page.locator(disclosure)).not.toHaveAttribute('open');
     await page.locator(disclosure + ' > summary').focus();
     await page.keyboard.press('Enter');

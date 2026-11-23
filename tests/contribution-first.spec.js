@@ -51,7 +51,7 @@ for (const appearance of ['light', 'dark']) {
           await expect(evidence.locator('.product-explanation-copy')).toHaveCSS('color', await evidence.evaluate(element => getComputedStyle(element).color));
           await expect(evidence.locator('img, figcaption, .inspect-button, a')).toHaveCount(0);
           await expect(page.getByRole('heading', { name: 'Link logged hours to the right task.' })).toHaveCount(0);
-          await expect(page.locator(`img[src="${item.image}"]`)).toHaveCount(0);
+          await expect(evidence.locator(`img[src="${item.image}"]`)).toHaveCount(0);
           await expect(page.locator('.case-story-nav a').first()).toContainText('Product overview');
           await expect(page.locator('.case-context > summary')).toContainText('Cross-tab contribution');
           await expect(page.locator('#workspaces .workspace-group')).toHaveCount(3);

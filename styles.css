@@ -397,6 +397,7 @@ figcaption .image-link { display: inline-flex; align-items: center; min-height: 
 .recommendation-full[open] summary > span > span { transform: rotate(45deg); }
 .recommendation-full blockquote { margin: 20px 0 0; color: var(--muted); font-size: 16px; }
 .recommendation-full[open] blockquote { animation: enter-surface .2s var(--ease-out); }
+.recommendation-full blockquote p { line-height: 1.65; }
 .recommendation-full blockquote p:last-child { margin-bottom: 0; }
 .recommendation-link { margin-top: 25px; }
 .profile-links { display: flex; flex-wrap: wrap; gap: 25px; }

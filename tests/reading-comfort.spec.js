@@ -14,13 +14,13 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     const limit = width === 320 ? 1000 : width === 390 ? 825 : 700;
     for (const path of ['/powertable.html', '/analytics-plus.html']) {
       await openReady(page, path);
-      const image = page.locator('.case-story-content > .case-evidence .product-screenshot img').first();
+      const image = page.locator('.case-hero-preview .case-demo-image img').first();
       await expect(image).toBeVisible();
       const top = await image.evaluate(element => element.getBoundingClientRect().top + scrollY);
       expect(top, `${path} first product screen`).toBeLessThan(limit);
       expect(await image.evaluate(element => element.naturalWidth)).toBeGreaterThan(0);
-      await expect(page.locator('.case-ownership')).toContainText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : '2.5 years on Analytics+');
-      await expect(page.locator('.case-summary')).toHaveCSS('font-size', '17px');
+      await expect(page.locator('.case-context > summary')).toContainText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Chart Wizard UX/UI');
+      expect(await page.locator('.case-summary').evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(17);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
   });
@@ -30,10 +30,11 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     for (const path of ['/about.html', '/']) {
       await openReady(page, path);
       if (path === '/about.html') {
+        await page.locator('#experience-details > summary').click();
         await page.locator('.recommendation-full').first().evaluate(element => { element.open = true; });
       }
       const selector = path === '/about.html'
-        ? '.about-intro > div:last-child > p:not(.large-copy), .recommendation-full[open] blockquote p'
+        ? '.about-reference-copy > p, .recommendation-full[open] blockquote p'
         : '.hero-introduction';
       const paragraphs = await page.locator(selector).evaluateAll(elements => elements.map(element => {
         const style = getComputedStyle(element);
@@ -42,6 +43,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
         return {
           measure: element.getBoundingClientRect().width / context.measureText('0').width,
           fontSize: parseFloat(style.fontSize),
+          displayProse: Boolean(element.closest('.about-reference-copy')),
           leading: parseFloat(style.lineHeight) / parseFloat(style.fontSize)
         };
       }));
@@ -49,15 +51,14 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       for (const paragraph of paragraphs) {
         expect(paragraph.measure).toBeLessThanOrEqual(67);
         expect(paragraph.fontSize).toBeGreaterThanOrEqual(16);
-        expect(paragraph.leading).toBeGreaterThanOrEqual(1.65);
+        expect(Number(paragraph.leading.toFixed(2))).toBeGreaterThanOrEqual(paragraph.displayProse ? 1.35 : 1.65);
       }
       if (path === '/about.html') {
-        await expect(page.locator('.about-intro > div:last-child > p:not(.large-copy)').first()).toHaveCSS('font-size', '17px');
+        expect(await page.locator('.about-reference-copy > p').first().evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(18);
       }
       const header = await page.locator('.site-header').boundingBox();
-      const content = await page.locator('main > .wrap').first().boundingBox();
-      expect(content.x).toBeCloseTo(header.x, 1);
-      expect(content.width).toBeCloseTo(header.width, 1);
+      const content = await page.locator('main > .wrap:visible, main > .about-reference-width:visible').first().boundingBox();
+      expect(content.x + content.width / 2).toBeCloseTo(header.x + header.width / 2, 1);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
   });

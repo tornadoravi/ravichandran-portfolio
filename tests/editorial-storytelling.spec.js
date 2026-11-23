@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openCaseDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -11,14 +11,17 @@ const features = [
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
     test(`editorial stories keep feature navigation visible in ${appearance} at ${width}px`, async ({ page }) => {
+      test.setTimeout(60000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       for (const name of features) {
         await page.goto(`/${name}.html`);
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
         const directory = page.locator('.workspace-navigation');
-        await expect(page.locator('details.workspace-navigation')).toHaveCount(0);
-        await expect(directory.locator('summary')).toHaveCount(0);
+        await expect(directory).not.toHaveAttribute('open');
+        await expect(directory.locator('summary')).toBeVisible();
+        await openWorkspaceNavigation(page);
+        await openCaseDetails(page);
         await expect(directory.locator('nav').first()).toBeVisible();
         await expect(page.locator('.case-story-nav')).toBeVisible();
         const facts = page.locator('.case-key-facts');
@@ -32,13 +35,21 @@ for (const appearance of ['light', 'dark']) {
         }
         const cards = await facts.locator('.story-highlight').all();
         for (const card of cards.slice(0, 2)) {
-          await expect(card).toHaveCSS('background-color', appearance === 'light' ? 'rgb(255, 255, 255)' : 'rgb(19, 36, 42)');
+          const surface = await card.evaluate(element => {
+            const probe = document.createElement('span');
+            probe.style.backgroundColor = 'var(--card)';
+            element.append(probe);
+            const color = getComputedStyle(probe).backgroundColor;
+            probe.remove();
+            return color;
+          });
+          await expect(card).toHaveCSS('background-color', surface);
         }
         const [problem, decision] = await Promise.all(cards.slice(0, 2).map(card => card.boundingBox()));
         if (width > 700) expect(problem.y).toBeCloseTo(decision.y, 0);
         else expect(decision.y).toBeGreaterThanOrEqual(problem.y + problem.height);
         await expect(page.locator('h1')).toHaveCSS('font-style', 'normal');
-        expect(await page.locator('h1').evaluate(node => getComputedStyle(node).fontFamily)).toContain('Segoe UI');
+        expect(await page.locator('h1').evaluate(node => getComputedStyle(node).fontFamily)).toContain('Urbanist');
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name).toBe(true);
       }
     });
@@ -51,7 +62,8 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       const page = await context.newPage();
       await page.goto(baseURL + '/crosstab.html');
-      await expect(page.locator('.workspace-navigation summary')).toHaveCount(0);
+      await expect(page.locator('.workspace-navigation summary')).toBeVisible();
+      await openWorkspaceNavigation(page);
       const resources = page.getByRole('navigation', { name: 'PowerTable workspaces' }).getByRole('link', { name: 'Resources', exact: true });
       await resources.focus();
       await page.keyboard.press('Enter');
@@ -59,6 +71,7 @@ for (const javaScriptEnabled of [true, false]) {
       await openWorkspaceNavigation(page);
       await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
       await expect(page).toHaveURL(baseURL + '/resource-configuration.html');
+      await openCaseDetails(page);
       await page.getByRole('navigation', { name: 'The visual story', exact: true }).getByRole('link', { name: 'Evidence', exact: true }).click();
       await expect(page.locator('#evidence')).toBeInViewport();
     } finally {

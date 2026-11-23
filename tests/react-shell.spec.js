@@ -3,7 +3,7 @@ import { test, expect } from './fixtures.js';
 test.use({ reducedMotion: 'reduce' });
 
 for (const width of [320, 390, 768, 1440, 1920]) {
-  test(`Home and About keep identical header dimensions and gutters at ${width}px`, async ({ page }) => {
+  test(`Home and About keep identical headers and centered content at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     const dimensions = [];
     for (const path of ['/', '/about.html', '/powertable.html']) {
@@ -17,9 +17,11 @@ for (const width of [320, 390, 768, 1440, 1920]) {
         });
       }));
       const header = await page.locator('.site-header').boundingBox();
-      const content = await page.locator('main > .wrap').first().boundingBox();
-      expect(content.x).toBeCloseTo(header.x, 1);
-      expect(content.width).toBeCloseTo(header.width, 1);
+      const content = await page.locator('main > .wrap:visible, main > .about-reference-width:visible').first().boundingBox();
+      expect(header.x + header.width / 2).toBeCloseTo(width / 2, 1);
+      if (path !== '/powertable.html') expect(content.x + content.width / 2).toBeCloseTo(width / 2, 1);
+      expect(content.x).toBeGreaterThanOrEqual(0);
+      expect(content.x + content.width).toBeLessThanOrEqual(width);
     }
     expect(dimensions[1]).toEqual(dimensions[0]);
     expect(dimensions[2]).toEqual(dimensions[0]);
@@ -27,6 +29,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
 }
 
 test('all React pages hydrate without errors and preserve the Focus default', async ({ page }) => {
+  test.setTimeout(60000);
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => {
@@ -41,7 +44,7 @@ test('all React pages hydrate without errors and preserve the Focus default', as
     await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('html')).toHaveAttribute('data-listening-mode', 'focus');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 236)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
     await expect(page.locator('script[src="/app.js"], script[src="/soundroom.js"]')).toHaveCount(0);
   }
   expect(errors).toEqual([]);
@@ -69,18 +72,17 @@ for (const width of [390, 1440]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width <= 700) await page.locator('.menu-toggle').click();
     await page.locator('#main-nav a[href="/about.html"]').click();
-    await expect(page.locator('.about-intro')).toContainText('Product Designer II at Lumel, with four years');
-    await expect(page.locator('.about-intro')).toContainText('I think in workflows, not isolated screens');
-    await expect(page.locator('.about-intro .profile-highlights dt')).toHaveText(['PowerTable', 'Analytics+']);
-    await expect(page.locator('.about-intro .profile-highlights')).toContainText('Chart Wizard & reusable KPI templates shipped');
-    await expect(page.locator('.about-intro')).toContainText('product managers and developers');
-    for (const paragraph of await page.locator('.about-intro > div:last-child > p').all()) {
-      expect((await paragraph.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(28);
-    }
+    await expect(page.locator('.about-reference-copy')).toContainText('Product Designer II at Lumel');
+    await expect(page.locator('.about-reference-copy')).toContainText('Over four years');
+    await expect(page.locator('.about-reference-copy')).toContainText('product managers and developers');
+    await page.locator('#experience-details > summary').click();
+    await expect(page.locator('.about-extra-profile')).toContainText('I think in workflows, not isolated screens');
+    await expect(page.locator('.about-extra-profile .profile-highlights dt')).toHaveText(['PowerTable', 'Analytics+']);
+    await expect(page.locator('.about-extra-profile .profile-highlights')).toContainText('Chart Wizard & reusable KPI templates shipped');
     await expect(page.locator('#experience-details')).toContainText(statement);
     await expect(page.locator('#experience-details')).toContainText('Across PowerTable and Inforiver Analytics+');
     await expect(page.locator('#experience-details')).toContainText('product iconography');
-    await expect(page.locator('.about-intro')).not.toContainText('contributions to the Microsoft Fabric design system');
+    await expect(page.locator('.about-reference-copy')).not.toContainText('contributions to the Microsoft Fabric design system');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }

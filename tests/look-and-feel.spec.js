@@ -1,24 +1,23 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, followLink } from './fixtures.js';
 
-test('hero adds bounded pointer depth and resets when motion is reduced', async ({ page }) => {
+test('centered hero remains still during pointer browsing and live reduced motion', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
-  await page.locator('.portrait-art').evaluate((image) =>
+  await page.locator('.hero-portrait-art').evaluate((image) =>
     Promise.all(image.getAnimations().map((animation) => animation.finished)));
-  const hero = page.locator('.portrait-hero');
-  const portrait = page.locator('.portrait-art');
+  const hero = page.locator('.reference-hero');
+  const portrait = page.locator('.hero-portrait-art');
   const bounds = await hero.boundingBox();
   await page.mouse.move(bounds.x + bounds.width - 30, bounds.y + 120);
-  await expect.poll(() => portrait.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41)).toBeGreaterThan(6);
+  await expect(portrait).toHaveCSS('transform', 'none');
   const values = await portrait.evaluate(element => {
     const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
     return [matrix.m41, matrix.m42];
   });
-  expect(Math.abs(values[0])).toBeLessThanOrEqual(8);
-  expect(Math.abs(values[1])).toBeLessThanOrEqual(5);
+  expect(values).toEqual([0, 0]);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(page.locator('.portrait-art')).toHaveCSS('transform', 'none');
-  await expect(page.locator('.portrait-art')).toHaveCSS('animation-name', 'none');
+  await expect(page.locator('.hero-portrait-art')).toHaveCSS('transform', 'none');
+  await expect(page.locator('.hero-portrait-art')).toHaveCSS('animation-name', 'none');
   expect(await portrait.evaluate(element => element.style.transform)).toBe('');
   await page.mouse.move(300, 240);
   expect(await portrait.evaluate(element => element.style.transform)).toBe('');
@@ -29,8 +28,8 @@ test('touch browsing keeps the portrait still and calls to action usable', async
   const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL);
-  await page.dispatchEvent('.portrait-hero', 'pointermove', { pointerType: 'touch', clientX: 350, clientY: 400 });
-  expect(await page.locator('.portrait-art').evaluate(element => element.style.transform)).toBe('');
+  await page.dispatchEvent('.reference-hero', 'pointermove', { pointerType: 'touch', clientX: 350, clientY: 400 });
+  expect(await page.locator('.hero-portrait-art').evaluate(element => element.style.transform)).toBe('');
   await page.locator('.hero-work-link').tap();
   await expect(page.locator('#work')).toBeInViewport();
   await context.close();
@@ -38,7 +37,7 @@ test('touch browsing keeps the portrait still and calls to action usable', async
 
 test('case cards are readable immediately without scroll-triggered fades', async ({ page }) => {
   await page.goto('/analytics-plus.html');
-  await page.locator('a[href="/analytics.html"]:visible').first().click();
+  await followLink(page, '/analytics.html');
   await openCaseDetails(page);
   await page.locator('#feature-walkthrough > summary').click();
   const card = page.locator('.solution-grid > li').last();

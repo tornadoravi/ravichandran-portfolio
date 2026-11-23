@@ -1,8 +1,9 @@
-import { test, expect, openWorkspaceNavigation, openCaseDetails, openListeningControls } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openCaseDetails, openListeningControls, followLink } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
 test('one audio element continues through every case family with matching controls and no reload', async ({ page }) => {
+  test.setTimeout(90000);
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
@@ -18,7 +19,7 @@ test('one audio element continues through every case family with matching contro
   await page.getByRole('slider', { name: 'Volume', exact: true }).fill('27');
   async function follow(href, name) {
     if (await page.locator(`.workspace-navigation a[href="${href}"]`).count()) await openWorkspaceNavigation(page);
-    await page.locator(`a[href="${href}"]:visible`).first().click();
+    await followLink(page, href);
     await expect(page.locator('body')).toHaveAttribute('data-page', name);
     await openListeningControls(page);
     await expect(page.getByRole('button', { name: 'Pause ambience', exact: true })).toBeVisible();
@@ -84,13 +85,13 @@ test('back and forward preserve the song, expanded evidence, and reading positio
   expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused)).toBe(true);
   await page.goForward();
   await expect(page.locator('body')).toHaveAttribute('data-page', 'about');
-  await expect(page.locator('h1')).toContainText('Product design for');
+  await expect(page.locator('h1')).toHaveText('About me');
   expect(await page.locator('audio').evaluate(audio => audio === window.originalAudio && !audio.paused)).toBe(true);
 });
 
 test('page metadata, body classes, hash disclosures, and screenshot inspection update after navigation', async ({ page }) => {
   await page.goto('/powertable.html');
-  await page.locator('a[href="/column-mapping.html"]:visible').first().click();
+  await followLink(page, '/column-mapping.html');
   await expect(page).toHaveTitle('Column Mapping & Configuration — Ravichandran V');
   await expect(page.locator('body')).toHaveClass(/mapping-case/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Column Mapping & Configuration/);

@@ -4,6 +4,7 @@ import CaseFilmScene from './CaseFilmScene.jsx';
 import { createCaseNarration } from './case-narration.js';
 import { solutionNarration, standaloneNarration } from './case-film-narration.js';
 import { caseSolutions, solutionSteps } from './case-solutions.js';
+import { solutionScreens } from './case-solution-evidence.js';
 import filmAudio from './case-film-audio.json';
 
 export { default as WalkthroughButton } from './WalkthroughButton.jsx';
@@ -39,12 +40,18 @@ export default function CaseStudyPlayer({
       { label: 'Problem', heading: facts[0][0], stage: 'challenge', copy: facts[0][1], note: solution.reason },
       ...steps.map((step, index) => ({
         label: step.title, heading: step.title, solutionIndex: index, steps, value: solution.value,
+        screen: solutionScreens[caseId]?.[index],
+        disclosure: solutionScreens[caseId]?.[index]
+          ? concept ? 'Original concept screen / not validated interaction'
+            : caseId === 'baselines' ? 'Original exploration screen / not a shipped feature'
+              : 'Original design screen / not a product recording'
+          : disclosure,
         beats: [step.action, step.response, step.why]
       })),
       { label: 'Evidence', heading: screen ? 'Inspect the evidence.' : 'A clearly scoped contribution.',
         stage: 'design', screen,
         disclosure: concept ? caseId === 'bikecare' ? 'Original mobile concept screen / local working demo in the case' : 'Original concept frames / not working interaction'
-          : official ? 'Official product context / not whole-product authorship'
+          : official ? 'Official product context / Lumel'
             : screen ? 'Original design state / not proof of every interaction' : disclosure,
         copy: solution.evidence },
       { label: caseId === 'bikecare' ? 'Business case' : 'Scope', heading: facts[2][0], stage: 'evidence', copy: facts[2][1],

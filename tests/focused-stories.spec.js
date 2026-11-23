@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails, openProductDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -13,6 +13,8 @@ for (const appearance of ['light', 'dark']) {
         ['/analytics.html', 'wizard', ['Start with the need', 'Choose a suitable chart', 'Shape the result'], 'Chart Wizard shipped']
       ]) {
         await page.goto(path);
+        if (story === 'planning') await openProductDetails(page);
+        else await openCaseDetails(page);
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
         await page.evaluate(() => document.fonts.ready);
         const focus = page.locator('.case-focus');
@@ -22,7 +24,7 @@ for (const appearance of ['light', 'dark']) {
         await expect(focus.locator('.focus-explanation dt')).toHaveText(['My ownership', 'Key design decision', 'Delivery & evidence']);
         await expect(focus.locator('.focus-explanation')).toContainText(delivery);
         if (story === 'planning') {
-          await expect(focus.getByRole('heading', { level: 2 })).toHaveText('Give each mapping a clear role.');
+          await expect(focus).toHaveAccessibleName('Give each mapping a clear role.');
           await expect(focus.locator('.focus-steps')).toHaveAccessibleName('Illustrative mapping decisions');
           await expect(focus.locator('.focus-steps li p')).toHaveText([
             'Task, Time Entries, Resource, and Cost.',
@@ -46,7 +48,7 @@ for (const appearance of ['light', 'dark']) {
         }
         const layout = await focus.evaluate(section => ({
           position: section.dataset.focusStory === 'planning'
-            ? section.getBoundingClientRect().top >= document.querySelector('.case-story-content > .case-evidence').getBoundingClientRect().bottom &&
+            ? section.getBoundingClientRect().top >= document.querySelector('.case-hero-preview').getBoundingClientRect().bottom &&
               section.getBoundingClientRect().bottom <= document.querySelector('#workspaces').getBoundingClientRect().top
             : section.getBoundingClientRect().bottom <= document.querySelector('.case-story-content > .case-evidence').getBoundingClientRect().top,
           overflow: [...section.querySelectorAll('li, svg, h3, dd')].some(element => {
@@ -71,14 +73,16 @@ for (const appearance of ['light', 'dark']) {
 
 test('Home and Analytics+ prioritize Chart Wizard while breadth stays optional', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#work .product-context-card')).toHaveCount(2);
+  await expect(page.locator('#work > .product-context-grid .product-context-card')).toHaveCount(2);
   await expect(page.locator('.portfolio-scope, .contribution-map')).toHaveCount(0);
   await expect(page.locator('.showcase-case')).toHaveCount(0);
   await page.locator('#project-analytics').click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Recommended first read: Chart Wizard' }).click();
   await expect(page).toHaveURL(/analytics\.html$/);
   await page.goto('/analytics-plus.html');
+  await openProductDetails(page);
   await expect(page.getByRole('link', { name: 'Recommended first read: Chart Wizard' })).toHaveAttribute('href', '/analytics.html');
   await expect(page.locator('.feature-card-grid > a')).toHaveCount(5);
   await expect(page.locator('#design-details')).not.toHaveAttribute('open');
@@ -102,11 +106,13 @@ test('focused scenarios and optional supporting work remain usable without JavaS
     const page = await context.newPage();
     for (const path of ['/powertable.html', '/analytics.html']) {
       await page.goto(baseURL + path);
+      await openCaseDetails(page);
       await expect(page.locator('.case-focus')).toBeVisible();
       await expect(page.locator('.focus-steps h3')).toHaveCount(3);
       await expect(page.locator('.focus-explanation')).toContainText('Key design decision');
     }
     await page.goto(baseURL + '/analytics-plus.html');
+    await openProductDetails(page);
     await page.locator('#supporting-work > summary').focus();
     await page.keyboard.press('Enter');
     await expect(page.locator('#supporting-work dd').filter({ hasText: 'PowerPoint' })).toBeVisible();

@@ -10,6 +10,7 @@
     "test:build": "node --test tests/build-site.test.mjs",
     "test:pages": "node --test tests/pages-deployment.test.mjs",
     "build:hero": "node scripts/build-hero.mjs",
+    "build:resume": "node scripts/build-resume.mjs",
     "test": "playwright test"
   },
   "dependencies": {

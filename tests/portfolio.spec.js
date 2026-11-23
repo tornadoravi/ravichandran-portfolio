@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails } from './fixtures.js';
+import { test, expect, openCaseDetails, openProductDetails, openLinkDetails, followLink } from './fixtures.js';
 
 const origin = `http://127.0.0.1:${process.env.PORT || 4173}`;
 const featurePages = ['/storyboard.html', '/gantt.html', '/analytics.html', '/presentation.html', '/kpi.html'];
@@ -17,16 +17,19 @@ for (const width of [320, 390, 768, 1440]) {
       await expect(page.locator('h1')).toHaveCount(1);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       const links = await page.locator('a').evaluateAll((elements) =>
-        elements.map((element) => element.getAttribute('href')));
+        [...new Set(elements.map((element) => element.getAttribute('href')))]);
+      const responses = new Map();
       for (const href of links) {
         expect(href).not.toBe('#');
         if (href.startsWith('#')) {
           expect(await page.locator(href).count()).toBe(1);
         } else if (href.startsWith('/')) {
           const url = new URL(href, page.url());
-          expect((await page.request.get(url.href)).status()).toBe(200);
+          const documentUrl = url.origin + url.pathname + url.search;
+          if (!responses.has(documentUrl)) responses.set(documentUrl, await page.request.get(documentUrl));
+          const destination = responses.get(documentUrl);
+          expect(destination.status()).toBe(200);
           if (url.hash) {
-            const destination = await page.request.get(url.href);
             expect(await destination.text()).toContain(`id="${url.hash.slice(1)}"`);
           }
         }
@@ -35,16 +38,17 @@ for (const width of [320, 390, 768, 1440]) {
       if (path !== '/about.html') {
         await expect(page.locator('.cover-evidence img, .product-screenshot img, [data-illustration] svg, .case-diagram, .structure-map').first()).toBeVisible();
       }
-      for (const disclosure of await page.locator('.case-deep-dive, .feature-previews, .case-context').all()) {
+      for (const disclosure of await page.locator('main details').all()) {
         if (await disclosure.getAttribute('open') === null) {
           await disclosure.locator(':scope > summary').click();
         }
       }
-      for (const image of await page.locator('img').all()) {
-        await image.scrollIntoViewIfNeeded();
-        await expect(image).toHaveJSProperty('complete', true);
-        expect(await image.evaluate((element) => element.naturalWidth)).toBeGreaterThan(0);
-      }
+      const images = page.locator('img');
+      await images.evaluateAll(images => Promise.all(images.map(image => {
+        image.loading = 'eager';
+        return image.decode();
+      })));
+      expect(await images.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
     });
   }
 }
@@ -67,11 +71,13 @@ test('the hero work link preserves anchor navigation and browser history', async
   const nav = page.getByRole('navigation', { name: 'Main navigation' });
   const workPosition = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop));
   await expect(nav.locator('a[aria-current]')).toHaveText('Home');
+  await page.locator('.hero-work-link').scrollIntoViewIfNeeded();
+  const initialPosition = await page.evaluate(() => scrollY);
   await page.locator('.hero-work-link').click();
   await expect.poll(() => page.locator('#work').evaluate((element) => element.getBoundingClientRect().top)).toBeCloseTo(workPosition, 0);
   await expect(nav.locator('a[aria-current]')).toHaveText('Home');
   await page.goBack();
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(initialPosition);
   await expect(nav.locator('a[aria-current]')).toHaveText('Home');
   await page.goForward();
   await expect.poll(() => page.locator('#work').evaluate((element) => element.getBoundingClientRect().top)).toBeCloseTo(workPosition, 0);
@@ -144,8 +150,9 @@ test('mobile menu supports keyboard, dismissal, and navigation', async ({ page }
 test('viewers return to the overview to choose another feature or product', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
+  await openProductDetails(page);
   await expect(page).toHaveURL(/analytics-plus\.html$/);
-  await page.getByRole('link', { name: 'Read Storyboard authoring case study' }).click();
+  await followLink(page, '/storyboard.html');
   await openCaseDetails(page);
   await page.getByRole('navigation', { name: 'Case study sections' }).getByRole('link', { name: 'Presentation', exact: true }).click();
   await expect(page.locator('#presentation')).toBeInViewport();
@@ -189,8 +196,10 @@ test('reduced motion and no-JavaScript navigation remain usable', async ({ brows
   await page.goto(origin + '/');
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About', exact: true }).click();
-  await expect(page.locator('h1')).toContainText('Product design for');
-  await expect(page.getByRole('link', { name: 'View LinkedIn profile' })).toHaveAttribute('href', 'https://www.linkedin.com/in/ravichandran-uxui/');
+  await expect(page.locator('h1')).toHaveText('About me');
+  const profile = page.locator('.profile-links a[href="https://www.linkedin.com/in/ravichandran-uxui/"]');
+  await openLinkDetails(profile);
+  await expect(profile).toHaveAttribute('target', '_blank');
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page).toHaveURL(origin + '/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -201,7 +210,7 @@ test('reduced-motion preferences disable smooth scroll and illustration movement
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
-  expect(await page.locator('.project-visual .cover-evidence').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
+  expect(await page.locator('.product-context-card .cover-evidence').first().evaluate((element) => getComputedStyle(element).transform)).toBe('none');
 });
 
 test('keyboard skip link reaches main content', async ({ page }) => {
@@ -223,12 +232,12 @@ test('all six supplied screenshots appear in the case study and open full-size',
   await openCaseDetails(page);
   const names = ['storyboard-start', 'custom-layout', 'template-selection', 'blank-canvas', 'template-store', 'storyboard-editor'];
   for (const name of names) {
-    const image = page.locator(`img[src="/assets/${name}.png"]`);
+    const image = page.locator(`.case-story-content img[src="/assets/${name}.png"]`);
     await expect(image).toHaveCount(1);
     const response = await page.request.get(`/assets/${name}.png`);
     expect(response.status()).toBe(200);
     expect(response.headers()['content-type']).toContain('image/png');
-    await expect(page.locator(`a.product-screenshot[href="/assets/${name}.png"]`)).toHaveAttribute('target', '_blank');
+    await expect(page.locator(`.case-story-content a.product-screenshot[href="/assets/${name}.png"]`)).toHaveAttribute('target', '_blank');
   }
   const popupPromise = page.waitForEvent('popup');
   await page.getByRole('link', { name: 'View custom layout screenshot full-size (opens in a new tab)', exact: true }).click();
@@ -239,9 +248,9 @@ test('all six supplied screenshots appear in the case study and open full-size',
 
 test('editorial covers preserve genuine product views and the serif hierarchy', async ({ page }) => {
   await page.goto('/');
-  expect(await page.locator('h1 em').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('normal');
-  await expect(page.locator('.project-visual .cover-evidence img').first()).toHaveCSS('transform', 'none');
-  await expect(page.locator('.project-visual .cover-evidence img').first()).toHaveCSS('filter', 'none');
+  expect(await page.locator('h1').evaluate((element) => getComputedStyle(element).fontStyle)).toBe('normal');
+  await expect(page.locator('.product-context-card .cover-evidence img').first()).toHaveCSS('transform', 'none');
+  await expect(page.locator('.product-context-card .cover-evidence img').first()).toHaveCSS('filter', 'none');
   await expect(page.locator('.hero-index, .monogram')).toHaveCount(0);
 });
 
@@ -250,18 +259,19 @@ test('storyboard screenshots are separate from Chart Wizard and planning', async
   await openCaseDetails(page);
   await expect(page.locator('h1')).toContainText('Storyboard');
   await expect(page.locator('.case-summary')).toContainText('Build a report.');
-  await expect(page.locator('main img:not(.brand-image)[src^="/assets/"]')).toHaveCount(6);
+  await expect(page.locator('.case-story-content .product-screenshot img[src^="/assets/"]')).toHaveCount(6);
   await expect(page.locator('img[src^="/assets/wizard-"]')).toHaveCount(0);
   await page.goto('/analytics.html');
   await openCaseDetails(page);
-  await expect(page.locator('img[src^="/assets/wizard-"]')).toHaveCount(8);
+  await expect(page.locator('.case-story-content img[src^="/assets/wizard-"]')).toHaveCount(8);
   await expect(page.locator('img[src="/assets/storyboard-editor.png"], img[src="/assets/template-store.png"], img[src="/assets/custom-layout.png"]')).toHaveCount(0);
   await page.goto('/powertable.html');
   await expect(page.locator('img[src^="/assets/wizard-"], img[src^="/assets/storyboard-"]')).toHaveCount(0);
   await expect(page.locator('.product-overview img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await page.goto('/');
-  await expect(page.locator('.project')).toHaveCount(productPages.length);
+  await expect(page.locator('#work > .product-context-grid .product-context-card')).toHaveCount(productPages.length);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Read Storyboard authoring case study', exact: true }).click();
   await expect(page).toHaveURL(/storyboard\.html$/);
 });
@@ -302,7 +312,7 @@ test('storyboard views follow entry, alternative setup routes, and authoring ord
   await page.goto('/storyboard.html');
   await openCaseDetails(page);
   await page.locator('.flow-disclosure > summary').click();
-  expect(await page.locator('main img:not(.brand-image)[src^="/assets/"]').evaluateAll((images) => images.map((image) => image.getAttribute('src')))).toEqual([
+  expect(await page.locator('.case-story-content .product-screenshot img[src^="/assets/"]').evaluateAll((images) => images.map((image) => image.getAttribute('src')))).toEqual([
     '/assets/storyboard-start.png',
     '/assets/custom-layout.png',
     '/assets/template-selection.png',
@@ -486,7 +496,7 @@ test('recommendations preserve the supplied text, attribution, dates, and relati
 
 test('compact product summaries preserve both product-overview routes', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.product-context-card')).toHaveCount(productPages.length);
+  await expect(page.locator('#work > .product-context-grid .product-context-card')).toHaveCount(productPages.length);
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study', exact: true }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
   await page.goto('/');
@@ -514,7 +524,7 @@ test('case navigation stays available and exposes reading progress', async ({ pa
 test('screenshot inspection supports native focus, Escape, close, and backdrop dismissal', async ({ page }) => {
   await page.goto('/storyboard.html');
   await openCaseDetails(page);
-  const buttons = page.getByRole('button', { name: 'Inspect screenshot', exact: true });
+  const buttons = page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true });
   await expect(buttons).toHaveCount(6);
   await buttons.first().click();
   const dialog = page.getByRole('dialog', { name: 'Inspect screenshot', exact: true });
@@ -560,7 +570,7 @@ test('recommendation disclosures and source links remain usable without JavaScri
   await page.goto(origin + '/storyboard.html');
   await openCaseDetails(page);
   await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(0);
-  await expect(page.locator('a.product-screenshot')).toHaveCount(6);
+  await expect(page.locator('.case-story-content a.product-screenshot')).toHaveCount(6);
   await context.close();
 });
 
@@ -583,7 +593,7 @@ test('all eight Chart Wizard screenshots follow the supplied feature flow', asyn
   await openCaseDetails(page);
   await page.locator('#feature-walkthrough > summary').click();
   const names = ['chart-family', 'function', 'use-case', 'visual-style', 'favorites', 'customize', 'advanced', 'result'];
-  const images = page.locator('img[src^="/assets/wizard-"]');
+  const images = page.locator('.case-story-content img[src^="/assets/wizard-"]');
   await expect(images).toHaveCount(8);
   expect(await images.evaluateAll((elements) => elements.map((element) => element.getAttribute('src')))).toEqual(
     names.map((name) => `/assets/wizard-${name}.png`));
@@ -592,11 +602,11 @@ test('all eight Chart Wizard screenshots follow the supplied feature flow', asyn
     const response = await page.request.get(asset);
     expect(response.status()).toBe(200);
     expect(response.headers()['content-type']).toContain('image/png');
-    const image = page.locator(`img[src="${asset}"]`);
+    const image = page.locator(`.case-story-content img[src="${asset}"]`);
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('naturalWidth', index === 7 ? 1420 : 540);
     await expect(image).toHaveJSProperty('naturalHeight', index === 7 ? 805 : 370);
-    await expect(page.locator(`a.product-screenshot[href="${asset}"]`)).toHaveAttribute('target', '_blank');
+    await expect(page.locator(`.case-story-content a.product-screenshot[href="${asset}"]`)).toHaveAttribute('target', '_blank');
   }
   await expect(page.locator('[data-illustration="wizard"]')).toHaveCount(0);
   await expect(page.locator('main')).toContainText('representative states');
@@ -627,19 +637,20 @@ test('Chart Wizard flow preserves alternative routes and reaches configuration a
 
 test('Wizard screenshots use native-size crops while the feature gallery uses illustrations', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#project-analytics .product-cover-illustration')).toHaveAttribute('src', '/assets/analytics-insights-cover.webp');
+  await expect(page.locator('#project-analytics .product-cover-illustration')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
   await expect(page.locator('#project-analytics .product-cover-illustration')).toBeVisible();
   await page.goto('/analytics-plus.html');
+  await openProductDetails(page);
   const wizard = page.locator('#feature-wizard');
   await expect(wizard.locator('img')).toHaveCount(0);
   await expect(wizard).toContainText('Original concept illustration');
   await expect(wizard.locator('[data-case-scene="wizard-design"]')).toBeVisible();
   await page.goto('/analytics.html');
   await openCaseDetails(page);
-  await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(2);
+  await expect(page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(2);
   await page.locator('#feature-walkthrough > summary').click();
-  await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(8);
-  await page.getByRole('button', { name: 'Inspect screenshot', exact: true }).first().click();
+  await expect(page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(8);
+  await page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true }).first().click();
   const dialog = page.getByRole('dialog', { name: 'Inspect screenshot' });
   await expect(dialog.locator('img')).toHaveJSProperty('naturalWidth', 540);
   expect(await dialog.locator('img').evaluate((element) => element.clientWidth)).toBeLessThanOrEqual(540);
@@ -671,7 +682,7 @@ for (const path of pages.filter((path) => path !== '/')) {
 
 test('project hover keeps the cover and original evidence still', async ({ page }) => {
   await page.goto('/#project-analytics');
-  const preview = page.locator('#project-analytics .project-visual');
+  const preview = page.locator('#project-analytics');
   await preview.hover();
   await expect(preview).toHaveCSS('transform', 'none');
   await expect(preview.locator('.cover-evidence img')).toHaveCSS('transform', 'none');
@@ -728,7 +739,7 @@ test('touch browsing has no desktop hover lift and project taps still navigate',
   const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(origin + '/#project-analytics');
-  const preview = page.locator('#project-analytics .project-visual');
+  const preview = page.locator('#project-analytics');
   expect(await page.evaluate(() => matchMedia('(hover: none)').matches)).toBe(true);
   await expect(preview).toHaveCSS('transform', 'none');
   await preview.tap();
@@ -776,7 +787,7 @@ test('genuine case evidence appears early without duplicating screenshots', asyn
     await page.setViewportSize({ width, height: 1000 });
     for (const path of ['/analytics.html', '/storyboard.html', '/gantt.html', '/kpi.html', '/powertable.html']) {
       await page.goto(path);
-      const evidence = page.locator('.case-evidence img').first();
+      const evidence = page.locator('.case-hero-preview img').first();
       const top = await evidence.evaluate((image) => image.getBoundingClientRect().top + scrollY);
       expect(top).toBeLessThan(width === 1440 ? 900 : 1050);
       expect(await evidence.evaluate((image) => image.naturalWidth)).toBeGreaterThan(0);
@@ -792,7 +803,7 @@ test('mobile case navigation has full-size targets and reveals the current secti
   for (const path of casePages) {
     await page.goto(path);
     if (featurePages.includes(path)) await openCaseDetails(page);
-    if (path === '/powertable.html') await page.locator('#study-details > summary').click();
+    if (path === '/powertable.html') await openProductDetails(page);
     const navigation = page.getByRole('navigation', { name: 'Case study sections' });
     const bounds = await navigation.locator('a').evaluateAll((links) => links.map((link) => ({
       top: link.getBoundingClientRect().top,
@@ -859,6 +870,7 @@ test('fitting remains available after resizing a native-size screenshot', async 
 });
 
 test('essential typography and text contrast stay legible on every page', async ({ page }) => {
+  test.setTimeout(90000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
@@ -873,13 +885,19 @@ test('essential typography and text contrast stay legible on every page', async 
           return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
         }
         return [...document.querySelectorAll('.eyebrow, figcaption, .metadata dt, .metadata dd, .case-nav a, .project-description p, .experience-timeline p, .recommendation-context, .fine-print')]
-          .filter((element) => element.getClientRects().length)
+          .filter(element => element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) && !element.closest('.sr-only, [aria-hidden="true"]'))
           .flatMap((element) => {
             const style = getComputedStyle(element);
-            let ancestor = element;
-            while (ancestor.parentElement && getComputedStyle(ancestor).backgroundColor === 'rgba(0, 0, 0, 0)') ancestor = ancestor.parentElement;
+            const background = [0, 0, 0];
+            let remaining = 1;
+            for (let parent = element; parent && remaining > 0; parent = parent.parentElement) {
+              const channels = getComputedStyle(parent).backgroundColor.match(/[\d.]+/g).map(Number);
+              const alpha = channels[3] ?? 1;
+              channels.slice(0, 3).forEach((channel, index) => { background[index] += channel * alpha * remaining; });
+              remaining *= 1 - alpha;
+            }
             const a = luminance(style.color);
-            const b = luminance(getComputedStyle(ancestor).backgroundColor);
+            const b = luminance(`rgb(${background.map(channel => channel + 255 * remaining).join(', ')})`);
             const contrast = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
             return parseFloat(style.fontSize) < 12 || contrast < 4.5 ?
               [{ text: element.textContent.slice(0, 60), size: style.fontSize, contrast }] : [];
@@ -894,6 +912,7 @@ test('essential typography and text contrast stay legible on every page', async 
 });
 
 test('user-flow disclosures remain keyboard-usable without JavaScript', async ({ browser }) => {
+  test.setTimeout(90000);
   const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   for (const [path, name, link, target] of [
@@ -906,7 +925,7 @@ test('user-flow disclosures remain keyboard-usable without JavaScript', async ({
   ]) {
     await page.goto(origin + path);
     if (featurePages.includes(path)) await openCaseDetails(page);
-    if (path === '/powertable.html') await page.locator('#study-details > summary').click();
+    if (path === '/powertable.html') await openProductDetails(page);
     const disclosure = page.locator('.flow-disclosure');
     await expect(disclosure).not.toHaveAttribute('open');
     await disclosure.locator('summary').focus();
@@ -943,7 +962,13 @@ test('Home and About link to the supplied GitHub profile', async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/about.html']) {
       await page.goto(path);
-      const link = page.getByRole('link', { name: /View GitHub/ });
+      if (path === '/') {
+        if (width === 320) await page.locator('.menu-toggle').click();
+        await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About', exact: true }).click();
+      }
+      await page.locator('#experience-details > summary').click();
+      const link = page.locator('a[href="https://github.com/tornadoravi"]');
+      await expect(link).toHaveAccessibleName(/GitHub/);
       await expect(link).toHaveAttribute('href', 'https://github.com/tornadoravi');
       await expect(link).toHaveAttribute('target', '_blank');
       await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
@@ -954,9 +979,9 @@ test('Home and About link to the supplied GitHub profile', async ({ page }) => {
 
 test('homepage gives clear ownership and direct case and contact actions', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.project-role')).toHaveCount(2);
-  expect(await page.locator('.case-link').evaluateAll((links) => links.map((link) => link.getAttribute('href')))).toEqual(productPages);
-  const contact = page.getByRole('link', { name: /Connect on LinkedIn/ });
+  await expect(page.locator('#work > .product-context-grid .product-my-work')).toHaveCount(2);
+  expect(await page.locator('#work > .product-context-grid .product-context-card').evaluateAll((links) => links.map((link) => link.getAttribute('href')))).toEqual(productPages);
+  const contact = page.locator('.hero-profile-link');
   await expect(contact).toHaveAttribute('href', 'https://www.linkedin.com/in/ravichandran-uxui/');
   await expect(contact).toHaveAttribute('target', '_blank');
   await expect(page.locator('.portrait-work-link')).toHaveCount(0);
@@ -974,21 +999,21 @@ test('Power BI Gantt preserves all three supplied states at native resolution', 
     ['gantt-data-mapping', 455, 310],
     ['gantt-timeline', 1406, 786]
   ];
-  expect(await page.locator('main img:not(.brand-image)').evaluateAll((images) => images.map((image) => image.getAttribute('src')))).toEqual(
+  expect(await page.locator('.case-story-content .product-screenshot img').evaluateAll((images) => images.map((image) => image.getAttribute('src')))).toEqual(
     states.map(([name]) => `/assets/${name}.png`));
   for (const [name, width, height] of states) {
     const src = `/assets/${name}.png`;
     const response = await page.request.get(src);
     expect(response.status()).toBe(200);
     expect(response.headers()['content-type']).toContain('image/png');
-    const image = page.locator(`img[src="${src}"]`);
+    const image = page.locator(`.case-story-content img[src="${src}"]`);
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('naturalWidth', width);
     await expect(image).toHaveJSProperty('naturalHeight', height);
     expect(await image.evaluate((element) => element.clientWidth <= element.naturalWidth)).toBe(true);
-    await expect(page.locator(`a.product-screenshot[href="${src}"]`)).toHaveAttribute('target', '_blank');
+    await expect(page.locator(`.case-story-content a.product-screenshot[href="${src}"]`)).toHaveAttribute('target', '_blank');
   }
-  await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(3);
+  await expect(page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(3);
   await expect(page.locator('[data-illustration]')).toHaveCount(0);
 });
 
@@ -1056,7 +1081,7 @@ test('presentation case separates contribution scope, concepts, and vendor evide
   await expect(page.locator('#references')).toContainText('vendor documentation, not independent customer reviews');
   await expect(page.locator('#references a').first()).toHaveAttribute('href', 'https://docs.inforiver.com/analytics+/storyboard/annotations');
   await expect(page.locator('.customer-review, .review-rating, iframe')).toHaveCount(0);
-  await expect(page.locator('img[src$=".png"]:not(.brand-image)')).toHaveCount(9);
+  await expect(page.locator('.case-story-content .product-screenshot img[src$=".png"]:not(.brand-image)')).toHaveCount(9);
   const illustrations = page.locator('figure:has(img[data-visual-kind="illustration"])');
   await expect(illustrations).toHaveCount(2);
   for (const figure of await illustrations.all()) {
@@ -1091,7 +1116,7 @@ test('concept inspection is correctly labeled and supports mobile keyboard panni
   await page.goto('/presentation.html');
   await openCaseDetails(page);
   const opener = page.getByRole('button', { name: 'Inspect illustration', exact: true }).first();
-  await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(9);
+  await expect(page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(9);
   await opener.click();
   const dialog = page.getByRole('dialog', { name: 'Inspect illustration', exact: true });
   await expect(dialog.locator('img')).toHaveJSProperty('naturalWidth', 1040);
@@ -1114,6 +1139,7 @@ test('presentation concepts and related case links work without JavaScript', asy
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Read Annotations, Comments and Presentation case study', exact: true }).click();
   await expect(page).toHaveURL(/presentation\.html$/);
   await openCaseDetails(page);
@@ -1129,7 +1155,7 @@ test('presentation concepts and related case links work without JavaScript', asy
   await popup.close();
   await page.getByRole('link', { name: 'Storyboard authoring case', exact: false }).click();
   await expect(page).toHaveURL(/storyboard\.html$/);
-  await expect(page.locator('main img:not(.brand-image)')).toHaveCount(6);
+  await expect(page.locator('.case-story-content .product-screenshot img:not(.brand-image)')).toHaveCount(6);
   await openCaseDetails(page);
   await page.locator('#presentation a').click();
   await expect(page).toHaveURL(/presentation\.html$/);
@@ -1141,7 +1167,7 @@ test('presentation concepts and related case links work without JavaScript', asy
 
 test('two products agree across Home summaries and branded product case heroes', async ({ page }) => {
   await page.goto('/');
-  const projects = await page.locator('.product-context-card').evaluateAll((elements) => elements.map((element) => ({
+  const projects = await page.locator('#work > .product-context-grid .product-context-card').evaluateAll((elements) => elements.map((element) => ({
     id: element.id,
     platform: element.querySelector('.eyebrow').textContent
   })));
@@ -1149,7 +1175,7 @@ test('two products agree across Home summaries and branded product case heroes',
     'project-planning', 'project-analytics'
   ]);
   expect(projects.map((project) => project.platform)).toEqual(['Microsoft Fabric', 'Microsoft Power BI']);
-  const paths = await page.locator('.product-context-card').evaluateAll(links => links.map(link => link.getAttribute('href')));
+  const paths = await page.locator('#work > .product-context-grid .product-context-card').evaluateAll(links => links.map(link => link.getAttribute('href')));
   expect(paths).toEqual(['/powertable.html', '/analytics-plus.html']);
   for (const path of paths) {
     await page.goto(path);
@@ -1168,7 +1194,7 @@ for (const path of casePages) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path);
       if (featurePages.includes(path)) await openCaseDetails(page);
-      if (path === '/powertable.html') await page.locator('#study-details > summary').click();
+      if (path === '/powertable.html') await openProductDetails(page);
       if (path === '/analytics.html') await page.locator('#feature-walkthrough > summary').click();
       const business = page.getByRole('region', { name: 'Business case', exact: true });
       await expect(business.locator('.large-copy')).not.toBeEmpty();
@@ -1215,7 +1241,7 @@ test('all case user flows and concept explanations remain available without Java
   for (const path of casePages) {
     await page.goto(origin + path);
     if (featurePages.includes(path)) await openCaseDetails(page);
-    if (path === '/powertable.html') await page.locator('#study-details > summary').click();
+    if (path === '/powertable.html') await openProductDetails(page);
     await expect(page.locator('#business-case')).toContainText('business', { ignoreCase: true });
     await expect(page.locator('#concept .concept-node')).toHaveCount(3);
     const flow = page.locator('#user-flow');
@@ -1237,9 +1263,9 @@ test('all nine supplied presentation screens retain full resolution, source orde
   await page.goto('/presentation.html');
   await openCaseDetails(page);
   const sources = Array.from({ length: 9 }, (_, index) => `/assets/presentation-screen-${String(index + 1).padStart(2, '0')}.png`);
-  expect(await page.locator('main img:not(.brand-image)[src^="/assets/presentation-screen-"]').evaluateAll(images => images.map(image => image.getAttribute('src')))).toEqual(sources);
+  expect(await page.locator('.case-story-content img[src^="/assets/presentation-screen-"]').evaluateAll(images => images.map(image => image.getAttribute('src')))).toEqual(sources);
   for (const source of sources) {
-    const image = page.locator(`img[src="${source}"]`);
+    const image = page.locator(`.case-story-content img[src="${source}"]`);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(image => image.decode());
     await expect(image).toHaveJSProperty('naturalWidth', 1707);
@@ -1264,16 +1290,18 @@ test('all nine supplied presentation screens retain full resolution, source orde
   await expect.poll(() => viewport.evaluate(element => element.scrollLeft)).toBeGreaterThan(0);
   await page.keyboard.press('Escape');
   await page.setViewportSize({ width: 1440, height: 1000 });
-  const firstImage = page.locator(`img[src="${sources[0]}"]`);
+  const firstImage = page.locator(`.case-story-content img[src="${sources[0]}"]`);
   await firstImage.scrollIntoViewIfNeeded();
   expect(await firstImage.evaluate(image => image.clientHeight)).toBeLessThanOrEqual(380);
   expect(await firstImage.evaluate(image => image.clientWidth)).toBeLessThan(900);
   expect(await firstImage.evaluate(image => image.clientWidth <= image.naturalWidth)).toBe(true);
   await page.goto('/analytics-plus.html');
+  await openProductDetails(page);
   const card = page.locator('#feature-annotations');
   await expect(card).toHaveAttribute('href', '/presentation.html');
-  await expect(card.locator('img')).toHaveAttribute('src', '/assets/annotation-detail.png');
-  await expect(card).toContainText('Design screen · Annotation detail');
+  await expect(card.locator('img')).toHaveCount(0);
+  await expect(card.locator('.case-topic-art')).toBeVisible();
+  await expect(card).toContainText('Original concept illustration');
   for (const path of ['/analytics.html', '/storyboard.html', '/gantt.html', '/powertable.html']) {
     await page.goto(path);
     await expect(page.locator('img[src^="/assets/presentation-screen-"]')).toHaveCount(0);
@@ -1297,9 +1325,9 @@ test('KPI case preserves supplied screens and distinguishes evidence from featur
     ['/assets/kpi-variance.png', 2000, 1046],
     ['/assets/kpi-preset-library.png', 1996, 211]
   ];
-  expect(await page.locator('main img:not(.brand-image)').evaluateAll(images => images.map(image => image.getAttribute('src')))).toEqual(expected.map(([source]) => source));
+  expect(await page.locator('.case-story-content .product-screenshot img').evaluateAll(images => images.map(image => image.getAttribute('src')))).toEqual(expected.map(([source]) => source));
   for (const [source, width, height] of expected) {
-    const image = page.locator(`img[src="${source}"]`);
+    const image = page.locator(`.case-story-content img[src="${source}"]`);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(image => image.decode());
     await expect(image).toHaveJSProperty('naturalWidth', width);
@@ -1323,7 +1351,7 @@ test('KPI full-size inspection supports mobile panning and focus return', async 
   await page.goto('/kpi.html');
   await openCaseDetails(page);
   const opener = page.getByRole('button', { name: 'Inspect screenshot', exact: true }).first();
-  await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(3);
+  await expect(page.locator('.case-story-content').getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(3);
   await opener.click();
   const dialog = page.getByRole('dialog', { name: 'Inspect screenshot', exact: true });
   await dialog.getByRole('button', { name: 'Actual size', exact: true }).click();
@@ -1344,10 +1372,12 @@ test('KPI is reachable from Home and About with original evidence without JavaSc
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
+  await openProductDetails(page);
   await expect(page.locator('#feature-kpi [data-case-scene="kpi-design"]')).toBeVisible();
   await expect(page.locator('#feature-kpi')).toContainText('Original concept illustration');
   await page.getByRole('link', { name: 'Read KPI Presets case study', exact: true }).click();
   await expect(page).toHaveURL(/kpi\.html$/);
+  await openCaseDetails(page);
   await expect(page.locator('.inspect-button')).toHaveCount(0);
   const popupPromise = page.waitForEvent('popup');
   await page.getByRole('link', { name: 'View Simple KPI presets full-size (opens in a new tab)', exact: true }).click();
@@ -1365,11 +1395,13 @@ test('Gantt is reachable from Home and About without JavaScript', async ({ brows
   const page = await context.newPage();
   await page.goto(origin + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study' }).click();
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Read Power BI Gantt case study' }).click();
   await expect(page).toHaveURL(/gantt\.html$/);
-  await expect(page.locator('main img:not(.brand-image)')).toHaveCount(3);
+  await openCaseDetails(page);
+  await expect(page.locator('.case-story-content .product-screenshot img:not(.brand-image)')).toHaveCount(3);
   await expect(page.getByRole('button', { name: 'Inspect screenshot', exact: true })).toHaveCount(0);
-  for (const image of await page.locator('main img:not(.brand-image)').all()) {
+  for (const image of await page.locator('.case-story-content .product-screenshot img:not(.brand-image)').all()) {
     await image.scrollIntoViewIfNeeded();
     expect(await image.evaluate((element) => element.naturalWidth)).toBeGreaterThan(0);
   }

@@ -109,7 +109,8 @@
 .bikecare-ride-list h4 { font-size: 17px; }
 .bikecare-app .bikecare-ride-card { display: grid; justify-items: start; gap: 6px; padding: 12px; border-radius: 14px; text-align: left; font-weight: 400; }
 .bikecare-ride-card strong { font-size: 16px; color: #242b29; }
-.bikecare-screen-collections { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.bikecare-screen-collections { display: none; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.js .bikecare-screen-collections { display: flex; }
 .bikecare-screen-collections button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
 .bikecare-screen-collections button[aria-pressed="true"] { border-color: currentColor; font-weight: 700; }
 .bikecare-screen-collections button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }

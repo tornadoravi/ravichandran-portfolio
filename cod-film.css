@@ -123,6 +123,8 @@
 .cod-film-feedback { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); font-size: 11px; line-height: 1.6; }
 .case-film-explanation { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: 24px; padding-block: 18px; }
 .case-film-illustration { min-width: 0; }
+.case-film-illustration .case-solution-screen { margin: 0; }
+.case-film-illustration .case-solution-screen-image img { max-height: 400px; }
 .case-film-illustration .case-topic-art { display: block; width: 100%; height: auto; max-height: 270px; }
 .case-film-illustration > p { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
 .case-film-detail { display: grid; gap: 10px; margin: 0; }

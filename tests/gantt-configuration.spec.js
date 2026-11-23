@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation, openProductDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -17,7 +17,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('#panel-walkthrough')).not.toHaveAttribute('open');
     await page.locator('#panel-walkthrough > summary').click();
-    const images = page.locator('main .product-screenshot img');
+    const images = page.locator('.case-story-content .product-screenshot img');
     expect(await images.evaluateAll(nodes => nodes.map(node => node.getAttribute('src'))))
       .toEqual(states.map(name => `/assets/fabric-gantt-config-${name}.png`));
     for (const image of await images.all()) {
@@ -78,8 +78,9 @@ test('Gantt settings remain distinct from Resource settings and demonstrated out
 
 test('Home, grouped parent, baseline and resource siblings reach the correct case', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.product-context-card')).toHaveCount(4);
   await page.locator('.product-context-card[href="/powertable.html"]').click();
+  await openProductDetails(page);
   await expect(page.locator('#gantt-configuration')).toHaveCount(1);
   expect(await page.locator('[id]').evaluateAll(nodes => {
     const ids = nodes.map(node => node.id);
@@ -143,7 +144,7 @@ test('Gantt evidence, disclosure and parent links work without JavaScript', asyn
   await page.locator('#panel-walkthrough > summary').focus();
   await page.keyboard.press('Enter');
   for (const name of states) {
-    const image = page.locator(`img[src="/assets/fabric-gantt-config-${name}.png"]`);
+    const image = page.locator(`.case-story-content img[src="/assets/fabric-gantt-config-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('naturalWidth', 602);
     await expect(image.locator('..')).toHaveAttribute('target', '_blank');

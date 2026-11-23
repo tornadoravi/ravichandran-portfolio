@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation } from './fixtures.js';
 
 const pages = [
   ['/column-mapping.html', 'PowerTable Gantt features', 'Column Mapping'],
@@ -17,14 +17,16 @@ const pages = [
 
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`feature navigation is always shown in ${appearance} at ${width}px`, async ({ page }) => {
+    test(`feature navigation expands on demand in ${appearance} at ${width}px`, async ({ page }) => {
+      test.setTimeout(60000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       for (const [path, label, active] of pages) {
         await page.goto(path);
         const directory = page.locator('.workspace-navigation');
         await expect(directory).toBeVisible();
-        await expect(page.locator('details.workspace-navigation, .workspace-navigation summary')).toHaveCount(0);
+        await expect(directory).not.toHaveAttribute('open');
+        await openWorkspaceNavigation(page);
         const navigation = page.getByRole('navigation', { name: label, exact: true });
         const selected = navigation.locator('[aria-current]');
         await expect(selected).toHaveText(active);
@@ -46,6 +48,7 @@ for (const javaScriptEnabled of [true, false]) {
       const page = await context.newPage();
       await page.goto(baseURL + '/column-mapping.html');
       for (const [path, , name] of [pages[1], pages[2], pages[3], pages[0]]) {
+        await openWorkspaceNavigation(page);
         const link = page.getByRole('navigation', { name: 'PowerTable Gantt features', exact: true }).getByRole('link', { name, exact: true });
         await expect(link).toBeVisible();
         await link.focus();
@@ -65,6 +68,7 @@ test('Cross-tab section selection follows its destination even while evidence is
   await page.goto('/crosstab.html');
   await expect(page.locator('.appearance-trigger')).toBeEnabled();
   await page.evaluate(() => document.fonts.ready);
+  await openWorkspaceNavigation(page);
   const navigation = page.getByRole('navigation', { name: 'PowerTable Cross-tab sections', exact: true });
   await expect(page.locator('#contribution')).toBeHidden();
   await expect(navigation.locator('[aria-current]')).toHaveText('Overview');

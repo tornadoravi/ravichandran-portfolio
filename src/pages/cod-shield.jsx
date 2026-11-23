@@ -2,9 +2,9 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { sitePath } from '../site-path.js';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import CodShieldIllustration from '../CodShieldIllustration.jsx';
-import { Chapter, chapters, EvidenceScreen, ScreenWalkthrough } from '../CasePresentation.jsx';
+import { Chapter, readingChapters, EvidenceScreen, ScreenWalkthrough } from '../CasePresentation.jsx';
 import { CaseContext } from '../CaseReview.jsx';
-import { WalkthroughButton } from '../CaseStudyPlayer.jsx';
+import WalkthroughEntry from '../WalkthroughEntry.jsx';
 import { codScreens } from '../cod-shield-story.js';
 import CodFilmPlayer, { CodFilmTranscript } from '../CodFilmPlayer.jsx';
 import { codFilmSources } from '../cod-film-story.js';
@@ -432,38 +432,39 @@ export default function CodShieldPage() {
         <p className="cod-scope-note">Not launched or user-tested. Separate feature concepts for Amazon, Flipkart, Swiggy Instamart and Blinkit. No affiliation or cross-app sync.</p>
       </section>
       <div className="case-presentation-layout">
+          <WalkthroughEntry caseId="codShield" readHref="#case-overview"><CodFilmPlayer ref={player} /></WalkthroughEntry>
         <div className="case-presentation-hero">
           <div className="case-hero-preview"><EvidenceScreen screen={screens[0]} eager /></div>
-          <a className="case-read-link" href="#case-overview">Read the concept case study <span aria-hidden="true">↓</span></a>
-          <div className="case-player-entry">
-            <CodFilmPlayer ref={player} />
-          </div>
         </div>
         <div className="case-chapters">
           <aside className="case-fast-read" aria-label="Case in 30 seconds">
-            <p className="case-card-number">Independent exploration / not shipped product work</p>
+            <p className="case-card-number">Independent exploration</p>
             <dl>
-              <div><dt>Problem</dt><dd>Unwanted orders turn a household into a repeated delivery stop.</dd></div>
-              <div className="case-my-work"><dt>Design focus</dt><dd>One report per app, verified unit-level protection, that app’s confirmation, and a clear exit.</dd></div>
-              <div><dt>Evidence</dt><dd>News-informed concept. No tested outcomes.</dd></div>
+              <div><dt>Problem</dt><dd>Repeated unwanted deliveries.</dd></div>
+              <div className="case-my-work"><dt>Design focus</dt><dd>Report, verify, confirm, exit.</dd></div>
+              <div><dt>Evidence</dt><dd>News-informed, untested concept.</dd></div>
             </dl>
           </aside>
           <nav className="case-chapter-nav" aria-label="Case study chapters" data-section-tabs="">
-            {chapters.map(([id, label], index) => <a href={`#${id}`} key={id}><span>{String(index + 1).padStart(2, '0')}</span>{index === 5 ? 'Business case' : label}</a>)}
-            <WalkthroughButton className="case-walkthrough-tab" onClick={event => player.current?.open(event.currentTarget)} />
+            {readingChapters.map(([id, label]) => <a href={`#${id}`} key={id}>{label}</a>)}
           </nav>
           <Chapter index={0} title="What is COD Shield?" description="A proposed support service for unwanted cash-on-delivery orders. Report once, verify the home, and temporarily stop new COD dispatches.">
             <p className="case-audience-line"><strong>Designed for</strong> Residents, delivery partners, and support teams.</p>
-            <div className="cod-film-context">
+            <details className="case-reading-details">
+              <summary>Incident sources and narrated transcript</summary>
+              <div className="cod-film-context">
               <h3>Before the concept: Veeramani's reported story.</h3>
               <p>News reports described the Madurai creator asking for Diwali sweets, then facing unwanted COD orders, repeated visits, and calls. Delivery workers were caught in the disruption too. The cinematic Walkthrough follows this reported incident into the design question and proposed service.</p>
               <div className="cod-film-context-links">{codFilmSources.map(source => <a key={source.name} href={source.url} target="_blank" rel="noopener noreferrer">
                 {source.name} ↗<span className="sr-only"> (opens in a new tab)</span></a>)}</div>
               <CodFilmTranscript />
-            </div>
+              </div>
+            </details>
           </Chapter>
           <Chapter index={1} title="Refusing a parcel happens too late." description="Packing, travel, calls, and doorstep disruption have already happened. The resident should not have to investigate every order.">
-            <div className="case-gap-grid">
+            <details className="case-reading-details">
+              <summary>Resident and delivery-team burdens</summary>
+              <div className="case-gap-grid">
               {[
                 ['Resident burden', 'Repeated refusals', 'One managed case'],
                 ['Delivery effort', 'Doorstep investigation', 'Upstream review']
@@ -472,43 +473,47 @@ export default function CodShieldPage() {
                 <div><p><small>Reported harm</small>{harm}</p><span className="case-gap-arrow" aria-hidden="true">→</span><p><small>Proposed direction</small><strong>{proposal}</strong></p></div>
               </article>)}
             </div>
-            <p className="fine-print">Concept comparison, not observed user research or measured improvement.</p>
+              <p className="fine-print">Concept comparison, not observed user research or measured improvement.</p>
+            </details>
           </Chapter>
           <Chapter index={2} title="Three decisions shape the service.">
             <div className="case-design-cards">
               {[
-                ['One incident', 'Replace per-order approvals with one supported report. Limit updates across all contact channels.'],
-                ['Exact household', 'Verify the affected unit. A phone OTP alone does not establish residence or consent.'],
-                ['Temporary, reversible', 'Explain genuine-order impact, set expiry, and provide verified removal and appeals.']
+                ['One incident', 'One supported report, not per-order approvals.'],
+                ['Exact household', 'Verify residence; a phone OTP alone is insufficient.'],
+                ['Temporary, reversible', 'Household consent, expiry, verified removal and appeals.']
               ].map(([title, description], index) => <article key={title}><span className="case-card-number">0{index + 1}</span><h3>{title}</h3><p>{description}</p></article>)}
             </div>
           </Chapter>
           <Chapter index={3} title="One app. One case. Its own COD orders.">
+            <details className="case-reading-details">
+              <summary>Service flow and operational safeguards</summary>
             <ol className="case-context-path" aria-label="Proposed service journey">
               <li><span>01 / Report</span><strong>No order ID needed</strong></li>
               <li><span>02 / Verify</span><strong>Review the exact unit</strong></li>
               <li><span>03 / Confirm</span><strong>This app’s protection only</strong></li>
             </ol>
             <p className="fine-print">Review clusters before packing. Release legitimate orders within a deadline; confirm protection per platform.</p>
+            </details>
             <details className="cod-scope-note">
               <summary>100+ orders, different buyers: covered?</summary>
               <p>Illustrative scenario, not a verified count for Veeramani: 120 unwanted Amazon COD orders from different accounts target one home. The resident reports one incident to Amazon; support verifies the exact unit, not the buying accounts.</p>
               <p>After household consent and Amazon’s confirmation, a temporary 3- or 7-day restriction would apply to confidently matched new Amazon COD orders for that unit, regardless of the buyer account or phone number. It also affects genuine household COD orders in Amazon. Uncertain unit matches need review; neighbours must not be blocked.</p>
               <p>The app should expire its restriction at the agreed deadline and support verified early removal. Already-dispatched parcels need interception, which is not guaranteed. Prepaid orders remain outside coverage. Flipkart, Swiggy Instamart and Blinkit require separate reports and decisions; Amazon cannot restrict their orders. This proposal has not solved the real incident or activated any protection.</p>
             </details>
-            <CaseSolution caseId="codShield" />
-            <CaseConceptFilm caseId="codShield" />
+            <CaseSolution caseId="codShield" compact />
+            <details className="case-reading-details"><summary>Explore the illustrated workflow</summary><CaseConceptFilm caseId="codShield" /></details>
             <details className="cod-scope-note"><summary>Separate apps. No shared blacklist.</summary><p>Each app needs its own COD eligibility policy, exact-unit review, enforcement, expiry and appeal. A report or restriction in one app does not change another app’s orders.</p></details>
           </Chapter>
-          <Chapter index={4} title="Walk through the mobile-app experience." description="Eleven Amazon feature screens, plus separate app versions. Consent, protection, removal and appeal; no live service.">
+          <Chapter index={4} title="Inspect the design screens." description="Eleven Amazon concept screens; no live service.">
             <ScreenWalkthrough screens={screens} diagramId="codShield" />
-            <details className="cod-partner-placement">
-              <summary>App-inspired placements &amp; flow</summary>
+            <details className="cod-partner-placement case-reading-details">
+              <summary>Explore app placements and flows</summary>
               <span id="partner-placement" className="case-bookmark" />
               <CodPartnerExperience renderPrototype={(partner, onStageChange) =>
                 <RecipientPrototype key={partner.id} partner={partner} onStageChange={onStageChange} />} />
             </details>
-            <details className="cod-live-demo">
+            <details className="cod-live-demo case-reading-details">
               <summary>Try the interactive prototype</summary>
               <span id="prototype" className="case-bookmark" />
               <RecipientPrototype />
@@ -518,7 +523,7 @@ export default function CodShieldPage() {
             <div className="case-outcome" role="group" aria-label="COD Shield business case">
               <span className="case-outcome-status">Intended benefits</span>
               <h3>Protect people. <em>Reduce avoidable work.</em></h3>
-              <p className="case-outcome-description">For households: fewer interruptions. For delivery teams: fewer wasted trips. For sellers and platforms: less wasted fulfilment and repeat support.</p>
+              <p className="case-outcome-description">Fewer household interruptions, wasted deliveries and repeat support requests.</p>
               <p className="case-outcome-note">Proposed benefits, not measured results. Pilot: unwanted visits, failed-delivery effort, repeat contacts, and wrong-unit restrictions.</p>
             </div>
           </Chapter>
@@ -527,9 +532,8 @@ export default function CodShieldPage() {
           <summary className="case-evidence-summary" aria-label="Explore full evidence and sources">
             <span className="case-evidence-intro">
               <span className="case-card-number">Behind the concept</span>
-              <span className="case-evidence-title">Explore the thinking behind the proposal.</span>
-              <span className="case-evidence-description">Incident coverage, alternatives, operations, safeguards, and proposed measures.</span>
-              <span className="case-evidence-topics"><span><b>01</b>Sources</span><span><b>02</b>Trade-offs</span><span><b>03</b>Safeguards</span></span>
+              <span className="case-evidence-title">Full evidence &amp; sources.</span>
+              <span className="case-evidence-description">Incident reporting, safeguards and proposed measures.</span>
               <span className="case-evidence-action"><span className="evidence-closed-label">Explore the evidence</span><span className="evidence-open-label">Close the evidence</span><span className="case-evidence-chevron" aria-hidden="true">↓</span></span>
             </span>
             <span className="case-evidence-previews" aria-hidden="true">
@@ -546,7 +550,7 @@ export default function CodShieldPage() {
           <h2 id="case-endcap-title">Thanks for reading!</h2>
           <nav aria-label="Continue exploring case studies">
             <a className="case-endcap-back" href={sitePath('/#project-cod-shield')}>← All case studies</a>
-            <a className="case-endcap-next" href={sitePath('/analytics.html')}>Next: Chart Wizard →</a>
+            <a className="case-endcap-next" href={sitePath('/bikecare.html')}>Next: BikeCare →</a>
           </nav>
         </section>
       </div>

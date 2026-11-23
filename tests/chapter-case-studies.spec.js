@@ -30,15 +30,15 @@ for (const appearance of ['light', 'dark']) {
         }
         await expect(page.locator('#full-case-evidence')).not.toHaveAttribute('open');
         await expect(page.locator('#full-case-evidence > summary')).toHaveAccessibleName('Explore full evidence and sources');
-        await expect(page.locator('.case-evidence-topics > span')).toHaveCount(3);
+        await expect(page.locator('.case-evidence-topics > span')).toHaveCount(product ? 0 : 3);
         await expect(page.locator('#full-case-evidence .case-story-nav')).toBeHidden();
         await expect(page.getByRole('heading', { name: 'Thanks for reading!', exact: true })).toBeVisible();
         await expect(page.getByRole('navigation', { name: 'Continue exploring case studies' })).toBeVisible();
         await expect(page.getByRole('group', { name: 'Delivery and contribution summary' })).toBeVisible();
         await expect(page.locator('.case-outcome-highlights > div')).toHaveCount(3);
         if (await page.locator('.workspace-navigation').count()) {
-          await expect(page.locator('.workspace-feature-tabs')).toBeVisible();
-          await expect(page.locator('.workspace-navigation summary')).toHaveCount(0);
+          await expect(page.locator('.workspace-feature-tabs')).toBeHidden();
+          await expect(page.locator('.workspace-navigation summary')).toHaveText('Related features and workspaces');
         }
         const layout = await page.evaluate(() => ({
           overflow: document.documentElement.scrollWidth > innerWidth,
@@ -49,7 +49,7 @@ for (const appearance of ['light', 'dark']) {
         expect(await page.locator('.case-fast-read').innerText().then(text => text.split(/\s+/).length), route).toBeLessThan(100);
         await expect(page.locator('.case-fast-read .case-my-work dt')).toHaveText('My work');
         await expect(page.locator('.case-fast-read .case-my-work dd')).not.toBeEmpty();
-        await expect(page.locator('.case-film-panel:visible')).toHaveCount(1);
+        await expect(page.locator('.case-film-panel:visible')).toHaveCount(0);
       }
       expect(errors).toEqual([]);
     });
@@ -107,7 +107,7 @@ for (const route of routes) {
       await expect(tabs).toHaveCount(0);
       expect(sources.length).toBeGreaterThan(0);
       await expect(page.locator('.case-hero-preview img')).toBeVisible();
-      await expect(page.locator('.case-product-features a')).toHaveCount(route === 'powertable' ? 7 : 5);
+      await expect(page.locator('.case-product-feature')).toHaveCount(route === 'powertable' ? 7 : 5);
       return;
     }
     if (route === 'crosstab') {
@@ -170,13 +170,15 @@ test('the evidence preview uses original sources and its whole card opens the de
     await expect(image).toHaveCSS('object-fit', 'contain');
     await expect(image).toHaveCSS('filter', 'none');
   }
-  await expect(preview.locator('.case-evidence-caption').first()).toContainText('Original Chart Wizard design');
-  await expect(preview.locator('.case-evidence-caption').last()).toContainText('not my design deliverable');
+  await expect(preview.locator('.case-evidence-caption').first()).toHaveText('Original design screen');
+  await expect(preview.locator('.case-evidence-caption').last()).toHaveText('Official product context');
   await preview.focus();
   await preview.press('Enter');
   await expect(disclosure).toHaveAttribute('open', '');
   await expect(preview.locator('.evidence-open-label')).toBeVisible();
   await expect(disclosure.locator('.case-story-content')).toBeVisible();
+  await expect(disclosure.locator('.case-story-content')).toContainText('Original Chart Wizard design');
+  await expect(disclosure.locator('.case-story-content')).toContainText('Official template preview · Lumel Inc.');
   await preview.press('Space');
   await expect(disclosure).not.toHaveAttribute('open');
 });
@@ -210,7 +212,9 @@ for (const route of ['powertable', 'column-mapping', 'analytics-plus', 'analytic
       await expect(page.locator(product ? '#case-approach' : '#case-screens')).toBeInViewport();
       await expect(page.locator('.case-demo-tabs')).toBeHidden();
       await expect(page.locator('.case-film-controls')).toBeHidden();
+      await page.getByText('Explore the illustrated workflow', { exact: true }).click();
       await expect(page.locator('.case-film-panel:visible')).toHaveCount(3);
+      for (const summary of await page.locator('.case-screen-more > summary').all()) await summary.click();
       for (const panel of await page.locator('.case-demo-panel').all()) await expect(panel).toBeVisible();
       await page.locator('#full-case-evidence > summary').click();
       await expect(page.locator('#full-case-evidence .case-story-nav')).toBeVisible();
@@ -240,7 +244,9 @@ test('thanks and next-case links form a real sequence through all cases', async 
     await page.goto(`/${routes[index]}.html`);
     await expect(page.locator('.case-endcap-badge')).toContainText('End of case study');
     await expect(page.locator('.case-endcap-back')).toHaveAttribute('href', productRoutes.includes(routes[index]) ? '/#work' : /^\/(powertable|analytics-plus)\.html#product-/);
-    const next = `/${routes[(index + 1) % routes.length]}.html`;
+    const next = routes[index] === 'powertable' ? '/analytics-plus.html'
+      : routes[index] === 'analytics-plus' ? '/cod-shield.html'
+        : `/${routes[(index + 1) % routes.length]}.html`;
     await expect(page.locator('.case-endcap-next')).toHaveAttribute('href', next);
     await page.locator('.case-endcap-next').click();
     await expect(page).toHaveURL(baseURL + next);
@@ -260,25 +266,27 @@ test('chapter motion is finite and respects live reduced motion', async ({ page 
   await expect(page.locator('#case-flow .case-film-play')).toBeHidden();
 });
 
-test('product feature cards explain the feature and personal contribution before opening a case', async ({ page }) => {
+test('product feature previews explain the feature and contribution without requiring another page', async ({ page }) => {
   for (const [route, count] of [['powertable', 7], ['analytics-plus', 5]]) {
     await page.goto(`/${route}.html`);
-    const links = page.locator('#case-approach .case-product-features a');
-    await expect(links).toHaveCount(count);
-    for (const card of await links.all()) {
-      await expect(card).toBeVisible();
-      await expect(card.locator('strong')).not.toBeEmpty();
-      await expect(card.locator('span').last()).not.toBeEmpty();
-      await expect(card.locator('small')).toContainText('My work:');
-      await expect(card.locator('.feature-card-illustration figcaption')).toHaveText('Original concept illustration');
-      await expect(card.locator('.feature-card-illustration svg')).toHaveCount(1);
+    const cards = page.locator('#case-approach .case-product-feature');
+    await expect(cards).toHaveCount(count);
+    for (const card of await cards.all()) {
+      const summary = card.locator(':scope > summary');
+      await expect(summary).toBeVisible();
+      await expect(summary.locator('strong')).not.toBeEmpty();
+      await expect(summary.locator('small')).toContainText('My work:');
+      await expect(summary.locator('.feature-case-action')).toContainText('Explore on this page');
+      await expect(card).not.toHaveAttribute('open');
+      await expect(summary.locator('.feature-card-illustration figcaption')).toHaveText(
+        await card.getAttribute('data-feature') === 'crosstab' ? 'Contribution structure diagram' : 'Original design screen');
     }
   }
 });
 
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1440]) {
-    test(`feature card illustrations match their cases without clipping in ${appearance} at ${width}px`, async ({ page }) => {
+    test(`original feature previews stay within their cards in ${appearance} at ${width}px`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
@@ -288,22 +296,20 @@ for (const appearance of ['light', 'dark']) {
       ]) {
         await page.goto(`/${route}.html`);
         await page.evaluate(() => document.fonts.ready);
-        const cards = page.locator('.case-product-features a');
-        expect(await cards.locator('[data-case-scene]').evaluateAll(scenes => scenes.map(scene => scene.dataset.caseScene))).toEqual(ids.map(id => `${id}-design`));
+        const cards = page.locator('.case-product-feature');
+        expect(await cards.evaluateAll(nodes => nodes.map(node => node.dataset.feature))).toEqual(ids);
         for (const card of await cards.all()) {
           expect(await card.evaluate(element => {
             const card = element.getBoundingClientRect();
             const illustration = element.querySelector('.feature-card-illustration');
             const frame = illustration.getBoundingClientRect();
-            const svg = illustration.querySelector('svg');
-            const art = svg.getBoundingClientRect();
+            const artwork = illustration.querySelector('img, svg');
+            const art = artwork.getBoundingClientRect();
             const heading = element.querySelector('strong').getBoundingClientRect();
-            const ownIds = new Set([...svg.querySelectorAll('[id]')].map(node => node.id));
-            const localPaint = [...svg.querySelectorAll('[fill], [filter]')].every(node =>
-              [...`${node.getAttribute('fill')} ${node.getAttribute('filter')}`.matchAll(/url\(#([^)]+)\)/g)].every(match => ownIds.has(match[1])));
             return frame.left >= card.left && frame.right <= card.right && frame.bottom <= heading.top &&
               art.width > 0 && art.height > 0 && art.left >= frame.left && art.right <= frame.right &&
-              illustration.getAnimations({ subtree: true }).length === 0 && localPaint;
+              illustration.getAnimations({ subtree: true }).length === 0 &&
+              (artwork.tagName !== 'IMG' || getComputedStyle(artwork).objectFit === 'scale-down');
           })).toBe(true);
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -317,9 +323,11 @@ test('a reader can follow product to area to feature and return to the same area
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
   await expect(page.locator('#case-overview')).toContainText('PowerTable is a Lumel product inside Microsoft Fabric');
   await expect(page.locator('.product-work-area')).toHaveCount(3);
-  const mapping = page.locator('#product-tasks a[href="/column-mapping.html"]');
-  await expect(mapping).toContainText('See what I designed');
-  await mapping.click();
+  const mapping = page.locator('#product-tasks [data-feature="mapping"]');
+  await mapping.locator('summary').click();
+  await expect(mapping).toHaveAttribute('open', '');
+  await expect(page).toHaveURL(/powertable\.html$/);
+  await mapping.getByRole('link', { name: 'Full feature evidence' }).click();
   await expect(page.getByRole('navigation', { name: 'Product to feature' })).toHaveText(/PowerTable.*Gantt.*Column Mapping/);
   await expect(page.locator('.case-my-work')).toContainText('End-to-end Gantt and resource mapping');
   await page.locator('.case-endcap-back').click();
@@ -331,6 +339,7 @@ test('solution walkthrough uses readable timing, pauses, and supports keyboard s
   await page.clock.install();
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/column-mapping.html#case-flow');
+  await page.getByText('Explore the illustrated workflow', { exact: true }).click();
   const film = page.getByRole('group', { name: 'Step-by-step solution illustration', exact: true });
   await expect(film.locator('.case-film-status')).toContainText('Step 1 of 3');
   await film.getByRole('button', { name: 'Play concept' }).click();
@@ -368,6 +377,7 @@ test('solution walkthrough uses readable timing, pauses, and supports keyboard s
 test('concept playback stops when motion preferences change and resets after navigation', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/analytics.html#case-flow');
+  await page.getByText('Explore the illustrated workflow', { exact: true }).click();
   await page.getByRole('button', { name: 'Play concept' }).click();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.case-film')).not.toHaveClass(/is-playing/);
@@ -405,6 +415,8 @@ for (const [width, appearance] of [[320, 'light'], [1440, 'dark']]) {
       await expect(summary.locator('.case-solution-idea')).not.toBeEmpty();
       await expect(summary.locator('.case-solution-example')).toContainText('Example situation');
       await expect(summary.locator('.case-solution-value')).toContainText('Designed to help');
+      const illustrated = page.getByText('Explore the illustrated workflow', { exact: true });
+      if (await illustrated.count()) await illustrated.click();
       const film = page.getByRole('group', { name: 'Step-by-step solution illustration', exact: true });
       expect(await film.evaluate(element => element.closest('#full-case-evidence') === null), route).toBe(true);
       const buttons = film.locator('.case-film-controls > button:not(.case-film-play)');

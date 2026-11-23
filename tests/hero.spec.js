@@ -62,9 +62,9 @@ for (const width of [320, 390, 768, 1440]) {
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('request', (request) => requests.push(request.url()));
     await page.goto('/');
-    const hero = page.locator('.portrait-hero');
+    const hero = page.locator('.reference-hero');
     await expect(hero).toBeVisible();
-    await expect(hero.getByRole('heading', { level: 1 })).toHaveAccessibleName('I make complex products feel clear.');
+    await expect(hero.getByRole('heading', { level: 1 })).toHaveAccessibleName('I’m a product designer making complex products easier to use.');
     const portrait = hero.getByRole('img', { name: /3D-style illustrated portrait/ });
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveJSProperty('complete', true);
@@ -80,8 +80,8 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(hero.locator('canvas, button, [role="progressbar"]')).toHaveCount(0);
     expect(requests.some((url) => /portrait-dots|hero\.bundle/.test(url))).toBe(false);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await expect(hero.getByRole('link')).toHaveCount(1);
-    await expect(hero.getByRole('link', { name: 'View selected work', exact: true })).toHaveAttribute('href', '#work');
+    await expect(hero.getByRole('link')).toHaveCount(2);
+    await expect(hero.getByRole('link', { name: 'View enterprise product design', exact: true })).toHaveAttribute('href', '#work');
     await page.locator('.hero-work-link').click();
     await expect(page.locator('#work')).toBeInViewport();
     expect(errors).toEqual([]);
@@ -92,8 +92,8 @@ test('portrait works without JavaScript, with reduced motion, and without WebGL'
   const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL);
-  await expect(page.locator('.portrait-art')).toBeVisible();
-  await expect(page.locator('.portrait-art')).toHaveJSProperty('complete', true);
+  await expect(page.locator('.hero-portrait-art')).toBeVisible();
+  await expect(page.locator('.hero-portrait-art')).toHaveJSProperty('complete', true);
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   await context.close();
 });

@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openLinkDetails } from './fixtures.js';
 import { readFileSync } from 'node:fs';
 import { codFilmScenes, codFilmSections, codFilmSources } from '../src/cod-film-story.js';
 
@@ -22,7 +22,7 @@ async function mockNarration(page) {
 
 async function openFilm(page) {
   await page.goto('/cod-shield.html');
-  await page.locator('.case-walkthrough-tab').click();
+  await page.locator('.case-watch-entry .case-play-button').click();
   return page.getByRole('dialog', { name: 'From a reported story to a proposed solution.', exact: true });
 }
 
@@ -46,15 +46,17 @@ test('the mobile business-case ending keeps all three stakeholder benefits insid
   expect(finalBenefit.y + finalBenefit.height).toBeLessThanOrEqual(viewport.y + viewport.height);
 });
 
-test('the incident is visible in the case and source digests link to reporting without loading external media', async ({ page }) => {
+test('incident sources open inline and source digests link to reporting without loading external media', async ({ page, baseURL }) => {
   await mockNarration(page);
   const external = [];
-  page.on('request', request => { if (!request.url().startsWith('http://127.0.0.1:4174/')) external.push(request.url()); });
+  page.on('request', request => { if (new URL(request.url()).origin !== new URL(baseURL).origin) external.push(request.url()); });
   await page.goto('/cod-shield.html');
+  await page.getByText('Incident sources and narrated transcript', { exact: true }).click();
+  await expect(page.locator('.cod-film-context')).toBeVisible();
   await expect(page.locator('.cod-film-context')).toContainText("Veeramani's reported story");
   expect(await page.evaluate(() => window.__film.played)).toEqual([]);
   await expect(page.locator('audio')).not.toHaveAttribute('src', /energetic/);
-  await page.locator('.case-walkthrough-tab').click();
+  await page.locator('.case-watch-entry .case-play-button').click();
   const player = page.locator('.cod-film-player');
   await choose(player, 1);
   const cards = player.locator('.cod-film-source');
@@ -100,7 +102,7 @@ test('native narration advances the complete story and five solution scenes with
   await expect(player.locator('.cod-film-status')).toContainText('Narrating');
   await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
   await expect(player).toHaveCount(0);
-  await expect(page.locator('.case-walkthrough-tab')).toBeFocused();
+  await expect(page.locator('.case-watch-entry .case-play-button')).toBeFocused();
 });
 
 test('all cinematic recordings decode, pause and resume as native media', async ({ page }) => {
@@ -180,9 +182,10 @@ test('Solution scenes are interactive, pause playback, gate consent, and never s
   await expect(player.getByRole('checkbox')).not.toBeChecked();
   await expect(activate).toBeDisabled();
   expect(await page.evaluate(() => ({ local: { ...localStorage }, session: { ...sessionStorage } }))).toEqual(saved);
-  expect(requests.filter(request => request.method !== 'GET' || !request.url.startsWith('http://127.0.0.1:4174/'))).toEqual([]);
+  const origin = new URL(page.url()).origin;
+  expect(requests.filter(request => request.method !== 'GET' || new URL(request.url).origin !== origin)).toEqual([]);
   await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
-  await page.locator('.case-walkthrough-tab').click();
+  await page.locator('.case-watch-entry .case-play-button').click();
   await choose(player, 7);
   await expect(player.getByRole('checkbox')).not.toBeChecked();
 });
@@ -281,10 +284,11 @@ test('hiding the page and changing motion preference stop the film; media failur
   await expect(player.locator('.cod-film-captions p')).toHaveText(codFilmScenes[0].narration);
 });
 
-test('the full incident-to-solution story and source links remain available without JavaScript', async ({ browser }) => {
+test('the full incident-to-solution story and source links remain available without JavaScript', async ({ browser, baseURL }) => {
   const page = await browser.newPage({ javaScriptEnabled: false });
   try {
-    await page.goto('http://127.0.0.1:4174/cod-shield.html');
+    await page.goto(new URL('/cod-shield.html', baseURL).href);
+    await openLinkDetails(page.locator('.cod-film-transcript'));
     await expect(page.getByRole('button', { name: 'Walkthrough', exact: true })).toBeHidden();
     await page.locator('.cod-film-transcript > summary').click();
     await expect(page.locator('.cod-film-transcript ol > li')).toHaveCount(codFilmScenes.length);

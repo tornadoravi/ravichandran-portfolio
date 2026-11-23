@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openLinkDetails } from './fixtures.js';
 
 async function keyboardFocus(page, locator) {
   await page.keyboard.press('Tab');
@@ -227,6 +227,7 @@ test('cinematic artwork settles on keyboard and reduced motion, including later-
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/bikecare.html');
   const art = page.locator('[data-case-scene="bikecare-challenge"]');
+  await openLinkDetails(art);
   await art.scrollIntoViewIfNeeded();
   await expect(art).toHaveAttribute('data-cinematic-state', 'playing');
   await page.emulateMedia({ reducedMotion: 'reduce' });

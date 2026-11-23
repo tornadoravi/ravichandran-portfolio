@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 
 const cases = ['powertable', 'analytics-plus', 'column-mapping', 'gantt-baselines',
   'gantt-backlog', 'gantt-conditional-formatting', 'gantt-configuration', 'resource-configuration',
@@ -10,6 +10,7 @@ test.use({ reducedMotion: 'reduce' });
 for (const appearance of ['light', 'dark']) {
   for (const width of [390, 1440]) {
     test(`all cases convey the key points without paragraph walls in ${appearance} at ${width}px`, async ({ page }) => {
+      test.setTimeout(60000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       for (const name of cases) {
@@ -50,7 +51,7 @@ test('key points, comparison rows, and flows are prerendered without JavaScript'
   try {
     const page = await context.newPage();
     await page.goto(baseURL + '/kpi.html');
-    await page.locator('#case-details > summary').click();
+    await openCaseDetails(page);
     await expect(page.locator('#business-case .case-highlight-flow li')).toHaveCount(3);
     await expect(page.locator('#solutions .solution-grid > li')).toHaveCount(3);
     await expect(page.locator('#overview .case-key-points')).toBeVisible();

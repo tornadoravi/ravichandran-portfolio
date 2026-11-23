@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openProductDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -15,6 +15,7 @@ for (const mode of ['focus', 'soundroom']) {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       await page.goto('/powertable.html');
+      await openProductDetails(page);
       await expect(page.locator('#gantt-features a')).toHaveCount(1);
       await expect(page.locator('#gantt-features .feature-case-link, #gantt-features .workspace-contribution')).toHaveCount(0);
       await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
@@ -33,7 +34,7 @@ for (const mode of ['focus', 'soundroom']) {
         for (const link of await nav.getByRole('link').all()) {
           const box = await link.boundingBox();
           expect(box.height).toBeGreaterThanOrEqual(44);
-          expect(box.y + box.height).toBeLessThanOrEqual(heading.y);
+          expect(box.y).toBeGreaterThanOrEqual(heading.y + heading.height);
           expect(box.x).toBeGreaterThanOrEqual(0);
           expect(box.x + box.width).toBeLessThanOrEqual(width);
         }
@@ -53,6 +54,7 @@ test('Gantt feature tabs and return navigation work without JavaScript', async (
   try {
     const page = await context.newPage();
     await page.goto(baseURL + '/powertable.html');
+    await openProductDetails(page);
     await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
     for (const [path, name] of features) {
       await openWorkspaceNavigation(page);

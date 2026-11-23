@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openProductDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -13,6 +13,7 @@ for (const javaScriptEnabled of [true, false]) {
           ['/analytics-plus.html', 'Analytics+ quick navigation', '#features', '#evidence-notes']
         ]) {
           await page.goto(baseURL + path);
+          await openProductDetails(page);
           const shortcuts = page.getByRole('navigation', { name, exact: true });
           await shortcuts.getByRole('link', { name: 'Browse features', exact: true }).focus();
           await page.keyboard.press('Enter');
@@ -67,10 +68,12 @@ for (const javaScriptEnabled of [true, false]) {
 test('Home keeps attribution outside the covers and the spatial case separates branding from release claims', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.project-visual .cover-maker')).toHaveCount(0);
-  await expect(page.locator('.hero-copy .identity-company')).toContainText('Designed at');
-  await expect(page.locator('.hero-copy .identity-company img')).toHaveAttribute('src', '/assets/lumel-logo.svg');
-  await expect(page.locator('.hero-copy .identity-company img')).toHaveAttribute('alt', 'Lumel Technologies');
-  await expect(page.locator('.hero-copy .identity-platform')).toContainText('Built for');
+  await expect(page.locator('#project-planning .eyebrow')).toContainText('Microsoft Fabric');
+  await expect(page.locator('#project-analytics .eyebrow')).toContainText('Microsoft Power BI');
+  await page.goto('/about.html#experience-details');
+  await expect(page.locator('.identity-company')).toContainText('Designed at');
+  await expect(page.locator('.identity-company img')).toHaveAttribute('src', '/assets/lumel-logo.svg');
+  await expect(page.locator('.identity-company img')).toHaveAttribute('alt', 'Lumel Technologies');
   await page.goto('/analytics-spatial.html');
   await expect(page.getByAltText('Microsoft', { exact: true })).toBeInViewport();
   await expect(page.getByAltText('Lumel Technologies', { exact: true })).toBeInViewport();

@@ -24,19 +24,22 @@ test('shared pages render the reference fonts locally without font or CSP errors
     await page.goto(path);
     const typography = await page.evaluate(async () => {
       await document.fonts.ready;
+      const heading = document.querySelector('h1');
+      const headingStyle = getComputedStyle(heading);
       return {
         family: getComputedStyle(document.body).fontFamily,
-        heading: getComputedStyle(document.querySelector('h1')).fontFamily,
+        heading: headingStyle.fontFamily,
+        headingToken: headingStyle.getPropertyValue(heading.closest('.about-reference-copy') ? '--sans' : '--ds-font-display'),
         loaded: Array.from(document.fonts).filter(face => face.status === 'loaded').map(face => face.family.replaceAll('"', '')),
       };
     });
     expect(typography.family.split(',')[0].replaceAll('"', '')).toBe('Satoshi');
-    expect(typography.heading.split(',')[0].replaceAll('"', '')).toBe('Urbanist');
+    const headingFont = typography.heading.split(',')[0].replaceAll('"', '');
+    expect(headingFont).toBe(typography.headingToken.split(',')[0].replaceAll('"', '').trim());
     expect(typography.loaded).toContain('Satoshi');
-    expect(typography.loaded).toContain('Urbanist');
+    expect(typography.loaded).toContain(headingFont);
   }
   expect(fontURLs.some(url => url.includes('satoshi-variable'))).toBe(true);
-  expect(fontURLs.some(url => url.includes('urbanist-latin'))).toBe(true);
   expect(fontURLs.every(url => new URL(url).origin === new URL(page.url()).origin)).toBe(true);
   expect(errors).toEqual([]);
 });
@@ -53,7 +56,15 @@ for (const colorScheme of ['light', 'dark']) {
     const checkContrast = async locator => {
       const colors = await locator.evaluate(element => {
         const style = getComputedStyle(element);
-        return { foreground: style.color, background: style.backgroundColor };
+        const background = [0, 0, 0];
+        let remaining = 1;
+        for (let parent = element; parent && remaining > 0; parent = parent.parentElement) {
+          const channels = getComputedStyle(parent).backgroundColor.match(/[\d.]+/g).map(Number);
+          const alpha = channels[3] ?? 1;
+          channels.slice(0, 3).forEach((channel, index) => { background[index] += channel * alpha * remaining; });
+          remaining *= 1 - alpha;
+        }
+        return { foreground: style.color, background: `rgb(${background.map(channel => channel + 255 * remaining).join(', ')})` };
       });
       const values = [luminance(colors.foreground), luminance(colors.background)].sort((a, b) => a - b);
       expect((values[1] + .05) / (values[0] + .05), JSON.stringify(colors)).toBeGreaterThanOrEqual(4.5);

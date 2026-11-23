@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation, openProductDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -19,7 +19,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('h1')).toHaveText('Gantt Baselines.');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveCount(0);
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
-    const images = page.locator('main .product-screenshot img');
+    const images = page.locator('.case-story-content .product-screenshot img');
     expect(await images.evaluateAll(nodes => nodes.map(node => node.getAttribute('src'))))
       .toEqual(crops.map(([name]) => `/assets/fabric-baseline-${name}.png`));
     for (const [index, [, nativeWidth, nativeHeight]] of crops.entries()) {
@@ -84,9 +84,10 @@ test('baseline content distinguishes observed controls from unverified behavior'
 
 test('Home, parent, and sibling connect both feature cases without changing product order', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.product-context-card')).toHaveCount(4);
   await expect(page.locator('.product-context-card').first()).toHaveAttribute('id', 'project-planning');
   await page.locator('.product-context-card[href="/powertable.html"]').click();
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Baselines', exact: true }).click();
@@ -130,7 +131,7 @@ test('baseline evidence and source disclosure work without JavaScript', async ({
   await page.goto(baseURL + '/gantt-baselines.html');
   await openCaseDetails(page);
   for (const [name, width] of crops) {
-    const image = page.locator(`img[src="/assets/fabric-baseline-${name}.png"]`);
+    const image = page.locator(`.case-story-content img[src="/assets/fabric-baseline-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('naturalWidth', width);
     await expect(image.locator('..')).toHaveAttribute('target', '_blank');

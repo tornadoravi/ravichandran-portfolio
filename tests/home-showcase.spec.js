@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures.js';
+import { readFile } from 'node:fs/promises';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -281,12 +282,14 @@ for (const appearance of ['light', 'dark']) {
   }
 }
 
-test('Resume remains available in navigation and serves the existing PDF', async ({ page }) => {
+test('Resume remains available in navigation and serves the updated PDF', async ({ page }) => {
   await page.goto('/');
   const response = await page.request.get(await page.locator('.site-header a[href$=".pdf"]').first().getAttribute('href'));
   expect(response.ok()).toBe(true);
   expect(response.headers()['content-type']).toContain('application/pdf');
-  expect((await response.body()).subarray(0, 5).toString()).toBe('%PDF-');
+  const content = await response.body();
+  expect(content.subarray(0, 5).toString()).toBe('%PDF-');
+  expect(content.equals(await readFile(new URL('../assets/ravichandran-resume.pdf', import.meta.url)))).toBe(true);
 });
 
 test('the removed Home cards do not remove their case studies or original evidence', async ({ page }) => {

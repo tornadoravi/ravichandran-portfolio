@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CaseIllustration from './CaseIllustration.jsx';
 import CaseSolutionScene from './CaseSolutionScene.jsx';
+import CaseSolutionScreen from './CaseSolutionScreen.jsx';
 import { solutionSteps } from './case-solutions.js';
 import { bikecareScreens } from './bikecare-story.js';
 import { sitePath } from './site-path.js';
@@ -9,7 +10,7 @@ function BikeCareSolutionEvidence({ index, pause }) {
   const options = [['jobcard', 'estimate', 'splash', 'landing', 'vehicle-brand', 'vehicle-details', 'documents'], ['record', 'bill', 'review', 'service-feedback'], ['shop', 'ride']][index];
   const [selected, setSelected] = useState(options[0]);
   const screen = bikecareScreens.find(item => item.id === selected);
-  return <div className="bikecare-solution-evidence">
+  return <div className="bikecare-solution-evidence" data-solution-step={index + 1}>
     <div className="bikecare-solution-picks" role="group" aria-label="Solution design screens">
       {options.map(id => <button key={id} aria-pressed={selected === id} onClick={() => { pause(); setSelected(id); }}>
         {bikecareScreens.find(item => item.id === id).label}</button>)}
@@ -27,7 +28,8 @@ export default function CaseFilmScene({ scene, seconds, beat, pause }) {
     return <div className="case-film-explanation">
       <div className="case-film-illustration">
         {scene.caseId === 'bikecare' ? <BikeCareSolutionEvidence key={scene.solutionIndex} index={scene.solutionIndex} pause={pause} />
-          : <CaseSolutionScene steps={scene.steps} active={scene.solutionIndex} animated seconds={seconds} />}
+          : scene.screen ? <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} />
+            : <CaseSolutionScene steps={scene.steps} active={scene.solutionIndex} animated seconds={seconds} />}
         <p>{scene.value}</p>
       </div>
       <dl id="case-player-solution-detail" className="case-film-detail">

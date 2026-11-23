@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openLinkDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -10,7 +10,11 @@ for (const appearance of ['light', 'dark']) {
       await page.goto('/presentation.html');
       await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
       await page.evaluate(() => document.fonts.ready);
+      const defaultWords = (await page.locator('main').innerText()).trim().split(/\s+/).length;
+      expect(defaultWords).toBeLessThanOrEqual(800);
+      await expect(page.locator('.case-hero-preview img')).toBeVisible();
       const summary = page.locator('.presentation-summary');
+      await openLinkDetails(summary);
       await expect(summary.locator('svg')).toHaveCount(2);
       await expect(summary.locator('.case-problem-scene')).toBeVisible();
       await expect(summary.locator('.case-diagram')).toBeVisible();
@@ -18,9 +22,9 @@ for (const appearance of ['light', 'dark']) {
       for (const point of await summary.locator('dd > p').all()) {
         expect((await point.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(15);
       }
-      expect((await page.locator('main').innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(130);
+      expect((await page.locator('.case-story-content').innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(130);
       await expect(page.locator('#case-details')).not.toHaveAttribute('open');
-      await expect(page.locator('main img[src^="/assets/presentation-screen-"]:visible, main img[data-visual-kind="illustration"]:visible')).toHaveCount(0);
+      await expect(page.locator('.case-story-content img[src^="/assets/presentation-screen-"]:visible, .case-story-content img[data-visual-kind="illustration"]:visible')).toHaveCount(0);
       await expect(page.locator('.decision-flow, .case-narrative')).toHaveCount(0);
       await expect(summary).toContainText('release status is not verified');
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -29,7 +33,7 @@ for (const appearance of ['light', 'dark']) {
       await page.keyboard.press('Enter');
       await expect(page.locator('#case-details')).toHaveAttribute('open', '');
       await expect(page.locator('#design-screens')).toBeVisible();
-      await expect(page.locator('img[src^="/assets/presentation-screen-"]')).toHaveCount(9);
+      await expect(page.locator('.case-story-content img[src^="/assets/presentation-screen-"]')).toHaveCount(9);
       await page.goto('/presentation.html#design-screens');
       await expect(page.locator('#case-details')).toHaveAttribute('open', '');
       await expect(page.locator('#design-screens')).toBeInViewport();
@@ -44,7 +48,7 @@ test('Presentation keeps all nine original screens, concepts, and existing bookm
   await page.goto('/presentation.html#annotations');
   await expect(page.locator('#case-details')).toHaveAttribute('open', '');
   await expect(page.locator('#annotations')).toBeInViewport();
-  await expect(page.locator('img[src^="/assets/presentation-screen-"]')).toHaveCount(9);
+  await expect(page.locator('.case-story-content img[src^="/assets/presentation-screen-"]')).toHaveCount(9);
   for (const section of ['#business-case', '#solutions', '#concept', '#overview', '#comments',
     '#presentation', '#reflection', '#references']) {
     await expect(page.locator(section)).toHaveCount(1);
@@ -58,12 +62,14 @@ test('Presentation screen access and full detail work without JavaScript', async
   try {
     const page = await context.newPage();
     await page.goto(baseURL + '/presentation.html');
+    await expect(page.locator('.case-hero-preview img')).toBeVisible();
+    await openLinkDetails(page.locator('.presentation-summary'));
     await expect(page.locator('.presentation-summary .case-diagram')).toBeVisible();
     await expect(page.locator('#design-screens')).toBeHidden();
     await page.locator('#case-details > summary').focus();
     await page.keyboard.press('Enter');
     await expect(page.locator('#design-screens')).toBeVisible();
-    await expect(page.locator('img[src^="/assets/presentation-screen-"]')).toHaveCount(9);
+    await expect(page.locator('.case-story-content img[src^="/assets/presentation-screen-"]')).toHaveCount(9);
     await page.locator('#design-screens').scrollIntoViewIfNeeded();
     await expect(page.locator('#design-screens')).toBeInViewport();
   } finally {

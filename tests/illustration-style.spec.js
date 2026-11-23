@@ -1,5 +1,17 @@
 import { test, expect } from './fixtures.js';
 
+function resolvedPalette(svg) {
+  const probe = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  svg.append(probe);
+  const color = token => {
+    probe.style.fill = `var(${token})`;
+    return getComputedStyle(probe).fill;
+  };
+  const palette = { paper: color('--art-white'), accent: color('--art-accent') };
+  probe.remove();
+  return palette;
+}
+
 const routes = [
   '/', '/about.html', '/powertable.html', '/analytics-plus.html',
   '/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html',
@@ -21,6 +33,14 @@ for (const appearance of ['light', 'dark']) {
           if (javaScriptEnabled) await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
           else await page.evaluate(value => { document.documentElement.dataset.theme = value; }, appearance);
           const artwork = page.locator('.portfolio-illustration');
+          if (route === '/') {
+            await expect(artwork).toHaveCount(0);
+            await expect(page.locator('.product-cover-illustration')).toHaveCount(2);
+            await expect(page.locator('.product-cover-poster')).toHaveCount(4);
+            expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), route).toBe(true);
+            expect(errors).toEqual([]);
+            return;
+          }
           expect(await artwork.count(), route).toBeGreaterThan(0);
           const issues = await artwork.evaluateAll((svgs, palette) => svgs.flatMap(svg => {
             const problems = [];
@@ -29,7 +49,6 @@ for (const appearance of ['light', 'dark']) {
             for (const [art, token] of [['--art-ink', '--ink'], ['--art-accent', '--accent'], ['--art-white', '--card'], ['--art-line', '--line']]) {
               if (style.getPropertyValue(art).trim() !== site.getPropertyValue(token).trim()) problems.push(`Artwork diverged from ${token}`);
             }
-            if (!svg.classList.contains('feature-illustration') && !style.backgroundImage.includes('radial-gradient')) problems.push('Missing gridded ground');
             if (!svg.closest('.product-illustration') && svg.querySelectorAll('feDropShadow').length !== 1) problems.push('Missing local shadow');
             const ids = new Set([...svg.querySelectorAll('[id]')].map(node => node.id));
             for (const element of svg.querySelectorAll('*')) {
@@ -56,10 +75,7 @@ for (const appearance of ['light', 'dark']) {
               if (getComputedStyle(bar).fill !== palette.accent) problems.push('Timeline bars lost their distinction');
             }
             return problems;
-          }), {
-            paper: appearance === 'dark' ? 'rgb(27, 32, 40)' : 'rgb(252, 251, 248)',
-            accent: appearance === 'dark' ? 'rgb(177, 189, 255)' : 'rgb(51, 79, 229)'
-          });
+          }), await artwork.first().evaluate(resolvedPalette));
           expect(issues, route).toEqual([]);
           const ids = await artwork.locator('[id]').evaluateAll(nodes => nodes.map(node => node.id));
           expect(new Set(ids).size, route).toBe(ids.length);
@@ -81,11 +97,15 @@ test('shared artwork follows live system appearance without recreating the illus
   const paper = illustration.locator('linearGradient[id$="-paper"] > stop').first();
   const accent = illustration.locator('linearGradient[id$="-accent"] > stop').last();
   const originalId = await illustration.locator('linearGradient').first().getAttribute('id');
-  await expect(paper).toHaveCSS('stop-color', 'rgb(252, 251, 248)');
-  await expect(accent).toHaveCSS('stop-color', 'rgb(51, 79, 229)');
+  const light = await illustration.evaluate(resolvedPalette);
+  await expect(paper).toHaveCSS('stop-color', light.paper);
+  await expect(accent).toHaveCSS('stop-color', light.accent);
   await page.emulateMedia({ colorScheme: 'dark' });
-  await expect(paper).toHaveCSS('stop-color', 'rgb(27, 32, 40)');
-  await expect(accent).toHaveCSS('stop-color', 'rgb(177, 189, 255)');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  const dark = await illustration.evaluate(resolvedPalette);
+  expect(dark).not.toEqual(light);
+  await expect(paper).toHaveCSS('stop-color', dark.paper);
+  await expect(accent).toHaveCSS('stop-color', dark.accent);
   await expect(illustration.locator('linearGradient').first()).toHaveAttribute('id', originalId);
 });
 

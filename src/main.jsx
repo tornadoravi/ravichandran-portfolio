@@ -8,6 +8,7 @@ import '../mapping.css';
 import '../home.css';
 import '../case-presentation.css';
 import '../cod-shield.css';
+import '../cod-film.css';
 import '../bikecare.css';
 
 const page = document.body.dataset.page;

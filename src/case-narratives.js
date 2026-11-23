@@ -80,7 +80,7 @@ export const caseNarratives = {
   },
   crosstab: {
     purpose: 'Organize measures by rows and columns for summary and detail.',
-    role: 'Cross-tab configuration contribution, not end-to-end product ownership.',
+    role: 'Cross-tab layout and data configuration contribution.',
     audience: 'Analysts organizing business data',
     goal: 'Explain how rows, columns, and measures relate to a summary-and-detail view.',
     steps: [

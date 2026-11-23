@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openProductDetails, openCaseDetails, openLinkDetails } from './fixtures.js';
 import sharp from 'sharp';
 import { fileURLToPath } from 'node:url';
 
@@ -21,6 +21,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/powertable.html');
+    await openProductDetails(page);
     await expect(page.locator('#workspaces-title')).toHaveText('My feature work.');
     await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
     await expect(page.locator('#gantt-features .feature-case-link, #gantt-features .workspace-contribution')).toHaveCount(0);
@@ -57,11 +58,13 @@ test('workspace groups and feature links remain available without JavaScript', a
   const page = await context.newPage();
   await page.goto(baseURL + '/');
   await page.locator('.product-context-card[href="/powertable.html"]').click();
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt features' }).getByRole('link', { name: 'Backlog', exact: true }).click();
   await expect(page).toHaveURL(/gantt-backlog\.html$/);
   await page.goto(baseURL + '/powertable.html');
+  await openProductDetails(page);
   await expect(page.locator('.workspace-group > h2')).toHaveText(['Gantt', 'Gantt Resources', 'Cross-tab']);
   await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
   await openWorkspaceNavigation(page);
@@ -72,6 +75,7 @@ test('workspace groups and feature links remain available without JavaScript', a
   await page.locator('#study-details > summary').click();
   await page.locator('#crosstab-features a').click();
   await expect(page).toHaveURL(/crosstab\.html$/);
+  await openCaseDetails(page);
   await expect(page.locator('#contribution')).toBeVisible();
   await context.close();
 });
@@ -86,7 +90,8 @@ test('official PowerTable overview is attributed and original design evidence st
     expect([image.width, image.height]).toEqual([width, height]);
   }
   await page.goto('/powertable.html');
-  await expect(page.locator('.case-evidence img')).toHaveCount(1);
+  await openLinkDetails(page.locator('.product-overview'));
+  await expect(page.locator('.case-story-content .case-evidence img')).toHaveCount(1);
   await expect(page.locator('.product-overview img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('.product-overview h2')).toHaveText('PowerTable in action.');
   await expect(page.locator('.product-overview .product-overview-copy')).toHaveText('No-code data apps and planning in Microsoft Fabric.');
@@ -106,6 +111,7 @@ test('official PowerTable overview is attributed and original design evidence st
 
 test('workspace image sources distinguish official implementations from personal design evidence', async ({ page }) => {
   await page.goto('/powertable.html');
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Image sources →', exact: true }).click();
   await expect(page.locator('#study-details')).toHaveAttribute('open');
   const sources = page.locator('#workspace-sources');
@@ -154,6 +160,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/powertable.html');
+    await openLinkDetails(page.locator('.product-overview'));
     const image = page.locator('.product-overview img');
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('complete', true);
@@ -187,11 +194,12 @@ for (const width of [320, 390, 768, 1440]) {
 test('Home shows an editorial planning cover and a direct product link', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#project-planning h3')).toHaveText(/^PowerTable \S$/);
-  await expect(page.locator('#project-planning .cover-evidence img')).toHaveAttribute('src', '/assets/fabric-mapping-time-entries.png');
+  await expect(page.locator('#project-planning .cover-evidence img')).toHaveAttribute('src', '/assets/powertable-official-gantt.webp');
   await expect(page.locator('#project-planning .feature-entry')).toHaveCount(0);
   await expect(page.locator('#project-planning .product-cover-illustration')).toBeVisible();
   await expect(page.locator('#project-planning .eyebrow')).toContainText('Microsoft Fabric');
-  await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
+  await expect(page.locator('#project-planning .eyebrow img')).toHaveAttribute('src', '/assets/microsoft-fabric.svg');
+  await expect(page.locator('.hero-role')).toContainText('Product Designer II at Lumel');
   await expect(page.locator('.project-features')).toHaveCount(0);
   await page.locator('#project-planning').click();
   await expect(page).toHaveURL(/powertable\.html$/);
@@ -206,6 +214,7 @@ test('Home leads into keyboard-usable PowerTable workspace and feature links', a
     await productLink.focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/powertable\.html$/);
+    await openProductDetails(page);
     const ganttTargets = ['/column-mapping.html', '/gantt-baselines.html', '/gantt-backlog.html'];
     if (ganttTargets.includes(target)) {
       await page.getByRole('link', { name: 'Explore Gantt', exact: true }).click();
@@ -224,6 +233,7 @@ test('Fabric screenshot and new case sections remain available without JavaScrip
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto(baseURL + '/powertable.html');
+  await openLinkDetails(page.locator('.product-overview'));
   await page.locator('.product-overview img').scrollIntoViewIfNeeded();
   await expect(page.locator('.product-overview img')).toHaveJSProperty('naturalWidth', 2944);
   await expect(page.locator('#process .concept-node')).toHaveCount(5);
@@ -242,6 +252,7 @@ for (const mode of ['focus', 'soundroom']) {
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       await page.goto('/powertable.html');
+      await openLinkDetails(page.locator('#study-details'));
       const story = page.locator('#study-details');
       const summary = story.locator(':scope > summary');
       await expect(summary).toContainText('Behind the design');

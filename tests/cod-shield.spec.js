@@ -29,10 +29,10 @@ test('Home links to an independent COD concept, with direct refresh and shared n
   await page.reload();
   await expect(page.locator('main h1')).toHaveText('COD Shield');
   await expect(page.locator('.case-player')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Walkthrough', exact: true })).toHaveCount(2);
+  await expect(page.getByRole('button', { name: 'Walkthrough', exact: true })).toHaveCount(1);
   await expect(page.locator('#full-case-evidence')).not.toHaveAttribute('open');
   const chapters = page.getByRole('navigation', { name: 'Case study chapters' });
-  await expect(chapters.getByRole('link')).toHaveCount(6);
+  await expect(chapters.getByRole('link')).toHaveCount(3);
   await chapters.getByRole('link', { name: 'Interface walkthrough' }).click();
   await expect(page).toHaveURL(/cod-shield\.html#case-screens$/);
   await expect(chapters.getByRole('link', { name: 'Interface walkthrough' })).toHaveAttribute('aria-current', 'location');
@@ -128,9 +128,7 @@ test('multi-buyer coverage is explicit without claiming a verified incident coun
   await expect(explanation).toContainText('3- or 7-day restriction');
   await expect(explanation).toContainText('Already-dispatched parcels need interception, which is not guaranteed.');
   const businessCase = page.getByRole('group', { name: 'COD Shield business case', exact: true });
-  await expect(businessCase).toContainText('For households: fewer interruptions.');
-  await expect(businessCase).toContainText('For delivery teams: fewer wasted trips.');
-  await expect(businessCase).toContainText('For sellers and platforms: less wasted fulfilment and repeat support.');
+  await expect(businessCase).toContainText('Fewer household interruptions, wasted deliveries and repeat support requests.');
   await expect(businessCase).toContainText('Proposed benefits, not measured results.');
 });
 
@@ -550,13 +548,13 @@ for (const width of [390, 1440]) {
     for (const selector of ['.cover-poster-content', '.cover-headline', '.cover-screen']) {
       expect(await style(`.product-cover-art--codShield ${selector}`)).toEqual(await style(`.product-cover-art--analytics ${selector}`));
     }
-    const selectors = ['.case-hero-preview', '.case-demo-image', '.case-demo-tabs', '.case-demo-panel', '.case-walkthrough-tab', '.case-player-entry'];
+    const selectors = ['.case-hero-preview', '.case-demo-image', '.case-demo-tabs', '.case-demo-panel', '.case-watch-entry', '.case-play-button'];
     await page.goto('/analytics.html');
-    await expect(page.locator('.case-walkthrough-tab')).toBeVisible();
+    await expect(page.locator('.case-watch-entry')).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
     const reference = await Promise.all(selectors.map(style));
     await page.goto('/cod-shield.html');
-    await expect(page.locator('.case-walkthrough-tab')).toBeVisible();
+    await expect(page.locator('.case-watch-entry')).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
     expect(await Promise.all(selectors.map(style))).toEqual(reference);
   });
@@ -584,7 +582,7 @@ test('COD cinematic walkthrough plays the ten local recordings and keeps inciden
   page.on('request', request => { if (request.url().includes(':4176/')) liveRequests.push(request.url()); });
   await page.goto('/cod-shield.html');
   expect(await page.evaluate(() => window.__codNarration)).toEqual([]);
-  const trigger = page.locator('.case-walkthrough-tab');
+  const trigger = page.locator('.case-watch-entry .case-play-button');
   await trigger.click();
   const player = page.locator('.case-player');
   await expect(player.getByRole('button', { name: 'Voice on', exact: true })).toBeEnabled();

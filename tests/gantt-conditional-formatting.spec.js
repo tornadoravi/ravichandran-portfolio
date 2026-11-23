@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation, openProductDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -21,7 +21,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('.workspace-switcher [aria-current]')).toHaveText('Resources');
     await expect(page.locator('#main-nav a[aria-current]')).toHaveCount(0);
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
-    const images = page.locator('main .product-screenshot img');
+    const images = page.locator('.case-story-content .product-screenshot img');
     expect(await images.evaluateAll(nodes => nodes.map(node => node.getAttribute('src'))))
       .toEqual(crops.map(([name]) => `/assets/fabric-conditional-${name}.png`));
     for (const [index, [, nativeWidth, nativeHeight]] of crops.entries()) {
@@ -87,9 +87,10 @@ test('formatting case distinguishes the configured rule from an applied result',
 
 test('Home, parent, and baseline sibling link the new feature without adding a product', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.product-context-card')).toHaveCount(4);
   await expect(page.locator('.showcase-case')).toHaveCount(0);
   await page.locator('.product-context-card[href="/powertable.html"]').click();
+  await openProductDetails(page);
   await page.locator('.workspace-grid a[href="/gantt-conditional-formatting.html"]').click();
   await expect(page).toHaveURL(/gantt-conditional-formatting\.html$/);
   await page.locator('.back-link').click();
@@ -136,7 +137,7 @@ test('formatting evidence and sources remain accessible without JavaScript', asy
   await page.goto(baseURL + '/gantt-conditional-formatting.html');
   await openCaseDetails(page);
   for (const [name, width] of crops) {
-    const image = page.locator(`img[src="/assets/fabric-conditional-${name}.png"]`);
+    const image = page.locator(`.case-story-content img[src="/assets/fabric-conditional-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('naturalWidth', width);
     await expect(image.locator('..')).toHaveAttribute('target', '_blank');

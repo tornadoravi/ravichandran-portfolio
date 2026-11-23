@@ -84,7 +84,7 @@ export default function AnalyticsPlusPage() {
           </a>
           {"\n      "}
           <figcaption>
-            {"Official template preview · Lumel Inc., not my design deliverable. "}
+            {"Official template preview · Lumel Inc. "}
             <a className={"image-link"} href={"https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab"} target={"_blank"} rel={"noopener noreferrer"}>
               {"Source ↗"}
               <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -226,7 +226,7 @@ export default function AnalyticsPlusPage() {
               <img src={sitePath("/assets/inforiver-analytics-official.png")} width={"1500"} height={"654"} loading={"lazy"} alt={"Official Analytics+ marketing illustration connecting chart families and KPI cards to a unified reporting visual."} />
               {"\n      "}
               <figcaption>
-                {"Official product illustration · Inforiver Analytics+ website. This explains the product proposition; it is not my design deliverable or a supplied feature screenshot. "}
+                {"Official product illustration · Inforiver Analytics+ website. Product proposition, separate from the original feature design screens. "}
                 <a href={"https://inforiver.com/analytics-plus/"} target={"_blank"} rel={"noopener noreferrer"}>
                   {"View the official product page ↗"}
                   <span className={"sr-only"}>{" (opens in a new tab)"}</span>
@@ -683,7 +683,7 @@ export default function AnalyticsPlusPage() {
                     <a href={"https://docs.inforiver.com/analytics+/working-with-analytics+/4.-cards/4.2.-quick-options-cards/kpi-customizations"} target={"_blank"} rel={"noopener noreferrer"}>{"KPI preset documentation ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
                     {" — Simple and Variance presets. See "}
                     <a href={"https://inforiver.com/blog/inforiver-analytics-plus/inforiver-analytics-flexible-kpi-containers/#KPI-templates"} target={"_blank"} rel={"noopener noreferrer"}>{"Inforiver’s official KPI examples ↗"}<span className={"sr-only"}>{" (opens in a new tab)"}</span></a>
-                    {", not my design deliverable. The gallery uses original concept illustrations, not product screenshots. The linked KPI case retains my original supplied design screens and confirmed contribution."}
+                    {". The gallery uses concept illustrations. The linked KPI case retains the original supplied design screens and confirmed contribution."}
                   </p>
                 </div>
                 <ul className="case-key-points">

@@ -5,7 +5,7 @@ export const caseSolutions = {
     approach: 'Use focused data-role mapping and contextual Gantt/resource configuration rather than treating every column and setting as interchangeable.',
     reason: 'A connected workflow still needs clear boundaries. Task timing, logged effort, and resource settings answer different questions.',
     value: 'Help planners understand what each view represents and make configuration decisions without losing the planning context.',
-    evidence: 'My scope is end-to-end Gantt and resource UX/UI, plus Cross-tab contribution. Baseline and resource earned-value ideas remain explorations; this is not whole-product ownership.'
+    evidence: 'My scope is end-to-end Gantt and resource UX/UI, plus Cross-tab contribution. Baseline and resource earned-value ideas remain explorations.'
   },
   mapping: {
     idea: 'Give every source column a defined job so the planning view can represent tasks, logged effort, resources, and costs correctly.',
@@ -61,7 +61,7 @@ export const caseSolutions = {
     approach: 'Make the configuration-to-view relationship understandable: dimensions organize the layout, and measures provide the values read within it.',
     reason: 'A structural explanation is more useful than an invented interface. It shows what the configuration means while keeping the contribution boundary honest.',
     value: 'Help analysts understand how layout choices affect the perspective on their data, rather than treating rows and columns as arbitrary settings.',
-    evidence: 'This is a contribution-level concept explanation, not end-to-end product ownership. Dedicated design screens and measured customer outcomes were not supplied.'
+    evidence: 'My contribution covered Cross-tab layout and data configuration. Dedicated design screens and measured customer outcomes were not supplied.'
   },
   analyticsSuite: {
     idea: 'Support the author from finding a useful visual to shaping a report and explaining its meaning.',
@@ -69,7 +69,7 @@ export const caseSolutions = {
     approach: 'Keep discovery, authoring, and presentation connected, but give each feature a clear task and a separately documented contribution.',
     reason: 'Choosing a chart, arranging content, and explaining an insight are not the same job. A single product story should not erase their different workflows or evidence boundaries.',
     value: 'Help authors see a coherent path from an analytical need to a report that communicates, rather than a disconnected catalogue of features.',
-    evidence: 'Chart Wizard and reusable KPI-template delivery are confirmed. Other feature states remain separately documented design evidence; I do not claim the whole product or Power BI.'
+    evidence: 'Chart Wizard and reusable KPI-template delivery are confirmed. My other Analytics+ feature contributions are documented through their design screens and handoff context.'
   },
   wizard: {
     idea: 'Offer two ways to find a chart, then bring both routes into one shared configuration workflow.',

@@ -1,4 +1,4 @@
-import { test, expect, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openWorkspaceNavigation, openProductDetails, openCaseDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -15,6 +15,7 @@ for (const mode of ['focus', 'soundroom']) {
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(mode => sessionStorage.setItem('portfolio-listening-mode', mode), mode);
       await page.goto('/powertable.html');
+      await openProductDetails(page);
       for (const id of ['gantt-features', 'resource-features', 'crosstab-features']) {
         await expect(page.locator(`#${id} a`)).toHaveCount(1);
         await expect(page.locator(`#${id} .feature-case-link, #${id} .workspace-contribution`)).toHaveCount(0);
@@ -34,7 +35,7 @@ for (const mode of ['focus', 'soundroom']) {
         for (const link of await nav.getByRole('link').all()) {
           const box = await link.boundingBox();
           expect(box.height).toBeGreaterThanOrEqual(44);
-          expect(box.y + box.height).toBeLessThanOrEqual(heading.y);
+          expect(box.y).toBeGreaterThanOrEqual(heading.y + heading.height);
           expect(box.x + box.width).toBeLessThanOrEqual(width);
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -47,8 +48,9 @@ for (const mode of ['focus', 'soundroom']) {
       const tabs = page.getByRole('navigation', { name: 'PowerTable Cross-tab sections' });
       await expect(tabs.getByRole('link')).toHaveText(['Overview', 'Structure', 'Evidence']);
       await expect(page.locator('h1')).toContainText('Cross-tab.');
+      await openCaseDetails(page);
       await expect(page.locator('.metadata')).toContainText('Cross-tab design contributions');
-      await expect(page.locator('#evidence')).toContainText('not end-to-end ownership');
+      await expect(page.locator('#evidence')).toContainText('My contribution covered rows, columns, measures and contextual Cross-tab settings.');
       await expect(page.locator('#evidence')).toContainText('No dedicated Cross-tab design screens');
       await expect(page.locator('.decision-illustration figcaption')).toContainText('Not a product screenshot');
       await expect(page.locator('.project-identity img')).toHaveCount(3);
@@ -81,6 +83,7 @@ test('Resources and Cross-tab keep their entry, tabs and return paths without Ja
   try {
     const page = await context.newPage();
     await page.goto(baseURL + '/powertable.html');
+    await openProductDetails(page);
     await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
     await openWorkspaceNavigation(page);
     await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();

@@ -4,7 +4,6 @@ import { files, securityHeaders } from './site-files.js';
 
 const port = Number(process.env.PORT || 4173);
 const output = new URL('./dist/', import.meta.url);
-const servedFiles = new Map(files);
 const assetTypes = {
   '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml',
   '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg',
@@ -12,8 +11,8 @@ const assetTypes = {
   '.ttf': 'font/ttf', '.woff': 'font/woff', '.woff2': 'font/woff2',
   '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.m4a': 'audio/mp4', '.pdf': 'application/pdf'
 };
-try {
-  await readFile(new URL('index.html', output));
+async function loadServedFiles() {
+  const servedFiles = new Map(files);
   const manifest = JSON.parse(await readFile(new URL('.vite/manifest.json', output), 'utf8'));
   for (const entry of Object.values(manifest)) {
     for (const file of [entry.file, ...(entry.css || []), ...(entry.assets || [])]) {
@@ -24,6 +23,12 @@ try {
       servedFiles.set(`/${file}`, [file, assetTypes[extension]]);
     }
   }
+  return servedFiles;
+}
+let servedFiles;
+try {
+  await readFile(new URL('index.html', output));
+  servedFiles = await loadServedFiles();
 } catch (error) {
   console.error('Production build is missing or invalid. Run "npm run build" before "npm start".', error.message);
   process.exit(1);
@@ -41,6 +46,7 @@ const server = http.createServer(async (request, response) => {
     return;
   }
   try {
+    if (file[1] === 'text/html') servedFiles = await loadServedFiles();
     const content = await readFile(new URL(file[0], output));
     const headers = {
       'Content-Type': file[1] === 'audio/mp4' ? file[1] : `${file[1]}; charset=utf-8`,

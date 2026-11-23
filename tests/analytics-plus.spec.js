@@ -1,9 +1,9 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openProductDetails, followLink, openLinkDetails } from './fixtures.js';
 
 const features = [
-  ['feature-storyboard', '/storyboard.html', '01'],
-  ['feature-gantt', '/gantt.html', '02'],
-  ['feature-wizard', '/analytics.html', '03'],
+  ['feature-wizard', '/analytics.html', '01'],
+  ['feature-storyboard', '/storyboard.html', '02'],
+  ['feature-gantt', '/gantt.html', '03'],
   ['feature-annotations', '/presentation.html', '04'],
   ['feature-kpi', '/kpi.html', '05']
 ];
@@ -49,19 +49,21 @@ for (const javaScriptEnabled of [true, false]) {
 
 test('Home Analytics+ cover opens the product case with official brand context', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.product-context-card')).toHaveCount(4);
   await expect(page.locator('#project-analytics .eyebrow')).toContainText('Microsoft Power BI');
-  await expect(page.locator('.hero-copy .identity-platform img[alt="Microsoft"]')).toHaveAttribute('src', '/assets/microsoft-logo.png');
+  await expect(page.locator('#project-analytics .eyebrow img')).toHaveAttribute('src', '/assets/microsoft-power-bi.svg');
   await expect(page.locator('#project-analytics .project-features')).toHaveCount(0);
   await page.locator('.product-context-card[href="/analytics-plus.html"]').click();
   await expect(page.locator('h1')).toContainText('Inforiver Analytics+');
+  await page.locator('.case-context > summary').click();
   await expect(page.locator('.analytics-logo-plate img')).toHaveAttribute('src', '/assets/inforiver-analytics-logo.svg');
 });
 
 test('Analytics+ is one product with five ordered feature stories and official brand context', async ({ page }) => {
   await page.goto('/analytics-plus.html');
+  await openProductDetails(page);
   expect(await page.locator('.feature-card-grid > a').evaluateAll((items) => items.map((item) => item.id))).toEqual(features.map(([id]) => id));
-  await expect(page.locator('.feature-card-grid h3')).toHaveText(['Storyboard', 'Gantt for Power BI', 'Chart Wizard', 'Annotations & Presentation', 'KPI Presets']);
+  await expect(page.locator('.feature-card-grid h3')).toHaveText(['Chart Wizard', 'Storyboard', 'Gantt for Power BI', 'Annotations & Presentation', 'KPI Presets']);
   await expect(page.locator('#feature-storyboard .album-description')).toContainText('Multiple starting routes');
   await expect(page.locator('#feature-gantt .album-description')).toContainText('Map source fields');
   await expect(page.locator('#feature-wizard .album-description')).toContainText('Two discovery routes');
@@ -69,7 +71,7 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(page.locator('#feature-kpi .album-description')).toContainText('Reusable layouts');
   await expect(page.locator('.feature-review-index img')).toHaveCount(0);
   expect(await page.locator('.feature-review-index svg').evaluateAll(items => items.map(item => item.dataset.caseScene))).toEqual([
-    'storyboard-design', 'gantt-design', 'wizard-design', 'presentation-design', 'kpi-design'
+    'wizard-design', 'storyboard-design', 'gantt-design', 'presentation-design', 'kpi-design'
   ]);
   await expect(page.locator('.feature-review-index .album-footer')).toHaveText(Array(5).fill('Original concept illustration ↗'));
   await expect(page.locator('.metadata')).toContainText('Competitive analysis, developer handoff & implementation review');
@@ -79,7 +81,7 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(overview.locator('.product-screenshot img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
   await expect(overview.locator('figcaption')).toContainText('Official template preview · Lumel Inc.');
   await expect(page.locator('#references')).toContainText('Planning Report | IBCS Theme template by Lumel Inc.');
-  await expect(overview.locator('figcaption')).toContainText('not my design deliverable');
+  await expect(page.locator('.case-context > summary')).toContainText('Chart Wizard');
   await expect(overview.locator('figcaption a').first()).toHaveAttribute('href', 'https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab');
   await expect(page.locator('.product-marketplace')).toContainText('dashboard and standalone templates, visual components, bundles, and data apps');
   await expect(page.locator('.product-marketplace')).toBeHidden();
@@ -90,10 +92,11 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(page.getByRole('link', { name: /Explore the Marketplace/ })).toHaveAttribute('rel', 'noopener noreferrer');
   await expect(page.locator('#role')).toContainText('end-to-end UX/UI');
   await expect(page.locator('#business-case h2')).toContainText('More visual power');
-  await expect(page.locator('.analytics-official-figure figcaption')).toContainText('not my design deliverable');
+  await expect(page.locator('.analytics-official-figure figcaption')).toContainText('Official');
   await expect(page.locator('#competitive-analysis')).toContainText('current public product documentation');
   await expect(page.locator('.comparison-table tbody tr')).toHaveCount(3);
   await expect(page.locator('.identity-platform')).toContainText('Analytics+ · Power BI');
+  await openLinkDetails(page.locator('.identity-platform'));
   await expect(page.locator('.identity-platform img[alt="Microsoft"]')).toBeVisible();
   await expect(page.locator('.platform-stack h3')).toHaveText(['Microsoft Fabric', 'Microsoft Power BI', 'Inforiver Analytics+']);
   await expect(page.locator('#platform-context')).toContainText('custom visual from Lumel');
@@ -133,7 +136,7 @@ test('official feature references open the existing evidence disclosure and pres
   }
   await expect(references).toContainText('not individual design ownership');
   await expect(references).toContainText('not PowerTable in Fabric');
-  await expect(references).toContainText('not my design deliverable');
+  await expect(references).toContainText('not individual design ownership');
   await page.reload();
   await expect(page.locator('#evidence-notes')).toHaveAttribute('open');
   await expect(references).toBeInViewport();
@@ -144,6 +147,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/analytics-plus.html');
+    await openProductDetails(page);
     const overviewImage = page.locator('.analytics-lead-screen .product-screenshot img');
     await expect(overviewImage).toHaveJSProperty('complete', true);
     await expect(overviewImage).toHaveJSProperty('naturalWidth', 1920);
@@ -182,6 +186,7 @@ test('product overview, supplied feature evidence, and full cases work without J
   await page.goto(baseURL + '/');
   await page.getByRole('link', { name: 'Read Inforiver Analytics+ case study', exact: true }).click();
   await expect(page).toHaveURL(/analytics-plus\.html$/);
+  await openProductDetails(page);
   await expect(page.locator('.analytics-lead-screen .product-screenshot img')).toBeVisible();
   await page.locator('#design-details > summary').click();
   await page.locator('.product-marketplace > summary').click();

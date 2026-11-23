@@ -13,7 +13,7 @@ export default function CrosstabPage() {
           <a className="back-link" href={sitePath("/powertable.html#crosstab-features")}>← PowerTable / Cross-tab</a>
           <h1>{"Cross-tab."}</h1>
           <p className="case-summary">{"Shape rows, columns, and measures into a useful view."}</p>
-          <CaseContext role="Cross-tab contribution · Not end-to-end ownership">
+          <CaseContext role="Cross-tab layout & data configuration">
             <dl className="metadata">
               <div><dt>Company</dt><dd>Lumel Technologies</dd></div>
               <div><dt>My role</dt><dd>Cross-tab design contributions</dd></div>
@@ -56,11 +56,11 @@ export default function CrosstabPage() {
         <section id="evidence" className="editorial-section wrap" aria-labelledby="evidence-title">
           <div className="section-label">
             <span className="eyebrow">03 / Scope & evidence</span>
-            <h2 id="evidence-title">Contribution.<br /><em>Not suite ownership.</em></h2>
+            <h2 id="evidence-title">Layout.<br /><em>Data configuration.</em></h2>
           </div>
           <div className="section-copy">
             <ul className="case-key-points">
-              <li>Cross-tab contribution—not end-to-end ownership. My Gantt and resource work is documented separately.</li>
+              <li>My contribution covered rows, columns, measures and contextual Cross-tab settings.</li>
               <li>Concept diagram only. No dedicated Cross-tab design screens, historical iterations, measured outcomes, or proof of a shipped interface.</li>
             </ul>
             <a className="text-link" href={sitePath("/powertable.html#role")}>View the full PowerTable role & scope <span aria-hidden="true">→</span></a>

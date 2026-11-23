@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openLinkDetails } from './fixtures.js';
 import { bikecareScreens, bikecareScreenGroups } from '../src/bikecare-story.js';
 import { bikecareThemes } from '../src/bikecare-ux-model.js';
 
@@ -164,6 +164,7 @@ for (const appearance of ['light', 'dark']) {
           expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
         }
       }
+      await page.getByRole('link', { name: 'Try the clickable prototype', exact: true }).click();
       const app = page.locator('[data-bikecare-app]');
       for (const label of ['Rider', 'Service advisor', 'Mechanic', 'Billing staff', 'Support agent']) {
         await workspace(app, label);
@@ -384,6 +385,8 @@ test('case research and all original screen links are readable without JavaScrip
   await expect(page.getByRole('heading', { name: 'BikeCare', exact: true })).toBeVisible();
   await expect(page.locator('main')).toContainText('The working flow needs JavaScript.');
   await expect(page.locator('main')).toContainText('Local service. Timely care. A history for resale.');
+  await expect(page.getByRole('navigation', { name: 'BikeCare screen collections', includeHidden: true })).toBeHidden();
+  await page.locator('noscript details > summary').click();
   for (const screen of bikecareScreens) await expect(page.locator(`noscript a[href="${screen.src}"]`)).toBeVisible();
   await context.close();
 });
@@ -753,8 +756,10 @@ test('custom product themes preserve semantic and control contrast with a workin
 
 test('product foundations expose responsive screen-linked journeys and shared live theme tokens', async ({ page }) => {
   test.setTimeout(120_000);
-  await page.goto('/bikecare.html');
+  await page.goto('/bikecare.html#bikecare-design-documentation');
+  await openLinkDetails(page.getByRole('navigation', { name: 'BikeCare product design foundations', includeHidden: true }));
   await expect(page.getByRole('navigation', { name: 'BikeCare product design foundations' }).getByRole('link')).toHaveCount(6);
+  await openLinkDetails(page.locator('#bikecare-user-flows'));
   const controls = page.getByRole('group', { name: 'Choose a BikeCare user flow' });
   for (const name of ['Access & vehicle', 'Private documents', 'Service handovers', 'Reminders & resale', 'Parts purchase', 'Motorcycle rides', 'Complaints & recovery']) {
     await controls.getByRole('button', { name, exact: true }).click();
@@ -778,6 +783,7 @@ test('product foundations expose responsive screen-linked journeys and shared li
     await expect(flow.getByRole('button', { name: 'Next step', exact: true })).toBeEnabled();
   }
   const app = page.locator('[data-bikecare-app]');
+  await page.getByRole('link', { name: 'Try the clickable prototype', exact: true }).click();
   await workspace(app, 'Rider'); await more(app, 'Design system and theme');
   const board = page.locator('.bikecare-system-board');
   for (const theme of ['light', 'dark']) {

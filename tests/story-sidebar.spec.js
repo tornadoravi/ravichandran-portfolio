@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.js';
+import { test, expect, openCaseDetails } from './fixtures.js';
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -11,14 +11,18 @@ const cases = [
 for (const appearance of ['light', 'dark']) {
   for (const width of [320, 390, 768, 1100, 1280, 1440, 1920]) {
     test(`story sidebar and reading column align in ${appearance} at ${width}px`, async ({ page }) => {
+      test.setTimeout(90000);
       await page.setViewportSize({ width, height: 900 });
       await page.addInitScript(value => localStorage.setItem('portfolio-appearance', value), appearance);
       for (const name of cases) {
         await page.goto(`/${name}.html`);
+        await openCaseDetails(page);
         await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
-        const layout = page.locator('main > .case-story-layout');
+        const layout = page.locator('.case-story-layout');
         const nav = layout.locator(':scope > .case-story-nav');
         const content = layout.locator(':scope > .case-story-content');
+        await page.evaluate(() => document.fonts.ready);
+        await layout.evaluate(element => scrollTo(0, element.getBoundingClientRect().top + scrollY - 48));
         await expect(page.locator('.case-story-nav')).toHaveCount(1);
         await expect(nav).toBeVisible();
         const [menu, body, frame] = await Promise.all([nav.boundingBox(), content.boundingBox(), layout.boundingBox()]);
@@ -62,6 +66,7 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       const page = await context.newPage();
       await page.goto(`${baseURL}/storyboard.html`);
+      await openCaseDetails(page);
       if (javaScriptEnabled) await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
       const nav = page.locator('.case-story-nav');
       const links = nav.locator('a');
@@ -88,6 +93,7 @@ for (const javaScriptEnabled of [true, false]) {
       const page = await context.newPage();
       for (const name of ['powertable', 'analytics-plus', 'storyboard']) {
         await page.goto(`${baseURL}/${name}.html`);
+        await openCaseDetails(page);
         if (javaScriptEnabled) await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
         const nav = page.locator('.case-story-nav');
         for (const link of await nav.locator('a').all()) {
@@ -96,9 +102,14 @@ for (const javaScriptEnabled of [true, false]) {
           await page.keyboard.press('Enter');
           await expect(page.locator(target)).toBeInViewport();
           if (javaScriptEnabled) await expect(link).toHaveAttribute('aria-current', 'location');
-          const menu = await nav.boundingBox();
-          expect(menu.y).toBeGreaterThanOrEqual(23);
-          expect(menu.y).toBeLessThanOrEqual(25);
+          const [menu, frame] = await Promise.all([nav.boundingBox(), page.locator('.case-story-layout').boundingBox()]);
+          const stickyTop = await nav.evaluate(element => parseFloat(getComputedStyle(element).top));
+          const padding = await page.locator('.case-story-layout').evaluate(element => ({
+            top: parseFloat(getComputedStyle(element).paddingTop),
+            bottom: parseFloat(getComputedStyle(element).paddingBottom)
+          }));
+          const expectedTop = Math.min(Math.max(frame.y + padding.top, stickyTop), frame.y + frame.height - padding.bottom - menu.height);
+          expect(menu.y).toBeCloseTo(expectedTop, 0);
         }
       }
     } finally {

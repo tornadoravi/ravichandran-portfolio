@@ -1,4 +1,4 @@
-import { test, expect, openListeningControls } from './fixtures.js';
+import { test, expect, openListeningControls, followLink } from './fixtures.js';
 import { readFile } from 'node:fs/promises';
 
 test.use({ reducedMotion: 'reduce' });
@@ -179,7 +179,7 @@ test('music keeps playing through case pages and About without changing appearan
   });
   await page.getByRole('link', { name: 'Read PowerTable case study', exact: true }).click();
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
-  await page.locator('#product-tasks a[href="/column-mapping.html"]').click();
+  await followLink(page, '/column-mapping.html');
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');
   await page.locator('#main-nav').getByRole('link', { name: 'About', exact: true }).click();
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 242, 238)');

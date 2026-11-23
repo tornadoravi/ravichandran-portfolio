@@ -1,4 +1,4 @@
-import { test, expect, openCaseDetails, openWorkspaceNavigation } from './fixtures.js';
+import { test, expect, openCaseDetails, openWorkspaceNavigation, openProductDetails } from './fixtures.js';
 import sharp from 'sharp';
 
 test.use({ reducedMotion: 'reduce' });
@@ -17,7 +17,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.locator('body')).toHaveAttribute('data-native-cursor', '');
     await expect(page.locator('#panel-walkthrough')).not.toHaveAttribute('open');
     await page.locator('#panel-walkthrough > summary').click();
-    const images = page.locator('main .product-screenshot img');
+    const images = page.locator('.case-story-content .product-screenshot img');
     expect(await images.evaluateAll(nodes => nodes.map(node => node.getAttribute('src'))))
       .toEqual(states.map(name => `/assets/fabric-resource-config-${name}.png`));
     for (const image of await images.all()) {
@@ -77,8 +77,9 @@ test('source boundaries and all four configuration states remain explicit', asyn
 
 test('grouped parent and related formatting case connect the new case', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.product-context-card')).toHaveCount(2);
+  await expect(page.locator('.product-context-card')).toHaveCount(4);
   await page.locator('.product-context-card[href="/powertable.html"]').click();
+  await openProductDetails(page);
   await page.getByRole('link', { name: 'Explore Gantt Resources', exact: true }).click();
   await openWorkspaceNavigation(page);
   await page.getByRole('navigation', { name: 'PowerTable Gantt Resources features' }).getByRole('link', { name: 'Side Panel', exact: true }).click();
@@ -132,7 +133,7 @@ test('panel evidence, disclosure and parent links work without JavaScript', asyn
   await page.locator('#panel-walkthrough > summary').focus();
   await page.keyboard.press('Enter');
   for (const name of states) {
-    const image = page.locator(`img[src="/assets/fabric-resource-config-${name}.png"]`);
+    const image = page.locator(`.case-story-content img[src="/assets/fabric-resource-config-${name}.png"]`);
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveJSProperty('naturalWidth', 604);
     await expect(image.locator('..')).toHaveAttribute('target', '_blank');
