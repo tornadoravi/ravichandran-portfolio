@@ -1,4 +1,6 @@
-export const caseFeatureEvidence = {
+import { explainCaseScreen } from './case-screen-context.js';
+
+export const caseFeatureEvidence = Object.fromEntries(Object.entries({
   mapping: { src: '/assets/fabric-mapping-time-entries.png', width: 780, height: 588, label: 'Time entries mapping', alt: 'Gantt Time Entries configuration with Task ID and logged-hours mappings.' },
   baselines: { src: '/assets/fabric-baseline-compare-menu.png', width: 452, height: 281, label: 'Baseline comparison', alt: 'Baseline comparison menu with Current Data and Baseline 1 selected.' },
   backlog: { src: '/assets/fabric-backlog-list.png', width: 350, height: 550, label: 'Backlog task list', alt: 'Backlog task list with search, New Task and row actions.' },
@@ -10,4 +12,4 @@ export const caseFeatureEvidence = {
   storyboard: { src: '/assets/storyboard-start.png', width: 1400, height: 790, label: 'Storyboard starting points', alt: 'Storyboard entry screen with auto-create, custom layout, template and blank report choices.' },
   gantt: { src: '/assets/gantt-data-mapping.png', width: 455, height: 310, label: 'Analytics+ Gantt mapping', alt: 'Gantt mapping help showing task date fields being added in Power BI.' },
   presentation: { src: '/assets/presentation-screen-02.png', width: 1707, height: 830, label: 'Presentation controls', alt: 'Analytics+ Enable Present control and Present button beside report annotations.' }
-};
+}).map(([id, screen]) => [id, { ...screen, explanation: explainCaseScreen(screen.src) }]));

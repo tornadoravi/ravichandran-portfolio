@@ -1,0 +1,14 @@
+.walkthrough-guide { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: 12px; min-width: 0; }
+.walkthrough-guide-character { display: grid; justify-items: center; align-self: center; min-width: 0; }
+.walkthrough-guide-character > img { display: block; width: 32px; height: auto; transform-origin: 50% 85%; }
+.walkthrough-guide-levels { display: flex; align-items: center; justify-content: center; gap: 3px; height: 10px; margin-top: 2px; color: var(--accent); }
+.walkthrough-guide-levels > span { width: 2px; height: 8px; border-radius: 2px; background: currentColor; transform: scaleY(.35); }
+.walkthrough-guide-caption { min-width: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .walkthrough-guide[data-speaking="true"] > .walkthrough-guide-character > img { animation: walkthrough-guide-gesture 2.4s ease-in-out infinite; }
+  .walkthrough-guide[data-speaking="true"] > .walkthrough-guide-character > .walkthrough-guide-levels > span { animation: walkthrough-guide-speak .8s ease-in-out infinite alternate; }
+  .walkthrough-guide[data-speaking="true"] > .walkthrough-guide-character > .walkthrough-guide-levels > span:nth-child(2) { animation-delay: -.3s; }
+  .walkthrough-guide[data-speaking="true"] > .walkthrough-guide-character > .walkthrough-guide-levels > span:nth-child(3) { animation-delay: -.5s; }
+}
+@keyframes walkthrough-guide-gesture { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-1px) rotate(2deg); } }
+@keyframes walkthrough-guide-speak { from { transform: scaleY(.25); } to { transform: scaleY(1); } }

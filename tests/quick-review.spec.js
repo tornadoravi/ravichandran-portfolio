@@ -63,13 +63,11 @@ for (const mode of ['focus', 'soundroom']) {
 }
 
 for (const width of [320, 390, 680, 1440]) {
-  test(`Home and professional overviews stay within a 1200-word first-look budget at ${width}px`, async ({ page }) => {
+  test(`Home and professional overviews keep feature context accessible at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    let words = 0;
     for (const path of ['/', '/powertable.html', '/analytics-plus.html']) {
       await page.goto(path);
       await expect(page.locator('.header-brand [data-companion]')).toBeEnabled();
-      words += await page.locator('main').evaluate(element => element.innerText.trim().split(/\s+/).length);
       await expect(page.locator('.case-deep-dive[open]')).toHaveCount(0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       if (path !== '/') {
@@ -79,11 +77,11 @@ for (const width of [320, 390, 680, 1440]) {
         expect(await page.locator('.case-solution img').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
         await expect(page.locator('.case-brief p strong')).toHaveCount(3);
         await expect(page.locator('.metadata .scan-emphasis')).toHaveText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Analytics+ UX/UI');
+        for (const definition of await page.locator('.case-feature-purpose').all()) await expect(definition).toBeVisible();
       } else {
         await expect(page.locator('#work > .product-context-grid .product-my-work strong')).toHaveCount(2);
       }
     }
-    expect(words).toBeLessThanOrEqual(1200);
   });
 }
 

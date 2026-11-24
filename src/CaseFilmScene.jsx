@@ -26,10 +26,13 @@ function BikeCareSolutionEvidence({ index, beat, playing, pause }) {
 }
 
 function EvidenceComposition({ scene, pause }) {
+  if (scene.guided) return <div className="case-evidence-composition">
+    <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} compact />
+  </div>;
   return <div className="case-evidence-composition">
     <div className="case-evidence-mount">
       <div className="case-evidence-mount-label"><span>Design evidence</span><span>0{scene.solutionIndex + 1} / 03</span></div>
-      <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} />
+      <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} compact={scene.guided} />
     </div>
     <p className="case-evidence-focus"><span aria-hidden="true">↳</span><span><strong>On this screen</strong>{scene.screen.focus || scene.screen.label}</span></p>
     <ol className="case-evidence-sequence" aria-label="Design workflow">
@@ -43,14 +46,14 @@ function EvidenceComposition({ scene, pause }) {
 export default function CaseFilmScene({ scene, seconds, beat, playing, pause }) {
   if (scene.solutionIndex !== undefined) {
     const step = scene.steps[scene.solutionIndex];
-    return <div className="case-film-explanation">
+    return <div className={`case-film-explanation${scene.guided ? ' is-guided' : ''}`}>
       <div className="case-film-illustration">
         {scene.caseId === 'bikecare' ? <BikeCareSolutionEvidence key={scene.solutionIndex} index={scene.solutionIndex} beat={beat} playing={playing} pause={pause} />
           : scene.screen ? <EvidenceComposition scene={scene} pause={pause} />
             : <CaseSolutionScene steps={scene.steps} active={scene.solutionIndex} animated seconds={seconds} />}
-        <p>{scene.value}</p>
+        {!scene.guided && <p>{scene.value}</p>}
       </div>
-      <dl id="case-player-solution-detail" className="case-film-detail">
+      {!scene.guided && <dl id="case-player-solution-detail" className="case-film-detail">
         {[
           ['What the user does', step.action],
           ['What the design makes clear', step.response],
@@ -58,10 +61,10 @@ export default function CaseFilmScene({ scene, seconds, beat, playing, pause }) 
         ].map(([label, copy], index) => <div key={label} className={index === beat ? 'is-emphasised' : undefined}>
           <dt>{label}</dt><dd>{copy}</dd>
         </div>)}
-      </dl>
+      </dl>}
     </div>;
   }
-  return <div className="case-film-explanation">
+  return <div className={`case-film-explanation${scene.guided ? ' is-guided' : ''}`}>
     <div className="case-film-illustration">
       {scene.screen ? <a className="case-film-source-screen" href={scene.screen.src}
         target="_blank" rel="noopener noreferrer" onClick={pause} aria-label="Inspect original evidence (opens in a new tab)">
@@ -71,10 +74,10 @@ export default function CaseFilmScene({ scene, seconds, beat, playing, pause }) 
         : <div className="cod-film-arrival"><div className="cod-film-camera"><CaseIllustration caseId={scene.caseId} stage={scene.stage} /></div></div>}
       {scene.screen && <>
         {scene.screen.caption && <p onClick={event => { if (event.target.closest('a')) pause(); }}>{scene.screen.caption}</p>}
-        <p>Open the original evidence. This is not a video of the product.</p>
+        {!scene.guided && <p>Open the original evidence. This is not a video of the product.</p>}
       </>}
     </div>
-    <div className="case-film-copy">
+    {!scene.guided && <div className="case-film-copy">
       <p>{scene.copy}</p>
       {scene.note && <p>{scene.note}</p>}
       {scene.evidence && <p>{scene.evidence}</p>}
@@ -82,6 +85,6 @@ export default function CaseFilmScene({ scene, seconds, beat, playing, pause }) 
         <summary>Design decisions behind the solution</summary>
         <ol>{scene.decisions.map(([title, copy]) => <li key={title}><strong>{title}</strong><p>{copy}</p></li>)}</ol>
       </details>}
-    </div>
+    </div>}
   </div>;
 }

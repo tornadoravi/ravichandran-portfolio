@@ -2,14 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { sitePath } from './site-path.js';
 import { caseHeadlines, caseSummaries } from './CaseReview.jsx';
 import CaseDiagram from './CaseDiagram.jsx';
-import CaseProblemScene from './CaseProblemScene.jsx';
-import CaseConceptFilm from './CaseConceptFilm.jsx';
 import CaseIllustration from './CaseIllustration.jsx';
 import CaseStudyPlayer, { WalkthroughButton } from './CaseStudyPlayer.jsx';
-import CaseSolution from './CaseSolution.jsx';
-import { caseNarratives } from './case-narratives.js';
+import { caseHighlights, caseNarratives } from './case-narratives.js';
 import WalkthroughEntry from './WalkthroughEntry.jsx';
 import { caseFeatureEvidence } from './case-feature-evidence.js';
+import { caseSolutions } from './case-solutions.js';
+import { explainCaseScreen } from './case-screen-context.js';
 
 const cases = [
   ['planning', '/powertable.html', 'PowerTable'],
@@ -106,6 +105,7 @@ function collectScreens(children) {
           const takeawayContent = takeaway?.type === 'ul' ? React.Children.toArray(takeaway.props.children)[0] : takeaway;
           screens.push({
             ...image.props,
+            explanation: explainCaseScreen(image.props.src),
             label: label.charAt(0).toUpperCase() + label.slice(1),
             heading: heading ? plainText(heading.props.children) : null,
             takeaway: takeawayContent ? plainText(takeawayContent) : null,
@@ -132,14 +132,14 @@ export function Chapter({ index, title, description, children, product = false, 
   </section>;
 }
 
-export function EvidenceScreen({ screen, eager = false }) {
+export function EvidenceScreen({ screen, eager = false, compact = false }) {
   return <figure className="detail-figure case-demo-figure">
     <a className="product-screenshot case-demo-image" href={screen.src} target="_blank" rel="noopener noreferrer"
       aria-label={`View ${screen.label} screen at original resolution (opens in a new tab)`}>
       <img src={screen.src} alt={screen.alt} width={screen.width} height={screen.height}
         loading={eager ? 'eager' : 'lazy'} decoding="async" fetchPriority={eager ? 'high' : undefined} />
     </a>
-    <figcaption>{screen.caption}</figcaption>
+    <figcaption>{!compact && <span className="case-screen-explanation">{screen.explanation || screen.takeaway || screen.alt}</span>}{screen.caption}</figcaption>
   </figure>;
 }
 
@@ -170,10 +170,11 @@ export function CaseEvidencePreview({ caseId, children, compact = false }) {
   </summary>;
 }
 
-export function ScreenWalkthrough({ screens, diagramId }) {
-  const [active, setActive] = useState(0);
+export function ScreenWalkthrough({ screens, diagramId, compact = false, initialIndex = 0 }) {
+  const [active, setActive] = useState(initialIndex);
   const [enhanced, setEnhanced] = useState(false);
   const buttons = useRef([]);
+  const usePicker = screens.length > 4;
   useEffect(() => { setEnhanced(true); }, []);
   function move(event, index) {
     const last = screens.length - 1;
@@ -190,29 +191,32 @@ export function ScreenWalkthrough({ screens, diagramId }) {
     <p>Contribution-level concept explanation. Dedicated design screens were not supplied; no final interface or measured outcome is fabricated.</p>
   </div>;
   const panels = screens.map((screen, index) => <div key={screen.src} className="case-demo-panel"
-    id={`screen-panel-${index}`} role="tabpanel" aria-labelledby={`screen-tab-${index}`} hidden={enhanced && active !== index}>
+    id={`screen-panel-${index}`} role={usePicker ? 'region' : 'tabpanel'}
+    aria-labelledby={usePicker ? undefined : `screen-tab-${index}`} aria-label={usePicker ? screen.label : undefined}
+    hidden={enhanced && active !== index}>
     <div className="case-demo-bar"><span>Original screen / {String(index + 1).padStart(2, '0')}</span><span>{index + 1} of {screens.length}</span></div>
-    {screen.heading && <div className="case-demo-insight"><h3>{screen.heading}</h3>{screen.takeaway && <p>{screen.takeaway}</p>}</div>}
-    <EvidenceScreen screen={screen} />
+    {!compact && screen.heading && <div className="case-demo-insight"><h3>{screen.heading}</h3>{screen.takeaway && <p>{screen.takeaway}</p>}</div>}
+    <EvidenceScreen screen={screen} compact={compact} />
   </div>);
   return <div className="case-screen-walkthrough">
-    <div className="case-demo-tabs" role="tablist" aria-label="Original design screens">
+    {usePicker ? <label className="case-screen-picker" hidden={!enhanced}>Screen
+      <select aria-label="Original design screen" value={active} onChange={event => setActive(Number(event.target.value))}>
+        {screens.map((screen, index) => <option key={screen.src} value={index}>{String(index + 1).padStart(2, '0')} / {screen.label}</option>)}
+      </select>
+    </label> : <div className="case-demo-tabs" role="tablist" aria-label="Original design screens">
       {screens.map((screen, index) => <button key={screen.src} ref={element => { buttons.current[index] = element; }}
         type="button" role="tab" id={`screen-tab-${index}`} aria-controls={`screen-panel-${index}`}
         aria-selected={active === index} tabIndex={active === index ? 0 : -1}
         onClick={() => setActive(index)} onKeyDown={event => move(event, index)}>
         <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{screen.label}
       </button>)}
-    </div>
-    {panels[0]}
-    {panels.length > 1 && <details className="case-screen-more" open={enhanced}>
-      <summary>View additional original screens</summary>
-      {panels.slice(1)}
-    </details>}
+    </div>}
+    <div className="case-demo-panels" data-enhanced={enhanced} tabIndex={enhanced ? undefined : 0}
+      role={enhanced ? undefined : 'region'} aria-label={enhanced ? undefined : 'Original screens. Scroll horizontally to explore.'}>{panels}</div>
   </div>;
 }
 
-function OutcomeCard({ caseId, facts, evidenceNote, reviewChecks, compact = false }) {
+function OutcomeCard({ caseId, facts, evidenceNote, reviewChecks }) {
   const outcomes = {
     planning: {
       status: 'Design contribution',
@@ -268,7 +272,7 @@ function OutcomeCard({ caseId, facts, evidenceNote, reviewChecks, compact = fals
     <span className="case-outcome-status"><span aria-hidden="true" />{outcome.status}</span>
     <h3>{outcome.headline} <em>{outcome.emphasis}</em></h3>
     <p className="case-outcome-description">{facts[2][1]}</p>
-    {compact ? <details className="case-reading-details"><summary>Delivery details</summary>{highlights}</details> : highlights}
+    {highlights}
     {reviewChecks && <section className="case-review-evidence" aria-label="Documented implementation review">
       <h4>How I checked the work</h4>
       {React.cloneElement(reviewChecks, { className: 'case-review-checks' })}
@@ -277,80 +281,95 @@ function OutcomeCard({ caseId, facts, evidenceNote, reviewChecks, compact = fals
   </div>;
 }
 
-function ProductFeature({ id, onWalkthrough }) {
-  const [, path, label, role] = cases.find(([key]) => key === id);
-  const evidence = caseFeatureEvidence[id];
-  const screen = evidence && { ...evidence, src: sitePath(evidence.src), caption: `Original design · ${evidence.label}` };
-  return <details className="case-product-feature" data-feature={id}>
-    <summary>
-      <figure className="feature-card-illustration" aria-hidden="true">
-        {screen ? <img src={screen.src} width={screen.width} height={screen.height} alt="" loading="lazy" />
-          : <CaseIllustration caseId={id} stage="design" />}
-        <figcaption>{screen ? 'Original design screen' : 'Contribution structure diagram'}</figcaption>
-      </figure>
-      <strong>{label} <span aria-hidden="true">+</span></strong>
-      <small>My work: {role}</small>
-      <b className="feature-case-action">Explore on this page <span aria-hidden="true">↓</span></b>
-    </summary>
-    <div className="case-feature-detail">
-      <p>{caseNarratives[id].purpose}</p>
-      {screen && <EvidenceScreen screen={screen} />}
-      <ol>{caseNarratives[id].steps.map(([title, detail]) => <li key={title}><strong>{title}</strong><p>{detail}</p></li>)}</ol>
-      <div className="case-feature-actions">
-        <WalkthroughButton onClick={event => onWalkthrough(event, id)} />
-        <a href={sitePath(path)}>Full feature evidence <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </details>;
+export function CaseStoryBrief({ problem, role, decision, evidence, className = '' }) {
+  return <dl className={`case-story-brief ${className}`} aria-label="Problem, role, decision, and evidence">
+    <div><dt>The problem</dt><dd>{problem}</dd></div>
+    <div className="case-my-work"><dt>My role</dt><dd>{role}</dd></div>
+    <div><dt>The decision</dt><dd>{decision}</dd></div>
+    <div><dt>The evidence</dt><dd>{evidence}</dd></div>
+  </dl>;
 }
 
-function ProductOverview({ caseId, product, narrative, facts, evidenceNote, onWalkthrough }) {
+function FeatureStory({ id, compact = false }) {
+  const story = compact ? caseHighlights[id] : caseNarratives[id];
+  return <CaseStoryBrief className="case-feature-story" problem={story.problem}
+    role={story.role} decision={story.decision} evidence={compact ? story.evidence : caseSolutions[id].evidence} />;
+}
+
+function ProductFeature({ id, number, onWalkthrough }) {
+  const [, path, label] = cases.find(([key]) => key === id);
+  const highlight = caseHighlights[id];
+  const evidence = caseFeatureEvidence[id];
+  const screen = evidence && { ...evidence, explanation: highlight.screen, src: sitePath(evidence.src), caption: `Original design · ${evidence.label}` };
+  return <article className="case-product-feature" data-feature={id} aria-labelledby={`feature-${id}-title`}>
+    <div className="case-feature-overview">
+      <header className="case-feature-intro">
+        <span className="case-feature-number" aria-label={`Feature ${number}`}>{String(number).padStart(2, '0')}</span>
+        <h4 id={`feature-${id}-title`}>{label}</h4>
+        <p className="case-feature-purpose">{highlight.purpose}</p>
+      </header>
+      {screen ? <EvidenceScreen screen={screen} /> : <figure className="feature-card-illustration">
+        <CaseIllustration caseId={id} stage="design" />
+        <figcaption>Contribution structure diagram</figcaption>
+      </figure>}
+      <div className="case-feature-detail">
+        <FeatureStory id={id} compact />
+        <div className="case-feature-actions">
+          <WalkthroughButton onClick={event => onWalkthrough(event, id)} />
+          <a href={sitePath(path)}>View screens <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </article>;
+}
+
+function ProductOverview({ caseId, product, onWalkthrough }) {
   const planning = caseId === 'planning';
+  const featureIds = productGroups[caseId].flatMap(group => group.features);
   return <>
-    <nav className="case-chapter-nav" aria-label="Case study chapters" data-section-tabs="">
-      {productChapters.map(([id, label], index) => <a key={id} href={`#${id}`}><span>0{index + 1}</span>{label}</a>)}
-    </nav>
-    <Chapter product index={0} title={planning ? 'A workspace for planning work.' : 'A tool for building Power BI reports.'}
-      description={planning ? 'PowerTable is a Lumel product inside Microsoft Fabric for task planning and resource assignments.' : 'Inforiver Analytics+ is a Lumel visual inside Power BI for chart discovery and report authoring.'}>
-      <span id="case-problem" className="case-bookmark" /><span id="case-audience" className="case-bookmark" />
-      <aside className="case-fast-read" aria-label="Case in 30 seconds">
-        <p className="case-card-number">Product first. My contribution next.</p>
-        <dl>
-          <div><dt>Used by</dt><dd>{narrative.audience}</dd></div>
-          <div className="case-my-work"><dt>My work</dt><dd>{narrative.role}</dd></div>
-        </dl>
-      </aside>
-      <CaseSolution caseId={planning ? 'powertable' : 'analyticsSuite'} compact />
-      <details className="case-reading-details"><summary>Explore the illustrated workflow</summary><CaseConceptFilm caseId={planning ? 'powertable' : 'analyticsSuite'} /></details>
-    </Chapter>
-    <Chapter product index={1} title="Explore my feature work."
-      description={planning ? 'Selected workflows from end-to-end Gantt and resource UX/UI.' : 'Selected features from end-to-end Analytics+ UX/UI.'}>
-      <span id="case-gap" className="case-bookmark" /><span id="case-goals" className="case-bookmark" />
-      <span id="case-flow" className="case-bookmark" /><span id="case-architecture" className="case-bookmark" /><span id="case-screens" className="case-bookmark" />
+    <aside id="case-overview" className="case-fast-read" aria-label="Case in 30 seconds">
+      <FeatureStory id={planning ? 'powertable' : 'analyticsSuite'} compact />
+    </aside>
+    <section id="case-approach" className="case-selected-features" aria-labelledby="selected-features-title">
+      <span id="features" className="case-bookmark" />
+      <span id={planning ? 'gantt-features' : 'analytics-features'} className="case-bookmark" />
+      <header className="case-minimal-heading"><span className="case-card-number">Selected work</span><h2 id="selected-features-title">The features.</h2></header>
       <div className="product-work-areas">
         {productGroups[caseId].map((group, index) => <section id={group.id} className="product-work-area" key={group.id} aria-labelledby={`${group.id}-title`}>
-          <header><span className="case-card-number">0{index + 1} / {group.area}</span><h3 id={`${group.id}-title`}>{group.name}</h3><p className="product-area-role"><strong>My part</strong> {group.role}</p></header>
+          <header><span className="case-card-number">0{index + 1} / {group.area}</span><h3 id={`${group.id}-title`}>{group.name}</h3></header>
           <div className="case-product-features" aria-label={`${product} ${group.area} case studies`}>
-            {group.features.map(id => <ProductFeature key={id} id={id} onWalkthrough={onWalkthrough} />)}
+            {group.features.map(id => <ProductFeature key={id} id={id} number={featureIds.indexOf(id) + 1} onWalkthrough={onWalkthrough} />)}
           </div>
         </section>)}
       </div>
-    </Chapter>
-    <Chapter product index={2} title="What was delivered.">
-      <span id="case-evidence" className="case-bookmark" /><span id="case-system" className="case-bookmark" />
-      <OutcomeCard caseId={caseId} facts={facts} evidenceNote={evidenceNote} compact />
-    </Chapter>
+    </section>
+    <p className="case-recognition-note">Lumel&rsquo;s broader EPM offering: <a href="https://lumel.com/best-overall-epm-vendor-2025/" target="_blank" rel="noopener noreferrer">BPM Partners 2025 Best Overall Vendor<span className="sr-only"> (opens in a new tab)</span></a>. Company recognition, not an individual design award.</p>
+    {!planning && <a className="case-source-links" id="spatial-exploration" href={sitePath('/analytics-spatial.html')}>Spatial exploration ↗</a>}
   </>;
 }
 
-export default function CasePresentation({ caseId, children, decisionStory }) {
+export function VisualCaseBody({ caseId, screens, children }) {
+  const brief = caseHighlights[caseId];
+  if (!brief) throw new Error(`Missing brief for ${caseId}`);
+  return <div className="case-chapters case-minimal-body">
+    <aside id="case-overview" className="case-fast-read" aria-label="Case in 30 seconds">
+      <CaseStoryBrief {...brief} />
+    </aside>
+    <section id="case-screens" className="case-selected-screens" aria-labelledby="case-screens-title">
+      <header className="case-minimal-heading"><span className="case-card-number">Design evidence</span><h2 id="case-screens-title">{screens.length ? 'The screens.' : 'My contribution.'}</h2></header>
+      <ScreenWalkthrough screens={screens} diagramId={caseId} compact
+        initialIndex={caseId === 'bikecare' ? Math.max(0, screens.findIndex(screen => screen.id === 'estimate')) : screens.length > 1 ? 1 : 0} />
+    </section>
+    {children}
+  </div>;
+}
+
+export default function CasePresentation({ caseId, children }) {
   const contentId = caseId === 'planning' ? 'powertable' : caseId;
   const facts = caseSummaries[contentId];
   const title = caseHeadlines[contentId];
   if (!facts || !title) throw new Error(`Unknown case presentation: ${caseId}`);
   const screens = useMemo(() => collectScreens(children), [children]);
-  const narrative = caseNarratives[contentId];
-  const root = useRef(null);
   const walkthrough = useRef(null);
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [walkthroughOpener, setWalkthroughOpener] = useState(null);
@@ -365,13 +384,8 @@ export default function CasePresentation({ caseId, children, decisionStory }) {
   }, [selectedFeature, walkthroughOpener]);
   const analytics = ['analyticsSuite', 'wizard', 'storyboard', 'gantt', 'presentation', 'kpi'].includes(caseId);
   const product = analytics ? 'Inforiver Analytics+' : 'PowerTable';
-  const problemId = caseId === 'planning' ? 'mapping' : caseId === 'analyticsSuite' ? 'wizard' : caseId;
-  const platform = analytics ? 'Power BI' : 'Microsoft Fabric';
   const name = cases.find(([id]) => id === caseId)[2];
   const isProduct = caseId === 'planning' || caseId === 'analyticsSuite';
-  const parentId = analytics ? 'analyticsSuite' : 'planning';
-  const parentPath = analytics ? '/analytics-plus.html' : '/powertable.html';
-  const area = !isProduct && productGroups[parentId].find(group => group.features.includes(caseId));
   const officialHero = caseId === 'planning' ? '/assets/powertable-official-gantt.webp'
     : caseId === 'analyticsSuite' ? '/assets/analytics-plus-official-dashboard.webp' : null;
   const heroScreen = officialHero ? screens.find(screen => screen.src === sitePath(officialHero)) : screens[0];
@@ -389,96 +403,21 @@ export default function CasePresentation({ caseId, children, decisionStory }) {
       : caseId === 'crosstab'
         ? 'Contribution-level concept explanation. Dedicated design screens were not supplied; no final interface or measured outcome is fabricated.'
         : 'Design screens explain the interface states shown. They do not by themselves prove runtime behavior, usability improvements, or measured customer outcomes.';
-  const overview = caseId === 'planning'
-    ? 'PowerTable brings no-code data apps and planning to Microsoft Fabric. Teams can organize business data, plan tasks with Gantt timelines, review resource assignments, and summarize information in Cross-tab views.'
-    : caseId === 'analyticsSuite'
-      ? 'Inforiver Analytics+ is a custom visual for Power BI. It brings chart discovery, KPI cards, tables, report authoring, and presentation into the reporting experience.'
-      : `${narrative.purpose} Part of ${product} in ${platform}.`;
-  const reflection = caseId === 'wizard' && findElement(children, element => element.props.id === 'reflection');
-  const reviewChecks = reflection && findElement(reflection.props.children,
-    element => element.type === 'ul' && /\bcase-key-points\b/.test(element.props.className || ''));
-  const decisionHeader = decisionStory && findElement(decisionStory.props.children,
-    element => /\bcase-section-heading\b/.test(element.props.className || ''));
-  const decisionBody = decisionHeader && React.cloneElement(decisionStory, undefined,
-    React.Children.toArray(decisionStory.props.children).filter(element =>
-      !React.isValidElement(element) || !/\bcase-section-heading\b/.test(element.props.className || '')));
-
-  useEffect(() => {
-    if (!('IntersectionObserver' in window)) return;
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in-view');
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: .12 });
-    root.current.querySelectorAll('.case-chapter').forEach(section => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
   return <>
       <WalkthroughEntry caseId={contentId} onClick={openWalkthrough}
-        readHref={isProduct ? '#case-approach' : '#case-overview'} readLabel={isProduct ? 'Explore my feature work' : 'Read case study'}>
+        readHref={isProduct ? '#case-approach' : '#case-screens'} readLabel={isProduct ? 'View features' : 'View screens'}>
         <CaseStudyPlayer ref={walkthrough} caseId={playerCase} name={playerName}
           narrative={caseNarratives[playerCase]} facts={caseSummaries[playerCase]} screen={playerScreen}
           evidenceNote={selectedFeature ? caseSummaries[playerCase][2][1] : evidenceNote} showTrigger={false} />
       </WalkthroughEntry>
     <div className="case-presentation-hero">
       <div className="case-hero-preview">
-        {heroScreen ? <EvidenceScreen screen={heroScreen} eager /> : <div className="case-concept-evidence"><CaseDiagram caseId={contentId} /><p>Concept explanation / contribution-level work.</p></div>}
+        {heroScreen ? <EvidenceScreen screen={heroScreen} eager compact /> : <div className="case-concept-evidence"><CaseDiagram caseId={contentId} /><p>Contribution diagram / not a final interface.</p></div>}
       </div>
     </div>
-    <div className="case-chapters" ref={root}>
-      {isProduct ? <ProductOverview caseId={caseId} product={product} narrative={narrative} facts={facts} evidenceNote={evidenceNote} onWalkthrough={openWalkthrough} /> : <>
-      <aside className="case-fast-read" aria-label="Case in 30 seconds">
-        <nav className="case-location" aria-label="Product to feature">
-          <a href={sitePath(parentPath)}>{product}</a><span aria-hidden="true">&#8594;</span>
-          <a href={sitePath(`${parentPath}#${area.id}`)}>{area.area}</a><span aria-hidden="true">&#8594;</span><strong aria-current="page">{name}</strong>
-        </nav>
-        <p className="case-card-number">{name} / My design contribution</p>
-        <dl>
-          <div><dt>What it does</dt><dd>{narrative.purpose}</dd></div>
-          <div className="case-my-work"><dt>My work</dt><dd>{narrative.role}</dd></div>
-          <div><dt>Delivery & evidence</dt><dd>{facts[2][1]}</dd></div>
-        </dl>
-        <div><a href="#case-approach">Read design decisions <span aria-hidden="true">&#8595;</span></a><a href="#case-screens">Explore the screens <span aria-hidden="true">&#8599;</span></a></div>
-      </aside>
-      <nav className="case-chapter-nav" aria-label="Case study chapters" data-section-tabs="">
-        {readingChapters.map(([id, label]) => <a href={`#${id}`} key={id}>{label}</a>)}
-      </nav>
-      <Chapter index={0} title={`What is ${name}?`} description={overview}>
-        <span id="case-audience" className="case-bookmark" />
-        <p className="case-audience-line"><strong>Designed for</strong> {narrative.audience}</p>
-      </Chapter>
-      <Chapter index={1} title={facts[0][0]} description={facts[0][1]}>
-        <details className="case-reading-details"><summary>Explore the visual problem explanation</summary><figure className="case-problem-stage">
-          <CaseProblemScene caseId={problemId} />
-          <figcaption>Illustrative design problem / not an observed session or a historical product screen.</figcaption>
-        </figure></details>
-      </Chapter>
-      <Chapter index={2} title={decisionHeader ? null : 'What I designed.'}
-        description={decisionHeader ? null : narrative.goal} heading={decisionHeader}
-        headingId={decisionHeader && decisionStory.props['aria-labelledby']}>
-        <span id="case-gap" className="case-bookmark" /><span id="case-goals" className="case-bookmark" />
-        {decisionStory ? <div className="case-promoted-decisions">{decisionBody || decisionStory}</div> : <div className="case-design-cards">
-          {narrative.steps.map(([heading, detail], index) => <article key={heading}><span className="case-card-number">0{index + 1}</span><h3>{heading}</h3><p>{detail}</p></article>)}
-        </div>}
-      </Chapter>
-      <Chapter index={3} title="How the solution works." description="Start with the idea and its value. Explore an example, the design reasoning, and the evidence.">
-        <span id="case-architecture" className="case-bookmark" />
-        <CaseSolution caseId={contentId} />
-        <details className="case-reading-details"><summary>Explore the illustrated workflow</summary><CaseConceptFilm caseId={contentId} /></details>
-      </Chapter>
-      <Chapter index={4} title={screens.length ? 'Explore the design screens.' : 'The contribution, clearly scoped.'}
-        description={screens.length ? 'Select a screen. Open it full-size for the details.' : 'A concept explanation, not a fabricated final interface.'}>
-        <ScreenWalkthrough screens={screens} diagramId={contentId} />
-      </Chapter>
-      <Chapter index={5} title="Delivery & scope.">
-        <span id="case-evidence" className="case-bookmark" /><span id="case-system" className="case-bookmark" />
-        <OutcomeCard caseId={caseId} facts={facts} evidenceNote={evidenceNote} reviewChecks={reviewChecks} />
-      </Chapter>
-      </>}
-    </div>
+    {isProduct ? <div className="case-chapters case-minimal-body">
+      <ProductOverview caseId={caseId} product={product} onWalkthrough={openWalkthrough} />
+    </div> : <VisualCaseBody caseId={contentId} screens={screens} />}
   </>;
 }
 
@@ -497,8 +436,7 @@ export function CaseEndcap({ caseId }) {
   const backPath = isProduct ? '/#work' : `${parentPath}#${area.id}`;
   const backLabel = isProduct ? 'Back to selected work' : `Back to ${parent === 'planning' ? 'PowerTable' : 'Analytics+'} features`;
   return <section className="case-endcap" aria-labelledby="case-endcap-title">
-    <span className="case-endcap-badge">End of case study / {cases[index][2]}</span>
-    <h2 id="case-endcap-title">Thanks for reading!</h2>
+    <h2 id="case-endcap-title" className="sr-only">Continue exploring</h2>
     <nav aria-label="Continue exploring case studies">
       <a className="case-endcap-back" href={sitePath(backPath)}><span aria-hidden="true">&#8592;</span> {backLabel}</a>
       <a className="case-endcap-next" href={sitePath(nextPath)}>Next: {nextName} <span aria-hidden="true">&#8594;</span></a>

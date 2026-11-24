@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import WalkthroughButton from './WalkthroughButton.jsx';
+import WalkthroughGuide from './WalkthroughGuide.jsx';
 import { useTheme } from './ThemeContext.jsx';
 import '../cod-film.css';
 
@@ -229,13 +230,13 @@ export default function CaseFilmPlayer({
       <header className="cod-film-header">
         <div><p className="case-card-number">Walkthrough</p><h2 id="cod-film-title">{title}</h2></div>
         <button type="button" autoFocus aria-label="Close cinematic walkthrough" onClick={() => dialog.current.close()}>Close <span aria-hidden="true">×</span></button>
-        <p id="cod-film-description">{description}</p>
+        <p id="cod-film-description" className="sr-only">{description}</p>
       </header>
       <nav className="cod-film-nav" aria-label="Story sections" data-section-count={sections.length}>
         {sections.map((item, index) => <button key={item.label} type="button" ref={element => { buttons.current[index] = element; }}
           aria-label={`Go to section ${index + 1}: ${item.label}`} aria-current={active >= item.start && active <= item.end ? 'step' : undefined}
           onClick={() => goTo(item.start)} onKeyDown={event => moveSection(event, index)}>
-          <span>0{index + 1}</span>{item.label}
+          {item.label}
         </button>)}
       </nav>
       {active >= solutionSection.start && active <= solutionSection.end && <div className="case-player-solution-steps" role="group" aria-label="Solution steps" data-step-count={steps.length}>
@@ -253,17 +254,20 @@ export default function CaseFilmPlayer({
       <div ref={body} className="cod-film-body" key={scene.id}>
         <section id="cod-film-scene" key={`${scene.id}-${motionStarted}`} className={`cod-film-stage ${scene.kind === 'incident' ? 'is-incident' : 'is-concept'}${screenScene ? ' is-screen' : ''}${motionStarted ? ' has-motion' : ''}`}
           data-scene={scene.id} data-beat={beat} data-playing={playing && mediaStarted} data-reduced={reduced} aria-labelledby="cod-film-scene-title">
-          <div className="cod-film-stage-heading"><p>{scene.disclosure || (scene.kind === 'incident' ? 'News-reported incident / illustrated reenactment' : 'Independent concept / no working service')}</p>
-            <h3 id="cod-film-scene-title">{scene.heading}</h3></div>
+          <div className={`cod-film-stage-heading${scene.solutionIndex !== undefined ? ' is-solution-heading' : ''}`}><p>{scene.disclosure || (scene.kind === 'incident' ? 'News-reported incident / illustrated reenactment' : 'Independent concept / no working service')}</p>
+            <h3 id="cod-film-scene-title">{scene.heading}</h3>
+          </div>
           <div className="cod-film-stage-content">
             <Scene scene={scene} seconds={seconds} beat={beat} playing={playing && mediaStarted} pause={pause} demo={demo} setDemo={setDemo} consent={consent} setConsent={setConsent}
               onSolutionStage={index => goTo(solutionSection.start + index)} close={() => dialog.current.close()} />
           </div>
-          <p className="cod-film-beat" aria-hidden="true">{scene.beats[beat]}</p>
+          {presentation !== 'guided' && <p className="cod-film-beat" aria-hidden="true">{scene.beats[beat]}</p>}
         </section>
       </div>
       <footer className="cod-film-footer">
-        <div className="cod-film-captions" tabIndex="0" aria-label="Scene captions"><span>0{active + 1} / {scene.label}</span><p>{scene.narration}</p></div>
+        <WalkthroughGuide speaking={playing && mediaStarted && voiceOn}>
+          <div className="cod-film-captions" tabIndex="0" aria-label="Scene captions"><span>0{active + 1} / {scene.label}</span><p>{scene.narration}</p></div>
+        </WalkthroughGuide>
         {feedback && <p className="cod-film-feedback" role="status">{feedback}</p>}
         <audio ref={audio} preload="none" muted={!voiceOn} hidden aria-label="Cinematic story narration" />
         <div className="cod-film-progress" aria-hidden="true"><span ref={bar} /></div>
@@ -277,7 +281,7 @@ export default function CaseFilmPlayer({
           <button type="button" aria-pressed={voiceOn} disabled={!recordings} onClick={() => setVoiceOn(value => !value)}>Voice {voiceOn ? 'on' : 'off'}</button>
           <button type="button" onClick={() => active === scenes.length - 1 ? dialog.current.close() : goTo(active + 1)}>{active === scenes.length - 1 ? 'Finish' : 'Next'}</button>
         </div>
-        <p className="cod-film-footer-note">Self-hosted English narration / {voiceLabel}. Pause preserves your place. Example interactions pause the story; no data is sent or stored.</p>
+        <p className="cod-film-footer-note sr-only">Self-hosted English narration / {voiceLabel}. Pause preserves your place. Example interactions pause the story; no data is sent or stored.</p>
       </footer>
     </dialog>}
   </>;

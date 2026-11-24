@@ -2,7 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { sitePath } from '../site-path.js';
 import CaseStoryLayout from '../CaseStoryLayout.jsx';
 import CodShieldIllustration from '../CodShieldIllustration.jsx';
-import { Chapter, readingChapters, EvidenceScreen, ScreenWalkthrough } from '../CasePresentation.jsx';
+import { Chapter, readingChapters, EvidenceScreen, ScreenWalkthrough, CaseStoryBrief } from '../CasePresentation.jsx';
 import { CaseContext } from '../CaseReview.jsx';
 import WalkthroughEntry from '../WalkthroughEntry.jsx';
 import { codScreens } from '../cod-shield-story.js';
@@ -13,6 +13,8 @@ import CaseConceptFilm from '../CaseConceptFilm.jsx';
 import CodPlatformStatus from '../CodPlatformStatus.jsx';
 import CodPartnerExperience from '../CodPartnerExperience.jsx';
 import { codPlatforms, createCodSync } from '../cod-platforms.js';
+import ConceptCasePage from '../ConceptCasePage.jsx';
+import CasePrototype from '../CasePrototype.jsx';
 
 const screens = codScreens.map(screen => ({ ...screen, src: sitePath(screen.src) }));
 const exampleHome = 'Example home · Unit 4B';
@@ -413,6 +415,21 @@ function CodShieldEvidence() {
 }
 
 export default function CodShieldPage() {
+  return <ConceptCasePage caseId="codShield" title="COD Shield"
+    summary="A proposed support service for repeated unwanted cash-on-delivery orders."
+    role="Independent service and interaction design / Unlaunched" screens={screens}
+    player={<CodFilmPlayer />}
+    sources={sources.map(([name, url]) => <a key={url} href={url} target="_blank" rel="noopener noreferrer">
+      {name} ↗<span className="sr-only"> (opens in a new tab)</span></a>)}>
+    <CasePrototype id="prototype" title="COD Shield simulation">
+      <CodPartnerExperience renderPrototype={(partner, onStageChange) =>
+        <RecipientPrototype key={partner.id} partner={partner} onStageChange={onStageChange} />} />
+    </CasePrototype>
+  </ConceptCasePage>;
+}
+
+// Preserve the authored design documentation without mounting reading panels.
+export function CodShieldDesignDocumentation() {
   const player = useRef(null);
   return <>
     <main id="main" className="design-review cod-study">
@@ -438,12 +455,13 @@ export default function CodShieldPage() {
         </div>
         <div className="case-chapters">
           <aside className="case-fast-read" aria-label="Case in 30 seconds">
-            <p className="case-card-number">Independent exploration</p>
-            <dl>
-              <div><dt>Problem</dt><dd>Repeated unwanted deliveries.</dd></div>
-              <div className="case-my-work"><dt>Design focus</dt><dd>Report, verify, confirm, exit.</dd></div>
-              <div><dt>Evidence</dt><dd>News-informed, untested concept.</dd></div>
-            </dl>
+            <p className="case-card-number">The case at a glance / Independent concept</p>
+            <CaseStoryBrief
+              problem="Refusing each unwanted cash-on-delivery parcel leaves the resident handling repeated calls and doorstep visits after packing and delivery work have already happened."
+              role="Self-initiated service and interaction design: resident reporting, support review, household consent, protection states and recovery."
+              decision="I proposed one managed incident in each app instead of repeated parcel refusals. Exact-unit verification, household consent, expiry and removal keep temporary protection from becoming an unrestricted address block."
+              evidence="Eleven concept screens and a clickable prototype make the proposed states inspectable. The design exposes a key constraint: requesting protection is not the same as confirmed enforcement. This is news-informed concept work, not a launched or user-tested service."
+            />
           </aside>
           <nav className="case-chapter-nav" aria-label="Case study chapters" data-section-tabs="">
             {readingChapters.map(([id, label]) => <a href={`#${id}`} key={id}>{label}</a>)}

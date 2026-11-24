@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { sitePath } from '../site-path.js';
-import { Chapter, readingChapters, EvidenceScreen, ScreenWalkthrough } from '../CasePresentation.jsx';
+import { Chapter, readingChapters, EvidenceScreen, ScreenWalkthrough, CaseStoryBrief } from '../CasePresentation.jsx';
 import CaseStudyPlayer from '../CaseStudyPlayer.jsx';
 import WalkthroughEntry from '../WalkthroughEntry.jsx';
 import CaseSolution from '../CaseSolution.jsx';
@@ -13,10 +13,24 @@ import BikeCareApp from '../BikeCareApp.jsx';
 import { BikeCareLogo, bikecarePhotography } from '../BikeCareBrand.jsx';
 import { BikeCareIdentity, BikeCareSystemPreview, BikeCareCompetitivePosition, BikeCareArchitecture, BikeCareJourneyMap, BikeCareBusinessModel, BikeCareDesignDocumentation } from '../BikeCareProductStrategy.jsx';
 import ProductCover from '../ProductCover.jsx';
+import ConceptCasePage from '../ConceptCasePage.jsx';
+import CasePrototype from '../CasePrototype.jsx';
 
 const screens = bikecareScreens.map(screen => ({ ...screen, src: sitePath(screen.src) }));
 
 export default function BikeCarePage() {
+  return <ConceptCasePage caseId="bikecare" title="BikeCare"
+    summary="Local bike servicing, remembered through shared records and care reminders."
+    role="Independent UX/UI design / Clickable concept" screens={screens}
+    player={<CaseStudyPlayer caseId="bikecare" name="BikeCare" narrative={bikecareNarrative}
+      facts={bikecareFacts} screen={screens[0]} evidenceNote={bikecareFacts[2][1]} concept />}
+    sources={<a href={sitePath('/assets/bikecare-design-system.md')} download>Design-system guide ↗</a>}>
+    <CasePrototype id="bikecare-prototype" title="BikeCare prototype"><BikeCareApp /></CasePrototype>
+  </ConceptCasePage>;
+}
+
+// Preserve the authored design documentation without mounting reading panels.
+export function BikeCareCaseDocumentation() {
   const player = useRef(null);
   const [screenGroup, setScreenGroup] = useState('care');
   return <><main id="main" className="design-review bikecare-study">
@@ -34,26 +48,27 @@ export default function BikeCarePage() {
       </dl>
       </CaseContext>
       <p className="cod-scope-note">UX/UI design only, not a production application. Brand-style job cards for independent shops; no manufacturer affiliation or actual supplier verification.</p>
-      <nav className="bikecare-strategy-index" aria-label="BikeCare case-study deliverables">
-        <a href="#case-overview">Read the complete case study</a>
-        <a href="#bikecare-prototype">Try the clickable prototype</a>
-        <a href={sitePath('/assets/bikecare-design-system.md')} download>Download the Signal design-system guide</a>
-      </nav>
     </section>
     <div className="case-presentation-layout">
         <WalkthroughEntry caseId="bikecare" readHref="#case-overview"><CaseStudyPlayer ref={player} caseId="bikecare" name="BikeCare" narrative={bikecareNarrative}
-          facts={bikecareFacts} screen={screens[0]} evidenceNote={bikecareFacts[2][1]} concept /></WalkthroughEntry>
+          facts={bikecareFacts} screen={screens[0]} evidenceNote={bikecareFacts[2][1]} concept />
+          <nav className="bikecare-strategy-index" aria-label="BikeCare case-study deliverables">
+            <a href="#bikecare-prototype">Try the clickable prototype</a>
+            <a href={sitePath('/assets/bikecare-design-system.md')} download>Download the Signal design-system guide</a>
+          </nav>
+        </WalkthroughEntry>
       <div className="case-presentation-hero">
         <div className="case-hero-preview"><ProductCover product="bikecare" /></div>
       </div>
       <div className="case-chapters">
         <aside className="case-fast-read" aria-label="Case in 30 seconds">
-          <p className="case-card-number">The idea</p>
-          <dl>
-            <div><dt>Scenario</dt><dd>Local servicing leaves care and resale records disconnected.</dd></div>
-            <div className="case-my-work"><dt>My approach</dt><dd>Separate estimate approval, work, billing and rider review.</dd></div>
-            <div><dt>Supporting areas</dt><dd>Parts and motorcycle rides.</dd></div>
-          </dl>
+          <p className="case-card-number">The case at a glance / Self-initiated concept</p>
+          <CaseStoryBrief
+            problem="A local service visit can leave riders relying on memory for completed work, the next service and records a future buyer can inspect. This is my starting observation, not an interview finding."
+            role={bikecareNarrative.role}
+            decision="I made the service record the core journey, separating advisor estimates, rider approval, mechanic completion, billing and final rider review. Parts and rides remain secondary to care."
+            evidence="The original screens and clickable flows document the handovers. Their state model distinguishes paid invoices from rider-confirmed work: payment alone must not create confirmed service history. Public-source research informs the concept; workshop adoption and rider outcomes remain untested."
+          />
         </aside>
         <nav className="case-chapter-nav" aria-label="Case study chapters" data-section-tabs="">
           {readingChapters.map(([id, label]) => <a key={id} href={`#${id}`}>{label}</a>)}

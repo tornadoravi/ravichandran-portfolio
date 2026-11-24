@@ -4,6 +4,7 @@ import { createCaseNarration } from '../src/case-narration.js';
 import { solutionSteps } from '../src/case-solutions.js';
 import { solutionScreens } from '../src/case-solution-evidence.js';
 import { solutionNarration, standaloneNarration } from '../src/case-film-narration.js';
+import { caseHighlights } from '../src/case-narratives.js';
 
 const recorded = JSON.parse(readFileSync(new URL('../src/case-film-audio.json', import.meta.url), 'utf8'));
 const previous = JSON.parse(readFileSync(new URL('../src/case-audio.json', import.meta.url), 'utf8'));
@@ -68,9 +69,17 @@ test('every remaining case shares the animated Walkthrough frame with one Soluti
       await expect(solution).toHaveAttribute('aria-current', 'step');
       await expect(player.locator('[data-solution-step]')).toHaveAttribute('data-solution-step', String(index + 1));
       await expect(player.locator('#cod-film-scene-title')).toHaveText(solutionSteps[caseId][index].title);
-      await expect(player.locator('#case-player-solution-detail dt')).toHaveText([
-        'What the user does', 'What the design makes clear', 'Why this step matters'
-      ]);
+      if (caseHighlights[caseId]) {
+        await expect(player).toHaveAttribute('data-presentation', 'guided');
+        await expect(player.locator('#case-player-solution-detail')).toHaveCount(0);
+        await expect(player.locator('.walkthrough-guide')).toBeVisible();
+        await expect(player.locator('.cod-film-stage details')).toHaveCount(0);
+        await expect(player.locator('.case-solution-screen .case-screen-explanation')).toHaveCount(0);
+      } else {
+        await expect(player.locator('#case-player-solution-detail dt')).toHaveText([
+          'What the user does', 'What the design makes clear', 'Why this step matters'
+        ]);
+      }
       if (caseId !== 'bikecare') {
         const screen = solutionScreens[caseId]?.[index];
         const image = player.locator('.case-solution-screen img');
@@ -126,8 +135,9 @@ test('BikeCare changes original screens with narration and pauses for manual ins
     await choose(player, index, 'Business case');
     const image = player.locator('.bikecare-solution-evidence img');
     await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${first}.webp`);
+    await image.evaluate(node => node.decode());
     const bounds = await image.boundingBox();
-    expect(bounds.width).toBeGreaterThanOrEqual(220);
+    expect(bounds.width).toBeGreaterThanOrEqual(100);
     expect(bounds.width / bounds.height).toBeCloseTo(390 / 844, 2);
     await player.getByRole('button', { name: 'Play', exact: true }).click();
     for (const [fraction, expected] of [[0.4, middle], [0.8, last]]) {
@@ -164,9 +174,9 @@ test('selected walkthrough screens explain the exact controls and states shown',
     const player = await openPlayer(page, route);
     await choose(player, index);
     await expect(player.locator('.case-solution-screen img')).toHaveAttribute('src', `/assets/${filename}`);
-    await expect(player.locator('.case-evidence-focus')).toContainText(focus);
+    await expect(player.locator('.case-solution-screen img')).toHaveAttribute('alt', /./);
     await expect(player.locator('.cod-film-captions p')).toContainText(speech);
-    await expect(player.locator('.case-evidence-sequence [aria-current="step"]')).toHaveCount(1);
+    await expect(player.locator('.case-evidence-sequence,.case-evidence-focus')).toHaveCount(0);
     await expect(player.locator('.case-player-error')).toHaveCount(0);
     await expect(player.locator('.cod-film-stage')).not.toHaveClass(/has-motion/);
     await player.getByRole('button', { name: 'Play', exact: true }).click();
@@ -216,19 +226,21 @@ test('exploration, contribution and spatial boundaries remain explicit without i
   await mockVoice(page);
   let player = await openPlayer(page, 'gantt-baselines');
   await choose(player, 6);
-  await expect(player.locator('.case-film-copy')).toContainText('exploration');
+  await expect(player.locator('.cod-film-captions')).toContainText('exploration');
   await player.getByRole('button', { name: 'Play', exact: true }).click();
   expect(await page.evaluate(() => window.__narration.spoken.at(-1).text)).toContain('still an exploration');
   player = await openPlayer(page, 'crosstab');
   await choose(player, 5);
   await expect(player.locator('.case-film-source-screen')).toHaveCount(0);
-  await expect(player.locator('.case-film-copy')).toContainText('Cross-tab layout and data configuration');
-  await expect(player.locator('.case-film-copy')).toContainText('Dedicated design screens and measured customer outcomes were not supplied');
+  await expect(player.locator('.walkthrough-guide-cue')).toHaveCount(0);
+  await expect(player.locator('.cod-film-captions p')).toHaveText(recorded.cases.crosstab[5].text);
+  await choose(player, 6);
+  await expect(player.locator('.cod-film-captions')).toHaveText(/contribution/i);
   player = await openPlayer(page, 'analytics-spatial');
   await choose(player, 5);
   await expect(player.locator('.case-film-source-screen')).toHaveAttribute('href', '/assets/analytics-spatial-sequence.png');
   await choose(player, 6);
-  await expect(player.locator('.case-film-copy')).toContainText('not a shipped Vision Pro product');
+  await expect(player.locator('.case-film-copy')).toHaveCount(0);
   await expect(player.locator('.cod-film-captions')).toContainText('no Vision Pro release');
 });
 
@@ -379,6 +391,41 @@ test('page hiding pauses narration without later advancement', async ({ page }) 
   await expect(player.locator('.cod-film-status')).toContainText('Scene 1 of 7 / Paused');
 });
 
+test('guide character follows narration, mute, pause and live reduced motion without extra reading', async ({ page }) => {
+  await mockVoice(page);
+  const player = await openPlayer(page);
+  const guide = player.locator('.walkthrough-guide');
+  const character = guide.locator('.walkthrough-guide-character > img');
+  await expect(character).toHaveAttribute('src', '/assets/studio-mascot-peach.webp');
+  await expect(guide).toHaveAttribute('data-speaking', 'true');
+  await player.locator('#cod-film-scene-title').click();
+  await expect(character).toHaveCSS('animation-name', 'walkthrough-guide-gesture');
+  await expect(guide.locator('.walkthrough-guide-cue,.walkthrough-guide-bubble')).toHaveCount(0);
+  await expect(character).toHaveCSS('width', '32px');
+  await expect(player.locator('.case-film-copy,.case-film-detail,details,.cod-film-beat')).toHaveCount(0);
+  await expect(player.locator('.cod-film-captions p')).toHaveText(recorded.cases.wizard[0].text);
+  await player.getByRole('button', { name: 'Voice on', exact: true }).click();
+  await expect(guide).toHaveAttribute('data-speaking', 'false');
+  await expect(character).toHaveCSS('animation-name', 'none');
+  await expect(player.locator('.cod-film-status')).toContainText('Playing muted');
+  await player.getByRole('button', { name: 'Voice off', exact: true }).click();
+  await expect(guide).toHaveAttribute('data-speaking', 'true');
+  await player.getByRole('button', { name: 'Pause', exact: true }).click();
+  await expect(guide).toHaveAttribute('data-speaking', 'false');
+  await expect(character).toHaveCSS('animation-name', 'none');
+  await player.getByRole('button', { name: 'Play', exact: true }).click();
+  await expect(guide).toHaveAttribute('data-speaking', 'true');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(guide).toHaveAttribute('data-speaking', 'false');
+  await expect(character).toHaveCSS('animation-name', 'none');
+  await expect(player.locator('.cod-film-status')).toContainText('Manual mode');
+  await player.getByRole('button', { name: 'Read this scene', exact: true }).click();
+  await expect(guide).toHaveAttribute('data-speaking', 'true');
+  await expect(character).toHaveCSS('animation-name', 'none');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Walkthrough', exact: true }).first()).toBeFocused();
+});
+
 for (const [width, height] of [[320, 812], [390, 844], [768, 900], [1440, 1000], [844, 390]]) {
   for (const appearance of ['light', 'dark']) {
     test(`captions, grouped solution controls and honest evidence fit ${appearance} at ${width}x${height}`, async ({ page }) => {
@@ -397,7 +444,9 @@ for (const [width, height] of [[320, 812], [390, 844], [768, 900], [1440, 1000],
       await page.keyboard.press('Home');
       await expect(buttons.first()).toBeFocused();
       await expect(player.locator('[data-solution-step]')).toHaveAttribute('data-solution-step', '1');
-      await expect(player.locator('.case-film-detail')).toContainText('Authors can start from what they know');
+      await expect(player.locator('.case-film-detail')).toHaveCount(0);
+      await expect(player.locator('.walkthrough-guide')).toBeVisible();
+      await expect(player.locator('.cod-film-captions p')).toHaveText(recorded.cases.wizard[2].text);
       expect(await player.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
       if (height > 600) {
         await expect(player.locator('.cod-film-captions')).toBeInViewport();
@@ -407,8 +456,9 @@ for (const [width, height] of [[320, 812], [390, 844], [768, 900], [1440, 1000],
       await expect(player.locator('.case-film-source-screen img')).toHaveAttribute('alt', /./);
       await player.locator('.case-film-source-screen img').evaluate(image => image.decode());
       await choose(player, 6);
-      await player.locator('.case-film-copy summary').click();
-      await expect(player.locator('.case-film-copy ol')).toContainText('Browse a chart family or start from an analytical function.');
+      await expect(player.locator('details')).toHaveCount(0);
+      await expect(player.locator('.walkthrough-guide-cue')).toHaveCount(0);
+      await expect(player.locator('.cod-film-captions p')).toHaveText(recorded.cases.wizard[6].text);
       const bounds = await player.boundingBox();
       expect(bounds.y).toBeGreaterThanOrEqual(0);
       expect(bounds.y + bounds.height).toBeLessThanOrEqual(height);

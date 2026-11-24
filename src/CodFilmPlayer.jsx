@@ -26,6 +26,5 @@ export default function CodFilmPlayer({ ref }) {
     title="From a reported story to a proposed solution."
     description="Original reenactments and source summaries, not footage or a newspaper scan. The solution is unlaunched and untested."
     hint="Cinematic illustrated story, recorded narration, and captions. Reported incident followed by an untested concept."
-    entryNote="Cinematic story / Veeramani, the reported issue, and the proposed response."
     feedbackForScene={feedbackForScene} />;
 }

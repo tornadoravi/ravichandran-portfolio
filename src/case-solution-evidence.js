@@ -1,9 +1,11 @@
 import { caseFeatureEvidence } from './case-feature-evidence.js';
 import { bikecareScreens } from './bikecare-story.js';
 import { codScreens } from './cod-shield-story.js';
+import { explainCaseScreen } from './case-screen-context.js';
 
 function screen(file, width, height, label, caption = `Original design screen / ${label}.`) {
-  return { src: `/assets/${file}.png`, width, height, label, alt: label, caption };
+  const src = `/assets/${file}.png`;
+  return { src, width, height, label, alt: label, caption, explanation: explainCaseScreen(src) };
 }
 
 const feature = Object.fromEntries(Object.entries(caseFeatureEvidence).map(([id, evidence]) =>

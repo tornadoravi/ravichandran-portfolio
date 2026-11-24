@@ -7,6 +7,8 @@ import CaseConceptFilm from '../CaseConceptFilm.jsx';
 import CaseStudyPlayer from '../CaseStudyPlayer.jsx';
 import WalkthroughEntry from '../WalkthroughEntry.jsx';
 import { caseSolutions } from '../case-solutions.js';
+import { CaseStoryBrief } from '../CasePresentation.jsx';
+import ConceptCasePage from '../ConceptCasePage.jsx';
 
 const narrative = {
   purpose: caseSolutions.spatial.idea,
@@ -25,6 +27,24 @@ const screen = {
 };
 
 export default function AnalyticsSpatialPage() {
+  const frames = [
+    ['launch', 275, 'Launch', 'App launcher in a room-like spatial environment.'],
+    ['entry', 280, 'Enter Analytics+', 'Analytics+ entry in a floating window.'],
+    ['report', 276, 'Read the report', 'Charts and a table in a floating report window.']
+  ].map(([id, width, label, alt]) => ({
+    id, width, height: 156, label, alt, src: sitePath(`/assets/analytics-spatial-${id}.png`),
+    caption: `Original concept / ${label}. Not validated spatial interaction.`
+  }));
+  return <ConceptCasePage caseId="spatial" title="Analytics+, spatial."
+    summary="A familiar report workflow, explored beyond a flat screen."
+    role="Visual exploration / Not a shipped Vision Pro product" screens={frames}
+    player={<CaseStudyPlayer caseId="spatial" name="Analytics+ spatial exploration" narrative={narrative}
+      facts={facts} screen={screen} evidenceNote={caseSolutions.spatial.evidence} concept />}
+    sources={<a href={screen.src} target="_blank" rel="noopener noreferrer">Original sequence ↗<span className="sr-only"> (opens in a new tab)</span></a>}
+  />;
+}
+
+export function SpatialCaseDocumentation() {
   return <>
     <main id="main" className="design-review">
       <section className="case-hero wrap">
@@ -40,6 +60,15 @@ export default function AnalyticsSpatialPage() {
         </WalkthroughEntry>
       </section>
       <CaseStoryLayout caseId="spatial">
+      <aside className="case-fast-read" aria-label="Case in 30 seconds">
+        <p className="case-card-number">The case at a glance / Visual exploration</p>
+        <CaseStoryBrief
+          problem="Moving a familiar report into a spatial environment raises an orientation question: will the path from opening the app to reading the report still be recognizable?"
+          role="Visual concept exploration of Analytics+ entry and report viewing, expressed through three original frames."
+          decision="I retained a recognizable launcher-to-report sequence in floating windows, using familiar structure as an orientation hypothesis rather than inventing new spatial controls."
+          evidence={caseSolutions.spatial.evidence}
+        />
+      </aside>
       <section id="spatial-exploration" className="spatial-concept wrap" aria-labelledby="spatial-title">
         <div className="case-section-heading">
           <p className="eyebrow">The visual journey</p>

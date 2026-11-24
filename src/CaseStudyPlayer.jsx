@@ -5,6 +5,7 @@ import { createCaseNarration } from './case-narration.js';
 import { solutionNarration, standaloneNarration } from './case-film-narration.js';
 import { caseSolutions, solutionSteps } from './case-solutions.js';
 import { solutionScreens } from './case-solution-evidence.js';
+import { caseHighlights } from './case-narratives.js';
 import filmAudio from './case-film-audio.json';
 
 export { default as WalkthroughButton } from './WalkthroughButton.jsx';
@@ -24,6 +25,7 @@ export default function CaseStudyPlayer({
   const scenes = useMemo(() => {
     const solution = caseSolutions[caseId];
     const steps = solutionSteps[caseId];
+    const highlight = caseHighlights[caseId];
     if (!solution || !steps) throw new Error(`Unknown walkthrough solution: ${caseId}`);
     const official = Boolean(screen?.src.includes('official'));
     const original = standaloneNarration[caseId] ? null : createCaseNarration({
@@ -61,12 +63,16 @@ export default function CaseStudyPlayer({
     ];
     return content.map((scene, index) => ({
       caseId, kind: 'case', disclosure, ...scene, id: ids[index], narration: scripts[index],
+      guided: Boolean(highlight),
+      guide: highlight && (index === 0 ? highlight.role : index === 1 ? highlight.problem
+        : index === 5 ? highlight.evidence : index === 6 ? highlight.role : undefined),
       beats: scene.beats || [scene.copy, scene.note || solution.value, solution.evidence]
     }));
   }, [caseId, name, narrative, facts, screen, evidenceNote, concept]);
   const caseSections = caseId === 'bikecare' ? sections.map(section => section.label === 'Scope' ? { ...section, label: 'Business case' } : section) : sections;
   return <CaseFilmPlayer ref={ref} scenes={scenes} sections={caseSections} clips={filmAudio.cases[caseId]}
     steps={solutionSteps[caseId]} Scene={CaseFilmScene} voiceLabel={filmAudio.label}
+    presentation={caseHighlights[caseId] ? 'guided' : 'standard'}
     title={name} showTrigger={showTrigger}
     description="Recorded narration and original evidence. Each case keeps its own scope."
     hint="Animated walkthrough with recorded narration, captions, and three selectable solution steps." />;

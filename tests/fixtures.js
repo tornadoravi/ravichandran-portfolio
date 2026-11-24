@@ -18,13 +18,7 @@ export async function followLink(page, href) {
 export async function openProductDetails(page) {
   await expect(page.locator('#main')).not.toHaveAttribute('aria-busy', 'true');
   await expect(page.locator('body')).toHaveAttribute('data-page', /^(powertable|analytics-plus)$/);
-  await expect(page.locator('#full-case-evidence')).toHaveCount(1);
-  for (const id of ['full-case-evidence', 'study-details']) {
-    const disclosure = page.locator(`#${id}`);
-    if (await disclosure.count() && await disclosure.getAttribute('open') === null) {
-      await disclosure.locator(':scope > summary').click();
-    }
-  }
+  await expect(page.locator('.case-fast-read')).toBeVisible();
 }
 
 export async function openListeningControls(page) {
@@ -37,7 +31,6 @@ export async function openWorkspaceNavigation(page) {
   await expect(page.locator('#main')).not.toHaveAttribute('aria-busy', 'true');
   const navigation = page.locator('.workspace-navigation');
   await expect(navigation).toHaveCount(1);
-  if (await navigation.getAttribute('open') === null) await navigation.locator(':scope > summary').click();
   await expect(navigation.locator('.workspace-feature-tabs')).toBeVisible();
 }
 

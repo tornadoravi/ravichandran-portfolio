@@ -1,7 +1,7 @@
 import React from 'react';
 import { sitePath } from './site-path.js';
 
-export default function CaseSolutionScreen({ screen, pause, step }) {
+export default function CaseSolutionScreen({ screen, pause, step, compact = false }) {
   const src = sitePath(screen.src);
   return <figure className="case-solution-screen" data-solution-step={step === undefined ? undefined : step + 1}>
     <a className={`case-solution-screen-image${pause ? '' : ' product-screenshot'}`}
@@ -10,7 +10,9 @@ export default function CaseSolutionScreen({ screen, pause, step }) {
       <img src={src} alt={screen.alt} width={screen.width} height={screen.height}
         loading="eager" decoding="async" />
     </a>
-    <figcaption>{screen.caption} <a href={src} target="_blank" rel="noopener noreferrer" onClick={pause}>
+    <figcaption>
+      {!compact && <span className="case-screen-explanation">{screen.explanation || screen.takeaway || screen.alt}</span>}
+      {screen.caption} <a href={src} target="_blank" rel="noopener noreferrer" onClick={pause}>
       Open original screen<span className="sr-only"> (opens in a new tab)</span>
     </a></figcaption>
   </figure>;
