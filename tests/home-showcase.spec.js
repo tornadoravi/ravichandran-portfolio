@@ -120,7 +120,8 @@ for (const appearance of ['light', 'dark']) {
       await expect(products.nth(1)).toHaveAttribute('href', '/analytics-plus.html');
       await expect(products.locator('.product-my-work')).toHaveCount(2);
       await expect(products.nth(0).locator('.product-my-work')).toContainText('Cross-tab contribution');
-      await expect(products.nth(1).locator('.product-my-work')).toContainText('Chart Wizard UX/UI');
+      await expect(products.nth(1).locator('.product-my-work')).toContainText('End-to-end Analytics+ UX/UI');
+      await expect(products.nth(1).locator('.product-my-work')).toContainText('Selected features inside.');
       await expect(products.nth(0).locator('.product-live-badge')).toHaveText('Live on Fabric');
       await expect(products.nth(1).locator('.product-live-badge')).toHaveText('Live on Power BI');
       for (const [index, platform, icon] of [

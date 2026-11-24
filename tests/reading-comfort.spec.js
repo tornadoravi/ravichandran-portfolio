@@ -19,7 +19,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       const top = await image.evaluate(element => element.getBoundingClientRect().top + scrollY);
       expect(top, `${path} first product screen`).toBeLessThan(limit);
       expect(await image.evaluate(element => element.naturalWidth)).toBeGreaterThan(0);
-      await expect(page.locator('.case-context > summary')).toContainText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Chart Wizard UX/UI');
+      await expect(page.locator('.case-context > summary')).toContainText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Analytics+ UX/UI');
       expect(await page.locator('.case-summary').evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(17);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }

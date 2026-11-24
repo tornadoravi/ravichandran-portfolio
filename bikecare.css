@@ -283,9 +283,9 @@
 .bikecare-rating label:not(:has(input:focus-visible)):active { transform: scale(.97); }
 .bikecare-rating > p { margin: 10px 0 0; }
 .bikecare-solution-evidence { width: 100%; min-width: 0; }
-.bikecare-solution-evidence .case-film-source-screen img { max-height: 420px; width: auto; max-width: 100%; margin-inline: auto; }
+.bikecare-solution-evidence .case-film-source-screen img { width: min(100%, 260px); height: auto; max-height: none; margin-inline: auto; }
 .bikecare-solution-picks { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.bikecare-solution-picks button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--surface); font: inherit; cursor: pointer; }
+.bikecare-solution-picks button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--surface); font: 500 12px/1.5 var(--sans); cursor: pointer; }
 .bikecare-solution-picks button[aria-pressed="true"] { border-color: currentColor; font-weight: 700; }
 .bikecare-brand-rationale { padding: 20px; border: 1px solid var(--line); border-radius: 16px; margin-block: 20px; }
 .bikecare-brand-rationale p { margin-bottom: 0; }

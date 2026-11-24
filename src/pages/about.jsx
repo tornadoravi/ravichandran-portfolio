@@ -32,7 +32,7 @@ export default function AboutPage() {
           <div className="about-reference-copy">
             <h1 id="about-title">About me</h1>
             <p><strong>Complex products. Clear paths forward.</strong> I’m Ravichandran V, a Product Designer II at Lumel. I design enterprise experiences for Microsoft Power BI and Microsoft Fabric—making complex data, connected workflows, and detailed configuration easier to understand and navigate.</p>
-            <p>Over four years, my work across <em>PowerTable</em> and <em>Inforiver Analytics+</em> has spanned Gantt and resource planning, end-to-end Chart Wizard design, and shipped KPI templates. I connect interaction details to the wider product experience, partnering with product managers and developers from early prototypes through implementation review. For me, design isn’t finished at handoff—it needs to hold together in the product.</p>
+            <p>Over four years, my work across <em>PowerTable</em> and <em>Inforiver Analytics+</em> has spanned end-to-end Analytics+ UX/UI, Gantt and resource planning, and shipped KPI templates. This portfolio presents selected features from that broader work. I partner with product managers and developers from early prototypes through implementation review: design needs to hold together in the product, not just at handoff.</p>
           </div>
           <img className="profile-photo about-reference-photo" src={sitePath("/assets/ravichandran-profile.png")} width="800" height="800" alt="Portrait of Ravichandran V" fetchPriority="high" />
         </section>
@@ -68,7 +68,7 @@ export default function AboutPage() {
           <h2>I think in workflows, not isolated screens.</h2>
           <dl className="profile-highlights">
             <div><dt>PowerTable</dt><dd>Gantt &amp; resource UX/UI; Microsoft Fabric design system.</dd></div>
-            <div><dt>Analytics+</dt><dd>Chart Wizard &amp; reusable KPI templates shipped.</dd></div>
+            <div><dt>Analytics+</dt><dd>End-to-end UX/UI; selected feature stories. Chart Wizard &amp; reusable KPI templates shipped.</dd></div>
           </dl>
           <div className="profile-links">
             <a className="text-link" href="https://www.linkedin.com/in/ravichandran-uxui/" target="_blank" rel="noopener noreferrer">View LinkedIn profile <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>

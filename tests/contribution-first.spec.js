@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures.js';
 
 const cases = [
-  { path: '/analytics-plus.html', image: '/assets/wizard-function.png', detail: '/analytics.html', role: 'End-to-end Chart Wizard UX/UI' },
+  { path: '/analytics-plus.html', image: '/assets/wizard-function.png', detail: '/analytics.html', role: 'End-to-end Analytics+ UX/UI' },
   { path: '/powertable.html', image: '/assets/fabric-mapping-time-entries.png', detail: '/column-mapping.html', role: 'End-to-end Gantt & resource UX/UI' }
 ];
 

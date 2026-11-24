@@ -114,6 +114,68 @@ test('opening the original Solution screen pauses narration and preserves the ca
   await expect(page.getByRole('button', { name: 'Walkthrough', exact: true }).first()).toBeFocused();
 });
 
+test('BikeCare changes original screens with narration and pauses for manual inspection', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
+  await mockVoice(page);
+  const player = await openPlayer(page, 'bikecare');
+  for (const [index, first, middle, last] of [
+    [2, 'jobcard', 'estimate', 'estimate'],
+    [3, 'review', 'service-feedback', 'history'],
+    [4, 'supplier', 'ride', 'ride']
+  ]) {
+    await choose(player, index, 'Business case');
+    const image = player.locator('.bikecare-solution-evidence img');
+    await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${first}.webp`);
+    const bounds = await image.boundingBox();
+    expect(bounds.width).toBeGreaterThanOrEqual(220);
+    expect(bounds.width / bounds.height).toBeCloseTo(390 / 844, 2);
+    await player.getByRole('button', { name: 'Play', exact: true }).click();
+    for (const [fraction, expected] of [[0.4, middle], [0.8, last]]) {
+      await page.evaluate(({ seconds, fraction }) => {
+        const audio = window.__narration.current;
+        audio.currentTime = seconds * fraction;
+        audio.dispatchEvent(new Event('timeupdate'));
+      }, { seconds: recorded.cases.bikecare[index].seconds, fraction });
+      await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${expected}.webp`);
+    }
+    await player.getByRole('group', { name: 'Solution design screens' }).getByRole('button').first().click();
+    await expect(player.getByRole('button', { name: 'Play', exact: true })).toBeVisible();
+    await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${first}.webp`);
+    await player.getByRole('button', { name: 'Play', exact: true }).click();
+    await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${last}.webp`);
+  }
+});
+
+test('selected walkthrough screens explain the exact controls and states shown', async ({ page }) => {
+  test.setTimeout(60000);
+  await mockVoice(page);
+  const checks = [
+    ['powertable', 2, 'fabric-gantt-configuration.png', /task.*date|date.*task/i, /Start Date/i],
+    ['column-mapping', 4, 'fabric-mapping-resource.png', /resource.*identifier/i, /Resource Table/i],
+    ['gantt-configuration', 3, 'fabric-gantt-config-dependency.png', /connector color, line type, and stroke/i, /Connector controls/i],
+    ['gantt-configuration', 4, 'fabric-gantt-config-label.png', /font size.*text color/i, /Enable Data Label/i],
+    ['resource-configuration', 3, 'fabric-resource-config-data-color.png', /fill.*summary.bar color/i, /Summary bar/i],
+    ['resource-configuration', 4, 'fabric-resource-config-label.png', /adaptive labels/i, /Adaptive Label/i],
+    ['analytics-plus', 3, 'storyboard-editor.png', /Storyboard.*authoring/i, /composed canvas|authoring canvas/i],
+    ['kpi', 3, 'kpi-variance.png', /Variance presets/i, /Variance presets/i],
+    ['kpi', 4, 'kpi-preset-library.png', /original pattern sheet/i, /original sheet/i]
+  ];
+  for (const [route, index, filename, speech, focus] of checks) {
+    const player = await openPlayer(page, route);
+    await choose(player, index);
+    await expect(player.locator('.case-solution-screen img')).toHaveAttribute('src', `/assets/${filename}`);
+    await expect(player.locator('.case-evidence-focus')).toContainText(focus);
+    await expect(player.locator('.cod-film-captions p')).toContainText(speech);
+    await expect(player.locator('.case-evidence-sequence [aria-current="step"]')).toHaveCount(1);
+    await expect(player.locator('.case-player-error')).toHaveCount(0);
+    await expect(player.locator('.cod-film-stage')).not.toHaveClass(/has-motion/);
+    await player.getByRole('button', { name: 'Play', exact: true }).click();
+    await expect(player.locator('.cod-film-status')).toContainText('Narrating');
+    await expect(player.locator('.cod-film-stage')).toHaveClass(/has-motion/);
+    await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
+  }
+});
+
 test('seven native completion events advance the story and keep Solution grouped through all three scenes', async ({ page }) => {
   await mockVoice(page);
   const player = await openPlayer(page);
@@ -133,11 +195,13 @@ test('seven native completion events advance the story and keep Solution grouped
   await expect(page.locator('body')).not.toHaveClass(/preview-open/);
 });
 
-test('individual solution scripts are distinct and prior context, problem, evidence and scope clips stay unchanged', () => {
+test('recorded scripts match current content and unchanged narration retains its existing recording', () => {
   for (const [caseId] of cases.filter(([id]) => !standaloneNarration[id])) {
     const clips = recorded.cases[caseId];
     for (const [oldIndex, newIndex] of [[0, 0], [1, 1], [3, 5], [4, 6]]) {
-      expect(clips[newIndex]).toMatchObject({ text: previous.cases[caseId][oldIndex].text, file: previous.cases[caseId][oldIndex].file });
+      if (clips[newIndex].text === previous.cases[caseId][oldIndex].text) {
+        expect(clips[newIndex].file).toBe(previous.cases[caseId][oldIndex].file);
+      }
     }
     expect(clips.slice(2, 5).map(clip => clip.text)).toEqual(solutionNarration[caseId]);
     expect(new Set(clips.slice(2, 5).map(clip => clip.file)).size).toBe(3);

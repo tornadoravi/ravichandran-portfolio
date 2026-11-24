@@ -69,7 +69,7 @@ export const caseSolutions = {
     approach: 'Keep discovery, authoring, and presentation connected, but give each feature a clear task and a separately documented contribution.',
     reason: 'Choosing a chart, arranging content, and explaining an insight are not the same job. A single product story should not erase their different workflows or evidence boundaries.',
     value: 'Help authors see a coherent path from an analytical need to a report that communicates, rather than a disconnected catalogue of features.',
-    evidence: 'Chart Wizard and reusable KPI-template delivery are confirmed. My other Analytics+ feature contributions are documented through their design screens and handoff context.'
+    evidence: 'End-to-end Analytics+ UX/UI work, presented through selected features. Chart Wizard and reusable KPI templates shipped; the screens below document the selected design decisions.'
   },
   wizard: {
     idea: 'Offer two ways to find a chart, then bring both routes into one shared configuration workflow.',
@@ -104,12 +104,12 @@ export const caseSolutions = {
     evidence: 'Nine supplied design screens support the UX/UI contribution. Audience understanding, every runtime interaction, and release status are not established by those screens.'
   },
   kpi: {
-    idea: 'Provide reusable metric-card starting points while distinguishing pattern selection, card authoring, and library management.',
-    example: 'An author needs a straightforward metric card or a card with a comparison. Simple and variance presets offer different starting structures; authoring shapes the card, while library management concerns organizing and reusing the available templates.',
-    approach: 'Separate simple and variance patterns, preserve focused authoring controls, and make the reusable-template library a distinct responsibility.',
-    reason: 'A preset should provide a starting structure, not obscure the choices needed to make the card meaningful. Browsing a pattern and managing a library are different tasks.',
+    idea: 'Give report authors reusable starting points for a single metric or a metric with comparisons.',
+    example: 'An author can browse Simple presets for a standalone metric, then Variance presets for comparison-led cards. The original pattern sheet shows the reusable arrangements behind those choices.',
+    approach: 'Separate Simple and Variance presets by reading task. Use the original design sheet to show the breadth of reusable patterns, not an invented management workflow.',
+    reason: 'A standalone value and a value with comparisons have different information hierarchies. Reusable structures should make that distinction easy to recognize.',
     value: 'Help authors start from a consistent metric pattern instead of repeatedly building cards from a blank state.',
-    evidence: 'Reusable KPI-template delivery is confirmed. Other supplied authoring and management states are design evidence, not proof of every interaction or measured setup-time savings.'
+    evidence: 'Reusable KPI templates shipped. The selected screens show Simple presets, Variance presets, and the original pattern sheet. Setup-time savings are not measured.'
   },
   codShield: {
     idea: 'Move repeated unwanted COD orders into one managed incident, with verified, temporary protection for the exact household.',
@@ -139,14 +139,14 @@ export const caseSolutions = {
 
 export const solutionSteps = Object.fromEntries(Object.entries({
   powertable: [
-    ['Map the data', 'Identify task, date, time-entry, and resource columns.', 'Focused roles explain what each table contributes to the planning views.', 'The schedule is easier to interpret when its underlying data meaning is explicit.', 'table'],
+    ['Map the data', 'Identify the task, date, and relationship fields in the Tasks tab.', 'Start Date, End Date/Duration, and Task ID give the plan explicit source roles.', 'The timeline can be interpreted in terms of the fields it represents.', 'table'],
     ['Configure Gantt', 'Choose the task timeline setting relevant to the planning question.', 'A contextual panel separates timeline behavior, milestones, dependencies, colors, and labels.', 'The planner can find a focused setting without losing the schedule context.', 'timeline'],
     ['Review resources', 'Move to the resource view and its configuration.', 'Resource settings and conditional rules have distinct editing surfaces.', 'Assignments, visual layout, and rule meaning do not have to be treated as the same task.', 'people']
   ],
   mapping: [
     ['Define task roles', 'Choose the source fields that identify the tasks and their dates.', 'Task mapping gives columns a planning role rather than relying on their names.', 'A task and a date must have clear meanings before they can form a useful timeline.', 'table'],
     ['Connect time', 'Select the time-entry table, Task ID, and logged-hours column.', 'The shared Task ID explains how logged effort relates to a specific task.', 'The planner can inspect the relationship instead of assuming the tables are connected correctly.', 'link'],
-    ['Map resources', 'Define resource roles, then review the resource-dependent cost mapping.', 'Resource and Cost have focused tabs; the dependency remains visible.', 'Separate roles make the relationship understandable without mixing every mapping decision together.', 'people']
+    ['Map resources', 'Choose the resource table and the IDs that link its rows to the current table.', 'The Resource tab separates the two identifier fields and the display column.', 'Explicit identifiers help explain the relationship before resource data is used elsewhere.', 'people']
   ],
   baselines: [
     ['Choose a reference', 'Select the current plan and a saved reference for comparison.', 'The proposed comparison is bounded to two selections in total.', 'A limited comparison is easier to read than several overlapping references.', 'select'],
@@ -159,9 +159,9 @@ export const solutionSteps = Object.fromEntries(Object.entries({
     ['Check the status', 'Notice whether a change is still pending.', 'A pending indicator is distinct from a persisted state.', 'An in-progress edit should not be mistaken for a saved change; persistence remains unverified.', 'review']
   ],
   ganttPanel: [
-    ['Find a category', 'Choose Timeline, Milestone, Dependency, Color, or Label.', 'Each tab identifies a different configuration job.', 'A planner can start from the purpose of the change rather than search one long settings list.', 'select'],
-    ['Adjust the setting', 'Use the focused controls in the selected tab.', 'Scheduling behavior and visual appearance remain separated.', 'The control grouping makes the meaning of the change easier to understand.', 'settings'],
-    ['Keep context', 'Refer to the adjacent timeline while interpreting the settings.', 'The configuration panel belongs beside the planning view.', 'The planner does not need to reconstruct which plan the settings concern. Live preview is not verified.', 'timeline']
+    ['Set working time', 'Choose the work week, daily capacity, and holiday exceptions in Timeline.', 'Working-time controls are grouped above timeline color and pattern.', 'Calendar settings have a dedicated starting point rather than being mixed into dependency styling.', 'timeline'],
+    ['Configure dependencies', 'Open Dependency to adjust connector styling and the displayed scheduling options.', 'Connector color, line type, and stroke are grouped separately from the other view settings.', 'A relationship between tasks has different controls from a working calendar.', 'link'],
+    ['Make labels legible', 'Open Label to choose data-label visibility, font size, and text color.', 'Label settings have their own tab and reset action.', 'Reading a task label is a separate concern from configuring task relationships.', 'style']
   ],
   formatting: [
     ['Define a condition', 'Set Schedule hours greater than zero for scheduled work.', 'The rule names the data condition before assigning an appearance.', 'Positive hours indicate scheduled work, not evidence of overload.', 'condition'],
@@ -169,9 +169,9 @@ export const solutionSteps = Object.fromEntries(Object.entries({
     ['Choose a style', 'Define the appearance for the chosen condition and targets.', 'The editor connects condition, scope, and style without implying an applied result.', 'A visual signal has an explainable meaning; the supplied evidence stops at rule editing.', 'style']
   ],
   resourcePanel: [
-    ['Choose an area', 'Select Timeline, Milestone, Color, or Label.', 'Four tabs group resource configuration by purpose.', 'The planner can locate the setting that fits the current resource-view task.', 'select'],
-    ['Set the detail', 'Use the controls for that configuration area.', 'Resource layout settings are not mixed with the conditional-rule editor.', 'A visual configuration choice and a data-driven rule remain distinguishable.', 'settings'],
-    ['Relate to the view', 'Interpret the setting beside the resource planning context.', 'The adjacent resource view explains what the panel is configuring.', 'The connection is visible without implying a verified live-update or capacity result.', 'people']
+    ['Set working time', 'Choose the work week, daily capacity, and holiday exceptions in Timeline.', 'Resource calendar controls are grouped in one tab.', 'The calendar establishes configuration context without implying a verified capacity result.', 'timeline'],
+    ['Set resource colors', 'Open Data Color to choose the fill and summary-bar color.', 'The shown controls style the view; conditional formatting uses a separate rule editor.', 'A direct appearance choice is not the same as a data-driven condition.', 'style'],
+    ['Configure labels', 'Open Label to set data-label and adaptive-label appearance.', 'Visibility, font size, and text color stay together in the Label tab.', 'Readable assignments need their own settings rather than being hidden among color controls.', 'settings']
   ],
   crosstab: [
     ['Choose rows', 'Identify a business dimension for the row structure.', 'Row configuration determines how one dimension organizes the view.', 'The analyst can explain the reading structure rather than treat rows as an arbitrary setting.', 'rows'],
@@ -180,7 +180,7 @@ export const solutionSteps = Object.fromEntries(Object.entries({
   ],
   analyticsSuite: [
     ['Discover a visual', 'Start with a known chart or an analytical question.', 'Chart Wizard supports Chart and Function routes into shared configuration.', 'Different author starting points do not need separate configuration systems.', 'chart'],
-    ['Shape the report', 'Choose the feature that fits the authoring task.', 'KPI patterns, Gantt, and Storyboard address metrics, timelines, and layout respectively.', 'The product story explains why each feature exists instead of presenting an undifferentiated catalogue.', 'layout'],
+    ['Shape the report', 'Arrange report content in the Storyboard authoring canvas.', 'The shown layout contains KPI cards, charts, and a table within one report.', 'This selected example shows composition; KPI presets and Gantt have their own feature stories.', 'layout'],
     ['Explain the insight', 'Connect an observation with annotation and presentation context.', 'Presentation contributions keep the explanation near the report.', 'The audience gets context for the intended point. Only Chart Wizard and KPI-template delivery are confirmed here.', 'annotation']
   ],
   wizard: [
@@ -205,8 +205,8 @@ export const solutionSteps = Object.fromEntries(Object.entries({
   ],
   kpi: [
     ['Choose a pattern', 'Pick a simple metric card or a variance arrangement.', 'Presets provide different structures for different metric-reading tasks.', 'An author has an appropriate starting point instead of repeatedly beginning with a blank card.', 'select'],
-    ['Shape the card', 'Use authoring controls to adapt the selected pattern.', 'Pattern selection and card authoring remain separate decisions.', 'The reusable structure does not replace the choices needed to make an individual card meaningful.', 'settings'],
-    ['Reuse a template', 'Find and organize reusable patterns in the library context.', 'Browsing presets and managing the library have distinct responsibilities.', 'Consistent starting structures are reusable; template delivery is confirmed, but time savings are not measured.', 'template']
+    ['Compare variance patterns', 'Browse the Variance tab for metric cards with comparisons.', 'The screenshot shows alternate variance presets beside the report canvas.', 'Comparison layouts communicate a different reading task from a standalone metric.', 'chart'],
+    ['Design for reuse', 'Inspect the original sheet of reusable KPI arrangements.', 'The sheet compares multiple card patterns; it is not a library-management interface.', 'Reusable design patterns support consistent starting points without inventing a management flow.', 'template']
   ],
   codShield: [
     ['Report once', 'Report repeated unwanted COD deliveries for the exact home/unit.', 'The proposed incident route does not require an order ID or a separate approval for each parcel.', 'A targeted resident should not have to investigate every unwanted transaction.', 'report'],

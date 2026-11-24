@@ -1,13 +1,13 @@
 export const solutionNarration = {
   powertable: [
-    'First, give tasks, dates, time entries, and resources clear roles. The planner can understand what each table contributes before interpreting the schedule.',
+    'First, map the tasks. This screen shows Start Date, End Date or Duration, and Task I D beside the planning view. Source fields have explicit roles before the planner interprets the timeline.',
     'Next, configure Gantt beside the plan. Timeline, milestone, dependency, color, and label settings have separate jobs, so a planner can find the relevant control without losing context.',
     'Then, review resources in their own planning context. View settings and conditional rules remain separate, so assignment data, layout, and rule meaning do not become one mixed-up task.'
   ],
   mapping: [
     'First, identify task fields and their dates. Mapping gives each source column a planning role. A useful timeline depends on those meanings, not just familiar column names.',
     'Next, connect time entries using Task I D and logged hours. The shared identifier explains which task the effort belongs to, making the relationship visible rather than assumed.',
-    'Then, define resource roles and review the dependent cost mapping. Resource and Cost have focused tabs, so separate data responsibilities remain understandable.'
+    'Then, map resources. This screen shows the resource table, the identifier in the current table, the matching resource identifier, and the display column. The relationship is explicit before that data is used elsewhere.'
   ],
   baselines: [
     'First, select the current plan and a saved reference. This exploration limits comparison to two selections in total, keeping the timeline readable instead of stacking many references.',
@@ -20,9 +20,9 @@ export const solutionNarration = {
     'Then, check the pending indicator. An edit that has not been persisted must look different from saved work. The supplied design screens do not verify database persistence.'
   ],
   ganttPanel: [
-    'First, choose the setting category: Timeline, Milestone, Dependency, Color, or Label. Each tab has a clear purpose, so the planner does not have to search one long list.',
-    'Next, use the focused controls in that tab. Scheduling behavior stays separate from appearance, making the meaning of each configuration choice easier to understand.',
-    'Then, relate the controls to the adjacent plan. Keeping the schedule in sight preserves context. These design states do not establish a working live preview.'
+    'First, set working time in the Timeline tab. The screen groups the work week, daily capacity, and holiday exceptions before color and pattern. Calendar choices have a dedicated starting point.',
+    'Next, open Dependency. Connector color, line type, and stroke sit together, with the scheduling options below. Task relationships need different controls from a working calendar.',
+    'Then, open Label. Choose data-label visibility, font size, and text color in one place. These are three selected configuration screens, not footage of live updates.'
   ],
   formatting: [
     'First, define the condition. Schedule hours greater than zero identifies scheduled work. It does not establish overload, so the rule must not imply a capacity problem.',
@@ -30,9 +30,9 @@ export const solutionNarration = {
     'Then, choose the appearance. Condition, scope, and style together explain the visual signal. The supplied evidence stops at rule editing, not an applied timeline result.'
   ],
   resourcePanel: [
-    'First, choose Timeline, Milestone, Color, or Label. These four tabs group resource settings by purpose, helping the planner locate the relevant configuration area.',
-    'Next, set the detail for that area. Resource layout settings stay separate from the conditional rule editor, so a view choice is not confused with a data-driven condition.',
-    'Then, relate the setting to the adjacent resource view. This keeps assignments in context without claiming verified live updates, capacity accuracy, or measured productivity gains.'
+    'First, set working time in the resource Timeline tab. Work week, daily capacity, and holiday exceptions share one group. These are calendar settings, not proof of capacity accuracy.',
+    'Next, open Data Color. This screen shows fill and summary-bar color choices. They style the resource view directly; data-driven conditions belong to the separate conditional-formatting editor.',
+    'Then, open Label. Data labels and adaptive labels have their own visibility, font size, and text-color settings. Readability stays separate from resource color choices.'
   ],
   crosstab: [
     'First, choose a row dimension. It determines one part of the reading structure, helping an analyst understand why the same dataset can be organized in different ways.',
@@ -41,7 +41,7 @@ export const solutionNarration = {
   ],
   analyticsSuite: [
     'First, discover a visual through a known chart or an analytical question. Chart Wizard brings these starting points into shared configuration, rather than separate setup systems.',
-    'Next, shape the report with the feature that fits the task. Metric patterns, timelines, and layouts serve different needs, so the product story explains each contribution separately.',
+    'Next, shape a report in Storyboard. This authoring screen combines metric cards, charts, and a table. It is one selected example of my end-to-end Analytics Plus work; the individual feature stories show the other tasks.',
     'Then, explain the insight near the report through annotation and presentation. The audience needs context, not only a chart. Chart Wizard and reusable metric-template delivery are confirmed; other feature states keep their own scope.'
   ],
   wizard: [
@@ -66,8 +66,8 @@ export const solutionNarration = {
   ],
   kpi: [
     'First, choose a simple metric pattern or a variance arrangement. Different starting structures serve different reading tasks, so the author does not have to begin every card from scratch.',
-    'Next, shape the card using authoring controls. Selecting a pattern and adapting the actual card remain separate decisions. Reuse does not replace the choices that make a metric meaningful.',
-    'Then, find and organize reusable templates in the library. Browsing presets and managing them have distinct responsibilities. Template delivery is confirmed, but setup-time savings are not measured.'
+    'Next, compare the Variance presets. This screen shows alternate arrangements for a metric and its comparisons beside the report canvas. It is preset selection, not a separate card-authoring screen.',
+    'Then, inspect the original pattern sheet. It compares reusable metric-card arrangements side by side. This is design-library evidence, not a working template-management screen. The reusable templates shipped.'
   ]
 };
 

@@ -91,11 +91,11 @@ export const caseNarratives = {
   },
   analyticsSuite: {
     purpose: 'Create charts, KPI cards, reports, and presentations inside Power BI.',
-    role: 'End-to-end Chart Wizard UX/UI; reusable KPI templates; feature-specific contributions.',
+    role: 'End-to-end Analytics+ UX/UI; selected features presented here.',
     audience: 'Power BI report authors',
     scenario: 'An author moves from choosing a visual to shaping and presenting a report.',
     goal: 'Give discovery, authoring, and presentation a connected product story.',
-    choices: [['One assumed authoring task', 'Separate discovery, layout, and presentation'], ['Every state presented as shipped', 'Identify the two confirmed deliveries']],
+    choices: [['One assumed authoring task', 'Separate discovery, layout, and presentation'], ['A feature catalogue', 'Selected decisions from end-to-end product work']],
     steps: [
       ['Find a starting point', 'Chart Wizard connects chart-first and function-first discovery.'],
       ['Shape the report', 'Gantt, Storyboard, and KPI patterns support distinct authoring tasks.'],
@@ -150,11 +150,11 @@ export const caseNarratives = {
     purpose: 'Build consistent metric cards from reusable simple and variance patterns.',
     role: 'Reusable KPI template design and delivery.',
     audience: 'Power BI report authors',
-    goal: 'Provide reusable KPI starting points while keeping authoring and library management distinct.',
+    goal: 'Provide reusable KPI starting points for standalone metrics and comparisons.',
     steps: [
       ['Choose the pattern', 'Separate simple cards from variance arrangements.'],
-      ['Shape the card', 'Keep preset choice distinct from authoring controls.'],
-      ['Reuse the template', 'Connect the confirmed template delivery to library evidence.']
+      ['Compare variance patterns', 'Show alternate comparison arrangements in the Variance tab.'],
+      ['Design for reuse', 'Connect the shipped templates to the original pattern sheet.']
     ]
   }
 };

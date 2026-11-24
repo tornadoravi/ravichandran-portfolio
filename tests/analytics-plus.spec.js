@@ -81,7 +81,8 @@ test('Analytics+ is one product with five ordered feature stories and official b
   await expect(overview.locator('.product-screenshot img')).toHaveAttribute('src', '/assets/analytics-plus-official-dashboard.webp');
   await expect(overview.locator('figcaption')).toContainText('Official template preview · Lumel Inc.');
   await expect(page.locator('#references')).toContainText('Planning Report | IBCS Theme template by Lumel Inc.');
-  await expect(page.locator('.case-context > summary')).toContainText('Chart Wizard');
+  await expect(page.locator('.case-context > summary')).toContainText('End-to-end Analytics+ UX/UI');
+  await expect(page.locator('.case-context > summary')).toContainText('Selected feature stories');
   await expect(overview.locator('figcaption a').first()).toHaveAttribute('href', 'https://store-ap.inforiver.com/dashboard-templates/7a651090-a2a0-4148-a8ce-e2c8be161eab');
   await expect(page.locator('.product-marketplace')).toContainText('dashboard and standalone templates, visual components, bundles, and data apps');
   await expect(page.locator('.product-marketplace')).toBeHidden();

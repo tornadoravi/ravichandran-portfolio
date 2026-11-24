@@ -71,7 +71,7 @@ const summaries = {
   ],
   analyticsSuite: [
     ['Many authoring tasks', 'Connect discovery, authoring, and presentation.'],
-    ['Five feature experiences', 'Shared UX/UI through handoff and implementation review.'],
+    ['Selected feature stories', 'End-to-end Analytics+ UX/UI through handoff and implementation review.'],
     ['Confirmed delivery', 'Chart Wizard and reusable KPI templates shipped; other states remain separate.']
   ]
 };

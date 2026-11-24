@@ -26,6 +26,12 @@ const icons = {
   launch: 'M3 3h11v11H3ZM21 3h11v11H21ZM3 21h11v11H3ZM21 21h11v11H21Z'
 };
 
+export function SolutionGlyph({ icon, ...props }) {
+  const path = icons[icon];
+  if (!path) throw new Error(`Unknown solution illustration: ${icon}`);
+  return <path d={path} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...props} />;
+}
+
 export default function CaseSolutionScene({ steps, active, animated = false, seconds = 8 }) {
   return <svg className="case-topic-art portfolio-illustration" viewBox="0 0 360 236" aria-hidden="true" focusable="false" data-solution-step={active + 1}>
     <IllustrationSurface>

@@ -5,9 +5,9 @@
     "powertable": [
       {
         "id": "context",
-        "text": "Let me walk you through Power Table. Basically, it brings task schedules, time entries, and resource assignments into Microsoft Fabric. I worked on the Gantt and resource experience end to end, and contributed to Cross-tab configuration. I didn't design the whole product.",
-        "file": "energetic-39bd5f2d931bfbc1bed19eaf.m4a",
-        "seconds": 17.92
+        "text": "Power Table brings planning into Microsoft Fabric. I designed the Gantt and resource experiences end to end, and contributed to Cross-tab configuration. This portfolio presents selected workflows from that work.",
+        "file": "energetic-8c4e1dd6881315d0ffe02f22.m4a",
+        "seconds": 15.68
       },
       {
         "id": "problem",
@@ -17,9 +17,9 @@
       },
       {
         "id": "solution-1",
-        "text": "First, give tasks, dates, time entries, and resources clear roles. The planner can understand what each table contributes before interpreting the schedule.",
-        "file": "energetic-da643c7fb72f5a9ab144600b.m4a",
-        "seconds": 10.16
+        "text": "First, map the tasks. This screen shows Start Date, End Date or Duration, and Task I D beside the planning view. Source fields have explicit roles before the planner interprets the timeline.",
+        "file": "energetic-e9a9b37e33be68d9181c33cc.m4a",
+        "seconds": 12.4
       },
       {
         "id": "solution-2",
@@ -35,15 +35,15 @@
       },
       {
         "id": "evidence",
-        "text": "Now, here's the wider product for context. This is an official product image, not a claim that I designed the whole product. The feature cases explain my own contribution separately.",
-        "file": "energetic-08cc94e780e8b42b4b2215f9.m4a",
-        "seconds": 12.96
+        "text": "Here is the wider product for context. This official product image shows the workspace around the selected features. Open the original to inspect the report; the feature stories explain the design decisions in detail.",
+        "file": "energetic-714dac4b0b63cbf5a0676aff.m4a",
+        "seconds": 11.84
       },
       {
         "id": "scope",
-        "text": "And to wrap up. My end-to-end work covered Gantt and resource experience design. Cross-tab was a contribution, not whole-product ownership. Baseline planning and resource earned-value are still explorations. So, the important thing is to read each feature with its own scope, rather than assume everything shown was shipped.",
-        "file": "energetic-864546c65db86b4045f73b07.m4a",
-        "seconds": 21.44
+        "text": "And to wrap up. My work covered end-to-end Gantt and resource experience design, plus Cross-tab configuration. These selected cases show the decisions behind that work. Baseline planning and resource earned-value remain labelled explorations.",
+        "file": "energetic-5f0f4cd5c1c62a7c56e825b5.m4a",
+        "seconds": 18.8
       }
     ],
     "mapping": [
@@ -73,9 +73,9 @@
       },
       {
         "id": "solution-3",
-        "text": "Then, define resource roles and review the dependent cost mapping. Resource and Cost have focused tabs, so separate data responsibilities remain understandable.",
-        "file": "energetic-7d447bb02f115daab1b91d19.m4a",
-        "seconds": 12.4
+        "text": "Then, map resources. This screen shows the resource table, the identifier in the current table, the matching resource identifier, and the display column. The relationship is explicit before that data is used elsewhere.",
+        "file": "energetic-a5d71a06b65d5a4d5d55fd39.m4a",
+        "seconds": 18.8
       },
       {
         "id": "evidence",
@@ -193,21 +193,21 @@
       },
       {
         "id": "solution-1",
-        "text": "First, choose the setting category: Timeline, Milestone, Dependency, Color, or Label. Each tab has a clear purpose, so the planner does not have to search one long list.",
-        "file": "energetic-1155fcca2fb7216802f3429b.m4a",
-        "seconds": 13.28
+        "text": "First, set working time in the Timeline tab. The screen groups the work week, daily capacity, and holiday exceptions before color and pattern. Calendar choices have a dedicated starting point.",
+        "file": "energetic-3cfc5669f963277d300d5443.m4a",
+        "seconds": 15.76
       },
       {
         "id": "solution-2",
-        "text": "Next, use the focused controls in that tab. Scheduling behavior stays separate from appearance, making the meaning of each configuration choice easier to understand.",
-        "file": "energetic-2c3441cae1fb988cb4450ddf.m4a",
-        "seconds": 10.72
+        "text": "Next, open Dependency. Connector color, line type, and stroke sit together, with the scheduling options below. Task relationships need different controls from a working calendar.",
+        "file": "energetic-abc0b1462cbd75dabae57cda.m4a",
+        "seconds": 14.32
       },
       {
         "id": "solution-3",
-        "text": "Then, relate the controls to the adjacent plan. Keeping the schedule in sight preserves context. These design states do not establish a working live preview.",
-        "file": "energetic-45d23d7aa6205bae4a9d3a46.m4a",
-        "seconds": 10.32
+        "text": "Then, open Label. Choose data-label visibility, font size, and text color in one place. These are three selected configuration screens, not footage of live updates.",
+        "file": "energetic-47fb37ff85518c55de8b139b.m4a",
+        "seconds": 12.64
       },
       {
         "id": "evidence",
@@ -281,21 +281,21 @@
       },
       {
         "id": "solution-1",
-        "text": "First, choose Timeline, Milestone, Color, or Label. These four tabs group resource settings by purpose, helping the planner locate the relevant configuration area.",
-        "file": "energetic-1674de17caa7b6e82683d2da.m4a",
-        "seconds": 12.88
+        "text": "First, set working time in the resource Timeline tab. Work week, daily capacity, and holiday exceptions share one group. These are calendar settings, not proof of capacity accuracy.",
+        "file": "energetic-6abfb1eb04b92dc5fa9b7a74.m4a",
+        "seconds": 15.44
       },
       {
         "id": "solution-2",
-        "text": "Next, set the detail for that area. Resource layout settings stay separate from the conditional rule editor, so a view choice is not confused with a data-driven condition.",
-        "file": "energetic-391b8040b2890146fbfc4391.m4a",
-        "seconds": 14.32
+        "text": "Next, open Data Color. This screen shows fill and summary-bar color choices. They style the resource view directly; data-driven conditions belong to the separate conditional-formatting editor.",
+        "file": "energetic-357a8d2ee419f4e9b44df77e.m4a",
+        "seconds": 15.12
       },
       {
         "id": "solution-3",
-        "text": "Then, relate the setting to the adjacent resource view. This keeps assignments in context without claiming verified live updates, capacity accuracy, or measured productivity gains.",
-        "file": "energetic-8e8b930ec857447ffdfc2ad4.m4a",
-        "seconds": 13.12
+        "text": "Then, open Label. Data labels and adaptive labels have their own visibility, font size, and text-color settings. Readability stays separate from resource color choices.",
+        "file": "energetic-9b69469fcf986aa20566072f.m4a",
+        "seconds": 10.56
       },
       {
         "id": "evidence",
@@ -313,8 +313,8 @@
     "crosstab": [
       {
         "id": "context",
-        "text": "Let's look at Cross-tab. Basically, rows, columns, and measures give people different ways to organise the same data. I contributed to its configuration. This wasn't an end-to-end ownership role for the whole experience.",
-        "file": "energetic-7b4ef8cb29376a760f42559a.m4a",
+        "text": "Cross-tab uses rows, columns, and measures to organise the same data from different perspectives. My contribution covered layout and data configuration. This story explains that relationship with a labelled conceptual illustration.",
+        "file": "energetic-2f81826e17d1b425e52f007b.m4a",
         "seconds": 14.64
       },
       {
@@ -357,9 +357,9 @@
     "analyticsSuite": [
       {
         "id": "context",
-        "text": "Let me walk you through Inforiver Analytics Plus. It sits inside Power B I and connects choosing a visual, building a report, and presenting the insight. My work included the full Chart Wizard experience, reusable K P I templates, and feature-specific contributions. I didn't design the whole product.",
-        "file": "energetic-fe4609dd8c05dc41ad4fe194.m4a",
-        "seconds": 24.64
+        "text": "I worked on Analytics Plus user experience and interface design end to end in Power B I. This portfolio presents selected features from that broader work: Chart Wizard, reusable metric templates, Storyboard, Gantt, annotations, and presentation.",
+        "file": "energetic-939cc0a128cf63d62ca43496.m4a",
+        "seconds": 17.28
       },
       {
         "id": "problem",
@@ -375,9 +375,9 @@
       },
       {
         "id": "solution-2",
-        "text": "Next, shape the report with the feature that fits the task. Metric patterns, timelines, and layouts serve different needs, so the product story explains each contribution separately.",
-        "file": "energetic-4d49fe3b52a0fb110075ba14.m4a",
-        "seconds": 13.12
+        "text": "Next, shape a report in Storyboard. This authoring screen combines metric cards, charts, and a table. It is one selected example of my end-to-end Analytics Plus work; the individual feature stories show the other tasks.",
+        "file": "energetic-20dc820556ecb4cbdebd9c7e.m4a",
+        "seconds": 20.08
       },
       {
         "id": "solution-3",
@@ -387,15 +387,15 @@
       },
       {
         "id": "evidence",
-        "text": "Now, here's the wider product for context. This is an official product image, not a claim that I designed the whole product. The feature cases explain my own contribution separately.",
-        "file": "energetic-08cc94e780e8b42b4b2215f9.m4a",
-        "seconds": 12.96
+        "text": "Here is the wider product for context. This official product image shows the workspace around the selected features. Open the original to inspect the report; the feature stories explain the design decisions in detail.",
+        "file": "energetic-714dac4b0b63cbf5a0676aff.m4a",
+        "seconds": 11.84
       },
       {
         "id": "scope",
-        "text": "And to wrap up. Chart Wizard and the reusable K P I templates are confirmed shipped work. The other screens remain separately identified design evidence. That distinction matters: showing a design state isn't the same as confirming a release, a runtime behaviour, or a measured customer outcome.",
-        "file": "energetic-e85f7354884b9e310665e209.m4a",
-        "seconds": 17.76
+        "text": "And to wrap up. These are selected examples from my end-to-end Analytics Plus work, from workflows and interface design through developer handoff and implementation review. Chart Wizard and reusable metric templates shipped. Each feature keeps its original evidence.",
+        "file": "energetic-641d78525fb59ffe0f8c66c7.m4a",
+        "seconds": 19.6
       }
     ],
     "wizard": [
@@ -595,15 +595,15 @@
       },
       {
         "id": "solution-2",
-        "text": "Next, shape the card using authoring controls. Selecting a pattern and adapting the actual card remain separate decisions. Reuse does not replace the choices that make a metric meaningful.",
-        "file": "energetic-8e23539e729febb74f2f2ebb.m4a",
-        "seconds": 13.28
+        "text": "Next, compare the Variance presets. This screen shows alternate arrangements for a metric and its comparisons beside the report canvas. It is preset selection, not a separate card-authoring screen.",
+        "file": "energetic-f5aaa12813ffc79cb454329d.m4a",
+        "seconds": 14.24
       },
       {
         "id": "solution-3",
-        "text": "Then, find and organize reusable templates in the library. Browsing presets and managing them have distinct responsibilities. Template delivery is confirmed, but setup-time savings are not measured.",
-        "file": "energetic-b91631edd9f6d9713f1598f8.m4a",
-        "seconds": 13.44
+        "text": "Then, inspect the original pattern sheet. It compares reusable metric-card arrangements side by side. This is design-library evidence, not a working template-management screen. The reusable templates shipped.",
+        "file": "energetic-4ac61b38f77e343be744b14f.m4a",
+        "seconds": 15.44
       },
       {
         "id": "evidence",

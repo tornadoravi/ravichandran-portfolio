@@ -2,6 +2,20 @@ import { test, expect } from './fixtures.js';
 import { solutionOverviewScreens } from '../src/case-solution-evidence.js';
 import { caseSolutions } from '../src/case-solutions.js';
 
+test('Analytics+ presents selected features without reducing end-to-end product ownership', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#project-analytics .product-my-work')).toContainText('End-to-end Analytics+ UX/UI');
+  await page.locator('#project-analytics').click();
+  await expect(page.locator('.case-hero')).toContainText('End-to-end Analytics+ UX/UI');
+  await expect(page.locator('#case-approach')).toContainText('Selected features from end-to-end Analytics+ UX/UI');
+  await page.getByRole('button', { name: 'Walkthrough', exact: true }).first().click();
+  const player = page.getByRole('dialog');
+  await expect(player.locator('.cod-film-captions')).toContainText('I worked on Analytics Plus');
+  await expect(player.locator('.cod-film-captions')).toContainText('end to end');
+  await expect(player.locator('.cod-film-captions')).not.toContainText("I didn't design the whole product");
+  await expect(player.locator('.case-player-error')).toHaveCount(0);
+});
+
 for (const width of [390, 1440]) {
   test(`four main case studies total a 7–10 minute text read at ${width}px`, async ({ page }) => {
     test.setTimeout(60000);
@@ -272,7 +286,7 @@ test('native same-page evidence works without JavaScript', async ({ browser, bas
     const solutionImage = page.locator('.case-solution .case-solution-screen img');
     await solutionImage.scrollIntoViewIfNeeded();
     await expect(solutionImage).toBeVisible();
-    await expect(solutionImage).toHaveAttribute('src', '/assets/fabric-mapping-time-entries.png');
+    await expect(solutionImage).toHaveAttribute('src', '/assets/fabric-gantt-configuration.png');
     const feature = page.locator('[data-feature="formatting"]');
     await feature.locator(':scope > summary').click();
     await expect(feature.locator('.case-feature-detail img')).toBeVisible();

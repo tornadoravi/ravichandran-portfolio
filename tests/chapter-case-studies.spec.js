@@ -367,7 +367,7 @@ test('solution walkthrough uses readable timing, pauses, and supports keyboard s
   }
   await expect(film.locator('.case-film-status')).toContainText('Step 3 of 3 / Choose');
   await expect(film.locator('.case-film-panel:visible')).toHaveCount(1);
-  await expect(film.locator('.case-film-panel:visible')).toContainText('Resource and Cost have focused tabs');
+  await expect(film.locator('.case-film-panel:visible')).toContainText('The Resource tab separates the two identifier fields and the display column.');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(film.getByRole('button', { name: 'Play concept' })).toBeHidden();
   await film.getByRole('button', { name: 'Define task roles', exact: true }).click();

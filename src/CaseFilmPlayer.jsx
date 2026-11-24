@@ -256,7 +256,7 @@ export default function CaseFilmPlayer({
           <div className="cod-film-stage-heading"><p>{scene.disclosure || (scene.kind === 'incident' ? 'News-reported incident / illustrated reenactment' : 'Independent concept / no working service')}</p>
             <h3 id="cod-film-scene-title">{scene.heading}</h3></div>
           <div className="cod-film-stage-content">
-            <Scene scene={scene} seconds={seconds} beat={beat} pause={pause} demo={demo} setDemo={setDemo} consent={consent} setConsent={setConsent}
+            <Scene scene={scene} seconds={seconds} beat={beat} playing={playing && mediaStarted} pause={pause} demo={demo} setDemo={setDemo} consent={consent} setConsent={setConsent}
               onSolutionStage={index => goTo(solutionSection.start + index)} close={() => dialog.current.close()} />
           </div>
           <p className="cod-film-beat" aria-hidden="true">{scene.beats[beat]}</p>

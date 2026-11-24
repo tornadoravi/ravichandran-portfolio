@@ -6,9 +6,9 @@ const stories = {
     delivery: "This is an unlaunched, untested concept. Next, pilot one support path and test household impact, verification burden, wrong blocks, and removal. No measured improvement is claimed."
   },
   powertable: {
-    intro: "Let me walk you through PowerTable. Basically, it brings task schedules, time entries, and resource assignments into Microsoft Fabric. I worked on the Gantt and resource experience end to end, and contributed to Cross-tab configuration. I didn't design the whole product.",
+    intro: "Power Table brings planning into Microsoft Fabric. I designed the Gantt and resource experiences end to end, and contributed to Cross-tab configuration. This portfolio presents selected workflows from that work.",
     decisions: "The idea was to keep the planning context connected. First, give tasks, dates, time entries, resources, and costs clear data roles. Then, keep Gantt and resource settings beside the views they control. At the same time, make the ownership clear. Cross-tab was a contribution, and the planning explorations are labelled separately.",
-    delivery: "My end-to-end work covered Gantt and resource experience design. Cross-tab was a contribution, not whole-product ownership. Baseline planning and resource earned-value are still explorations. So, the important thing is to read each feature with its own scope, rather than assume everything shown was shipped."
+    delivery: "My work covered end-to-end Gantt and resource experience design, plus Cross-tab configuration. These selected cases show the decisions behind that work. Baseline planning and resource earned-value remain labelled explorations."
   },
   mapping: {
     intro: "Let's look at Column Mapping. Before a planner can use the timeline, the product needs to know what each column actually means. Is it a task, a time entry, a resource, or a cost? My work covered the Gantt and resource mapping experience end to end.",
@@ -41,14 +41,14 @@ const stories = {
     delivery: "The supplied evidence covers four configuration states. The conditional-formatting rule editor is a separate feature, with its own evidence. These screens explain the design; they don't establish every runtime interaction or a measured improvement."
   },
   crosstab: {
-    intro: "Let's look at Cross-tab. Basically, rows, columns, and measures give people different ways to organise the same data. I contributed to its configuration. This wasn't an end-to-end ownership role for the whole experience.",
+    intro: "Cross-tab uses rows, columns, and measures to organise the same data from different perspectives. My contribution covered layout and data configuration. This story explains that relationship with a labelled conceptual illustration.",
     decisions: "The focus was on making the structure understandable. Keep row and column configuration distinct, then show how the measures relate to the summary and detail view. Since dedicated design screens weren't supplied, the illustration explains that relationship rather than inventing a final interface.",
     delivery: "This is contribution-level work. There are no dedicated design screens or measured outcomes supplied for this case. So, I'm explaining the configuration concept and my part in it, without claiming a final interface or whole-product ownership."
   },
   analyticsSuite: {
-    intro: "Let me walk you through Inforiver Analytics+. It sits inside Power BI and connects choosing a visual, building a report, and presenting the insight. My work included the full Chart Wizard experience, reusable KPI templates, and feature-specific contributions. I didn't design the whole product.",
+    intro: "I worked on Analytics Plus user experience and interface design end to end in Power B I. This portfolio presents selected features from that broader work: Chart Wizard, reusable metric templates, Storyboard, Gantt, annotations, and presentation.",
     decisions: "I looked at the authoring journey as a set of connected tasks. Chart Wizard gives people two ways to find a visual. Storyboard, Gantt, and KPI patterns support different parts of building the report. Annotations and presentation then keep the explanation connected to the insight. Each feature still has its own scope.",
-    delivery: "Chart Wizard and the reusable KPI templates are confirmed shipped work. The other screens remain separately identified design evidence. That distinction matters: showing a design state isn't the same as confirming a release, a runtime behaviour, or a measured customer outcome."
+    delivery: "These are selected examples from my end-to-end Analytics Plus work, from workflows and interface design through developer handoff and implementation review. Chart Wizard and reusable metric templates shipped. Each feature keeps its original evidence."
   },
   wizard: {
     intro: "Let me quickly walk you through Chart Wizard. Sometimes you already know the chart you want. Other times, you just know the question you need to answer. I worked on the full Chart Wizard flow, from user experience and interface design through handoff and implementation review.",
@@ -94,7 +94,7 @@ export function createCaseNarration({ caseId, problem, hasScreen, official }) {
   const evidence = story.evidence || (!hasScreen
     ? "Now, a quick note about what you're seeing. There's no dedicated design screen supplied for this case. This illustration explains my contribution; it's not a final interface or a recording of the product."
     : official
-      ? "Now, here's the wider product for context. This is an official product image, not a claim that I designed the whole product. The feature cases explain my own contribution separately."
+      ? "Here is the wider product for context. This official product image shows the workspace around the selected features. Open the original to inspect the report; the feature stories explain the design decisions in detail."
       : "Now, let's look at the actual design screen. You can open the original for a closer look. It shows a design state, not a recording of the product or, by itself, proof that every interaction shipped.");
   return [
     story.intro,

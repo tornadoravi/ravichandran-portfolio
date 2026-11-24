@@ -20,15 +20,15 @@ export default function AnalyticsPlusPage() {
           {"\n      "}
           <h1>{"Inforiver Analytics+."}</h1>
           {"\n      "}
-          <p className="case-summary">{"A Power BI product for creating charts, KPI cards, and reports. My feature work is below."}</p>
+          <p className="case-summary">{"End-to-end UX/UI for a Power BI product. Selected feature stories from discovery to presentation."}</p>
           {"\n      "}
-          <CaseContext role="End-to-end Chart Wizard UX/UI · Chart Wizard & KPI templates shipped">
+          <CaseContext role="End-to-end Analytics+ UX/UI · Selected feature stories">
             <dl className={"metadata"}>
               <div>
                 <dt>{"My role"}</dt>
                 <dd>
                   {"Product Designer · "}
-                  <strong className={"scan-emphasis"}>{"End-to-end Chart Wizard UX/UI"}</strong>
+                  <strong className={"scan-emphasis"}>{"End-to-end Analytics+ UX/UI"}</strong>
                 </dd>
               </div>
               <div>
@@ -66,7 +66,7 @@ export default function AnalyticsPlusPage() {
         <section id="review-brief" className="case-review-brief wrap" aria-label="Design contribution at a glance">
           <dl>
             <div><dt>Design challenge</dt><dd>Choose a visual without first knowing its chart name.</dd></div>
-            <div><dt>My scope</dt><dd>End-to-end Chart Wizard UX/UI, developer handoff, and implementation review.</dd></div>
+            <div><dt>My scope</dt><dd>End-to-end Analytics+ UX/UI, developer handoff, and implementation review. Selected features are presented here.</dd></div>
             <div><dt>Confirmed delivery</dt><dd>Chart Wizard and reusable KPI templates shipped. Other feature statuses remain separate.</dd></div>
           </dl>
         </section>

@@ -19,7 +19,7 @@ const storyboardEditor = screen('storyboard-editor', 1390, 782, 'Storyboard repo
 const presentationControls = screen('presentation-screen-06', 1707, 830, 'Report presentation toolbar and guidance');
 
 export const solutionScreens = {
-  powertable: [feature.mapping, feature.ganttPanel, feature.resourcePanel],
+  powertable: [taskMapping, feature.ganttPanel, feature.resourcePanel],
   mapping: [taskMapping, feature.mapping, resourceMapping],
   baselines: [
     { ...feature.baselines, caption: 'Original exploration / Selecting a current plan and one baseline. Not a shipped feature.' },
@@ -73,6 +73,26 @@ export const solutionScreens = {
   bikecare: ['jobcard', 'review', 'shop'].map(id => bikecareScreens.find(item => item.id === id)),
   codShield: ['report', 'pending', 'active'].map(id => codScreens.find(item => item.id === id))
 };
+
+const screenFocus = {
+  powertable: ['Start Date, End Date/Duration, and Task ID', 'Timeline working-time controls', 'Resource working-time controls'],
+  mapping: ['Start Date, End Date/Duration, and Task ID', 'Task ID Column and Actual Effort (Hrs)', 'Resource Table and the two Resource ID fields'],
+  baselines: ['Current Data and Baseline 1 selected', 'Current plan and comparison bars', 'The separate Manage Baselines panel'],
+  backlog: ['The Add Task action in the empty panel', 'The task row and its edit/delete actions', 'Preview Changes beside Save to Database'],
+  ganttPanel: ['Work Week, Daily Capacity, and Holidays & Exceptions', 'Connector controls in the Dependency tab', 'Enable Data Label, Font Size, and Text Color'],
+  formatting: ['Schedule Hours > 0 in the condition block', 'Impacts On and Apply To above the condition', 'Milestone Icon, Fill, Bar Fill, and Data Label'],
+  resourcePanel: ['Work Week, Daily Capacity, and Holidays & Exceptions', 'Color by, Fill, and Summary bar color', 'Data Label and Adaptive Label controls'],
+  analyticsSuite: ['Chart and Function discovery routes', 'KPI cards, charts, and table on the authoring canvas', 'Annotation notes and the presentation toolbar'],
+  wizard: ['Chart by Chart/Function before Customize and Advanced', 'Styling and visibility in Customize', 'Analytics and Sort controls in Advanced'],
+  storyboard: ['Auto create, Custom layout, Choose template, and Blank report', 'Elements Configuration beside the layout preview', 'Report components and the composed canvas'],
+  gantt: ['Gantt among the Analytics+ starting options', 'Task/date fields in the data-mapping help', 'Task rows aligned with timeline bars'],
+  presentation: ['The annotation attached to the monthly observation', 'Text, Marker, and Template settings', 'Chart annotations with the presentation toolbar'],
+  kpi: ['Simple presets beside the Power BI report canvas', 'Variance presets with metric comparisons', 'The original sheet of reusable card arrangements'],
+  spatial: ['The room-like application launcher', 'The Analytics+ entry window', 'The report window with charts and a table']
+};
+for (const [caseId, labels] of Object.entries(screenFocus)) {
+  solutionScreens[caseId] = solutionScreens[caseId].map((evidence, index) => ({ ...evidence, focus: labels[index] }));
+}
 
 export const solutionOverviewScreens = {
   ...feature,

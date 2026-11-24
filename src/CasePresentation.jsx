@@ -224,7 +224,7 @@ function OutcomeCard({ caseId, facts, evidenceNote, reviewChecks, compact = fals
       status: 'Confirmed delivery',
       headline: 'Two confirmed deliveries.',
       emphasis: 'One connected authoring story.',
-      highlights: [['Chart Wizard', 'Shipped'], ['Reusable KPI templates', 'Shipped'], ['UX/UI contribution', 'Feature-specific ownership stays explicit']]
+      highlights: [['Chart Wizard', 'Shipped'], ['Reusable KPI templates', 'Shipped'], ['End-to-end Analytics+ UX/UI', 'Selected feature stories']]
     },
     wizard: {
       status: 'Confirmed delivery',
@@ -323,7 +323,8 @@ function ProductOverview({ caseId, product, narrative, facts, evidenceNote, onWa
       <CaseSolution caseId={planning ? 'powertable' : 'analyticsSuite'} compact />
       <details className="case-reading-details"><summary>Explore the illustrated workflow</summary><CaseConceptFilm caseId={planning ? 'powertable' : 'analyticsSuite'} /></details>
     </Chapter>
-    <Chapter product index={1} title="Explore my feature work.">
+    <Chapter product index={1} title="Explore my feature work."
+      description={planning ? 'Selected workflows from end-to-end Gantt and resource UX/UI.' : 'Selected features from end-to-end Analytics+ UX/UI.'}>
       <span id="case-gap" className="case-bookmark" /><span id="case-goals" className="case-bookmark" />
       <span id="case-flow" className="case-bookmark" /><span id="case-architecture" className="case-bookmark" /><span id="case-screens" className="case-bookmark" />
       <div className="product-work-areas">

@@ -4,7 +4,7 @@ import ProductCover from '../ProductCover.jsx';
 
 const products = [
   { id: 'project-planning', name: 'PowerTable', platform: 'Microsoft Fabric', platformIcon: 'microsoft-fabric.svg', description: 'Plan tasks, track time, and review resources.', role: 'Gantt & resource UX/UI; Cross-tab contribution.', href: '/powertable.html', artwork: 'powertable' },
-  { id: 'project-analytics', name: 'Inforiver Analytics+', platform: 'Microsoft Power BI', platformIcon: 'microsoft-power-bi.svg', description: 'Build charts, KPI cards, and reports.', role: 'Chart Wizard UX/UI & reusable KPI templates.', href: '/analytics-plus.html', artwork: 'analytics' }
+  { id: 'project-analytics', name: 'Inforiver Analytics+', platform: 'Microsoft Power BI', platformIcon: 'microsoft-power-bi.svg', description: 'Build charts, KPI cards, and reports.', role: 'End-to-end Analytics+ UX/UI. Selected features inside.', href: '/analytics-plus.html', artwork: 'analytics' }
 ];
 const linkedInUrl = 'https://www.linkedin.com/in/ravichandran-uxui/';
 

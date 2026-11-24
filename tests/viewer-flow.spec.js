@@ -99,7 +99,7 @@ for (const width of [320, 390, 768, 1440, 1920]) {
       const action = await recommendation.boundingBox();
       const image = await figure.locator('.product-screenshot img').boundingBox();
       expect(action.height).toBeGreaterThanOrEqual(44);
-      await expect(page.locator('.metadata .scan-emphasis')).toHaveText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Chart Wizard UX/UI');
+      await expect(page.locator('.metadata .scan-emphasis')).toHaveText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Analytics+ UX/UI');
       if (path === '/powertable.html') {
         await expect(page.locator('h1')).toHaveText('PowerTable.');
         await expect(page.locator('.case-summary')).toContainText('task schedules and team assignments');
@@ -110,7 +110,8 @@ for (const width of [320, 390, 768, 1440, 1920]) {
         await expect(page.getByRole('link', { name: 'Explore Cross-tab', exact: true })).toHaveAttribute('href', '/crosstab.html');
       } else {
         await expect(page.locator('h1')).toHaveText('Inforiver Analytics+.');
-        await expect(page.locator('.case-summary')).toContainText('creating charts, KPI cards, and reports');
+        await expect(page.locator('.case-summary')).toContainText('End-to-end UX/UI for a Power BI product.');
+        await expect(page.locator('.case-summary')).toContainText('Selected feature stories from discovery to presentation.');
         await expect(page.locator('.case-brief')).toContainText('Reusable KPI templates shipped');
         expect(action.y).toBeGreaterThanOrEqual(image.y + image.height);
         await expect(page.locator('.case-brief')).toContainText('Chart Wizard shipped');

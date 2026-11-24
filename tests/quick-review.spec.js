@@ -78,7 +78,7 @@ for (const width of [320, 390, 680, 1440]) {
         await expect(page.locator('.case-solution img')).toHaveJSProperty('complete', true);
         expect(await page.locator('.case-solution img').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
         await expect(page.locator('.case-brief p strong')).toHaveCount(3);
-        await expect(page.locator('.metadata .scan-emphasis')).toHaveText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Chart Wizard UX/UI');
+        await expect(page.locator('.metadata .scan-emphasis')).toHaveText(path === '/powertable.html' ? 'End-to-end Gantt & resource UX/UI' : 'End-to-end Analytics+ UX/UI');
       } else {
         await expect(page.locator('#work > .product-context-grid .product-my-work strong')).toHaveCount(2);
       }
