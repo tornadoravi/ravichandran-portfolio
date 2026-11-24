@@ -22,7 +22,7 @@ export default function ConceptCasePage({ caseId, title, summary, role, screens,
           {player}{children}
         </WalkthroughEntry>
         <div className="case-presentation-hero">
-          <div className="case-hero-preview"><EvidenceScreen screen={screens[0]} eager compact /></div>
+          <div className="case-hero-preview"><EvidenceScreen screen={screens[0]} eager /></div>
         </div>
         <VisualCaseBody caseId={caseId} screens={screens}>
           {sources && <nav className="case-source-links" aria-label="Concept sources">{sources}</nav>}

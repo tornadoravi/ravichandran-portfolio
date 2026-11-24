@@ -281,6 +281,7 @@
 .cod-film-player[data-presentation="guided"] .case-film-source-screen img { flex-shrink: 1; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
 .cod-film-player[data-presentation="guided"] .case-film-illustration > p,
 .cod-film-player[data-presentation="guided"] .case-solution-screen figcaption { flex-shrink: 0; width: 100%; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.cod-film-player .case-screen-explanation { margin-bottom: 4px; font-size: 12px; line-height: 1.5; }
 .cod-film-player[data-presentation="guided"] .cod-film-arrival,
 .cod-film-player[data-presentation="guided"] .cod-film-camera { width: 100%; height: 100%; min-height: 0; }
 .cod-film-player[data-presentation="guided"] .case-topic-art { width: 100%; height: 100%; max-height: 100%; margin: 0; }

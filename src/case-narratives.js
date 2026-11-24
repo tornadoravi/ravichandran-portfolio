@@ -224,7 +224,7 @@ export const caseHighlights = {
     role: 'End-to-end Gantt and resource mapping UX/UI.',
     decision: 'I separated four mapping domains and exposed their IDs and dependencies.',
     evidence: 'Five design states; setup-error reduction was not measured.',
-    screen: 'Task ID links time entries to tasks; Actual Effort selects logged hours.'
+    screen: 'Time-entry mapping: I designed how logged hours connect to the tasks they belong to.'
   },
   baselines: {
     purpose: 'Compare the current schedule with a saved reference.',
@@ -232,7 +232,7 @@ export const caseHighlights = {
     role: 'Gantt comparison UX/UI exploration.',
     decision: 'I limited comparison to two selections and separated baseline management.',
     evidence: 'Selection, timeline and management states; exploration, not a confirmed release.',
-    screen: 'Current Data and Baseline 1 are selected together for comparison.'
+    screen: 'Saved-plan comparison: I explored showing the current schedule beside an earlier saved version.'
   },
   backlog: {
     purpose: 'Keep tasks without dates beside the schedule.',
@@ -240,7 +240,7 @@ export const caseHighlights = {
     role: 'End-to-end Gantt backlog UX/UI.',
     decision: 'I connected empty, task-list and pending-change states.',
     evidence: 'Original design states; production persistence is unverified.',
-    screen: 'Search, New Task and row actions organize unscheduled work.'
+    screen: 'Backlog tasks: I designed an editable list for work without scheduled dates.'
   },
   ganttPanel: {
     purpose: 'Adjust timeline settings without leaving the plan.',
@@ -248,7 +248,7 @@ export const caseHighlights = {
     role: 'End-to-end Gantt configuration UX/UI.',
     decision: 'I grouped controls into five focused tabs beside the schedule.',
     evidence: 'Five tab states; live-preview behavior is unverified.',
-    screen: 'Timeline settings define working days, hours and capacity.'
+    screen: 'Schedule settings: I grouped working days, daily hours and holidays in one panel.'
   },
   formatting: {
     purpose: 'Highlight resource work using an explicit data rule.',
@@ -256,7 +256,7 @@ export const caseHighlights = {
     role: 'End-to-end resource rule-editor UX/UI.',
     decision: 'I separated the condition, target scope and visual style.',
     evidence: 'Original rule editor; an after-Apply result is not shown.',
-    screen: 'Schedule Hours > 0 matches scheduled work, not overload.'
+    screen: 'Highlight rules: I separated conditions, targets and styles; scheduled work is not overload.'
   },
   resourcePanel: {
     purpose: 'Adjust working time and assignment appearance in the resource view.',
@@ -264,14 +264,15 @@ export const caseHighlights = {
     role: 'End-to-end resource Gantt configuration UX/UI.',
     decision: 'I separated four configuration tabs from the conditional-rule editor.',
     evidence: 'Four supplied tab states document the configuration design.',
-    screen: 'Timeline controls set working time while retaining resource context.'
+    screen: 'Resource settings: I grouped working hours and appearance controls beside team assignments.'
   },
   crosstab: {
     purpose: 'Summarize business values across row and column categories.',
     problem: 'Raw records need a meaningful layout before they reveal useful comparisons.',
     role: 'Cross-tab layout and data-configuration contribution.',
     decision: 'I made the relationship between dimensions, measures and layout explicit.',
-    evidence: 'Contribution notes and a concept diagram; no dedicated interface supplied.'
+    evidence: 'Contribution notes and a concept diagram; no dedicated interface supplied.',
+    screen: 'Summary layout: I connected categories and values into a comparison.'
   },
   wizard: {
     purpose: 'Find a chart by name or by the question it answers.',
@@ -279,7 +280,7 @@ export const caseHighlights = {
     role: 'End-to-end Chart Wizard UX/UI, handoff and implementation review.',
     decision: 'I joined chart-first and function-first discovery into shared configuration.',
     evidence: 'Chart Wizard shipped; customer-impact measurements are not available.',
-    screen: 'Chart families, recommendations and Proceed support the chart-first discovery route.'
+    screen: 'Chart selection: I combined chart types and recommendations so authors can choose a visual.'
   },
   storyboard: {
     purpose: 'Start a report from a template, layout or blank canvas.',
@@ -287,7 +288,7 @@ export const caseHighlights = {
     role: 'Feature UX/UI, handoff and implementation review.',
     decision: 'I connected different starting points to one authoring canvas.',
     evidence: 'Six product screens document report creation and template states.',
-    screen: 'Auto-create, custom layout, template and blank report offer distinct starting points.'
+    screen: 'Report starting points: I offered templates, custom layouts and a blank-canvas option.'
   },
   gantt: {
     purpose: 'Turn task names and dates into a schedule in Power BI.',
@@ -295,7 +296,7 @@ export const caseHighlights = {
     role: 'Analytics+ Gantt UX/UI, handoff and implementation review.',
     decision: 'I connected chart selection, task/date mapping and the timeline.',
     evidence: 'Three supplied crops; scheduling accuracy was not measured.',
-    screen: 'Date fields are added in Power BI before interpreting the Gantt timeline.'
+    screen: 'Timeline mapping: I showed which task dates belong in the schedule.'
   },
   presentation: {
     purpose: 'Explain chart observations and guide attention within the report.',
@@ -303,7 +304,7 @@ export const caseHighlights = {
     role: 'Annotations and presentation UX/UI, handoff and implementation review.',
     decision: 'I connected chart annotations, explanation and in-report presentation controls.',
     evidence: 'Nine original design screens; release and audience outcomes are unverified.',
-    screen: 'Enable Present and Present connect the report to presentation mode.'
+    screen: 'Report presentation: I placed the start-presenting action beside the report notes.'
   },
   kpi: {
     purpose: 'Start a headline metric card from a reusable pattern.',
@@ -311,6 +312,6 @@ export const caseHighlights = {
     role: 'Reusable KPI template design and delivery.',
     decision: 'I separated Simple and Variance presets by reading task.',
     evidence: 'Reusable KPI templates shipped; setup-time savings were not measured.',
-    screen: 'Simple presets place a selected metric pattern beside the report canvas.'
+    screen: 'Metric card layouts: I designed reusable starting patterns for headline business numbers.'
   }
 };

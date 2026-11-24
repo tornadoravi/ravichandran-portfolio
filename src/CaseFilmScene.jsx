@@ -5,6 +5,7 @@ import CaseSolutionScreen from './CaseSolutionScreen.jsx';
 import { solutionSteps } from './case-solutions.js';
 import { bikecareScreens } from './bikecare-story.js';
 import { sitePath } from './site-path.js';
+import { explainCaseScreen } from './case-screen-context.js';
 
 function BikeCareSolutionEvidence({ index, beat, playing, pause }) {
   const options = [['jobcard', 'estimate'], ['review', 'service-feedback', 'history', 'reminder'], ['supplier', 'shop', 'ride']][index];
@@ -21,18 +22,19 @@ function BikeCareSolutionEvidence({ index, beat, playing, pause }) {
     <a className="case-film-source-screen" href={sitePath(screen.src)} target="_blank" rel="noopener noreferrer" onClick={pause}
       aria-label={`Inspect ${screen.label.toLowerCase()} design (opens in a new tab)`}>
       <img src={sitePath(screen.src)} alt={screen.alt} width={screen.width} height={screen.height} />
-    </a><p>Actual prototype screen / Fictional data. Open the full frame to inspect details.</p>
+    </a><p><span className="case-screen-explanation">{explainCaseScreen(screen.src)}</span>
+      Original concept / Fictional data.</p>
   </div>;
 }
 
 function EvidenceComposition({ scene, pause }) {
   if (scene.guided) return <div className="case-evidence-composition">
-    <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} compact />
+    <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} />
   </div>;
   return <div className="case-evidence-composition">
     <div className="case-evidence-mount">
       <div className="case-evidence-mount-label"><span>Design evidence</span><span>0{scene.solutionIndex + 1} / 03</span></div>
-      <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} compact={scene.guided} />
+      <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} />
     </div>
     <p className="case-evidence-focus"><span aria-hidden="true">↳</span><span><strong>On this screen</strong>{scene.screen.focus || scene.screen.label}</span></p>
     <ol className="case-evidence-sequence" aria-label="Design workflow">
@@ -73,7 +75,10 @@ export default function CaseFilmScene({ scene, seconds, beat, playing, pause }) 
         ? <CaseSolutionScene steps={solutionSteps.spatial} active={scene.stage === 'evidence' ? 2 : 0} animated seconds={seconds} />
         : <div className="cod-film-arrival"><div className="cod-film-camera"><CaseIllustration caseId={scene.caseId} stage={scene.stage} /></div></div>}
       {scene.screen && <>
-        {scene.screen.caption && <p onClick={event => { if (event.target.closest('a')) pause(); }}>{scene.screen.caption}</p>}
+        <p onClick={event => { if (event.target.closest('a')) pause(); }}>
+          <span className="case-screen-explanation">{scene.screen.explanation || explainCaseScreen(scene.screen.src)}</span>
+          {scene.screen.caption}
+        </p>
         {!scene.guided && <p>Open the original evidence. This is not a video of the product.</p>}
       </>}
     </div>

@@ -132,14 +132,14 @@ export function Chapter({ index, title, description, children, product = false, 
   </section>;
 }
 
-export function EvidenceScreen({ screen, eager = false, compact = false }) {
+export function EvidenceScreen({ screen, eager = false }) {
   return <figure className="detail-figure case-demo-figure">
     <a className="product-screenshot case-demo-image" href={screen.src} target="_blank" rel="noopener noreferrer"
       aria-label={`View ${screen.label} screen at original resolution (opens in a new tab)`}>
       <img src={screen.src} alt={screen.alt} width={screen.width} height={screen.height}
         loading={eager ? 'eager' : 'lazy'} decoding="async" fetchPriority={eager ? 'high' : undefined} />
     </a>
-    <figcaption>{!compact && <span className="case-screen-explanation">{screen.explanation || screen.takeaway || screen.alt}</span>}{screen.caption}</figcaption>
+    <figcaption><span className="case-screen-explanation">{screen.explanation || explainCaseScreen(screen.src)}</span>{screen.caption}</figcaption>
   </figure>;
 }
 
@@ -196,7 +196,7 @@ export function ScreenWalkthrough({ screens, diagramId, compact = false, initial
     hidden={enhanced && active !== index}>
     <div className="case-demo-bar"><span>Original screen / {String(index + 1).padStart(2, '0')}</span><span>{index + 1} of {screens.length}</span></div>
     {!compact && screen.heading && <div className="case-demo-insight"><h3>{screen.heading}</h3>{screen.takeaway && <p>{screen.takeaway}</p>}</div>}
-    <EvidenceScreen screen={screen} compact={compact} />
+    <EvidenceScreen screen={screen} />
   </div>);
   return <div className="case-screen-walkthrough">
     {usePicker ? <label className="case-screen-picker" hidden={!enhanced}>Screen
@@ -310,7 +310,7 @@ function ProductFeature({ id, number, onWalkthrough }) {
       </header>
       {screen ? <EvidenceScreen screen={screen} /> : <figure className="feature-card-illustration">
         <CaseIllustration caseId={id} stage="design" />
-        <figcaption>Contribution structure diagram</figcaption>
+        <figcaption><span className="case-screen-explanation">{highlight.screen}</span>Contribution structure diagram</figcaption>
       </figure>}
       <div className="case-feature-detail">
         <FeatureStory id={id} compact />
@@ -412,7 +412,7 @@ export default function CasePresentation({ caseId, children }) {
       </WalkthroughEntry>
     <div className="case-presentation-hero">
       <div className="case-hero-preview">
-        {heroScreen ? <EvidenceScreen screen={heroScreen} eager compact /> : <div className="case-concept-evidence"><CaseDiagram caseId={contentId} /><p>Contribution diagram / not a final interface.</p></div>}
+        {heroScreen ? <EvidenceScreen screen={heroScreen} eager /> : <div className="case-concept-evidence"><CaseDiagram caseId={contentId} /><p>Contribution diagram / not a final interface.</p></div>}
       </div>
     </div>
     {isProduct ? <div className="case-chapters case-minimal-body">

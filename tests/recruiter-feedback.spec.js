@@ -34,7 +34,7 @@ test('Backlog explains its purpose without repeating the full case narrative', a
   const feature = page.locator('[data-feature="backlog"]');
   await expect(feature.locator('.case-feature-purpose')).toContainText('tasks without dates');
   await expect(feature.locator('.case-feature-story')).toContainText(caseHighlights.backlog.decision);
-  await expect(feature.locator('.case-screen-explanation')).toContainText('New Task');
+  await expect(feature.locator('.case-screen-explanation')).toHaveText(caseHighlights.backlog.screen);
   await feature.getByRole('link', { name: 'View screens' }).click();
   await expect(page.locator('.case-fast-read')).toContainText(caseHighlights.backlog.problem);
   await expect(page.locator('.case-fast-read')).toContainText('production persistence is unverified');
@@ -50,6 +50,7 @@ test('company recognition and official product images retain their proper attrib
     const hero = page.locator('.case-hero-preview');
     await expect(hero.locator('img')).toHaveAttribute('src', source);
     await expect(hero.locator('figcaption')).toContainText('Official');
+    await expect(hero.locator('.case-screen-explanation')).not.toContainText('I designed');
     await expect(hero.locator('figcaption a').first()).toHaveAttribute('href', /^https:/);
     const recognition = page.locator('.case-recognition-note');
     await expect(recognition).toContainText('Lumel');

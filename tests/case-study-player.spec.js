@@ -5,6 +5,7 @@ import { solutionSteps } from '../src/case-solutions.js';
 import { solutionScreens } from '../src/case-solution-evidence.js';
 import { solutionNarration, standaloneNarration } from '../src/case-film-narration.js';
 import { caseHighlights } from '../src/case-narratives.js';
+import { explainCaseScreen } from '../src/case-screen-context.js';
 
 const recorded = JSON.parse(readFileSync(new URL('../src/case-film-audio.json', import.meta.url), 'utf8'));
 const previous = JSON.parse(readFileSync(new URL('../src/case-audio.json', import.meta.url), 'utf8'));
@@ -74,7 +75,6 @@ test('every remaining case shares the animated Walkthrough frame with one Soluti
         await expect(player.locator('#case-player-solution-detail')).toHaveCount(0);
         await expect(player.locator('.walkthrough-guide')).toBeVisible();
         await expect(player.locator('.cod-film-stage details')).toHaveCount(0);
-        await expect(player.locator('.case-solution-screen .case-screen-explanation')).toHaveCount(0);
       } else {
         await expect(player.locator('#case-player-solution-detail dt')).toHaveText([
           'What the user does', 'What the design makes clear', 'Why this step matters'
@@ -84,6 +84,8 @@ test('every remaining case shares the animated Walkthrough frame with one Soluti
         const screen = solutionScreens[caseId]?.[index];
         const image = player.locator('.case-solution-screen img');
         if (screen) {
+          await expect(player.locator('.case-solution-screen .case-screen-explanation')).toHaveText(
+            screen.explanation || explainCaseScreen(screen.src));
           await expect(image).toHaveAttribute('src', screen.src);
           await image.evaluate(node => node.decode());
           expect(await image.evaluate(node => [node.naturalWidth, node.naturalHeight])).toEqual([screen.width, screen.height]);
@@ -135,6 +137,8 @@ test('BikeCare changes original screens with narration and pauses for manual ins
     await choose(player, index, 'Business case');
     const image = player.locator('.bikecare-solution-evidence img');
     await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${first}.webp`);
+    const description = player.locator('.bikecare-solution-evidence .case-screen-explanation');
+    await expect(description).toHaveText(explainCaseScreen(`/assets/bikecare-mobile-${first}.webp`));
     await image.evaluate(node => node.decode());
     const bounds = await image.boundingBox();
     expect(bounds.width).toBeGreaterThanOrEqual(100);
@@ -147,6 +151,7 @@ test('BikeCare changes original screens with narration and pauses for manual ins
         audio.dispatchEvent(new Event('timeupdate'));
       }, { seconds: recorded.cases.bikecare[index].seconds, fraction });
       await expect(image).toHaveAttribute('src', `/assets/bikecare-mobile-${expected}.webp`);
+      await expect(description).toHaveText(explainCaseScreen(`/assets/bikecare-mobile-${expected}.webp`));
     }
     await player.getByRole('group', { name: 'Solution design screens' }).getByRole('button').first().click();
     await expect(player.getByRole('button', { name: 'Play', exact: true })).toBeVisible();

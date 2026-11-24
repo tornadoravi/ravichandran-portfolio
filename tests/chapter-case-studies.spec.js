@@ -3,6 +3,7 @@ import { caseHighlights } from '../src/case-narratives.js';
 import { bikecareScreens } from '../src/bikecare-story.js';
 import { codScreens } from '../src/cod-shield-story.js';
 import { caseFeatureEvidence } from '../src/case-feature-evidence.js';
+import { explainCaseScreen } from '../src/case-screen-context.js';
 
 const cases = [
   ['powertable', 'powertable'], ['mapping', 'column-mapping'], ['baselines', 'gantt-baselines'],
@@ -37,6 +38,12 @@ for (const appearance of ['light', 'dark']) {
         expect((await entry.boundingBox()).height, route).toBeLessThanOrEqual(105);
         await expect(entry).not.toContainText("I'll walk you");
         await expect(entry.locator('.walkthrough-guide')).toHaveCount(0);
+        if (id !== 'crosstab') {
+          const hero = page.locator('.case-hero-preview figure');
+          await expect(hero.locator('.case-screen-explanation')).toBeVisible();
+          await expect(hero.locator('.case-screen-explanation')).toHaveText(
+            explainCaseScreen(await hero.locator('img').getAttribute('src')));
+        }
         const metrics = await page.locator('main').evaluate(main => ({
           words: main.innerText.trim().split(/\s+/).length,
           overflow: document.documentElement.scrollWidth > innerWidth
@@ -90,6 +97,11 @@ for (const [id, route] of cases.filter(([id]) => !products.includes(id))) {
       await expect(image).toHaveCSS('filter', 'none');
       await expect(image).toHaveCSS('transform', 'none');
       await expect(panel.locator('figcaption')).not.toBeEmpty();
+      const description = explainCaseScreen(sources[index]);
+      await expect(panel.locator('figcaption .case-screen-explanation')).toHaveText(description);
+      expect(description.split(/\s+/).length, sources[index]).toBeLessThanOrEqual(24);
+      expect([...new Intl.Segmenter('en', { granularity: 'sentence' }).segment(description)],
+        sources[index]).toHaveLength(1);
       await expect(panel.locator('a.product-screenshot')).toHaveAttribute('href', sources[index]);
     }
     const inspect = gallery.locator('.case-demo-panel:visible').getByRole('button', { name: 'Inspect screenshot' });
@@ -110,6 +122,8 @@ test('product cards keep short feature answers, authentic previews and working s
       const feature = await card.getAttribute('data-feature');
       await expect(card.locator('.case-feature-number')).toHaveText(String(index + 1).padStart(2, '0'));
       await expect(card.locator('.case-feature-purpose')).toHaveText(caseHighlights[feature].purpose);
+      await expect(card.locator('.case-screen-explanation')).toBeVisible();
+      await expect(card.locator('.case-screen-explanation')).toHaveText(caseHighlights[feature].screen);
       await expect(card.locator('.case-feature-story dd')).toHaveText(
         ['problem', 'role', 'decision', 'evidence'].map(key => caseHighlights[feature][key]));
       if (caseFeatureEvidence[feature]) await expect(card.locator('img')).toHaveAttribute('src', caseFeatureEvidence[feature].src);
