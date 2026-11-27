@@ -1104,10 +1104,11 @@ button, summary, [role="button"] { -webkit-user-select: none; user-select: none;
 }
 :root:not(:has(:focus-visible)) :is(button, summary, [role="button"]):active { transform: scale(.97); }
 :root:has(:focus-visible) { scroll-behavior: auto; }
-:root:has(:focus-visible) *,
-:root:has(:focus-visible) *::before,
-:root:has(:focus-visible) *::after,
-:root:has(:focus-visible) *::backdrop {
+/* Safari dialog autofocus stays focus-visible; the film manages its own pause and reduced-motion state. */
+:root:has(:focus-visible) *:not(.cod-film-stage, .cod-film-stage *),
+:root:has(:focus-visible) *:not(.cod-film-stage, .cod-film-stage *)::before,
+:root:has(:focus-visible) *:not(.cod-film-stage, .cod-film-stage *)::after,
+:root:has(:focus-visible) *:not(.cod-film-stage, .cod-film-stage *)::backdrop {
   transition: none !important;
   animation: none !important;
   scroll-behavior: auto !important;

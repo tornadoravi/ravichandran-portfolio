@@ -4,7 +4,7 @@ import CodPartnerScreen from './CodPartnerScreen.jsx';
 import { codPlatforms, createCodSync } from './cod-platforms.js';
 
 function arrivalDelay(element, index, seconds) {
-  if (element) element.style.animationDelay = `${index * seconds * .22}s`;
+  if (element) element.style.animationDelay = `${index * .14}s`;
 }
 
 function Actor({ index = 0, seconds, children }) {

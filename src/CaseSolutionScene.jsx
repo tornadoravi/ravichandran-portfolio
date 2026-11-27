@@ -45,7 +45,7 @@ export default function CaseSolutionScene({ steps, active, animated = false, sec
         const second = words.length > 2 ? words.slice(2).join(' ') : words.slice(1).join(' ');
         return <g key={step.title} transform={`translate(${16 + index * 116} ${selected ? 45 : 57})`}>
           <g className={animated ? 'cod-film-arrival' : undefined} ref={element => {
-            if (element && animated) element.style.animationDelay = `${index * seconds * .18}s`;
+            if (element && animated) element.style.animationDelay = `${index * .14}s`;
           }}>
           <rect x="4" y="4" width="96" height="140" rx="10" fill="var(--art-soft)" />
           <PaperSheet width="96" height="140" rx="10" stroke={selected ? 'var(--art-accent)' : 'var(--art-line)'} strokeWidth={selected ? 2 : 1} />

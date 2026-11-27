@@ -66,7 +66,11 @@ export default function CaseStudyPlayer({
       guided: Boolean(highlight),
       guide: highlight && (index === 0 ? highlight.role : index === 1 ? highlight.problem
         : index === 5 ? highlight.evidence : index === 6 ? highlight.role : undefined),
-      beats: scene.beats || [scene.copy, scene.note || solution.value, solution.evidence]
+      beats: scene.beats || (highlight
+        ? index === 0 ? steps.map(step => step.title)
+          : index === 1 ? [highlight.problem, highlight.decision, highlight.evidence]
+            : [highlight.role, highlight.decision, highlight.evidence]
+        : [scene.copy, scene.note || solution.value, solution.evidence])
     }));
   }, [caseId, name, narrative, facts, screen, evidenceNote, concept]);
   const caseSections = caseId === 'bikecare' ? sections.map(section => section.label === 'Scope' ? { ...section, label: 'Business case' } : section) : sections;

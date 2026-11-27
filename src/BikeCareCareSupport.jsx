@@ -85,7 +85,7 @@ export function BikeCareSupport({ role, canRequest, guest, scene, tickets, selec
 export function BikeCareSystem({ theme, setTheme, onLogout }) {
   const [exampleBusy, setExampleBusy] = useState(false);
   return <>
-    <article className="bikecare-app-card"><h4>BikeCare / Signal</h4><p className="bikecare-small">Graphite records. Orange actions. Custom, not Google or Material Design.</p>
+    <article className="bikecare-app-card"><h4>BikeCare / Signal</h4><p className="bikecare-small">Calm teal actions. Clear records. A custom system informed by Material design principles, not authored or endorsed by Google.</p>
       <label>Product theme<select value={theme} onChange={event => setTheme(event.target.value)}><option value="light">Light</option><option value="dark">Dark</option></select></label></article>
     <div className="bikecare-token-grid">{designTokens.map(([name, , , token]) => <article key={name}><i className={`bikecare-swatch bikecare-palette-${token}`} aria-hidden="true" /><strong>{name}</strong><span>{bikecareThemes[theme][`--bc-${token}`]}</span></article>)}</div>
     <article className="bikecare-app-card"><h4>Readable by default.</h4><p className="bikecare-small">System sans. 16px fields. 4px grid. 12px controls / 18px cards. 44px targets and focus.</p>

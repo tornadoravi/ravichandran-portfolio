@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { manufacturerSuggestions, powertrains, validateVehicle, vehicleCategories, vehicleYear } from './bikecare-ux-model.js';
 import BikeCareSelect from './BikeCareSelect.jsx';
 
@@ -66,16 +66,26 @@ export function BikeCareAccess({ actor, scene, onEnter, onSupport }) {
   </>;
 }
 
-export function BikeCareGarage({ vehicles, selectedId, onSelect, onAdd, scene }) {
+export function BikeCareGarage({ vehicles, selectedId, onSelect, onAdd, scene, onboarding = false }) {
   const listId = useId();
-  const [step, setStep] = useState(scene === 'ev-profile' ? 4 : scene === 'vehicle-year' ? 2 : scene === 'vehicle-details' ? 3 : ['vehicle-brand', 'manufacturer-options', 'model-options'].includes(scene) ? 1 : 0);
+  const heading = useRef(null);
+  const [step, setStep] = useState(onboarding ? 1 : scene === 'ev-profile' ? 4 : scene === 'vehicle-year' ? 2 : scene === 'vehicle-details' ? 3 : ['vehicle-brand', 'manufacturer-options', 'model-options'].includes(scene) ? 1 : 0);
+  const [sample, setSample] = useState(null);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [draft, setDraft] = useState({
-    manufacturer: scene === 'ev-profile' ? 'Ather' : scene === 'model-options' ? 'Yamaha' : 'Honda', model: scene === 'ev-profile' ? '450X' : scene === 'model-options' ? '' : 'Shine',
-    category: scene === 'ev-profile' ? 'Scooter' : 'Motorcycle', powertrain: scene === 'ev-profile' ? 'Electric' : 'Petrol',
-    year: scene === 'ev-profile' ? '2024' : '2019', variant: '', odometer: '13500', identifier: '', registration: '', chassis: '', engineCapacity: '', battery: '', connector: ''
+    manufacturer: onboarding ? '' : scene === 'ev-profile' ? 'Ather' : scene === 'model-options' ? 'Yamaha' : 'Honda', model: onboarding ? '' : scene === 'ev-profile' ? '450X' : scene === 'model-options' ? '' : 'Shine',
+    category: scene === 'ev-profile' ? 'Scooter' : 'Motorcycle', powertrain: onboarding ? 'Not confirmed' : scene === 'ev-profile' ? 'Electric' : 'Petrol',
+    year: onboarding ? '' : scene === 'ev-profile' ? '2024' : '2019', variant: '', odometer: onboarding ? '' : '13500', identifier: '', registration: '', chassis: '', engineCapacity: '', battery: '', connector: ''
   });
+  const stages = ['Bike', 'Details', 'Identity', ...(draft.powertrain === 'Electric' ? ['Electric'] : []), 'Review'];
+  const stageIndex = step === 5 ? stages.length - 1 : step - 1;
+  const reviewVehicle = sample || draft;
+  useEffect(() => {
+    if (!onboarding || !heading.current) return;
+    heading.current.closest('.bikecare-app-body').scrollTop = 0;
+    heading.current.focus({ preventScroll: true });
+  }, [step, onboarding]);
   function update(key, value) { setDraft(previous => ({ ...previous, [key]: value })); setError(''); }
   function advance() {
     if (step === 1 && (!draft.manufacturer.trim() || !draft.model.trim())) { setError('Choose or type the manufacturer and model.'); return; }
@@ -91,6 +101,10 @@ export function BikeCareGarage({ vehicles, selectedId, onSelect, onAdd, scene })
     event.preventDefault();
     const invalid = validateVehicle(draft, vehicles);
     if (invalid) { setError(invalid); return; }
+    if (onboarding) { setStep(5); setError(''); return; }
+    addDraft();
+  }
+  function addDraft() {
     onAdd({ ...draft, id: `vehicle-${vehicles.length + 1}`, manufacturer: draft.manufacturer.trim(), model: draft.model.trim(),
       name: `${draft.manufacturer.trim()} ${draft.model.trim()}`, year: draft.year ? Number(draft.year) : null,
       odometer: Number(draft.odometer), identifier: draft.identifier.trim(),
@@ -100,19 +114,47 @@ export function BikeCareGarage({ vehicles, selectedId, onSelect, onAdd, scene })
       verification: 'Rider-entered / Not catalog-verified' });
   }
   return <>
-    {step <= 1 && <p className="bikecare-small">India garage / 1970–{vehicleYear}. Motorcycles, scooters, mopeds and EVs; current, discontinued and imported vehicles can use manual entry.</p>}
+    {onboarding && <div className="bikecare-setup-heading">
+      {step > 0 && !sample && <ol className="bikecare-setup-progress" aria-label="Bike setup progress">
+        {stages.map((label, index) => <li key={label} aria-current={stageIndex === index ? 'step' : undefined}
+          data-complete={index < stageIndex}><span>{index < stageIndex ? '✓' : index + 1}</span>{label}</li>)}
+      </ol>}
+      <h4 ref={heading} tabIndex={-1}>{step === 0 ? 'Choose a sample bike' : step === 1 ? 'Which bike do you ride?' : step === 2 ? 'A few bike details' : step === 3 ? 'Identify your bike' : step === 4 ? 'Your electric vehicle' : 'Review your bike'}</h4>
+      <p className="bikecare-small">{step === 1 ? 'Choose the manufacturer and model. Unlisted bikes are welcome too.' : step === 2 ? 'Use your vehicle documents. Leave anything you do not know blank.' : step === 3 ? 'Add the current kilometre reading. Vehicle numbers are optional.' : step === 4 ? 'Battery and connector details can stay unknown.' : step === 5 ? 'Check the details before opening your care workspace.' : 'Fictional profiles for trying the app, not vehicles linked to a real account.'}</p>
+    </div>}
+    {!onboarding && step <= 1 && <p className="bikecare-small">India garage / 1970–{vehicleYear}. Motorcycles, scooters, mopeds and EVs; current, discontinued and imported vehicles can use manual entry.</p>}
     {error && <p className="bikecare-app-alert" role="alert">{error}</p>}
     {step === 0 ? <>
       <label>Find a saved vehicle<input type="search" value={search} onChange={event => setSearch(event.target.value)} placeholder="Manufacturer, model or year" /></label>
       <div className="bikecare-ride-list">{vehicles.filter(vehicle => `${vehicle.name} ${vehicle.year || 'unknown'}`.toLowerCase().includes(search.toLowerCase())).map(vehicle =>
-        <button className="bikecare-ride-card" key={vehicle.id} aria-label={`Select ${vehicle.name}`} aria-pressed={selectedId === vehicle.id} onClick={() => onSelect(vehicle.id)}>
+        <button className="bikecare-ride-card" key={vehicle.id} aria-label={`Select ${vehicle.name}`} aria-pressed={selectedId === vehicle.id}
+          onClick={() => { if (onboarding) { setSample(vehicle); setStep(5); } else onSelect(vehicle.id); }}>
           <strong>{vehicle.manufacturer} / {vehicle.model}</strong><span>{vehicle.year || 'Year unknown'} / {vehicle.variant || 'Variant unknown'}</span>
           <span className="bikecare-small">{vehicle.category} / {vehicle.powertrain} / {vehicle.odometer.toLocaleString('en-IN')} km</span>
         </button>)}</div>
       {!vehicles.some(vehicle => `${vehicle.name} ${vehicle.year || 'unknown'}`.toLowerCase().includes(search.toLowerCase())) && <p>No saved match. Add a vehicle; a catalogue suggestion is not required.</p>}
-      <button className="bikecare-primary" onClick={() => setStep(1)}>Add a two-wheeler</button>
+      <button className="bikecare-primary" onClick={() => setStep(1)}>{onboarding ? 'Enter my bike details instead' : 'Add a two-wheeler'}</button>
+    </> : step === 5 ? <>
+      <article className="bikecare-app-card bikecare-setup-review">
+        <span className="bikecare-status" data-tone="info">{sample ? 'Sample bike / Fictional profile' : 'Your entered details / Not verified'}</span>
+        <h4>{reviewVehicle.manufacturer} {reviewVehicle.model}</h4>
+        <dl className="bikecare-record-details">
+          <div><dt>Year</dt><dd>{reviewVehicle.year || 'Not known'}</dd></div>
+          <div><dt>Powertrain</dt><dd>{reviewVehicle.powertrain}</dd></div>
+          <div><dt>Category</dt><dd>{reviewVehicle.category}</dd></div>
+          <div><dt>Odometer</dt><dd>{Number(reviewVehicle.odometer).toLocaleString('en-IN')} km</dd></div>
+          <div><dt>Variant</dt><dd>{reviewVehicle.variant || 'Not supplied'}</dd></div>
+          {reviewVehicle.engineCapacity && <div><dt>Engine capacity</dt><dd>{reviewVehicle.engineCapacity} cc / Not verified</dd></div>}
+          {reviewVehicle.registration && <div><dt>Registration</dt><dd>{reviewVehicle.registration}</dd></div>}
+          {reviewVehicle.chassis && <div><dt>Chassis / VIN</dt><dd>{reviewVehicle.chassis}</dd></div>}
+          {reviewVehicle.powertrain === 'Electric' && <div><dt>Battery / connector</dt><dd>{reviewVehicle.battery ? `${reviewVehicle.battery} kWh` : 'Capacity unknown'} / {reviewVehicle.connector || 'Connector unknown'}</dd></div>}
+        </dl>
+      </article>
+      <p className="bikecare-small">{sample ? 'Sample data lets you explore the app without entering your own bike.' : 'New bikes start without service history. Bike details do not establish parts compatibility or service intervals.'} Nothing is sent or stored outside this page.</p>
+      <button className="bikecare-primary" onClick={() => sample ? onSelect(sample.id) : addDraft()}>Confirm bike and continue</button>
+      <button onClick={() => { setStep(sample ? 0 : draft.powertrain === 'Electric' ? 4 : 3); setSample(null); }}>Edit bike details</button>
     </> : <>
-      <span className="bikecare-status" data-tone="info">Vehicle setup / Step {step} of {draft.powertrain === 'Electric' ? 4 : 3}</span>
+      {!onboarding && <span className="bikecare-status" data-tone="info">Vehicle setup / Step {step} of {draft.powertrain === 'Electric' ? 4 : 3}</span>}
       <form className="bikecare-form" onSubmit={event => { if (step === 4 || (step === 3 && draft.powertrain !== 'Electric')) save(event); else { event.preventDefault(); advance(); } }} noValidate>
         {step === 1 && <>
           <label>Vehicle category<select value={draft.category} onChange={event => update('category', event.target.value)}>{vehicleCategories.map(category => <option key={category}>{category}</option>)}</select></label>
@@ -125,16 +167,16 @@ export function BikeCareGarage({ vehicles, selectedId, onSelect, onAdd, scene })
             placeholder="Search model or enter an unlisted name"
             options={manufacturerSuggestions[Object.keys(manufacturerSuggestions).find(name => name.toLowerCase() === draft.manufacturer.trim().toLowerCase())] || []}
             onChange={value => update('model', value)} />
-          <p className="bikecare-small">Suggestions are representative, not every historic model. Any unlisted manufacturer/model can be entered; no invented model-year availability or parts fit.</p>
+          <p className="bikecare-small">{onboarding ? 'Not listed? Type the name from your documents. Suggestions do not verify model-year availability or parts fit.' : 'Suggestions are representative, not every historic model. Any unlisted manufacturer/model can be entered; no invented model-year availability or parts fit.'}</p>
         </>}
         {step === 2 && <>
-          <h4>{draft.manufacturer} / {draft.model}</h4>
+          <p className="bikecare-setup-bike-name">{draft.manufacturer} / {draft.model}</p>
           <label>Manufacture / model year<select value={draft.year} onChange={event => update('year', event.target.value)}>
             <option value="">Year not known</option>{Array.from({ length: vehicleYear - 1969 }, (_, index) => vehicleYear - index).map(year => <option key={year} value={year}>{year}</option>)}</select></label>
           <label>Variant / trim (optional)<input value={draft.variant} maxLength={80} placeholder="Enter from vehicle documents, or leave unknown" onChange={event => update('variant', event.target.value)} /></label>
           <div className="bikecare-field"><label htmlFor={`${listId}-powertrain`}>Powertrain</label>
             <select id={`${listId}-powertrain`} value={draft.powertrain} onChange={event => update('powertrain', event.target.value)}>{powertrains.map(value => <option key={value}>{value}</option>)}</select></div>
-          <p className="bikecare-small">1970–present is the entry range, not proof that every listed model existed in every year. Use vehicle documents; unknown values stay unknown.</p>
+          <p className="bikecare-small">{onboarding ? 'Year and variant can stay unknown. Entered details are not catalogue-verified.' : '1970–present is the entry range, not proof that every listed model existed in every year. Use vehicle documents; unknown values stay unknown.'}</p>
         </>}
         {step === 3 && <>
           <p className="bikecare-small">{draft.manufacturer} / {draft.model} / {draft.year || 'Year unknown'} / {draft.powertrain}</p>
@@ -152,9 +194,9 @@ export function BikeCareGarage({ vehicles, selectedId, onSelect, onAdd, scene })
           <p className="bikecare-small">No engine-capacity or oil-change fields for EVs. Battery and charging faults require qualified EV service; no repair instructions or battery-health guarantee.</p>
           <p className="bikecare-small">Battery/connector data is rider-entered and unverified. Leave unknown values blank; do not infer charger fit or part compatibility.</p>
         </>}
-        <button className="bikecare-primary" type="submit">{step === 4 || (step === 3 && draft.powertrain !== 'Electric') ? 'Save demo vehicle' : 'Continue vehicle setup'}</button>
+        <button className="bikecare-primary" type="submit">{step === 4 || (step === 3 && draft.powertrain !== 'Electric') ? onboarding ? 'Review bike details' : 'Save demo vehicle' : 'Continue vehicle setup'}</button>
       </form>
-      <button onClick={() => { setStep(value => value - 1); setError(''); }}>{step === 1 ? 'Back to garage' : 'Previous setup step'}</button>
+      <button onClick={() => { setStep(value => value - 1); setError(''); }}>{step === 1 ? onboarding ? 'Use a sample bike instead' : 'Back to garage' : 'Previous setup step'}</button>
     </>}
   </>;
 }

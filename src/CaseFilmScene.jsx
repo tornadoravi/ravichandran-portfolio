@@ -6,6 +6,7 @@ import { solutionSteps } from './case-solutions.js';
 import { bikecareScreens } from './bikecare-story.js';
 import { sitePath } from './site-path.js';
 import { explainCaseScreen } from './case-screen-context.js';
+import PlanningWalkthrough from './PlanningWalkthrough.jsx';
 
 function BikeCareSolutionEvidence({ index, beat, playing, pause }) {
   const options = [['jobcard', 'estimate'], ['review', 'service-feedback', 'history', 'reminder'], ['supplier', 'shop', 'ride']][index];
@@ -28,7 +29,7 @@ function BikeCareSolutionEvidence({ index, beat, playing, pause }) {
 }
 
 function EvidenceComposition({ scene, pause }) {
-  if (scene.guided) return <div className="case-evidence-composition">
+  if (scene.guided) return <div className="case-evidence-composition walkthrough-source-reveal">
     <CaseSolutionScreen screen={scene.screen} pause={pause} step={scene.solutionIndex} />
   </div>;
   return <div className="case-evidence-composition">
@@ -68,7 +69,9 @@ export default function CaseFilmScene({ scene, seconds, beat, playing, pause }) 
   }
   return <div className={`case-film-explanation${scene.guided ? ' is-guided' : ''}`}>
     <div className="case-film-illustration">
-      {scene.screen ? <a className="case-film-source-screen" href={scene.screen.src}
+      {scene.caseId === 'powertable' && ['context', 'problem'].includes(scene.id)
+        ? <PlanningWalkthrough />
+        : scene.screen ? <a className="case-film-source-screen" href={scene.screen.src}
         target="_blank" rel="noopener noreferrer" onClick={pause} aria-label="Inspect original evidence (opens in a new tab)">
         <img src={scene.screen.src} alt={scene.screen.alt} width={scene.screen.width} height={scene.screen.height} />
       </a> : scene.caseId === 'spatial'

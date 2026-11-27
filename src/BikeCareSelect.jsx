@@ -1,4 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
+import { BikeCareManufacturerLogo } from './BikeCareBrand.jsx';
 
 export default function BikeCareSelect({ label, value, options, onChange, disabled = false, placeholder, initialOpen = false }) {
   const id = useId();
@@ -51,7 +52,9 @@ export default function BikeCareSelect({ label, value, options, onChange, disabl
       setActive(next);
       list.current?.children[next]?.scrollIntoView({ block: 'nearest' });
     } else if (event.key === 'Enter' && open) {
-      event.preventDefault(); choose(active < 0 ? 0 : active);
+      event.preventDefault();
+      const exact = entries.findIndex(option => option.toLowerCase() === value.trim().toLowerCase());
+      choose(active >= 0 ? active : exact >= 0 ? exact : 0);
     } else if (event.key === 'Escape') {
       event.preventDefault(); setOpen(false); setActive(-1);
     } else if (event.key === 'Tab') setOpen(false);
@@ -61,6 +64,7 @@ export default function BikeCareSelect({ label, value, options, onChange, disabl
   }}>
     <label htmlFor={`${id}-input`}>{label}</label>
     <div className="bikecare-select-control">
+      {label === 'Manufacturer' && <BikeCareManufacturerLogo name={value} />}
       <input ref={input} id={`${id}-input`} role="combobox" aria-autocomplete="list" aria-expanded={open}
         aria-controls={open ? `${id}-list` : undefined} aria-activedescendant={open && active >= 0 ? `${id}-option-${active}` : undefined}
         autoComplete="off" autoCapitalize="none" spellCheck={false} disabled={disabled} value={value} placeholder={placeholder}
@@ -78,8 +82,11 @@ export default function BikeCareSelect({ label, value, options, onChange, disabl
         {entries.map((option, index) => <button key={`${option}-${index}`} type="button" role="option" tabIndex={-1}
           id={`${id}-option-${index}`} aria-selected={value === option} data-active={active === index}
           onMouseDown={event => event.preventDefault()} onClick={() => choose(index)}>
-          <span>{manual && index === entries.length - 1 ? `Use "${option}"` : option}</span>
-          <small>{manual && index === entries.length - 1 ? 'Manual entry / unverified' : value === option ? 'Selected' : 'Suggestion'}</small>
+          <span className="bikecare-select-option-label" data-manufacturer={label === 'Manufacturer'}>
+            {label === 'Manufacturer' && !(manual && index === entries.length - 1) && <BikeCareManufacturerLogo name={option} />}
+            <span>{manual && index === entries.length - 1 ? `Use "${option}"` : option}</span>
+          </span>
+          {manual && index === entries.length - 1 ? <small>Manual entry / unverified</small> : value === option && <small>Selected</small>}
         </button>)}
       </div>
       {!entries.length && <p className="bikecare-small">No suggestions. Type the name from your vehicle documents.</p>}

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, us
 import WalkthroughButton from './WalkthroughButton.jsx';
 import WalkthroughGuide from './WalkthroughGuide.jsx';
 import { useTheme } from './ThemeContext.jsx';
+import { cueAt, narrationCues } from './walkthrough-timing.js';
 import '../cod-film.css';
 
 const audioFiles = import.meta.glob('../assets/narration/*.m4a', { eager: true, query: '?url', import: 'default' });
@@ -18,6 +19,8 @@ export default function CaseFilmPlayer({
   const [playing, setPlaying] = useState(false);
   const [mediaStarted, setMediaStarted] = useState(false);
   const [voiceOn, setVoiceOn] = useState(true);
+  const [volume, setVolume] = useState(0.65);
+  const [cue, setCue] = useState(0);
   const [reduced, setReduced] = useState(false);
   const [motionStarted, setMotionStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -32,6 +35,7 @@ export default function CaseFilmPlayer({
   const elapsed = useRef(0);
   const bar = useRef(null);
   const clock = useRef(null);
+  const captions = useRef(null);
   const buttons = useRef([]);
   const solutionButtons = useRef([]);
   const recordings = useMemo(() => {
@@ -45,6 +49,7 @@ export default function CaseFilmPlayer({
   const total = durations.reduce((sum, seconds) => sum + seconds, 0);
   const prior = durations.slice(0, active).reduce((sum, seconds) => sum + seconds, 0);
   const scene = scenes[active];
+  const cues = useMemo(() => narrationCues(scene.narration), [scene.narration]);
   const solutionSection = sections.find(section => section.label === 'Solution');
   const screenScene = presentation === 'screens' && active >= solutionSection.start && active <= solutionSection.end;
   const seconds = durations[active];
@@ -52,11 +57,12 @@ export default function CaseFilmPlayer({
     elapsed.current = Math.min(seconds, Math.max(0, position));
     if (bar.current) bar.current.style.transform = `scaleX(${(prior + elapsed.current) / total})`;
     if (clock.current) clock.current.textContent = `${timeLabel(prior + elapsed.current)} / ${timeLabel(total)}`;
+    setCue(cueAt(cues, elapsed.current / seconds));
     setBeat(value => {
       const next = Math.min(2, Math.floor(elapsed.current / seconds * 3));
       return next === value ? value : next;
     });
-  }, [seconds, prior, total]);
+  }, [seconds, prior, total, cues]);
   const goTo = useCallback((index, play = false) => {
     elapsed.current = 0;
     updateClock(0);
@@ -70,6 +76,7 @@ export default function CaseFilmPlayer({
       audio.current.currentTime = 0;
     }
     setBeat(0);
+    setCue(0);
     setMessage('');
     setCompleted(false);
     setPlaying(play);
@@ -84,6 +91,7 @@ export default function CaseFilmPlayer({
     setActive(0);
     elapsed.current = 0;
     setBeat(0);
+    setCue(0);
     setCompleted(false);
     setMessage('');
     setDemo(emptyDemo);
@@ -130,6 +138,15 @@ export default function CaseFilmPlayer({
       media.load();
     };
   }, [opened, active, recordings, updateClock]);
+
+  useEffect(() => {
+    if (opened && audio.current) audio.current.volume = volume;
+  }, [opened, volume]);
+
+  useEffect(() => {
+    const current = captions.current?.querySelector('[aria-current="true"]');
+    if (current) captions.current.scrollTop += current.getBoundingClientRect().top - captions.current.getBoundingClientRect().top;
+  }, [cue, opened, playing, active]);
 
   useEffect(() => {
     if (!opened || !playing) return;
@@ -229,7 +246,11 @@ export default function CaseFilmPlayer({
       }}>
       <header className="cod-film-header">
         <div><p className="case-card-number">Walkthrough</p><h2 id="cod-film-title">{title}</h2></div>
-        <button type="button" autoFocus aria-label="Close cinematic walkthrough" onClick={() => dialog.current.close()}>Close <span aria-hidden="true">×</span></button>
+        <button type="button" autoFocus aria-label="Close cinematic walkthrough" onClick={() => dialog.current.close()}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+            <path d="m4 4 8 8M12 4l-8 8" />
+          </svg>
+        </button>
         <p id="cod-film-description" className="sr-only">{description}</p>
       </header>
       <nav className="cod-film-nav" aria-label="Story sections" data-section-count={sections.length}>
@@ -261,17 +282,27 @@ export default function CaseFilmPlayer({
             <Scene scene={scene} seconds={seconds} beat={beat} playing={playing && mediaStarted} pause={pause} demo={demo} setDemo={setDemo} consent={consent} setConsent={setConsent}
               onSolutionStage={index => goTo(solutionSection.start + index)} close={() => dialog.current.close()} />
           </div>
-          {presentation !== 'guided' && <p className="cod-film-beat" aria-hidden="true">{scene.beats[beat]}</p>}
+          <div className="walkthrough-cues" aria-label="Visual explanation steps">
+            <span aria-current="step">
+              <span aria-hidden="true">0{beat + 1}</span>
+              <strong className="walkthrough-current-cue" key={`${scene.id}-${beat}`}>{scene.beats[beat]}</strong>
+            </span>
+          </div>
         </section>
       </div>
       <footer className="cod-film-footer">
-        <WalkthroughGuide speaking={playing && mediaStarted && voiceOn}>
-          <div className="cod-film-captions" tabIndex="0" aria-label="Scene captions"><span>0{active + 1} / {scene.label}</span><p>{scene.narration}</p></div>
+        <WalkthroughGuide speaking={playing && mediaStarted && voiceOn && volume > 0}>
+          <div ref={captions} className="cod-film-captions" tabIndex="0" aria-label="Scene captions"
+            data-following={playing && mediaStarted}>
+            <span>0{active + 1} / {scene.label}</span>
+            <p>{cues.map((item, index) => <span className="walkthrough-sentence" key={index}
+              aria-current={cue === index ? 'true' : undefined}>{item.text}</span>)}</p>
+          </div>
         </WalkthroughGuide>
         {feedback && <p className="cod-film-feedback" role="status">{feedback}</p>}
-        <audio ref={audio} preload="none" muted={!voiceOn} hidden aria-label="Cinematic story narration" />
+        <audio ref={audio} preload="none" muted={!voiceOn || volume === 0} hidden aria-label="Cinematic story narration" />
         <div className="cod-film-progress" aria-hidden="true"><span ref={bar} /></div>
-        <div className="cod-film-position"><p role="status" className="cod-film-status">Scene {active + 1} of {scenes.length} / {completed ? 'Story complete' : playing ? (!mediaStarted ? 'Loading narration' : voiceOn ? 'Narrating' : 'Playing muted') : reduced ? 'Manual mode — reduced motion' : 'Paused'}</p>
+        <div className="cod-film-position"><p role="status" className="cod-film-status">Scene {active + 1} of {scenes.length} / {completed ? 'Story complete' : playing ? (!mediaStarted ? 'Loading narration' : voiceOn && volume > 0 ? 'Narrating' : 'Playing muted') : reduced ? 'Manual mode — reduced motion' : 'Paused'}</p>
           <span ref={clock}>0:00 / {timeLabel(total)}</span></div>
         {message && <p className="case-player-error" role="alert">{message}</p>}
         {!recordings && <p className="case-player-error" role="alert">Recorded narration is missing or out of date. This is a captioned visual story until recordings are restored.</p>}
@@ -281,6 +312,17 @@ export default function CaseFilmPlayer({
           <button type="button" aria-pressed={voiceOn} disabled={!recordings} onClick={() => setVoiceOn(value => !value)}>Voice {voiceOn ? 'on' : 'off'}</button>
           <button type="button" onClick={() => active === scenes.length - 1 ? dialog.current.close() : goTo(active + 1)}>{active === scenes.length - 1 ? 'Finish' : 'Next'}</button>
         </div>
+        <label className="walkthrough-volume">
+          Volume
+          <input type="range" min="0" max="100" step="5" value={Math.round(volume * 100)}
+            disabled={!recordings} aria-label="Narration volume" aria-valuetext={`${Math.round(volume * 100)} percent`}
+            onChange={event => {
+              const next = Number(event.target.value) / 100;
+              setVolume(next);
+              if (next > 0) setVoiceOn(true);
+            }} />
+          <output>{Math.round(volume * 100)}%</output>
+        </label>
         <p className="cod-film-footer-note sr-only">Self-hosted English narration / {voiceLabel}. Pause preserves your place. Example interactions pause the story; no data is sent or stored.</p>
       </footer>
     </dialog>}

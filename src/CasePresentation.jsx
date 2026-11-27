@@ -21,8 +21,8 @@ const cases = [
   ['crosstab', '/crosstab.html', 'Cross-tab', 'Layout and data-configuration contribution.'],
   ['analyticsSuite', '/analytics-plus.html', 'Inforiver Analytics+'],
   ['wizard', '/analytics.html', 'Chart Wizard', 'End-to-end Chart Wizard; shipped.'],
-  ['storyboard', '/storyboard.html', 'Storyboard', 'Report creation and layout UX/UI.'],
-  ['gantt', '/gantt.html', 'Analytics+ Gantt', 'Analytics+ Gantt UX/UI.'],
+  ['storyboard', '/storyboard.html', 'Storyboard', 'Complete Storyboard UX/UI ownership.'],
+  ['gantt', '/gantt.html', 'Analytics+ Gantt', 'Complete Analytics+ Gantt UX/UI ownership.'],
   ['presentation', '/presentation.html', 'Annotations & Presentation', 'Annotations and presentation UX/UI.'],
   ['kpi', '/kpi.html', 'KPI Presets', 'Reusable KPI templates; shipped.']
 ];
@@ -45,13 +45,13 @@ const productChapters = [
 
 const productGroups = {
   planning: [
-    { id: 'product-tasks', name: 'Plan tasks', area: 'Gantt', role: 'Gantt UX/UI: mapping through view configuration.', features: ['mapping', 'baselines', 'backlog', 'ganttPanel'] },
-    { id: 'product-resources', name: 'Review team assignments', area: 'Resources', role: 'Resource Gantt UX/UI and rule editing.', features: ['resourcePanel', 'formatting'] },
+    { id: 'product-tasks', name: 'Plan tasks', area: 'Gantt', role: 'Complete Gantt UX/UI ownership: mapping through view configuration.', features: ['mapping', 'baselines', 'backlog', 'ganttPanel'] },
+    { id: 'product-resources', name: 'Review team assignments', area: 'Resources', role: 'Complete Resource Gantt UX/UI ownership, including rule editing.', features: ['resourcePanel', 'formatting'] },
     { id: 'product-summary', name: 'Summarize the data', area: 'Cross-tab', role: 'Cross-tab layout and data-configuration contribution.', features: ['crosstab'] }
   ],
   analyticsSuite: [
     { id: 'product-discovery', name: 'Choose a visual', area: 'Chart Wizard & KPI templates', role: 'End-to-end Chart Wizard; reusable KPI templates delivered.', features: ['wizard', 'kpi'] },
-    { id: 'product-authoring', name: 'Build the report', area: 'Storyboard & Gantt', role: 'Feature UX/UI, handoff and implementation review.', features: ['storyboard', 'gantt'] },
+    { id: 'product-authoring', name: 'Build the report', area: 'Storyboard & Gantt', role: 'Complete Storyboard and Analytics+ Gantt UX/UI ownership.', features: ['storyboard', 'gantt'] },
     { id: 'product-explanation', name: 'Explain the insight', area: 'Annotations & Presentation', role: 'Feature UX/UI, handoff and implementation review.', features: ['presentation'] }
   ]
 };

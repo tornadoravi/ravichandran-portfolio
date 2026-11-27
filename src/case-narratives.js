@@ -2,7 +2,7 @@ export const caseNarratives = {
   powertable: {
     purpose: 'PowerTable helps teams organize business data, plan tasks over time, and review who is assigned to the work inside Microsoft Fabric.',
     problem: 'A project plan needs more than dates: planners must connect the work, the people doing it, and the hours recorded against it. Those relationships are hard to interpret when data setup and view settings feel disconnected.',
-    role: 'End-to-end Gantt and resource UX/UI; Cross-tab contribution.',
+    role: 'Complete Gantt and Resource Gantt UX/UI ownership; Cross-tab contribution.',
     decision: 'I connected task, time-entry and resource mapping with contextual Gantt/resource settings, keeping each data role explicit instead of flattening everything into one configuration flow.',
     audience: 'Project and resource planners',
     scenario: 'A planner needs task timing, logged effort, and resource assignments to make sense together.',
@@ -136,7 +136,7 @@ export const caseNarratives = {
   storyboard: {
     purpose: 'Storyboard is the report-building workspace where authors arrange charts, metric cards, and tables, starting from a template, custom layout, or blank canvas.',
     problem: 'Authors do not all need the same starting point: some want a ready-made report structure, while others need control over the arrangement. A mandatory template or empty canvas would make one group do unnecessary setup.',
-    role: 'Feature UX/UI, handoff, and implementation review.',
+    role: 'Complete Storyboard UX/UI ownership, handoff, and implementation review.',
     decision: 'I preserved template, custom-layout and blank-report starting points, then connected them to the authoring canvas instead of forcing every author through the same amount of setup.',
     audience: 'Power BI report authors',
     goal: 'Connect different report starting points to a coherent authoring canvas.',
@@ -149,7 +149,7 @@ export const caseNarratives = {
   gantt: {
     purpose: 'Analytics+ Gantt turns task names and dates into horizontal bars on a timeline, helping Power BI report readers understand when work is planned.',
     problem: 'A task table is not yet a schedule. Authors need to understand which fields define the task and its dates, then see how those choices relate to the timeline rather than guessing from the finished chart.',
-    role: 'Feature UX/UI, handoff, and implementation review.',
+    role: 'Complete Analytics+ Gantt UX/UI ownership, handoff, and implementation review.',
     decision: 'I connected chart selection and explicit task/start/end-date mapping to the timeline, showing how source fields acquire scheduling meaning rather than presenting only a finished chart.',
     audience: 'Power BI report authors',
     goal: 'Connect chart selection and task/date mapping to a readable schedule.',
@@ -208,7 +208,7 @@ export const caseHighlights = {
   },
   powertable: {
     problem: 'Task timing, logged effort and resource assignments need connected but distinct meanings.',
-    role: 'End-to-end Gantt/resource UX/UI; Cross-tab contribution.',
+    role: 'Complete Gantt and Resource Gantt UX/UI ownership; Cross-tab contribution.',
     decision: 'I connected mapping and contextual settings while preserving each data role.',
     evidence: 'Gantt/resource design work; baseline and earned-value work remain explorations.'
   },
@@ -285,7 +285,7 @@ export const caseHighlights = {
   storyboard: {
     purpose: 'Start a report from a template, layout or blank canvas.',
     problem: 'A mandatory starting route assumes every author needs the same setup.',
-    role: 'Feature UX/UI, handoff and implementation review.',
+    role: 'Complete Storyboard UX/UI ownership, handoff and implementation review.',
     decision: 'I connected different starting points to one authoring canvas.',
     evidence: 'Six product screens document report creation and template states.',
     screen: 'Report starting points: I offered templates, custom layouts and a blank-canvas option.'
@@ -293,7 +293,7 @@ export const caseHighlights = {
   gantt: {
     purpose: 'Turn task names and dates into a schedule in Power BI.',
     problem: 'A table becomes a schedule only when task and date roles are explicit.',
-    role: 'Analytics+ Gantt UX/UI, handoff and implementation review.',
+    role: 'Complete Analytics+ Gantt UX/UI ownership, handoff and implementation review.',
     decision: 'I connected chart selection, task/date mapping and the timeline.',
     evidence: 'Three supplied crops; scheduling accuracy was not measured.',
     screen: 'Timeline mapping: I showed which task dates belong in the schedule.'

@@ -7,6 +7,7 @@ import { BikeCareAccess, BikeCareGarage } from './BikeCareAccessGarage.jsx';
 import { BikeCareNotifications, BikeCareSupport, BikeCareSystem } from './BikeCareCareSupport.jsx';
 import { initialTicket } from './bikecare-ux-model.js';
 import { BikeCareLogo, BikeCareVehiclePhoto } from './BikeCareBrand.jsx';
+import BikeCareWelcomeIllustration from './BikeCareWelcomeIllustration.jsx';
 import BikeCareServiceFeedback from './BikeCareServiceFeedback.jsx';
 import BikeCareDocuments from './BikeCareDocuments.jsx';
 import { documentKey, sampleDocument } from './bikecare-documents.js';
@@ -30,8 +31,22 @@ const titles = {
   cart: 'Review your purchase.', order: 'Your demo order.', rides: 'Ride with your community.',
   ride: 'Before you join.', request: 'Your ride request.',
   organise: 'Create a motorcycle ride.', manage: 'Keep the group informed.',
-  garage: 'Your vehicles, clearly identified.', profile: 'Know the vehicle, not just its name.', notifications: 'Care cues you control.', more: 'Care, help and preferences.',
+  garage: 'Your vehicles, clearly identified.', setup: 'Your bike comes first.', profile: 'Know the vehicle, not just its name.', notifications: 'Care cues you control.', more: 'Care, help and preferences.',
   help: 'Help with the next step.', settings: 'Signal. Your theme.'
+};
+
+const navigationIcons = {
+  home: 'm3 10 9-7 9 7v10h-6v-6H9v6H3Z',
+  service: 'm14 3-3 3 1 4 4 1 3-3a6 6 0 0 1-7 7l-6 6-3-3 6-6a6 6 0 0 1 5-9Z',
+  history: 'M3 12a9 9 0 1 0 3-7M3 3v5h5M12 7v5l3 2',
+  shop: 'M5 7h14l1 14H4ZM8 7V6a4 4 0 0 1 8 0v1',
+  more: 'M4 4h6v6H4ZM14 4h6v6h-6ZM4 14h6v6H4ZM14 14h6v6h-6Z',
+  jobs: 'M3 7h18v14H3ZM8 7V3h8v4M3 12h18M10 12v3h4v-3',
+  jobcard: 'M8 4H4v17h16V4h-4M8 2h8v5H8ZM8 12h8M8 16h6',
+  record: 'M5 4h14v16H5ZM8 12l3 3 5-6',
+  bill: 'M5 3h14v18l-3-2-4 2-4-2-3 2ZM8 8h8M8 12h8M8 16h4',
+  help: 'M3 4h18v13H9l-6 4ZM8 8h8M8 12h5',
+  settings: 'M4 7h16M4 17h16M8 4v6M16 14v6'
 };
 
 function initialJob(sourceScene, vehicle) {
@@ -121,6 +136,7 @@ export default function BikeCareApp({ scene }) {
   const [role, setRole] = useState(scene === 'support-review' ? 'support' : ['record', 'ev-work'].includes(scene) ? 'mechanic' : ['bill', 'payment', 'ev-bill'].includes(scene) ? 'billing'
     : ['jobcard', 'jobs', 'staff-login', 'recover', 'ev-job'].includes(scene) ? 'advisor' : 'rider');
   const [signedIn, setSignedIn] = useState(Boolean(scene && !accessScene && !['splash', 'landing'].includes(scene)));
+  const [riderReady, setRiderReady] = useState(Boolean(scene && !accessScene && !['splash', 'landing'].includes(scene)));
   const [view, setView] = useState(!scene ? 'splash' : accessScene ? 'login' : garageScene ? 'garage' : documentScene ? 'documents' : supportScene ? 'help' : ['system', 'theme-dark'].includes(scene) ? 'settings'
     : scene === 'ev-job' ? 'jobcard' : scene === 'ev-work' ? 'record' : scene === 'ev-bill' ? 'bill' : scene === 'reminder' ? 'notifications' : scene === 'ev-home' ? 'home' : scene);
   const [jobs, setJobs] = useState(Object.fromEntries(demoBikes.map(vehicle => [vehicle.id, vehicle.id === initialVehicleId ? initialJob(scene, vehicle) : createDemoJob(vehicle)])));
@@ -180,12 +196,14 @@ export default function BikeCareApp({ scene }) {
 
   function navigate(next) { setView(next); setError(''); setMessage(''); setAcknowledged(false); }
   function changeRole(next) { setRole(next); setSignedIn(false); navigate('login'); setWorkChecked(false); }
-  function enterWorkspace() { setSignedIn(true); navigate(role === 'support' ? 'help' : role === 'rider' ? 'home' : 'jobs'); }
+  function enterWorkspace() { setSignedIn(true); navigate(role === 'support' ? 'help' : role === 'rider' ? (riderReady ? 'home' : 'setup') : 'jobs'); }
   function selectVehicle(id) {
+    if (role === 'rider') setRiderReady(true);
     setBikeId(id); setReadingInput(String(readings[id])); setWorkChecked(false);
     setSharePreview(false); setNotificationPreview(false); navigate(role === 'rider' ? 'home' : 'jobs');
   }
   function addVehicle(vehicle) {
+    if (role === 'rider') setRiderReady(true);
     setVehicles(previous => [...previous, vehicle]);
     setJobs(previous => ({ ...previous, [vehicle.id]: createDemoJob(vehicle) }));
     setRecords(previous => ({ ...previous, [vehicle.id]: [] }));
@@ -325,22 +343,24 @@ export default function BikeCareApp({ scene }) {
   }
 
   return <div className="bikecare-app" data-bikecare-app="" data-product-theme={theme}>
-    <div className="bikecare-role-switch" role="group" aria-label="Simulate a BikeCare role"><span>Preview a separate workspace</span>
+    <details className="bikecare-demo-workspaces"><summary>Preview workshop roles</summary>
+    <div className="bikecare-role-switch" role="group" aria-label="Simulate a BikeCare role"><span>Separate demo workspaces</span>
       {bikecareRoles.map(item => <button key={item.id} aria-pressed={role === item.id} onClick={() => changeRole(item.id)}>{item.label}</button>)}
     </div>
+    </details>
     <div className="bikecare-phone" data-intro={view === 'splash' ? 'true' : undefined}>
       {view !== 'splash' && <header className="bikecare-app-header">
         <div><button className="bikecare-brand-home" aria-label="BikeCare welcome" onClick={() => { setSignedIn(false); navigate('landing'); }}><BikeCareLogo /></button>
           <span className="bikecare-role-label">{actor.label} / Demo</span></div>
-        {signedIn ? <button className="bikecare-vehicle-context" aria-label="Selected bike: open garage" onClick={() => navigate('garage')}>
+        {signedIn && (role !== 'rider' || riderReady) ? <button className="bikecare-vehicle-context" aria-label="Selected bike: open garage" onClick={() => navigate('garage')}>
           <strong>{view === 'garage' ? 'Garage / vehicle setup' : `${bike.manufacturer} / ${bike.model}`}</strong>
           <span>{view === 'garage' ? `Current vehicle: ${bike.name}` : `${bike.year || 'Year unknown'} / ${bike.variant || 'Variant unknown'} / ${bike.powertrain}`}</span>
         </button>
-          : <p className="bikecare-small">Mobile UX/UI prototype / Not real authentication</p>}
+          : <p className="bikecare-small">{view === 'setup' ? 'Bike setup / No bike selected yet' : 'Mobile UX/UI prototype / Not real authentication'}</p>}
       </header>}
       <div className="bikecare-app-body" ref={body} data-view={view}>
-        {!['splash', 'landing'].includes(view) && <><p className="bikecare-app-eyebrow">{['rides', 'ride', 'request', 'organise', 'manage'].includes(view) ? 'MOTORCYCLE COMMUNITY' : role === 'rider' ? 'YOUR BIKE. CONNECTED CARE.' : 'LOCAL WORKSHOP / ROLE-BASED HANDOVER'}</p>
-        <h3>{titles[view]}</h3></>}
+        {!['splash', 'landing'].includes(view) && <><p className="bikecare-app-eyebrow">{view === 'setup' ? 'GET STARTED' : ['rides', 'ride', 'request', 'organise', 'manage'].includes(view) ? 'MOTORCYCLE COMMUNITY' : role === 'rider' ? 'YOUR BIKE. CONNECTED CARE.' : 'LOCAL WORKSHOP / ROLE-BASED HANDOVER'}</p>
+        <h3 ref={entryHeading} tabIndex={-1}>{titles[view]}</h3></>}
         {error && <p className="bikecare-app-alert" role="alert">{error}</p>}
         {message && <p className="bikecare-app-message" role="status">{message}</p>}
         {view === 'splash' && <section className="bikecare-splash" aria-labelledby={`${workId}-intro`}>
@@ -353,10 +373,10 @@ export default function BikeCareApp({ scene }) {
           <p className="bikecare-small">Design preview. Continue when you are ready.</p>
         </section>}
         {view === 'landing' && <section className="bikecare-landing">
-          <div className="bikecare-welcome-visual"><BikeCareVehiclePhoto key={bike.name} bike={bike} /></div>
+          <BikeCareWelcomeIllustration />
           <h3 ref={entryHeading} tabIndex={-1}>{titles[view]}</h3>
-          <p>From your neighbourhood mechanic to your next owner. Keep the care story together.</p>
-          <p className="bikecare-landing-points">Approve. Record. Remember.</p>
+          <p>Select your bike, add its details, then keep service records and care reminders in one place.</p>
+          <p className="bikecare-landing-points">Your bike. Your records. Your next step.</p>
           <button className="bikecare-primary" onClick={() => { setRole('rider'); navigate('login'); }}>Get started as a rider</button>
           <button onClick={() => changeRole('advisor')}>Open workshop sign-in</button>
           <p className="bikecare-small">Independent-workshop care for motorcycles, scooters, mopeds and EVs. Not an authorised brand service.</p>
@@ -372,6 +392,8 @@ export default function BikeCareApp({ scene }) {
             <button onClick={enterWorkspace}>Open demo workspace</button></details>
         </>}
         {view === 'garage' && <BikeCareGarage vehicles={vehicles.map(vehicle => ({ ...vehicle, odometer: readings[vehicle.id] }))} selectedId={bikeId} onSelect={selectVehicle} onAdd={addVehicle} scene={scene} />}
+        {view === 'setup' && <BikeCareGarage onboarding vehicles={vehicles.map(vehicle => ({ ...vehicle, odometer: readings[vehicle.id] }))}
+          selectedId={null} onSelect={selectVehicle} onAdd={addVehicle} />}
         {view === 'profile' && <article className="bikecare-app-card"><h4>{bike.name}</h4>
           <dl className="bikecare-record-details">
             <div><dt>Manufacturer / model</dt><dd>{bike.manufacturer} / {bike.model}</dd></div><div><dt>Year / variant</dt><dd>{bike.year || 'Unknown'} / {bike.variant || 'Unknown'}</dd></div>
@@ -680,8 +702,10 @@ export default function BikeCareApp({ scene }) {
           <button className="bikecare-primary" type="submit">Create local demo ride</button>
         </form>}
       </div>
-      {signedIn && <nav className="bikecare-app-nav" data-items={navigation.length} aria-label="BikeCare app navigation">{navigation.map(([id, label], index) => <button key={id}
-        aria-current={activeTab === id ? 'page' : undefined} onClick={() => navigate(id)}><span aria-hidden="true">0{index + 1}</span>{label}</button>)}</nav>}
+      {signedIn && (role !== 'rider' || riderReady) && view !== 'setup' && <nav className="bikecare-app-nav" data-items={navigation.length} aria-label="BikeCare app navigation">{navigation.map(([id, label]) => <button key={id}
+        aria-current={activeTab === id ? 'page' : undefined} onClick={() => navigate(id)}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={navigationIcons[id]} /></svg>
+        {label}</button>)}</nav>}
       <div className="bikecare-in-phone-note">UX/UI concept / Fictional data / No real transactions</div>
     </div>
     <p className="bikecare-demo-note">Clickable design only. Sign-in, roles, supplier checks, orders, payments and ride decisions are simulated. Page-memory data resets on reload; no app, provider, message or sharing service is connected.</p>

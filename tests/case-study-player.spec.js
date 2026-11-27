@@ -8,7 +8,6 @@ import { caseHighlights } from '../src/case-narratives.js';
 import { explainCaseScreen } from '../src/case-screen-context.js';
 
 const recorded = JSON.parse(readFileSync(new URL('../src/case-film-audio.json', import.meta.url), 'utf8'));
-const previous = JSON.parse(readFileSync(new URL('../src/case-audio.json', import.meta.url), 'utf8'));
 const cases = [
   ['powertable', 'powertable'], ['mapping', 'column-mapping'], ['baselines', 'gantt-baselines'],
   ['backlog', 'gantt-backlog'], ['ganttPanel', 'gantt-configuration'],
@@ -48,6 +47,30 @@ async function choose(player, index, closingLabel = 'Scope') {
   if (sectionIndex === 2) await player.getByRole('group', { name: 'Solution steps', exact: true }).getByRole('button').nth(index - 2).click();
 }
 
+test('compact walkthrough close controls stay centered with the title and retain keyboard access', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const [width, height] of [[320, 650], [390, 844], [844, 390], [1440, 900]]) {
+    await page.setViewportSize({ width, height });
+    for (const route of ['powertable', 'cod-shield']) {
+      const player = await openPlayer(page, route);
+      const close = player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true });
+      await expect(close).toBeFocused();
+      const button = await close.boundingBox();
+      const title = await player.locator('.cod-film-header h2').boundingBox();
+      const icon = await close.locator('svg').boundingBox();
+      expect(button.width).toBeGreaterThanOrEqual(44);
+      expect(button.width).toBeLessThanOrEqual(44);
+      expect(button.height).toBeGreaterThanOrEqual(44);
+      expect(Math.abs(button.y + button.height / 2 - title.y - title.height / 2)).toBeLessThanOrEqual(1);
+      expect(icon.x + icon.width / 2).toBeCloseTo(button.x + button.width / 2, 1);
+      expect(icon.y + icon.height / 2).toBeCloseTo(button.y + button.height / 2, 1);
+      await page.keyboard.press('Enter');
+      await expect(player).toHaveCount(0);
+      await expect(page.locator('.case-watch-entry').getByRole('button', { name: 'Walkthrough', exact: true })).toBeFocused();
+    }
+  }
+});
+
 test('every remaining case shares the animated Walkthrough frame with one Solution section and its own three steps', async ({ page }) => {
   test.setTimeout(90000);
   await mockVoice(page);
@@ -57,6 +80,10 @@ test('every remaining case shares the animated Walkthrough frame with one Soluti
     expect(await page.evaluate(() => window.__narration.spoken)).toEqual([]);
     await page.getByRole('button', { name: 'Walkthrough', exact: true }).first().click();
     const player = page.locator('.cod-film-player');
+    await expect(player.getByLabel('Visual explanation steps').locator('[aria-current="step"]')).toBeVisible();
+    const openingVisual = player.locator('.cod-film-stage-content img,.cod-film-stage-content svg,.planning-walkthrough').first();
+    await expect(openingVisual).toBeVisible();
+    expect((await openingVisual.boundingBox()).height).toBeGreaterThan(100);
     await expect(player.locator('.case-card-number')).toHaveText('Walkthrough');
     await expect(player.getByRole('navigation', { name: 'Story sections', exact: true }).getByRole('button')).toHaveCount(5);
     const solution = player.getByRole('button', { name: 'Go to section 3: Solution', exact: true });
@@ -100,6 +127,13 @@ test('every remaining case shares the animated Walkthrough frame with one Soluti
       await player.getByRole('button', { name: 'Play', exact: true }).click();
       await expect(player.locator('.cod-film-status')).toContainText(`Scene ${index + 3} of 7 / Narrating`);
       expect(await page.evaluate(() => window.__narration.spoken.at(-1).text)).toBe(recorded.cases[caseId][index + 2].text);
+      await page.evaluate(seconds => {
+        const audio = window.__narration.current;
+        audio.currentTime = seconds * .8;
+        audio.dispatchEvent(new Event('timeupdate'));
+      }, recorded.cases[caseId][index + 2].seconds);
+      await expect(player.getByLabel('Visual explanation steps').locator('[aria-current="step"] > span')).toHaveText('03');
+      await expect(player.locator('.walkthrough-sentence[aria-current]')).toBeVisible();
     }
     await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
   }
@@ -210,14 +244,9 @@ test('seven native completion events advance the story and keep Solution grouped
   await expect(page.locator('body')).not.toHaveClass(/preview-open/);
 });
 
-test('recorded scripts match current content and unchanged narration retains its existing recording', () => {
+test('recorded scripts match current content and keep the three Solution steps distinct', () => {
   for (const [caseId] of cases.filter(([id]) => !standaloneNarration[id])) {
     const clips = recorded.cases[caseId];
-    for (const [oldIndex, newIndex] of [[0, 0], [1, 1], [3, 5], [4, 6]]) {
-      if (clips[newIndex].text === previous.cases[caseId][oldIndex].text) {
-        expect(clips[newIndex].file).toBe(previous.cases[caseId][oldIndex].file);
-      }
-    }
     expect(clips.slice(2, 5).map(clip => clip.text)).toEqual(solutionNarration[caseId]);
     expect(new Set(clips.slice(2, 5).map(clip => clip.file)).size).toBe(3);
   }
@@ -263,7 +292,7 @@ test('keyboard activation uses packaged narration, never browser speech or a liv
   await page.getByRole('button', { name: 'Walkthrough', exact: true }).first().focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('.cod-film-status')).toContainText('Narrating');
-  expect(await page.evaluate(() => window.__narration.spoken[0])).toMatchObject({ name: 'Energetic tech-explainer' });
+  expect(await page.evaluate(() => window.__narration.spoken[0])).toMatchObject({ name: recorded.label });
   expect(api).toEqual([]);
 });
 
@@ -321,6 +350,135 @@ test('pause preserves position and muting never reloads a recording', async ({ p
   await player.getByRole('button', { name: 'Read this scene', exact: true }).click();
   await expect.poll(() => audio.evaluate(media => media.currentTime), { timeout: 5000 }).toBeGreaterThan(position);
   await expect(audio).toHaveJSProperty('muted', true);
+});
+
+test('native PowerTable playback advances every scene without an intermediate pause', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.addInitScript(() => {
+    document.addEventListener('loadedmetadata', event => {
+      if (event.target.getAttribute?.('aria-label') === 'Cinematic story narration') {
+        event.target.defaultPlaybackRate = 8;
+        event.target.playbackRate = 8;
+      }
+    }, true);
+  });
+  const player = await openPlayer(page, 'powertable');
+  for (let index = 0; index < recorded.cases.powertable.length; index++) {
+    await expect(player.locator('.cod-film-status')).toContainText(`Scene ${index + 1} of 7 / Narrating`, { timeout: 15000 });
+    await expect(player.locator('.cod-film-stage')).toHaveAttribute('data-scene', recorded.cases.powertable[index].id);
+  }
+  await expect(player.locator('.cod-film-status')).toContainText('Story complete', { timeout: 15000 });
+  await expect(player.getByRole('alert')).toHaveCount(0);
+});
+
+test('volume adjusts immediately without reloading and survives scenes, mute, replay and reopening', async ({ page }) => {
+  await mockVoice(page);
+  const player = await openPlayer(page, 'powertable');
+  const audio = player.locator('audio');
+  const volume = player.getByRole('slider', { name: 'Narration volume' });
+  await expect(audio).toHaveJSProperty('volume', 0.65);
+  await page.evaluate(() => { window.__narration.current.currentTime = 3; });
+  const count = await page.evaluate(() => window.__narration.spoken.length);
+  await volume.fill('30');
+  await expect(audio).toHaveJSProperty('volume', 0.3);
+  await expect(audio).toHaveJSProperty('currentTime', 3);
+  expect(await page.evaluate(() => window.__narration.spoken.length)).toBe(count);
+  await volume.fill('0');
+  await expect(audio).toHaveJSProperty('muted', true);
+  await expect(player.locator('.cod-film-status')).toContainText('Playing muted');
+  await expect(player.locator('.walkthrough-guide')).toHaveAttribute('data-speaking', 'false');
+  await volume.fill('30');
+  await expect(audio).toHaveJSProperty('muted', false);
+  await player.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(audio).toHaveJSProperty('volume', 0.3);
+  await player.getByRole('button', { name: 'Voice on', exact: true }).click();
+  await expect(volume).toHaveValue('30');
+  await player.getByRole('button', { name: 'Voice off', exact: true }).click();
+  await expect(audio).toHaveJSProperty('volume', 0.3);
+  await choose(player, 6);
+  await player.getByRole('button', { name: 'Play', exact: true }).click();
+  await page.evaluate(() => window.__narration.current.dispatchEvent(new Event('ended')));
+  await player.getByRole('button', { name: 'Replay story', exact: true }).click();
+  await expect(audio).toHaveJSProperty('volume', 0.3);
+  await player.getByRole('button', { name: 'Close cinematic walkthrough', exact: true }).click();
+  await page.getByRole('button', { name: 'Walkthrough', exact: true }).first().click();
+  await expect(audio).toHaveJSProperty('volume', 0.3);
+});
+
+test('every PowerTable scene has visible, progressing cues without a duration tagline', async ({ page }) => {
+  await mockVoice(page);
+  const player = await openPlayer(page, 'powertable');
+  const captions = player.locator('.cod-film-captions');
+  const sentence = captions.locator('.walkthrough-sentence[aria-current]');
+  const first = await sentence.textContent();
+  const cues = player.getByLabel('Visual explanation steps');
+  const planning = player.locator('.planning-walkthrough');
+  await expect(planning).toBeVisible();
+  const animation = planning.locator('.planning-gantt-bar');
+  await expect(animation).toHaveCSS('animation-name', 'planning-task-enters');
+  await page.evaluate(seconds => {
+    const audio = window.__narration.current;
+    audio.currentTime = seconds * .8;
+    audio.dispatchEvent(new Event('timeupdate'));
+  }, recorded.cases.powertable[0].seconds);
+  await expect(sentence).not.toHaveText(first);
+  await expect(cues.locator('[aria-current="step"] > span')).toHaveText('03');
+  await expect(planning.locator('.planning-assignment')).toHaveCSS('animation-name', 'planning-person-linked');
+  await expect(captions).toHaveAttribute('data-following', 'true');
+  await player.getByRole('button', { name: 'Pause', exact: true }).click();
+  await expect(captions).toHaveAttribute('data-following', 'false');
+  await expect(captions.locator('p')).toHaveText(recorded.cases.powertable[0].text);
+  const captionBounds = await captions.boundingBox();
+  const currentBounds = await sentence.boundingBox();
+  expect(currentBounds.y).toBeGreaterThanOrEqual(captionBounds.y - 1);
+  expect(currentBounds.y).toBeLessThan(captionBounds.y + captionBounds.height);
+  for (let index = 1; index < 7; index++) {
+    await choose(player, index);
+    await expect(cues.locator('[aria-current="step"]')).toBeVisible();
+    const content = player.locator('.cod-film-stage-content');
+    const box = await content.boundingBox();
+    expect(box.height).toBeGreaterThan(100);
+    await expect(content.locator('img,svg,.planning-walkthrough').first()).toBeVisible();
+  }
+  await player.getByRole('button', { name: 'Finish', exact: true }).click();
+  await expect(page.locator('.walkthrough-entry-note')).toHaveCount(0);
+  for (const clips of Object.values(recorded.cases)) {
+    expect(clips.reduce((total, clip) => total + clip.seconds, 0)).toBeLessThan(180);
+  }
+});
+
+test('planning examples keep one aligned cue and inset content without overlapping scene headings', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const [width, height] of [[320, 650], [390, 650], [1280, 720], [1440, 900], [844, 390]]) {
+    await page.setViewportSize({ width, height });
+    const player = await openPlayer(page, 'powertable');
+    for (const index of [0, 1]) {
+      await choose(player, index);
+      await page.evaluate(() => document.fonts.ready);
+      const planning = player.locator('.planning-walkthrough');
+      const bounds = await planning.boundingBox();
+      const heading = await player.locator('.cod-film-stage-heading').boundingBox();
+      expect(Math.abs(bounds.x - heading.x)).toBeLessThanOrEqual(1);
+      expect(bounds.y, `${width}px scene ${index}`).toBeGreaterThanOrEqual(heading.y + heading.height - 1);
+      expect(await planning.evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
+      const task = await planning.locator('.planning-task').boundingBox();
+      const schedule = await planning.locator('.planning-schedule').boundingBox();
+      expect(Math.abs(task.y - schedule.y)).toBeLessThanOrEqual(1);
+      for (const part of [task, schedule]) {
+        expect(part.x).toBeGreaterThanOrEqual(bounds.x + 8);
+        expect(part.y).toBeGreaterThanOrEqual(bounds.y + 8);
+        expect(part.x + part.width).toBeLessThanOrEqual(bounds.x + bounds.width - 8);
+        expect(part.y + part.height).toBeLessThanOrEqual(bounds.y + bounds.height - 8);
+      }
+      const cue = player.getByLabel('Visual explanation steps');
+      await expect(cue.locator(':scope > span')).toHaveCount(1);
+      expect((await cue.locator('[aria-current="step"]').boundingBox()).y)
+        .toBeGreaterThanOrEqual(bounds.y + bounds.height + (height <= 600 ? 3 : 7));
+      await expect(player.getByRole('slider', { name: 'Narration volume' })).toBeInViewport();
+    }
+    await page.keyboard.press('Escape');
+  }
 });
 
 test('missing media fails explicitly and manual scene controls remain usable', async ({ page }) => {
@@ -457,6 +615,7 @@ for (const [width, height] of [[320, 812], [390, 844], [768, 900], [1440, 1000],
         await expect(player.locator('.cod-film-captions')).toBeInViewport();
         await expect(player.getByRole('button', { name: 'Read this scene', exact: true })).toBeInViewport();
       }
+      await expect(player.getByRole('slider', { name: 'Narration volume' })).toBeInViewport();
       await choose(player, 5);
       await expect(player.locator('.case-film-source-screen img')).toHaveAttribute('alt', /./);
       await player.locator('.case-film-source-screen img').evaluate(image => image.decode());

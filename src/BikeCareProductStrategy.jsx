@@ -38,7 +38,7 @@ export function BikeCareSystemPreview() {
   }
   return <section className="bikecare-strategy-section" aria-labelledby="bikecare-theme-title">
     <h4 id="bikecare-theme-title">Signal. Clear care, without visual noise.</h4>
-    <p>Graphite establishes the record; signal orange identifies the next deliberate action. Cool mineral surfaces replace the earlier cream theme. Status colours have separate meanings, not brand decoration.</p>
+    <p>Deep ink establishes the record; care teal identifies the next deliberate action. Quiet neutral surfaces keep forms and records readable. Status colours have separate meanings, not brand decoration.</p>
     <div className="bikecare-strategy-controls" role="group" aria-label="Preview design-system theme">
       {['light', 'dark'].map(value => <button key={value} type="button" aria-pressed={theme === value} onClick={() => setTheme(value)}>Preview {value} theme</button>)}
     </div>
@@ -90,7 +90,7 @@ export function BikeCareSystemPreview() {
       </div>
     </div>
     <div className="bikecare-strategy-grid">
-      <article><h4>Why this direction</h4><p>Graphite and mineral grey provide a distinct, tool-like workshop identity. A restrained orange action is easy to locate without colouring every record. This is a design hypothesis to test, not evidence that a colour creates trust or improves conversion.</p></article>
+      <article><h4>Why this direction</h4><p>Deep ink and quiet neutral surfaces provide a clear workshop identity. A restrained teal action stays distinct without colouring every record. This is a design hypothesis to test, not evidence that a colour creates trust or improves conversion.</p></article>
       <article><h4>Why these components</h4><p>System sans, structured cards and less-rounded actions replace the editorial onboarding style. Persistent labels, unknown-model entry, versioned estimates and independent payment/rating states keep important distinctions visible.</p></article>
       <article><h4>Motion stays useful</h4><p>120ms press feedback acknowledges touch. Keyboard selection is immediate; reduced motion removes scaling. No decorative animation delays reading a bill or confirming a decision.</p></article>
     </div>
@@ -225,7 +225,7 @@ export function BikeCareDesignDocumentation() {
     <a className="bikecare-document-download" href={sitePath('/assets/bikecare-design-system.md')} download>Download the design-system explanation (.md)</a>
     <table className="bikecare-research-table"><thead><tr><th scope="col">Rule</th><th scope="col">Usage and reason</th><th scope="col">Edge state</th></tr></thead><tbody>
       <tr><th scope="row">Product photography</th><td>Neutral motorcycle card with contained official imagery; no unrelated ring, fake progress or arbitrary bike replacement.</td><td>No exact reference? Show a named empty state. Photo does not validate model year.</td></tr>
-      <tr><th scope="row">Theme and hierarchy</th><td>Graphite records, mineral-grey canvas and signal-orange actions. System sans throughout, 12px controls and 18px cards establish a more functional identity.</td><td>Dark uses its own orange/text pair, not inversion. Status labels remain explicit; orange is never a warning badge.</td></tr>
+      <tr><th scope="row">Theme and hierarchy</th><td>Deep ink, quiet neutral canvas and care-teal actions. System sans throughout, 12px controls and 18px cards establish a clear functional identity.</td><td>Dark uses its own teal/text pair, not inversion. Status labels remain explicit; brand colour does not establish verification.</td></tr>
       <tr><th scope="row">Action hierarchy</th><td>One filled primary action; outlined secondary action; muted disabled state. Separate brand, attention, error and acknowledgement tokens.</td><td>Disabled does not explain itself: show the unmet condition beside important actions. Destructive changes require confirmation.</td></tr>
       <tr><th scope="row">Layout and reading</th><td>4px spacing grid, 16px fields and tabular numeric totals. Dense records keep labelled groups; long names wrap rather than truncate identity.</td><td>Scroll lengthy content independently; preserve reachable navigation. Test zoom, keyboards, focus and real devices before release.</td></tr>
       <tr><th scope="row">Identity fields</th><td>Manufacturer/model suggestions accept manual entry. Registration, chassis and optional label are separate; never infer one from another.</td><td>Unknown/unregistered is allowed; duplicate normalised numbers require opening the existing profile.</td></tr>

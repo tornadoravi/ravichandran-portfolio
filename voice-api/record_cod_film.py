@@ -11,6 +11,7 @@ import urllib.request
 import wave
 
 from config import MODEL_REVISION, ROOT, VOICE_PROFILES
+from master_narration import MASTERING_VERSION, master_speech
 
 
 def record_scenes(scenes, profile, temporary):
@@ -23,7 +24,11 @@ def record_scenes(scenes, profile, temporary):
     clips = []
     for index, scene in enumerate(scenes, 1):
         text = scene["text"]
-        identity = json.dumps([MODEL_REVISION, prompt, 0.7, text], ensure_ascii=True)
+        identity = json.dumps(
+            [MODEL_REVISION, prompt, 0.7, MASTERING_VERSION, text]
+            if profile == "explainer" else [MODEL_REVISION, prompt, 0.7, text],
+            ensure_ascii=True,
+        )
         digest = hashlib.sha256(identity.encode()).hexdigest()[:24]
         filename = scene.get("existingFile", f"{profile}-{digest}.m4a")
         if Path(filename).name != filename or not filename.endswith(".m4a"):
@@ -58,7 +63,17 @@ def record_scenes(scenes, profile, temporary):
                     raise RuntimeError("Silent narration.")
             wav = temporary / f"cod-film-{digest}.wav"
             encoded = temporary / f"cod-film-{digest}.m4a"
-            wav.write_bytes(audio)
+            if profile == "explainer":
+                import numpy as np
+
+                balanced = master_speech(np.asarray(samples) / 32768, decoded.getframerate())
+                with wave.open(str(wav), "wb") as output:
+                    output.setnchannels(1)
+                    output.setsampwidth(2)
+                    output.setframerate(decoded.getframerate())
+                    output.writeframes((balanced * 32767).astype("<i2").tobytes())
+            else:
+                wav.write_bytes(audio)
             subprocess.run([
                 "/usr/bin/afconvert", "-f", "m4af", "-d", "aac", "-b", "64000",
                 str(wav), str(encoded)

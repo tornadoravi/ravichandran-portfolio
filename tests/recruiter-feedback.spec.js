@@ -29,6 +29,25 @@ test('Analytics+ keeps end-to-end ownership while showing only selected features
   await expect(player.locator('.case-player-error')).toHaveCount(0);
 });
 
+test('Storyboard and both Gantt products show complete design ownership without expanding Cross-tab scope', async ({ page }) => {
+  for (const [route, ownership] of [
+    ['storyboard', 'Complete Storyboard UX/UI ownership'],
+    ['gantt', 'Complete Analytics+ Gantt UX/UI ownership'],
+    ['powertable', 'Complete Gantt and Resource Gantt UX/UI ownership']
+  ]) {
+    await page.goto(`/${route}.html`);
+    await expect(page.locator('.case-fast-read')).toContainText(ownership);
+  }
+  await expect(page.locator('.case-fast-read')).toContainText('Cross-tab contribution');
+  await page.goto('/analytics-plus.html');
+  for (const [feature, ownership] of [
+    ['storyboard', 'Complete Storyboard UX/UI ownership'],
+    ['gantt', 'Complete Analytics+ Gantt UX/UI ownership']
+  ]) {
+    await expect(page.locator(`[data-feature="${feature}"] .case-feature-story`)).toContainText(ownership);
+  }
+});
+
 test('Backlog explains its purpose without repeating the full case narrative', async ({ page }) => {
   await page.goto('/powertable.html#product-tasks');
   const feature = page.locator('[data-feature="backlog"]');
@@ -104,7 +123,9 @@ for (const width of [320, 390, 768, 1440]) {
       const button = entry.getByRole('button', { name: 'Walkthrough', exact: true });
       await expect(button).toBeInViewport();
       expect((await button.boundingBox()).height).toBeGreaterThanOrEqual(48);
-      await expect(entry).toContainText('Voiceover + captions');
+      await expect(entry.locator('.walkthrough-entry-note')).toHaveCount(0);
+      await expect(entry).not.toContainText(/under\s+3\s+minutes/i);
+      await expect(button).toHaveAccessibleDescription(/recorded narration.*captions/);
       await expect(entry.locator('.walkthrough-guide')).toHaveCount(0);
       const alternate = entry.locator('.case-read-link,.case-prototype-trigger');
       await expect(alternate).toHaveCount(1);

@@ -13,6 +13,18 @@ VOICE_IDENTITY = (
     "Clean close-mic speech with natural breathing. Speak English throughout."
 )
 VOICE_PROFILES = {
+    "explainer": {
+        "label": "Conversational design explanation",
+        "description": "Steady, clear, one-to-one explanation without dramatic emphasis.",
+        "prompt": VOICE_IDENTITY + (
+            " A grounded, comfortable mid-range male voice explaining a design "
+            "to one colleague sitting nearby. Use an even conversational volume, "
+            "connected phrases, a clear moderate pace and small natural pauses. "
+            "Keep emphasis subtle and sentence endings relaxed. No storytelling "
+            "performance, announcer projection, whispering, shouting or dramatic "
+            "pitch rises. Sound matter-of-fact and interested, not theatrical."
+        ),
+    },
     "conversational": {
         "label": "Conversational",
         "description": "Warm, relaxed, and friendly; an everyday one-to-one explanation.",

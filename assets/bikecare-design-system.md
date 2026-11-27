@@ -2,10 +2,10 @@
 
 ## Design-system and theme explanation
 
-**Edition:** 23 November 2026. **Scope:** UX/UI concept and clickable prototype.
+**Edition:** 27 November 2026. **Scope:** UX/UI concept and clickable prototype.
 
 Signal replaces the earlier cream, charcoal-button and editorial-serif direction.
-It uses graphite, mineral-grey surfaces and signal-orange actions. The product
+It now uses deep reading ink, quiet neutral surfaces and care-teal actions. The product
 name and original linked-care mark remain; the visual language changes.
 
 This document explains decisions, not proven user preferences. No interviews,
@@ -16,9 +16,11 @@ or accessibility certification is claimed.
 states and privacy; 9-10 cover handoff and layout; 11-12 connect architecture and
 journeys; 13-14 identify missing production scenarios and research decisions.
 
-**Evidence boundary:** 59 exported mobile frames, seven screen-linked journey
-maps and a connected page-memory prototype. A frame is one example state, not
-proof that every possible scenario has been designed or validated.
+**Evidence boundary:** 59 existing exported mobile frames and seven screen-linked
+journey maps document the earlier iteration. The live page-memory prototype now
+adds vehicle-first onboarding and the teal theme; those original frames are not
+presented as exports of this refresh. A frame is one example state, not proof that
+every possible scenario has been designed or validated.
 
 ## 1. What the system must help people do
 
@@ -35,13 +37,37 @@ reading a bill and recovering from a problem.
 Parts and motorcycle rides are supporting journeys. The system should make core
 care easier to follow rather than make every module equally prominent.
 
+### First-time rider entry
+
+After demo sign-in, a rider chooses a manufacturer and model, supplies the year
+and powertrain, adds the current odometer, then reviews the bike before Home.
+Electric vehicles get a separate optional battery/connector step. Manufacturer,
+model and odometer start empty; no bike, model year or mileage is silently assigned.
+Unknown year/variant and optional vehicle numbers remain explicit.
+
+Back navigation retains the draft. The review screen is not an automatic save:
+only confirmation creates the page-memory vehicle and opens its workspace.
+New bikes have no fabricated service history, care interval or parts compatibility.
+An explicitly labeled sample-bike route allows design reviewers to explore
+fictional existing records. Staff-role previews are secondary, outside rider setup.
+
+Reference patterns: [Royal Enfield's app](https://www.royalenfield.com/in/en/re-app/)
+documents vehicle-linked service history; the
+[Global Hero app listing (except India)](https://play.google.com/store/apps/details?id=com.hero.gbcustomer)
+documents finding a vehicle, its details and service records. Their connected
+account/backend capabilities are not implemented or implied in BikeCare.
+[Material color roles](https://m3.material.io/styles/color/roles) and
+[text fields](https://m3.material.io/components/text-fields/guidelines) inform
+semantic roles and visible form labels. This remains a custom design, not Google
+authorship, endorsement or evidence of tested competitor usability.
+
 ## 2. Why this theme
 
 | Choice | Design reason | Guardrail |
 | --- | --- | --- |
-| Graphite reading ink | Gives vehicle details and bills a consistent, tool-like hierarchy. | Never replace explanatory text with a decorative badge. |
-| Cool mineral canvas and clean surfaces | Separates the page from its records without the previous warm onboarding aesthetic. | Group related information; do not put every sentence in a separate card. |
-| Signal orange | Makes the next deliberate action and original brand mark distinct from secondary controls. | Orange is not the due, error or acknowledgement colour. Use one filled primary action per decision group. |
+| Deep reading ink | Gives vehicle details and bills a consistent, tool-like hierarchy. | Never replace explanatory text with a decorative badge. |
+| Quiet neutral canvas and clean surfaces | Separates the page from its records without competing with forms. | Group related information; do not put every sentence in a separate card. |
+| Care teal | Makes the next deliberate action and original brand mark distinct from secondary controls. | Brand colour does not establish verification. Use one filled primary action per decision group. |
 | System sans throughout | Connects onboarding and operational screens, supports device-native rendering and avoids an extra font download. | Test Indian-script typography before adding languages; it is not implemented by an English font stack. |
 | 12px controls and 18px cards | Creates a more structured utility identity than the earlier pills and softer cards. | Shape never changes the minimum touch target. |
 
@@ -56,25 +82,25 @@ board use the same CSS variables; theme metadata documents those same values.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `canvas` | #f2f4f5 | #14191d | Main phone background |
-| `surface` | #ffffff | #20282e | Forms, records and navigation |
-| `ink` | #20262b | #f4f7f9 | Primary reading text |
-| `muted` | #55616b | #b8c4cc | Supporting text, never essential information hidden by low contrast |
-| `line` | #d4dade | #45535e | Decorative separators |
-| `control-line` | #7a858f | #8898a4 | Visible interactive boundaries |
-| `primary` | #ae3d12 | #ffac7a | Brand and next deliberate action |
-| `on-primary` | #ffffff | #2d1b12 | Text on the primary action |
-| `primary-hover` | #91300d | #ffc096 | Pointer-hover primary action |
-| `soft` | #e7ecef | #2c373f | Quiet grouped context |
-| `feature` | #263239 | #2c373f | Vehicle summary background |
-| `on-feature` | #f5f7f8 | #f4f7f9 | Vehicle summary text |
+| `canvas` | #f5f7f5 | #101c19 | Main phone background |
+| `surface` | #ffffff | #1b2b26 | Forms, records and navigation |
+| `ink` | #182c28 | #edf5f0 | Primary reading text |
+| `muted` | #52635f | #b4c9bf | Supporting text, never essential information hidden by low contrast |
+| `line` | #d8e1dc | #4a5c52 | Decorative separators |
+| `control-line` | #788983 | #8a9e94 | Visible interactive boundaries |
+| `primary` | #006b60 | #8bd5c5 | Brand and next deliberate action |
+| `on-primary` | #ffffff | #063b31 | Text on the primary action |
+| `primary-hover` | #00564d | #a4e3d5 | Pointer-hover primary action |
+| `soft` | #e5eee8 | #293f35 | Quiet grouped context |
+| `feature` | #153d33 | #293f35 | Vehicle summary background |
+| `on-feature` | #f5f7f8 | #edf5f0 | Vehicle summary text |
 | `warning` / `warning-soft` | #855000 / #fff2d9 | #ffdb8f / #3a2e19 | Attention or supplied care due |
 | `error` / `error-soft` | #ad302b / #fff0ed | #ffb8ad / #422823 | Actionable error or correction |
 | `info` / `info-soft` | #255779 / #eaf3fb | #b0d9fc / #213747 | Information or review pending |
 | `success` / `success-soft` | #1e6744 / #e4f3e9 | #9eddb8 / #1b362a | Record acknowledgement |
 | `focus` | #0668a8 | #91d5ff | Keyboard focus outline |
 
-Light keeps white record surfaces distinct from the mineral canvas. Dark is an
+Light keeps white record surfaces distinct from the quiet neutral canvas. Dark is an
 independent set of surfaces and foregrounds, not image inversion. It is optional;
 no claim of reduced eye strain is made. Switching theme never changes record,
 payment, consent, document or complaint state.
@@ -85,11 +111,11 @@ Ratios use the WCAG relative-luminance calculation, rounded to two decimals.
 
 | Pair | Light | Dark |
 | --- | --- | --- |
-| Ink / surface | 15.29:1 | 13.90:1 |
-| Muted / canvas | 5.75:1 | 9.95:1 |
-| Primary label / action | 6.04:1 | 8.95:1 |
-| Control boundary / surface | 3.76:1 | 5.04:1 |
-| Focus / surface | 5.91:1 | 9.37:1 |
+| Ink / surface | 14.69:1 | 13.32:1 |
+| Muted / canvas | 5.90:1 | 10.02:1 |
+| Primary label / action | 6.42:1 | 7.40:1 |
+| Control boundary / surface | 3.68:1 | 5.21:1 |
+| Focus / surface | 5.91:1 | 9.27:1 |
 
 The defined status text/background pairs exceed 4.5:1. These checks concern
 specified token pairs, not every rendered element or a complete WCAG audit.
@@ -101,7 +127,7 @@ Decorative separators are not substitutes for interactive control boundaries.
 | --- | --- |
 | Welcome headline | 32px, system sans, approximately 1.12 line height |
 | Splash headline | 30px, approximately 1.16 line height |
-| Task title | 26px, approximately 1.15 line height |
+| Task title | 24px, approximately 1.25 line height |
 | Card title | 18px, approximately 1.25 line height |
 | Inputs | 16px minimum, approximately 1.4 line height |
 | Compact reading copy | 14px / 21px |
@@ -124,7 +150,7 @@ Do not shrink an entire screen to fit a long record.
 
 | Component | Anatomy and behaviour | Recovery |
 | --- | --- | --- |
-| Primary action | Verb-led label, filled orange, at least 44px target | Explain any unmet condition beside a disabled important action |
+| Primary action | Verb-led label, filled teal, at least 44px target | Explain any unmet condition beside a disabled important action |
 | Secondary action | Surface background and control boundary | Preserve the current record on cancel |
 | Labelled field | Persistent label, 16px input, optional hint | Associate the specific error with its field; preserve entered data |
 | Searchable choice | Query, filtered options, selected state, manual entry | Escape closes; keyboard navigation is immediate; manufacturer changes clear its dependent model |
@@ -175,6 +201,15 @@ Browser automation and contrast calculations do not replace these checks.
 Keep the original linked-care mark at least 32px with 8px clear space. The check
 refers to record acknowledgement, not quality certification. Do not stretch the
 mark or borrow manufacturer identity.
+
+The welcome screen uses an original, unbranded SVG workshop scene: a mechanic,
+a detailed motorcycle, layered paint/metal shading and a service record. It is
+not a manufacturer photograph or a preview of the selected vehicle. Physical
+materials retain their colours while the scene follows the product theme. The
+bike arrives, wheels roll and a service record/check appears once within 1.45
+seconds using transform/opacity only. Keyboard entry and reduced motion show
+the complete illustration without movement. It follows the product theme.
+Manufacturer logos remain confined to manufacturer choices.
 
 Official current-product photos remain attributed, contained and unmodified.
 They do not verify a selected historic model/year/trim. An unmatched vehicle
@@ -242,15 +277,34 @@ sizes or scaling the entire interface.
 Keep the visible label separate from the current value. Focus opens suggestions;
 typing filters them case-insensitively. An unlisted query exposes an explicit
 manual/unverified choice. Empty results explain how to enter a document-led name.
+Ordinary options show only their names; reserve secondary labels for selected
+and manual/unverified states.
+Manufacturer options and the selected field show locally hosted reference logos
+where an authentic asset is available. Names remain visible and accessible;
+logos are decorative, not a substitute for labels or proof of verification.
+Unlisted and unsupported historical brands stay text-only: Hero Honda does not
+inherit the current Hero or Honda mark.
 Changing manufacturer clears the dependent model; neither a suggested name nor
 an official photograph proves the vehicle's year, variant or parts fit.
 
 Arrow keys move the active option; Home/End move within an open list; Enter
 selects; Escape closes; Tab leaves the field. Selection returns focus to the
-combobox. Active and selected options use a surface cue with wording, not brand
+combobox. Enter prefers an exact typed name unless an option was explicitly
+highlighted, so Honda does not accidentally select Hero Honda.
+Active and selected options use a surface cue with wording, not brand
 colour alone. The panel fits available phone/visual-viewport space and opens
 above the field when there is insufficient space below. Its local scrolling
 must not hide the current choice behind the keyboard.
+
+Logo references: [Hero](https://www.heromotocorp.com/en-in.html),
+[Honda motorcycle wing](https://www.honda2wheelersindia.com/),
+[Yamaha](https://www.yamaha-motor-india.com/),
+[Suzuki](https://www.suzukimotorcycle.co.in/),
+[Royal Enfield](https://www.royalenfield.com/in/en/) and
+[Bajaj's official site](https://www.bajajauto.com/) for Bajaj, KTM, Triumph and
+Husqvarna. These nine marks retain their source colours and proportions and are
+rasterised locally for the prototype; no third-party logo request occurs in
+the browser. Brand marks belong to their owners and imply no endorsement.
 
 The existing control supports at most 80 characters and a panel up to 240px high.
 These are prototype bounds, not verified limits for every historic manufacturer
@@ -399,7 +453,7 @@ only after establishing support capacity.
 The portfolio shell follows the portfolio's own light/dark theme and display
 font. Embedded BikeCare screens retain Signal and system sans. Do not recolour
 the product prototype to fix a portfolio-cover mismatch, or apply product
-orange to unrelated portfolio sections.
+teal to unrelated portfolio sections.
 
 ## Reference standards
 

@@ -6,6 +6,11 @@ export default defineConfig({
   base: process.env.SITE_BASE_PATH || '/',
   publicDir: false,
   esbuild: { jsx: 'automatic' },
+  server: {
+    watch: {
+      ignored: ['**/assets/narration/**']
+    }
+  },
   build: {
     manifest: true,
     rollupOptions: {

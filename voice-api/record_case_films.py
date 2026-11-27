@@ -15,8 +15,8 @@ def record(plan_path):
     if not cases or not set(previous).issubset(cases) or any(len(scenes) != 7 for scenes in cases.values()):
         raise ValueError("Expected complete seven-scene walkthroughs, preserving every existing case.")
     profile = plan["profile"]
-    if profile != "energetic":
-        raise ValueError("Use the approved Energetic tech-explainer profile.")
+    if profile not in {"energetic", "explainer"}:
+        raise ValueError("Use the packaged energetic or conversational explainer profile.")
     recordings = {}
     for case_id, scenes in cases.items():
         print(f"Preparing {case_id}", flush=True)

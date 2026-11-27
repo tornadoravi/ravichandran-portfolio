@@ -5,10 +5,107 @@ import { bikecareThemes } from '../src/bikecare-ux-model.js';
 test.use({ reducedMotion: 'reduce' });
 
 async function workspace(app, label) {
+  const roles = app.locator('.bikecare-demo-workspaces');
+  if (await roles.getAttribute('open') === null) await roles.locator('summary').click();
   await app.getByRole('group', { name: 'Simulate a BikeCare role' }).getByRole('button', { name: label, exact: true }).click();
   await app.getByText('Skip access for design review', { exact: true }).click();
   await app.getByRole('button', { name: 'Open demo workspace', exact: true }).click();
+  if (await app.locator('[data-view="setup"]').count()) {
+    await app.getByRole('button', { name: 'Use a sample bike instead', exact: true }).click();
+    await app.getByRole('button', { name: 'Select Honda Shine', exact: true }).click();
+    await app.getByRole('button', { name: 'Confirm bike and continue', exact: true }).click();
+  }
 }
+async function firstRider(page) {
+  await page.goto('/bikecare.html');
+  await page.getByRole('button', { name: 'Try prototype', exact: true }).click();
+  const app = page.locator('[data-bikecare-app]');
+  await app.getByRole('button', { name: 'Continue to welcome', exact: true }).click();
+  await app.getByRole('button', { name: 'Get started as a rider', exact: true }).click();
+  await app.getByRole('button', { name: 'Send demo code', exact: true }).click();
+  await app.getByLabel('One-time code', { exact: true }).fill('123456');
+  await app.getByRole('button', { name: 'Verify demo code', exact: true }).click();
+  await expect(app.locator('.bikecare-app-body')).toHaveAttribute('data-view', 'setup');
+  return app;
+}
+
+test('first-time riders choose, review and confirm a bike before Home without assumed data', async ({ page }) => {
+  const posts = [];
+  page.on('request', request => { if (request.method() === 'POST') posts.push(request.url()); });
+  const app = await firstRider(page);
+  await expect(app.getByRole('navigation', { name: 'BikeCare app navigation' })).toHaveCount(0);
+  await expect(app.getByRole('button', { name: 'Selected bike: open garage' })).toHaveCount(0);
+  await expect(app.getByLabel('Manufacturer', { exact: true })).toHaveValue('');
+  await expect(app.getByLabel('Model', { exact: true })).toHaveValue('');
+  await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+  await expect(app.getByRole('alert')).toContainText('manufacturer and model');
+  await app.getByLabel('Manufacturer', { exact: true }).fill('Yamaha');
+  await app.getByLabel('Model', { exact: true }).fill('RX100');
+  await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+  await expect(app.getByRole('combobox', { name: 'Manufacture / model year', exact: true })).toHaveValue('');
+  await app.getByLabel('Powertrain', { exact: true }).selectOption('Petrol');
+  await app.getByRole('button', { name: 'Previous setup step', exact: true }).click();
+  await expect(app.getByLabel('Model', { exact: true })).toHaveValue('RX100');
+  await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+  await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+  await expect(app.getByLabel('Odometer (km)', { exact: true })).toHaveValue('');
+  await app.getByRole('button', { name: 'Review bike details', exact: true }).click();
+  await expect(app.getByRole('alert')).toContainText('odometer');
+  await app.getByLabel('Odometer (km)', { exact: true }).fill('12800');
+  await app.getByRole('button', { name: 'Review bike details', exact: true }).click();
+  await expect(app.locator('.bikecare-setup-review')).toContainText('Yamaha RX100');
+  await expect(app.locator('.bikecare-setup-review')).toContainText('Not known');
+  await expect(app.getByRole('navigation', { name: 'BikeCare app navigation' })).toHaveCount(0);
+  await app.getByRole('button', { name: 'Confirm bike and continue', exact: true }).click();
+  await expect(app.locator('.bikecare-app-body')).toHaveAttribute('data-view', 'home');
+  await expect(app.getByRole('button', { name: 'Selected bike: open garage' })).toContainText('Yamaha / RX100');
+  await nav(app, 'History');
+  await expect(app).toContainText('No confirmed records yet.');
+  expect(posts).toEqual([]);
+});
+
+test('sample-bike entry is explicit and returning riders keep their selected bike across roles', async ({ page }) => {
+  const app = await firstRider(page);
+  await app.getByRole('button', { name: 'Use a sample bike instead', exact: true }).click();
+  await app.getByRole('button', { name: 'Select Ather 450X', exact: true }).click();
+  await expect(app.locator('.bikecare-setup-review')).toContainText('Sample bike / Fictional profile');
+  await expect(app.locator('.bikecare-app-body')).toHaveAttribute('data-view', 'setup');
+  await app.getByRole('button', { name: 'Confirm bike and continue', exact: true }).click();
+  await workspace(app, 'Service advisor');
+  await expect(app.locator('.bikecare-app-body')).toHaveAttribute('data-view', 'jobs');
+  await workspace(app, 'Rider');
+  await expect(app.locator('.bikecare-app-body')).toHaveAttribute('data-view', 'home');
+  await expect(app.getByRole('button', { name: 'Selected bike: open garage' })).toContainText('Ather / 450X');
+});
+
+test('vehicle-first electric setup retains unknown details and fits light and dark compact screens', async ({ page }) => {
+  test.setTimeout(60000);
+  for (const [width, height, appearance] of [[320, 650, 'light'], [390, 844, 'dark'], [844, 390, 'light']]) {
+    await page.setViewportSize({ width, height });
+    const app = await firstRider(page);
+    await app.getByLabel('Manufacturer', { exact: true }).fill('Unlisted demo maker');
+    await app.getByLabel('Model', { exact: true }).fill('Electric demo model');
+    await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+    await app.getByLabel('Powertrain', { exact: true }).selectOption('Electric');
+    await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+    await expect(app.getByLabel('Engine cc (optional)', { exact: true })).toHaveCount(0);
+    await app.getByLabel('Odometer (km)', { exact: true }).fill('0');
+    await app.getByRole('button', { name: 'Continue vehicle setup', exact: true }).click();
+    await app.getByRole('button', { name: 'Review bike details', exact: true }).click();
+    await expect(app.locator('.bikecare-setup-review')).toContainText('Capacity unknown / Connector unknown');
+    await app.getByRole('button', { name: 'Confirm bike and continue', exact: true }).click();
+    await more(app, 'Design system and theme');
+    await app.getByRole('combobox', { name: 'Product theme', exact: true }).selectOption(appearance);
+    await expect(app).toHaveAttribute('data-product-theme', appearance);
+    expect(await app.evaluate(node => getComputedStyle(node).getPropertyValue('--bc-primary').trim())).toBe(bikecareThemes[appearance]['--bc-primary']);
+    await nav(app, 'Home');
+    await expect(app.getByRole('button', { name: 'Selected bike: open garage' })).toContainText('Unlisted demo maker');
+    expect(await app.locator('.bikecare-phone').evaluate(node => node.scrollWidth <= node.clientWidth)).toBe(true);
+    expect(await app.locator('button:visible').evaluateAll(nodes => nodes.every(node => node.getBoundingClientRect().height >= 44))).toBe(true);
+    await page.getByRole('button', { name: 'Close prototype', exact: true }).click();
+  }
+});
+
 async function selectBike(app, name) {
   await app.getByRole('button', { name: 'Selected bike: open garage', exact: true }).click();
   await app.getByRole('button', { name: `Select ${name}`, exact: true }).click();
@@ -575,11 +672,16 @@ test('searchable dropdowns normalise names, reset dependent models and support m
   const manufacturer = app.getByRole('combobox', { name: 'Manufacturer', exact: true });
   const model = app.getByRole('combobox', { name: 'Model', exact: true });
   await manufacturer.fill('yam');
-  await expect(app.getByRole('option', { name: 'Yamaha Suggestion', exact: true })).toBeVisible();
+  await expect(app.getByRole('option', { name: 'Yamaha', exact: true })).toBeVisible();
+  await expect(app.getByRole('option', { name: 'Yamaha', exact: true }).locator('img')).toHaveAttribute('src', /bikecare-brand-yamaha\.png$/);
+  await expect(app.getByRole('listbox')).not.toContainText('Suggestion');
+  await expect(app.getByRole('option', { name: 'Use "yam" Manual entry / unverified', exact: true })).toBeVisible();
+  await expect(app.getByRole('option', { name: 'Use "yam" Manual entry / unverified', exact: true }).locator('img')).toHaveCount(0);
   await manufacturer.press('ArrowDown');
   await expect(manufacturer).toHaveAttribute('aria-activedescendant', /option-0$/);
   await manufacturer.press('Enter');
   await expect(manufacturer).toHaveValue('Yamaha');
+  await expect(app.locator('.bikecare-select-control > .bikecare-manufacturer-logo')).toHaveAttribute('src', /bikecare-brand-yamaha\.png$/);
   await expect(model).toHaveValue('');
   await model.focus();
   await expect(app.getByRole('listbox', { name: 'Model options' })).toContainText('RX100');
@@ -596,13 +698,18 @@ test('searchable dropdowns normalise names, reset dependent models and support m
   await model.fill('FZ'); await model.press('Enter');
   await expect(model).toHaveValue('FZ');
   await manufacturer.fill('Honda'); await manufacturer.press('Enter');
+  await expect(manufacturer).toHaveValue('Honda');
   await expect(model).toHaveValue('');
+  await app.getByRole('button', { name: 'Toggle manufacturer options', exact: true }).click();
+  await expect(app.getByRole('option', { name: 'Honda Selected', exact: true })).toBeVisible();
+  await expect(app.getByRole('option', { name: 'Honda Selected', exact: true }).locator('img')).toHaveAttribute('src', /bikecare-brand-honda\.png$/);
+  await manufacturer.press('Escape');
   await model.focus(); await expect(app.getByRole('listbox')).not.toContainText('RX100');
   await model.press('Escape'); await expect(model).toHaveAttribute('aria-expanded', 'false');
   await manufacturer.fill(' honda '); await manufacturer.press('Escape');
   await model.fill(' shine '); await model.press('Escape');
   await app.getByRole('button', { name: 'Continue vehicle setup' }).click();
-  await expect(app.getByRole('heading', { name: 'Honda / Shine', exact: true })).toBeVisible();
+  await expect(app.locator('.bikecare-setup-bike-name')).toHaveText('Honda / Shine');
 });
 
 test('splash connects keyboard-accessible welcome, replay and both sign-in routes without fake loading', async ({ page }) => {
@@ -639,17 +746,22 @@ test('splash connects keyboard-accessible welcome, replay and both sign-in route
   await expect(app.getByRole('navigation', { name: 'BikeCare app navigation' })).toHaveCount(0);
 });
 
-test('landing and official bike photos stay honest across garage changes and image failure', async ({ page }) => {
+test('unbranded welcome and selected-bike photos stay honest across garage changes and image failure', async ({ page }) => {
   await page.goto('/bikecare.html#bikecare-prototype');
   const app = page.locator('[data-bikecare-app]');
   await app.getByRole('button', { name: 'Continue to welcome' }).click();
   await expect(app.getByRole('heading', { name: 'Good care. A longer story.' })).toBeVisible();
-  await expect(app.locator('.bikecare-vehicle-photo img')).toHaveAttribute('src', '/assets/bikecare-official-honda.webp');
+  await expect(app.getByRole('img', { name: /Unbranded bike-care illustration/ })).toBeVisible();
+  await expect(app.locator('.bikecare-vehicle-photo')).toHaveCount(0);
+  await expect(app.locator('.bikecare-welcome-visual a, .bikecare-welcome-visual img')).toHaveCount(0);
   await app.getByRole('button', { name: 'Get started as a rider' }).click();
   await app.getByLabel('Demo account email').fill('rider@example.test');
   await app.getByRole('button', { name: 'Send demo code' }).click();
   await app.getByLabel('One-time code').fill('123456');
   await app.getByRole('button', { name: 'Verify demo code' }).click();
+  await app.getByRole('button', { name: 'Use a sample bike instead', exact: true }).click();
+  await app.getByRole('button', { name: 'Select Honda Shine', exact: true }).click();
+  await app.getByRole('button', { name: 'Confirm bike and continue', exact: true }).click();
   for (const [name, brand] of [['Honda Shine', 'honda'], ['Yamaha FZ', 'yamaha'], ['Hero Splendor', 'hero'], ['Ather 450X', 'ather']]) {
     await selectBike(app, name);
     const photo = app.locator('.bikecare-vehicle-photo img');
@@ -661,6 +773,28 @@ test('landing and official bike photos stay honest across garage changes and ima
   await app.locator('.bikecare-vehicle-photo img').evaluate(image => image.dispatchEvent(new Event('error')));
   await expect(app).toContainText('Reference photo could not load.');
   await expect(app.locator('.bikecare-vehicle-photo img')).toHaveCount(0);
+});
+
+test('welcome illustration plays once and stays still for reduced motion and keyboard entry', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/bikecare.html#bikecare-prototype');
+  const app = page.locator('[data-bikecare-app]');
+  await app.getByRole('button', { name: 'Continue to welcome', exact: true }).click();
+  const illustration = app.getByRole('img', { name: /Unbranded bike-care illustration/ });
+  const timings = await illustration.evaluate(node => node.getAnimations({ subtree: true }).map(animation => animation.effect.getTiming()));
+  expect(timings.length).toBeGreaterThan(0);
+  expect(timings.every(timing => timing.iterations === 1 && timing.delay + timing.duration <= 2000)).toBe(true);
+  await illustration.evaluate(node => Promise.all(node.getAnimations({ subtree: true }).map(animation => animation.finished)));
+  await expect(app.locator('.bikecare-welcome-bike')).toHaveCSS('opacity', '1');
+  await expect(app.locator('.bikecare-welcome-check')).toHaveCSS('opacity', '1');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect(await illustration.evaluate(node => node.getAnimations({ subtree: true }).length)).toBe(0);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await app.getByRole('button', { name: 'Replay introduction', exact: true }).click();
+  await app.getByRole('button', { name: 'Continue to welcome', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(app.getByRole('heading', { name: 'Good care. A longer story.', exact: true })).toBeFocused();
+  expect(await illustration.evaluate(node => node.getAnimations({ subtree: true }).length)).toBe(0);
 });
 
 test('automatic service feedback creates only an opted-in complaint and keeps confirmation and payment separate', async ({ page }) => {

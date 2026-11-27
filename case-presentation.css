@@ -421,7 +421,6 @@
 .case-watch-entry .case-read-link { gap: 8px; padding: 10px 0; border: 0; border-radius: 0; color: var(--muted); font-size: 13px; }
 .case-watch-entry .case-hero-actions { gap: 8px 12px; }
 .case-watch-entry .case-play-button { gap: 8px; padding-inline: 16px; font-size: 13px; }
-.case-watch-entry .walkthrough-entry-note { margin-top: 8px; font-size: 11px; }
 .case-hero > .case-ownership { display: block; margin: 12px 0 0; padding: 0; border: 0; background: none; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .workspace-navigation { margin-top: 20px; }
 .workspace-navigation .workspace-navigation-panel { padding: 0; }

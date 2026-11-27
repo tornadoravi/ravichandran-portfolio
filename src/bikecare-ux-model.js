@@ -95,17 +95,17 @@ export function validateTicket(draft) {
 
 export const bikecareThemes = {
   light: {
-    '--bc-canvas': '#f2f4f5', '--bc-surface': '#ffffff', '--bc-ink': '#20262b', '--bc-muted': '#55616b',
-    '--bc-line': '#d4dade', '--bc-control-line': '#7a858f', '--bc-primary': '#ae3d12', '--bc-primary-hover': '#91300d',
-    '--bc-on-primary': '#ffffff', '--bc-soft': '#e7ecef', '--bc-feature': '#263239', '--bc-on-feature': '#f5f7f8',
+    '--bc-canvas': '#f5f7f5', '--bc-surface': '#ffffff', '--bc-ink': '#182c28', '--bc-muted': '#52635f',
+    '--bc-line': '#d8e1dc', '--bc-control-line': '#788983', '--bc-primary': '#006b60', '--bc-primary-hover': '#00564d',
+    '--bc-on-primary': '#ffffff', '--bc-soft': '#e5eee8', '--bc-feature': '#153d33', '--bc-on-feature': '#f5f7f8',
     '--bc-warning': '#855000', '--bc-warning-soft': '#fff2d9', '--bc-error': '#ad302b', '--bc-error-soft': '#fff0ed',
     '--bc-info': '#255779', '--bc-info-soft': '#eaf3fb', '--bc-focus': '#0668a8',
     '--bc-success': '#1e6744', '--bc-success-soft': '#e4f3e9'
   },
   dark: {
-    '--bc-canvas': '#14191d', '--bc-surface': '#20282e', '--bc-ink': '#f4f7f9', '--bc-muted': '#b8c4cc',
-    '--bc-line': '#45535e', '--bc-control-line': '#8898a4', '--bc-primary': '#ffac7a', '--bc-primary-hover': '#ffc096',
-    '--bc-on-primary': '#2d1b12', '--bc-soft': '#2c373f', '--bc-feature': '#2c373f', '--bc-on-feature': '#f4f7f9',
+    '--bc-canvas': '#101c19', '--bc-surface': '#1b2b26', '--bc-ink': '#edf5f0', '--bc-muted': '#b4c9bf',
+    '--bc-line': '#4a5c52', '--bc-control-line': '#8a9e94', '--bc-primary': '#8bd5c5', '--bc-primary-hover': '#a4e3d5',
+    '--bc-on-primary': '#063b31', '--bc-soft': '#293f35', '--bc-feature': '#293f35', '--bc-on-feature': '#edf5f0',
     '--bc-warning': '#ffdb8f', '--bc-warning-soft': '#3a2e19', '--bc-error': '#ffb8ad', '--bc-error-soft': '#422823',
     '--bc-info': '#b0d9fc', '--bc-info-soft': '#213747', '--bc-focus': '#91d5ff',
     '--bc-success': '#9eddb8', '--bc-success-soft': '#1b362a'
@@ -113,9 +113,9 @@ export const bikecareThemes = {
 };
 
 export const designTokens = [
-  ['Signal orange', bikecareThemes.light['--bc-primary'], 'The next deliberate action, not a warning or verification badge.', 'primary'],
-  ['Mineral canvas', bikecareThemes.light['--bc-canvas'], 'Cool neutral separation between readable white cards.', 'canvas'],
-  ['Graphite ink', bikecareThemes.light['--bc-ink'], 'Strong hierarchy for vehicle identity, bills and support.', 'ink'],
+  ['Care teal', bikecareThemes.light['--bc-primary'], 'The next deliberate action, not a warning or verification badge.', 'primary'],
+  ['Quiet canvas', bikecareThemes.light['--bc-canvas'], 'Warm neutral separation between readable white cards.', 'canvas'],
+  ['Deep ink', bikecareThemes.light['--bc-ink'], 'Strong hierarchy for vehicle identity, bills and support.', 'ink'],
   ['Attention', bikecareThemes.light['--bc-warning'], 'Pending decisions and caution, supported by explicit wording.', 'warning'],
   ['Actionable error', bikecareThemes.light['--bc-error'], 'Explain the problem and how to recover, never colour alone.', 'error'],
   ['Record surface', bikecareThemes.light['--bc-surface'], 'Clean surfaces for long records; adapted independently in dark mode.', 'surface']

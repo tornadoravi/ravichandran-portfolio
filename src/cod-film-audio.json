@@ -1,66 +1,67 @@
 {
-  "profile": "energetic",
-  "label": "Energetic tech-explainer",
+  "profile": "explainer",
+  "label": "Conversational design explanation",
   "scenes": [
     {
       "id": "veeramani",
       "text": "Veeramani, a creator in Madurai, reportedly shared his details hoping for Diwali sweets. This illustrated story is based on news coverage, not footage of him.",
-      "file": "energetic-ef34065e557aa6c7532808e8.m4a",
-      "seconds": 11.68
+      "file": "explainer-73eb796cd0ad1946ae409a19.m4a",
+      "seconds": 11.12
     },
     {
       "id": "coverage",
       "text": "The Indian Express and India Today reported unwanted cash-on-delivery orders in his name. He said he faced repeated visits for items he never ordered. These are reported claims, not audited order data.",
-      "file": "energetic-60805061f6469c5e137071bd.m4a",
-      "seconds": 19.52
+      "file": "explainer-4224da6b3d61f8947541817c.m4a",
+      "seconds": 14.72
     },
     {
       "id": "burden",
       "text": "At the doorstep, the problem became a loop: another call, another parcel, another explanation. Delivery partners also travelled for unwanted orders. Refusal leaves both sides doing repeated work.",
-      "file": "energetic-74d70814f080afee320d1167.m4a",
-      "seconds": 17.44
+      "file": "explainer-4e20cdcbcd2358ca64033dd3.m4a",
+      "seconds": 18.64
     },
     {
       "id": "opportunity",
       "text": "That led to the design question: could one managed incident move the response before dispatch? COD Shield is a proposal, not an existing service or a tested solution.",
-      "file": "energetic-69574ce97dbeca3f25870c75.m4a",
-      "seconds": 11.12
+      "file": "explainer-521b0b10254b324119ee96a7.m4a",
+      "seconds": 10.72
     },
     {
       "id": "placement",
       "text": "Find COD Shield in Customer Service or Help, outside an order. These are separate feature concepts for Amazon, Flipkart, Swiggy Instamart and Blinkit. Each app handles its own case and COD orders, not competitors. None is an approved feature.",
-      "file": "energetic-096606f1d2c7b07539617481.m4a",
-      "seconds": 16.72
+      "file": "explainer-91f7e8a5e2adbe3d6d3e3c23.m4a",
+      "seconds": 20.16
     },
     {
       "id": "report",
       "text": "First, report the repeated deliveries for the exact home and unit. The proposed route does not require an order ID. One case gives the resident a place to describe the pattern, rather than approve or refuse each order.",
-      "file": "energetic-6217f5868475ac526cb3225f.m4a",
-      "seconds": 15.04
+      "file": "explainer-a108308435950c3d9bee811c.m4a",
+      "seconds": 20.48
     },
     {
       "id": "verify",
       "text": "Next, an authorised support review would verify the resident's connection to the exact unit. A phone code alone is not proof of residence. Protection must remain inactive until the review and enforcement acknowledgement clear.",
-      "file": "energetic-e1338146c43f33ce36944358.m4a",
-      "seconds": 15.12
+      "file": "explainer-4a21a3bb9b4c6648afac088d.m4a",
+      "seconds": 15.04
     },
     {
       "id": "protect",
       "text": "Review temporary COD protection in the selected app only. Genuine household COD orders in that app are affected. Choose a duration and consent before requesting protection. Other apps need separate reports. This preview changes no delivery settings.",
-      "file": "energetic-8b81bc2a7def37b8f41484d5.m4a",
-      "seconds": 17.92
+      "file": "explainer-946a521d084ff065fd43ca34.m4a",
+      "seconds": 18.32
     },
     {
       "id": "sync",
       "text": "Wait for the selected app to confirm its own COD restriction. Waiting or failed confirmation means protection is not active. Expiry and early removal need confirmation too. No competitor is controlled here and no real platform is connected.",
-      "file": "energetic-ffa268c7b6d8c3fe5a99a00b.m4a",
-      "seconds": 18.24
+      "file": "explainer-fa1817bca3ba759d6e64bcf7.m4a",
+      "seconds": 18.56
     },
     {
       "id": "scope",
       "text": "COD Shield is designed to help targeted households report once, reduce wasted delivery trips, and give support teams one managed case. The business case is less avoidable fulfilment work and stronger trust. These are intended benefits, not measured results.",
-      "file": "energetic-500c6f8204d58a04664963bf.m4a",
-      "seconds": 19.28
+      "file": "explainer-0108cbaad77eb66d2f15d5ea.m4a",
+      "seconds": 25.44
     }
-  ]
+  ],
+  "mastering": "speech-rms-21-v1"
 }
